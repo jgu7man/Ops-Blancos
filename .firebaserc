@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "guestify-ops-blancos": {
+      "hosting": {
+        "ops-blancos": [
+          "guestify-ops-blancos"
+        ]
+      }
+    }
+  }
+}
