@@ -1,0 +1,14 @@
+<mat-toolbar color="primary" class="mat-elevation-z4">
+  <span class="logo-content">
+    <img src="/assets/img/iso-bco.png" alt="logo topbar">
+    Ops Blancos
+  </span>
+  <span class="spacer"></span>
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" [matMenuTriggerFor]="navmenu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #navmenu="matMenu">
+    <a mat-menu-item *ngFor="let item of menuRoutes" [routerLink]="[item.route]">{{item.displayName}}</a>
+    <button mat-menu-item (click)="auth_.singOut()" >Cerrar sesión</button>
+  </mat-menu>
+</mat-toolbar>

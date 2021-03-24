@@ -1,0 +1,23 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+#bottom-bar{
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+
+}
+
+span.logo-content {
+  position: relative;
+  height: 35px;
+  display: flex;
+  align-items: flex-end;
+  // font-size: small;
+  img {
+    height: 100%;
+    margin-right: 5px;
+
+  }
+}

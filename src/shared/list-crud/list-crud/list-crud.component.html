@@ -1,0 +1,68 @@
+<mat-drawer-container [hasBackdrop]="false"
+[ngStyle]="{'min-heigth': height_vh}">
+    <mat-drawer id="add_item" #addItem mode="over" position="start">
+        <mat-card-content>
+            <ng-container [ngTemplateOutlet]="addTemplate"></ng-container>
+        </mat-card-content>
+       <mat-card-actions
+       style="display: flex; justify-content: space-around;">
+           <button mat-raised-button
+           (click)="addItem.close()"
+           >Cancelar</button>
+           <button mat-raised-button
+           (click)="addItem.close()"
+           (click)="onSave.emit()"
+           color="primary"
+           >Guardar</button>
+       </mat-card-actions>
+    </mat-drawer>
+
+    <mat-drawer id="current_item" #currentItem [mode]="'over'" position="end" >
+        <mat-card-content *ngIf="itemSelected">
+            <ng-container  *ngTemplateOutlet="selectTemplate;context:itemCtx"></ng-container>
+        </mat-card-content>
+        <mat-card-actions
+        style="display: flex; justify-content: space-around;">
+           <button mat-raised-button
+           (click)="addItem.close()"
+           >Cancelar</button>
+           <button mat-raised-button
+           (click)="addItem.close()"
+           (click)="onSave.emit()"
+           >Guardar</button>
+       </mat-card-actions>
+    </mat-drawer>
+
+    <mat-drawer-content>
+        <div class="container">
+            <div class="row">
+                <div class="col s12 header">
+                    <h4 class="mat-elevation-z3" >
+                      <b>{{listName}}</b>
+                      <span>
+                        <button mat-mini-fab (click)="addItem.open()">
+                          <i class="fas fa-plus fa-lg"></i>
+                        </button>
+                      </span>
+                    </h4>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <mat-selection-list #listPanel
+                    (selectionChange)="onItemSelected($event)"
+                    [disableRipple]="true"
+                    [multiple]="false">
+                        <mat-list-option
+                        *ngFor="let item of list"
+                        [value]="item"
+                        >
+                        {{item[itemSelector]}}
+                        </mat-list-option>
+                    </mat-selection-list>
+                </div>
+            </div>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

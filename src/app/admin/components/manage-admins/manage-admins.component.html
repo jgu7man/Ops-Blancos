@@ -1,0 +1,19 @@
+<gdev-list-crud
+listName="Personal"
+[selectTemplate]="select"
+[addTemplate]="add"
+[height_vh]="'90vh'"
+(onSave)="save()"
+[List]="personal"
+itemSelector="full_name"
+>
+    <ng-template #select let-branch="item" >
+        <!-- <gdev-branch-form (updated)="onUpdate()" [Sucursal]="branch"></gdev-branch-form> -->
+      </ng-template>
+
+      <ng-template #add>
+      <g-add-personal></g-add-personal>
+        <!-- <gdev-branch-form (updated)="onUpdate()"></gdev-branch-form> -->
+    </ng-template>
+
+</gdev-list-crud>

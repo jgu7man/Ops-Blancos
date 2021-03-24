@@ -1,0 +1,16 @@
+#add_item, #current_item {
+    width: 100%;
+}
+
+mat-drawer-container {
+    min-height: 50vh;
+}
+
+.header h4 {
+  border-radius: 10px;
+  padding: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-transform: uppercase;
+}

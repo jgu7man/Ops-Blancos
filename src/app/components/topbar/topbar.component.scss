@@ -1,0 +1,16 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+span.logo-content {
+  position: relative;
+  height: 35px;
+  display: flex;
+  align-items: flex-end;
+  font-weight: 800;
+  img {
+    height: 100%;
+    margin-right: 5px;
+
+  }
+}

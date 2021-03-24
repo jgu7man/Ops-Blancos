@@ -1,0 +1,10 @@
+@import '/src/assets/styles/guestify-palette.scss';
+
+::ng-deep {
+  .mat-drawer-container {
+    height: 85vh;
+  }
+  // .mat-drawer-container {
+  //   // background: map-get($guestify-basic, 50)
+  // }
+}
