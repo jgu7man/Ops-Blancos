@@ -8,8 +8,6 @@ import { GdevToolsModule } from '@jgu7man/gdev-tools';
 import { MaterialModule } from 'src/shared/material.module';
 import { SharedComponentsModule } from '../components/shared-components.module';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
-// import { QrCodeAllModule } from 'ngx-qrcode-all';
-import { NgQrScannerModule } from 'ngx-qr';
 // Limpieza
 import { LimpiezaDashboardComponent } from './components/limpieza-dashboard/limpieza-dashboard.component';
 import { LimpiezaHomeComponent } from './components/limpieza-dashboard/limpieza-home/limpieza-home.component';
@@ -40,8 +38,6 @@ import { LimpiezaReporteFormComponent } from './components/limpieza-dashboard/li
     MaterialModule,
     SharedComponentsModule,
     ZXingScannerModule,
-    // QrCodeAllModule.forRoot()
-    NgQrScannerModule,
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
