@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: '', component: PublicComponent, children: [
     { path: '', pathMatch: 'full', redirectTo: 'limpieza' },
     { path: 'limpieza', component: LimpiezaDashboardComponent, children:[
-      { path: '', pathMatch: 'full', redirectTo: 'scan' },
+      { path: '', pathMatch: 'full', redirectTo: 'home' },
       { path: 'home', component: LimpiezaHomeComponent },
       { path: 'scan', component: LimpiezaScanComponent },
     ] },

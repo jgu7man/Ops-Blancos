@@ -5,7 +5,7 @@ import { iScannedSource } from 'src/app/models/scanned.model';
 import { PrendasService } from 'src/app/services/prendas.service';
 import { ScannerService } from 'src/app/services/scanner.service';
 import { ScannerComponent } from '../../scanner/scanner.component';
-import { LimpiezaScannedFormDialog } from '../limpieza-scanned-form-dialog/limpieza-scanned-form.component';
+import { LimpiezaScannedFormDialog } from './limpieza-scanned-form-dialog/limpieza-scanned-form.component';
 
 @Component({
   templateUrl: './limpieza-scan.component.html',

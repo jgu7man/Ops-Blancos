@@ -13,7 +13,7 @@ export interface iPrendaState {
 
 export interface iReporte {
   message: string,
-  evidence: string
+  evidenceImages: string[]
 }
 
 export interface iCode {

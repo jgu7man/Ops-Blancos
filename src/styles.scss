@@ -38,6 +38,8 @@ body { margin: 0;
   font-family: 'Lato', sans-serif;
 }
 
+* {outline: none !important}
+
 mat-form-field {
   width: 100%;
 }

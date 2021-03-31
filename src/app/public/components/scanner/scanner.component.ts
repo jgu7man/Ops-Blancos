@@ -14,7 +14,7 @@ export class ScannerComponent implements OnInit, AfterViewInit {
 
   @Output() scanned: EventEmitter<any> = new EventEmitter();
   @ViewChild('scanner') private scanner: ZXingScannerComponent = new ZXingScannerComponent();
-  public scannerEnabled: boolean = true;
+  public scannerEnabled: boolean = false;
 
   constructor(
     private _loading: GdevLoading,
@@ -34,7 +34,7 @@ export class ScannerComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.startScan()
+    // this.startScan()
   }
 
   async startScan() {
@@ -57,6 +57,14 @@ export class ScannerComponent implements OnInit, AfterViewInit {
     this.scannerEnabled = false
     // console.log(result.split('\t'))
     this._scanner.scannedSuccess(result)
+    this.scannerSound()
+  }
+
+  scannerSound() {
+    let audio = new Audio();
+    audio.src = "/assets/audio/scanned.mp3";
+    audio.load();
+    audio.play();
   }
 
 }

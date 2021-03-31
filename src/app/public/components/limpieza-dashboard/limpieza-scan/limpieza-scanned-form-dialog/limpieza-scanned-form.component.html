@@ -19,6 +19,7 @@ style="display: flex; justify-content: space-around;">
     mat-raised-button
     color="primary"
     [disabled]="!isReady"
+    (click)="dialog_.close(false)"
     >
       Terminar
     </button>

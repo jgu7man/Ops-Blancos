@@ -13,9 +13,11 @@ import { LimpiezaDashboardComponent } from './components/limpieza-dashboard/limp
 import { LimpiezaHomeComponent } from './components/limpieza-dashboard/limpieza-home/limpieza-home.component';
 import { LimpiezaScanComponent } from './components/limpieza-dashboard/limpieza-scan/limpieza-scan.component';
 import { ScannerComponent } from './components/scanner/scanner.component';
-import { LimpiezaScannedFormDialog } from './components/limpieza-dashboard/limpieza-scanned-form-dialog/limpieza-scanned-form.component';
+import { LimpiezaScannedFormDialog } from './components/limpieza-dashboard/limpieza-scan/limpieza-scanned-form-dialog/limpieza-scanned-form.component';
 import { FormsModule } from '@angular/forms';
-import { LimpiezaReporteFormComponent } from './components/limpieza-dashboard/limpieza-reporte-form/limpieza-reporte-form.component';
+import { LimpiezaReporteFormComponent } from './components/limpieza-dashboard/limpieza-scan/limpieza-reporte-form/limpieza-reporte-form.component';
+import { TakeImageComponent } from './components/take-image/take-image.component';
+import { LimpiezaEvidenciaDialog } from './components/limpieza-dashboard/limpieza-scan/limpieza-evidencia-dialog/limpieza-evidencia-dialog.component';
 
 
 @NgModule({
@@ -28,6 +30,8 @@ import { LimpiezaReporteFormComponent } from './components/limpieza-dashboard/li
     ScannerComponent,
     LimpiezaScannedFormDialog,
     LimpiezaReporteFormComponent,
+    TakeImageComponent,
+    LimpiezaEvidenciaDialog,
   ],
   imports: [
     CommonModule,

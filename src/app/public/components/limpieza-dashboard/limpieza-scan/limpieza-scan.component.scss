@@ -1,0 +1,27 @@
+#scanner-box {
+  overflow: hidden;
+      border-radius: 50%;
+    width: 72vw;
+    height: 72vw;
+}
+
+.container {
+  width: 100% !important;
+  height: 88% !important;
+  margin: 0 !important;
+  background: url('/assets/img/gradient-blue-bg.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover
+}
+
+#card-container {
+  height: 84vh;
+  padding:10%;
+  width: 100%;
+  margin: 0;
+}
+
+::ng-deep .mat-card-header-text{
+  width: 100%;
+}

@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatRadioChange } from '@angular/material/radio';
 import { iPrendaModel, iPrendaState, PrendaState } from '../models/prenda.model';
 import { iScannedSource } from '../models/scanned.model';
-import { LimpiezaScannedFormDialog } from '../public/components/limpieza-dashboard/limpieza-scanned-form-dialog/limpieza-scanned-form.component';
+import { LimpiezaScannedFormDialog } from '../public/components/limpieza-dashboard/limpieza-scan/limpieza-scanned-form-dialog/limpieza-scanned-form.component';
 import { ScannerService } from './scanner.service';
 
 @Injectable({

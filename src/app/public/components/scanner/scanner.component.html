@@ -1,25 +1,44 @@
-<ng-container *ngIf="scannerEnabled; else pause">
-  <div id="scanner-container">
-    <zxing-scanner
-      #scanner
-      (scanSuccess)="scanSuccessHandler($event)"
-    >
-    </zxing-scanner>
-    <div class="box-corner a"></div>
-    <div class="box-corner b"></div>
-    <div class="box-corner c"></div>
-    <div class="box-corner d"></div>
-  </div>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="center">
+      <i class="fas fa-camera fa-2x"></i>
+      <br>
+      Escaner QR
+    </mat-card-title>
+    <mat-card-subtitle class="center">
+      <ng-container *ngIf="scannerEnabled; else push">
+      Enfoca el código para ser escanerado
+      </ng-container>
+      <ng-template #push>
+      Toca el código para escanear
+      </ng-template>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+      <ng-container *ngIf="scannerEnabled; else pause">
+        <div class="scanner-box">
+          <div id="scanner-container">
+            <zxing-scanner
+              #scanner
+              (scanSuccess)="scanSuccessHandler($event)"
+            >
+            </zxing-scanner>
+          </div>
+          <div class="box-corner a"></div>
+          <div class="box-corner b"></div>
+          <div class="box-corner c"></div>
+          <div class="box-corner d"></div>
+        </div>
 
-</ng-container>
-<ng-template #pause>
-  <div id="scanner-paused">
-    <button mat-raised-button
-    color="primary"
-    (click)="startScan()">
-      <i class="fas fa-camera fa-lg  "></i>
-    </button>
-  </div>
-</ng-template>
+      </ng-container>
+      <ng-template #pause>
+        <div id="scanner-paused" (click)="startScan()">
+          <img src="/assets/img/guestify-qr.png" alt="guestify-qr" >
+        </div>
+      </ng-template>
+  </mat-card-content>
+</mat-card>
+
+
 
 
