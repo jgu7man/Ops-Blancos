@@ -42,8 +42,9 @@
 
 ::ng-deep {
   mat-card-title{
-    width: 220px;
+    width: 100%;
     text-transform: uppercase;
+    white-space: pre
   }
   mat-card-actions {
     flex-direction: column;

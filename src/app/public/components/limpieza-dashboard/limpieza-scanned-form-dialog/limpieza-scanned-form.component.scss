@@ -1,0 +1,31 @@
+#botonera {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+}
+
+mat-dialog-content {
+  min-height: 40vh;
+  max-height: none;
+}
+
+button { margin-bottom: 1em;}
+
+::ng-deep {
+  mat-radio-group{
+    display: flex;
+    mat-radio-button {
+      .mat-radio-label {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-right: 1em;
+        .mat-radio-label-content{
+          padding-left: 0;
+          font-size: small;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}

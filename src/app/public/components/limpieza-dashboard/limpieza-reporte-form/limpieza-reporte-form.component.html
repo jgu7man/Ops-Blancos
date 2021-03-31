@@ -1,0 +1,59 @@
+<form [formGroup]="prendas_.reporteForm">
+  <p class="center">
+    ¿En qué estado se encuetra la prenda?
+  </p>
+
+  <!-- Reporte de estado -->
+  <div class="row">
+    <div class="col s12">
+      <div id="botonera">
+        <mat-radio-group
+        [formControl]="prendas_.stateCtrl"
+        (change)="prendas_.onPrendaStateChange($event)">
+          <mat-radio-button
+          *ngFor="let state of prendas_.PrendasEstado"
+          [value]="state.value"
+          >
+            {{state.display}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reporte form -->
+  <div *ngIf="prendas_.prendaState != 'normal'">
+  <div class="row">
+    <div class="col s12">
+      <p class="center note">Indica cuál es problema con la prenda</p>
+        <mat-form-field appearance="outline">
+          <mat-label>Reporte</mat-label>
+          <textarea
+          matInput
+          type="text"
+          name="reporte"
+          [formControl]="prendas_.reporteCtrl"
+          ></textarea>
+          <mat-error *ngIf="prendas_.reporteCtrl.hasError('required')">
+            Es necesario que describas el estado de la prenda
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Evidencia -->
+  <div class="row">
+    <div class="col s12">
+      <div *ngIf="prendas_.prendaState == 'damage'" class="center">
+        <p class="center note">Toma una evidencia del daño de la prenda</p>
+        <button mat-raised-button color="accent">
+          <i class="fas fa-camera fa-lg white-text"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</form>

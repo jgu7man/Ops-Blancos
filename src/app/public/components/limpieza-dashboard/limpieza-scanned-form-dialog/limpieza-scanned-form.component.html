@@ -1,0 +1,25 @@
+<p> <b>{{data.code}}:</b><br>{{data.direccion}} {{data.descripcion}} </p>
+<p style="font-size: small;">Paquete: {{data.pack}}, pieza: {{data.part}}/{{data.total}} </p>
+
+<mat-dialog-content>
+  <g-limpieza-reporte-form (validForm)="validateReady($event)"></g-limpieza-reporte-form>
+</mat-dialog-content>
+
+<mat-dialog-actions
+style="display: flex; justify-content: space-around;">
+    <button
+    mat-raised-button
+    [disabled]="!isReady"
+    (click)="dialog_.close(true)"
+    >
+      Continuar escaneando
+    </button>
+
+    <button
+    mat-raised-button
+    color="primary"
+    [disabled]="!isReady"
+    >
+      Terminar
+    </button>
+</mat-dialog-actions>

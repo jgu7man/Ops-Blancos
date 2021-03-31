@@ -17,17 +17,21 @@ export class AppComponent {
     // Tag to save cache in local storage
     this._cache.storage = 'local'
     this._cache.cacheTagName = 'ops'
+
     // Define route behaivour
     this._auth.user$.subscribe(user => {
-        if (!user) {
-          this._router.navigate(['/login'])
-        }
-        else {
-          if (user.rol === 'admin' || user.rol === 'city-manager')
-            this._router.navigate(['admin'])
-          else this._router.navigate(['/'])
+      // if (!user) {
+      //   let ref = window.location.href
+      //   if (!ref.includes('create')) {
+      //     this._router.navigate(['/login'])
+      //   }
+      // }
+      // else {
+      //   if (user.rol === 'admin' || user.rol === 'city-manager')
+      //     this._router.navigate(['admin'])
+      //   else this._router.navigate(['/'])
 
-        }
+      // }
     })
   }
 }
