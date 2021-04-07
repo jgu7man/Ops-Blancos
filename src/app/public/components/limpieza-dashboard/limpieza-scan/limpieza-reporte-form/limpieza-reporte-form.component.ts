@@ -12,6 +12,7 @@ import { LimpiezaEvidenciaDialog } from '../limpieza-evidencia-dialog/limpieza-e
 export class LimpiezaReporteFormComponent implements OnInit {
 
   @Output() validForm = new EventEmitter<boolean>();
+  state: string = ''
   constructor(
     public prendas_: PrendasService,
     private _dialog: MatDialog,
@@ -19,26 +20,22 @@ export class LimpiezaReporteFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.prendas_.reporteForm.valueChanges.subscribe(changes => {
-      this.validateForm()
+    this.prendas_.stateCtrl.valueChanges.subscribe(value => {
+      this.state = value
+      this.validateForm(this.state)
     })
   }
 
-  validateForm() {
+  validateForm(value: string) {
     let valid
-    let state = this.prendas_.stateCtrl.value
-    if ( state != 'normal'
-    && this.prendas_.reporteCtrl.invalid
-    ) {
-       valid = false
-    } else if (state == 'demage'
-    && this._camera.captures.length > 0) {
-      valid = false
+    if (value == 'damage') {
+      valid = this._camera.captures.length > 0 ? true : false
+    } else {
+      valid = true
     }
-    else {
-      valid = this.prendas_.stateCtrl.valid ? true : false
-    }
+
     this.validForm.emit(valid);
+
   }
 
   onTakeEvidence() {
@@ -47,8 +44,9 @@ export class LimpiezaReporteFormComponent implements OnInit {
       width: '100vw',
       height: '80vh',
     }).afterClosed().subscribe(save => {
-      if (save) {}
+      if (save) {this.validateForm(this.state)}
     })
+
   }
 
 }

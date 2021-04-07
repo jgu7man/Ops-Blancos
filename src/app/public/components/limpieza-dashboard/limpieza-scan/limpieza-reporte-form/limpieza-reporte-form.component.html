@@ -1,31 +1,35 @@
 <form [formGroup]="prendas_.reporteForm">
-  <p class="center">
-    ¿En qué estado se encuetra la prenda?
-  </p>
 
-  <!-- Reporte de estado -->
-  <div class="row">
-    <div class="col s12">
-      <div id="botonera">
-        <mat-radio-group
-        [formControl]="prendas_.stateCtrl"
-        (change)="prendas_.onPrendaStateChange($event)">
-          <mat-radio-button
-          *ngFor="let state of prendas_.PrendasEstado"
-          [value]="state.value"
-          >
-            {{state.display}}
-          </mat-radio-button>
-        </mat-radio-group>
+  <!-- Normal -->
+  <ng-template #normal>
+    <p class="center">
+      ¿Algún problema con esta prenda?
+    </p>
+
+    <div class="row">
+      <div class="col s12 center">
+        <button mat-raised-button color="warn"
+        (click)="prendas_.stateCtrl.setValue('damage')"
+        >
+          Reportar un problema
+        </button>
+
       </div>
     </div>
-  </div>
+  </ng-template>
+
 
   <!-- Reporte form -->
-  <div *ngIf="prendas_.prendaState != 'normal'; else normal">
-  <div class="row">
-    <div class="col s12">
-      <p class="center note">Indica cuál es problema con la prenda</p>
+  <div *ngIf="prendas_.stateCtrl.value != 'normal'; else normal">
+
+    <!-- Reporte de estado -->
+    <div class="row">
+      <div class="col s12">
+
+        <p class="center note">
+          Indica cuál es problema con la prenda
+        </p>
+
         <mat-form-field appearance="outline">
           <mat-label>Reporte</mat-label>
           <textarea
@@ -41,26 +45,32 @@
 
       </div>
     </div>
-  </div>
-  <ng-template #normal>
-    <div class="check-container" *ngIf="prendas_.stateCtrl.value == 'normal'">
-      <i class="fas fa-check-circle fa-10x   "></i>
+
+    <!-- Evidencia -->
+    <div class="row">
+      <div class="col s12">
+        <div class="center">
+          <p class="center note">Toma una evidencia del daño de la prenda</p>
+          <button mat-raised-button color="accent"
+          (click)="onTakeEvidence()">
+            <i class="fas fa-camera fa-lg white-text"></i>
+          </button>
+        </div>
+      </div>
     </div>
-  </ng-template>
 
 
-
-  <!-- Evidencia -->
-  <div class="row">
-    <div class="col s12">
-      <div *ngIf="prendas_.prendaState == 'damage'" class="center">
-        <p class="center note">Toma una evidencia del daño de la prenda</p>
-        <button mat-raised-button color="accent"
-        (click)="onTakeEvidence()">
-          <i class="fas fa-camera fa-lg white-text"></i>
-        </button>
+    <!-- Volver -->
+    <div class="row">
+      <div class="col s12 center">
+        <button mat-raised-button
+        (click)="prendas_.stateCtrl.setValue('normal')"
+        >La prenda está bien</button>
       </div>
     </div>
   </div>
+
+
+
 
 </form>

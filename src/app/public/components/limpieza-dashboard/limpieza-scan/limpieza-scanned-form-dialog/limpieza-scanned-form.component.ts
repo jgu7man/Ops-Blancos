@@ -10,7 +10,7 @@ import { iCode, PrendaState } from 'src/app/models/prenda.model';
 })
 export class LimpiezaScannedFormDialog implements OnInit {
 
-  isReady = false;
+  isReady = true;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: iCode,
@@ -18,7 +18,7 @@ export class LimpiezaScannedFormDialog implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log( this.data )
+
   }
 
   validateReady(event: boolean) {

@@ -12,7 +12,7 @@ import { ScannerService } from './scanner.service';
 export class PrendasService {
 
   prendaState: PrendaState = 'normal'
-  stateCtrl: FormControl = new FormControl('', [Validators.required])
+  stateCtrl: FormControl = new FormControl('normal')
   reporteCtrl: FormControl = new FormControl('', [Validators.required])
   reporteForm: FormGroup = new FormGroup({
     'state': this.stateCtrl,

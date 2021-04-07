@@ -32,13 +32,13 @@ zxing-scanner {
   position: relative;
   width: 62vw;
   height: 62vw;
-  display: flex;
-  justify-content:center;
-  align-items:center;
+  margin: 0 auto;
   img {
     width: 100%;
   }
 }
+
+
 
 .box-corner {
   width: 50px;

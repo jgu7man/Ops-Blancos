@@ -9,6 +9,8 @@
   width: 100% !important;
   height: 88% !important;
   margin: 0 !important;
+  padding: 1em;
+  padding-bottom: 0;
   background: url('/assets/img/gradient-blue-bg.jpg');
   background-position: center center;
   background-repeat: no-repeat;
@@ -16,8 +18,8 @@
 }
 
 #card-container {
-  height: 84vh;
-  padding:10%;
+  height: 50vh;
+  padding:5%;
   width: 100%;
   margin: 0;
 }

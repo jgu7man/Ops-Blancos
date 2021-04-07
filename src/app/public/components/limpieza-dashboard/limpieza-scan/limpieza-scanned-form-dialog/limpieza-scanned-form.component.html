@@ -11,13 +11,14 @@ style="display: flex; justify-content: space-around;">
     mat-raised-button
     [disabled]="!isReady"
     (click)="dialog_.close(true)"
+    color="primary"
     >
-      Continuar escaneando
+      Todo bien, continuar
     </button>
 
     <button
     mat-raised-button
-    color="primary"
+    color="accent"
     [disabled]="!isReady"
     (click)="dialog_.close(false)"
     >

@@ -18,6 +18,7 @@ import { FormsModule } from '@angular/forms';
 import { LimpiezaReporteFormComponent } from './components/limpieza-dashboard/limpieza-scan/limpieza-reporte-form/limpieza-reporte-form.component';
 import { TakeImageComponent } from './components/take-image/take-image.component';
 import { LimpiezaEvidenciaDialog } from './components/limpieza-dashboard/limpieza-scan/limpieza-evidencia-dialog/limpieza-evidencia-dialog.component';
+import { DialogHomeScannedComponent } from './components/limpieza-dashboard/limpieza-home/dialog-home-scanned/dialog-home-scanned.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { LimpiezaEvidenciaDialog } from './components/limpieza-dashboard/limpiez
     LimpiezaReporteFormComponent,
     TakeImageComponent,
     LimpiezaEvidenciaDialog,
+    DialogHomeScannedComponent,
   ],
   imports: [
     CommonModule,
