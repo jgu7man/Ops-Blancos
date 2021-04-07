@@ -11,12 +11,26 @@ import { AddPersonalComponent } from './components/manage-admins/add-personal/ad
 import { ComunesModule } from 'src/shared/comunes.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedComponentsModule } from '../components/shared-components.module';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { ManageDatabaseComponent } from './components/manage-database/manage-database.component';
+import { ManagePropiedadesComponent } from './components/manage-database/manage-propiedades/manage-propiedades.component';
+import { DialogAddPropiedadComponent } from './components/manage-database/dialog-add-propiedad/dialog-add-propiedad.component';
+import { DialogAddJuegoComponent } from './components/manage-database/dialog-add-juego/dialog-add-juego.component';
+import { DialogAddPrendaComponent } from './components/manage-database/dialog-add-prenda/dialog-add-prenda.component';
+import { ShowPropiedadComponent } from './components/manage-database/show-propiedad/show-propiedad.component';
 
 @NgModule({
   declarations: [
     AdminComponent,
     ManageAdminsComponent,
     AddPersonalComponent,
+    AdminDashboardComponent,
+    ManageDatabaseComponent,
+    ManagePropiedadesComponent,
+    DialogAddPropiedadComponent,
+    DialogAddJuegoComponent,
+    DialogAddPrendaComponent,
+    ShowPropiedadComponent,
   ],
   imports: [
     CommonModule,

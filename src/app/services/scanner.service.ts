@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { GdevAlert } from '@jgu7man/gdev-tools';
 import { Observable, Subject } from 'rxjs';
 import { iCode } from '../models/prenda.model';
-import { iScannedSource, ScannerSource } from '../models/scanned.model';
+import { Producto } from '../models/propiedad.model';
+import { ScannerSource } from '../models/scanned.model';
 
 
 
@@ -11,7 +12,7 @@ import { iScannedSource, ScannerSource } from '../models/scanned.model';
 })
 export class ScannerService {
 
-  codeScanned$: Subject<iScannedSource> = new Subject();
+  codeScanned$: Subject<iCode> = new Subject();
   startScan$: Subject<null> = new Subject();
   scannerSource: ScannerSource = 'limpieza'
   constructor(
@@ -25,8 +26,8 @@ export class ScannerService {
       try {
         let code: iCode = {
           direccion: codeParts[0],
-          descripcion: codeParts[1],
-          pack: +codeParts[2],
+          producto: codeParts[1] as Producto,
+          juego: +codeParts[2],
           part: +codeParts[3],
           total: +codeParts[4],
           code: codeParts[5],
@@ -35,7 +36,7 @@ export class ScannerService {
 
         // This is listen by:
         // LINK ./prendas.service.ts:27
-        this.codeScanned$.next({source:this.scannerSource, value: code})
+        this.codeScanned$.next(code)
       } catch (error) {
         console.error(error)
         this._alert.sendMessageAlert('Error: Al intentar leer el formato del código')

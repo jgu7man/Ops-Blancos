@@ -3,5 +3,13 @@
 <router-outlet></router-outlet>
 
 <mat-toolbar color="accent" class="mat-elevation-z4" id="bottom-bar">
-
+  <span class="navbtn">
+    <i class="fas fa-tachometer-alt fa-lg  white-text" [routerLink]="['dashboard']" [routerLinkActive]="'active'"></i>
+  </span>
+  <span class="navbtn">
+    <i class="fas fa-server fa-lg  white-text" [routerLink]="['manage-database']" [routerLinkActive]="'active'"></i>
+  </span>
+  <!-- <span class="navbtn">
+    <i class="fas fa-qrcode fa-lg  white-text"></i>
+  </span> -->
 </mat-toolbar>

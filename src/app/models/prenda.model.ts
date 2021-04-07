@@ -1,3 +1,5 @@
+import { Producto } from "./propiedad.model";
+
 export interface iPrendaModel {
   id: string
   code: iCode
@@ -17,12 +19,11 @@ export interface iReporte {
 }
 
 export interface iCode {
-  direccion?: string;
-  descripcion?: string;
-  pack?: number;
-  part?: number;
-  total?: number;
+  direccion: string;
+  producto: Producto;
+  juego: number;
+  part: number;
+  total: number;
   code: string;
 }
-
 

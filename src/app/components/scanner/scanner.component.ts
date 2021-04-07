@@ -15,6 +15,7 @@ export class ScannerComponent implements OnInit, AfterViewInit {
   @Output() scanned: EventEmitter<any> = new EventEmitter();
   @ViewChild('scanner') private scanner: ZXingScannerComponent = new ZXingScannerComponent();
   public scannerEnabled: boolean = false;
+  @Input() title: boolean = true;
 
   constructor(
     private _loading: GdevLoading,

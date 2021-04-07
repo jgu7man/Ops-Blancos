@@ -1,0 +1,82 @@
+<mat-dialog-content>
+  <div class="row">
+    <!-- CIUDAD PREFIX -->
+    <div class="col s12">
+      <mat-form-field>
+        <mat-label>Prefijo de Ciudad</mat-label>
+        <input
+        matInput
+        type="text"
+        [(ngModel)]="propiedad.ciudad"
+        name="ciudad-prefixed"
+        maxlength="3"
+        minlength="3"
+        required
+        pattern="[A-Z]"
+        #ciudad="ngModel"
+        oninput="this.value = this.value.toUpperCase()"
+        >
+        <mat-error *ngIf="ciudad.hasError('required')">
+          Este dato es necesario
+        </mat-error>
+        <mat-error *ngIf="ciudad.hasError('minlength')">
+          Se requieren 3 caracteres
+        </mat-error>
+
+      </mat-form-field>
+    </div>
+    <div class="col s12">
+      <mat-form-field>
+        <mat-label>Código de la propiedad</mat-label>
+        <input
+        matInput
+        type="text"
+        [(ngModel)]="propiedad.code"
+        name="code"
+        maxlength="6"
+        minlength="6"
+        required
+        pattern="[A-Z]"
+        #code="ngModel"
+        oninput="this.value = this.value.toUpperCase()"
+        >
+      </mat-form-field>
+      <mat-error *ngIf="code.hasError('required') && code.hasError('dirty')">
+        Este dato es necesario
+      </mat-error>
+      <mat-error *ngIf="code.hasError('minlength')">
+        Se requieren 6 caracteres
+      </mat-error>
+    </div>
+
+    <!-- Dirección -->
+    <div class="col s12">
+      <mat-form-field>
+        <mat-label>Dirección</mat-label>
+        <input
+        matInput
+        type="text"
+        [(ngModel)]="propiedad.direccion"
+        name="direccion"
+        required
+        #direccion="ngModel"
+        >
+      </mat-form-field>
+      <mat-error *ngIf="direccion.hasError('required') && direccion.hasError('dirty')">
+        Este dato es necesario
+      </mat-error>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12">
+      <button mat-raised-button color='' >Agregar Juego de prendas</button>
+
+      <div *ngFor="let juego of propiedad.juegos">
+        Juego {{juego.index}}
+        <button mat-raised-button color='primary' >Agregar prenda</button>
+      </div>
+
+    </div>
+  </div>
+</mat-dialog-content>

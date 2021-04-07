@@ -1,0 +1,119 @@
+<mat-card *ngIf="prenda">
+  <mat-card-header>
+    <mat-card-title>Prenda encontrada!</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <table>
+      <tbody>
+        <tr>
+          <th>Prenda</th>
+          <td>{{prenda.index}}</td>
+        </tr>
+        <tr>
+          <th>Producto</th>
+          <td> {{prenda.producto}} </td>
+        </tr>
+        <tr>
+          <th>Codigo</th>
+          <td> {{prenda.code}} </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>
+<br>
+<mat-card class="mat-elevation-z0">
+  <mat-card-content>
+    <div class="row">
+      <div class="col s12">
+        <p class="cyan-text"><b>Propiedad</b></p>
+        <table>
+          <tbody>
+            <tr>
+              <th>Ciudad</th>
+              <td> {{propiedad.ciudad}} </td>
+            </tr>
+            <tr>
+              <th>Prefijo</th>
+              <td> {{propiedad.prefix}} </td>
+            </tr>
+            <tr>
+              <th>Dirección</th>
+              <td> {{propiedad.direccion}} </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="cyan-text"><b>Juegos</b>
+          <button mat-icon-button
+          (click)="onAddJuego()">
+              <i class="fas fa-plus "></i>
+          </button>
+        </p>
+        <div class="row">
+          <div class="col s12" *ngFor="let jue of propiedad.juegos; index as ji">
+            <table >
+              <tbody>
+                <tr>
+                  <th>Juego</th>
+                  <td>{{jue.index}}</td>
+                </tr>
+                <tr>
+                  <th>Cantidad de prendas</th>
+                  <td>{{jue.total}} </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p class="cyan-text"><b>Prendas</b>
+              <button mat-icon-button
+              (click)="onAddPrenda(jue.index)">
+                <i class="fas fa-plus "></i>
+              </button>
+            </p>
+            <div class="row">
+              <div class="col s12 prenda-row" *ngFor="let prend of jue.prendas; index as i">
+                <button mat-icon-button
+                color="warn"
+                (click)="deletePrenda(ji, i)">
+                    <i class="fas fa-times-circle"></i>
+                </button>
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>Prenda</th>
+                      <td>{{prend.index}}</td>
+                    </tr>
+                    <tr>
+                      <th>Producto</th>
+                      <td> {{prend.producto}} </td>
+                    </tr>
+                    <tr>
+                      <th>Codigo</th>
+                      <td> {{prend.code}} </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <mat-divider></mat-divider>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+        </div>
+
+
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions
+  style="display: flex; justify-content: space-around;">
+    <button mat-raised-button
+    (click)="close.emit()"
+    >Cerrar</button>
+    <button mat-raised-button
+    (click)="onSavePropiedad()"
+    color="primary"
+    cdkFocusInitial
+    >Guardar</button>
+  </mat-card-actions>
+</mat-card>

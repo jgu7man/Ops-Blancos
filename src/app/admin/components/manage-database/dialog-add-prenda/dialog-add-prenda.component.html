@@ -1,0 +1,27 @@
+<ng-container *ngIf="!code; else addCode">
+  <mat-dialog-content>
+    <g-scanner></g-scanner>
+  </mat-dialog-content>
+  <mat-dialog-actions
+  style="display: flex; justify-content: center;">
+      <button mat-raised-button
+      (click)="dialog_.close()"
+      >Cancelar</button>
+  </mat-dialog-actions>
+</ng-container>
+
+<ng-template #addCode >
+  <mat-dialog-content>
+    <p>Este código no fue encontrado en la propiedad. ¿Quieres agregarlo?</p>
+  </mat-dialog-content>
+  <mat-dialog-actions
+  style="display: flex; justify-content: space-around;">
+      <button mat-raised-button
+      (click)="dialog_.close()"
+      >No</button>
+      <button mat-raised-button
+      color="primary"
+      (click)="dialog_.close(true)"
+      >Sí</button>
+  </mat-dialog-actions>
+</ng-template>

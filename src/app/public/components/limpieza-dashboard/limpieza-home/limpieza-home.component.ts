@@ -5,6 +5,7 @@ import { iScannedSource } from 'src/app/models/scanned.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogHomeScannedComponent } from './dialog-home-scanned/dialog-home-scanned.component';
 import { Router } from '@angular/router';
+import { iCode } from 'src/app/models/prenda.model';
 
 @Component({
   templateUrl: './limpieza-home.component.html',
@@ -30,12 +31,12 @@ export class LimpiezaHomeComponent implements OnInit {
 
   // # On SCANNED
   /** Abre un cuadro de diálogo con el formulario correspondiente a `limpieza` o `lavandería` para registrar la prenda escaneada */
-  onScanned(scanned: iScannedSource) {
+  onScanned(scanned: iCode) {
 
     // console.log( scanned.value )
     this._dialog.open( DialogHomeScannedComponent, {
       width: '100vw',
-      data: scanned.value,
+      data: scanned,
       disableClose: true
     }).afterClosed().subscribe(next => {
       if (next) {

@@ -5,7 +5,7 @@ import { iCode } from 'src/app/models/prenda.model';
 import { iScannedSource } from 'src/app/models/scanned.model';
 import { PrendasService } from 'src/app/services/prendas.service';
 import { ScannerService } from 'src/app/services/scanner.service';
-import { ScannerComponent } from '../../scanner/scanner.component';
+import { ScannerComponent } from '../../../../components/scanner/scanner.component';
 import { LimpiezaScannedFormDialog } from './limpieza-scanned-form-dialog/limpieza-scanned-form.component';
 
 @Component({
@@ -33,13 +33,12 @@ export class LimpiezaScanComponent implements OnInit, OnDestroy {
 
   // # On SCANNED
   /** Abre un cuadro de diálogo con el formulario correspondiente a `limpieza` o `lavandería` para registrar la prenda escaneada */
-  onScanned(scanned: iScannedSource) {
+  onScanned(scanned: iCode) {
 
-    console.log( scanned.value )
     this._dialog.open( LimpiezaScannedFormDialog, {
       // height: '80vh',
       width: '100vw',
-      data: scanned.value,
+      data: scanned,
       disableClose: true
     }).afterClosed().subscribe(next => {
       if (next) this._scanner.startScan$.next()

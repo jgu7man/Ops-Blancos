@@ -1,0 +1,61 @@
+<mat-drawer-container [hasBackdrop]="true">
+  <mat-drawer #propPanel=matDrawer
+  [position]="'end'"
+  [mode]="'over'"
+  [opened]="false">
+
+    <ng-container *ngIf="propiedadFinded; else elseTemplate">
+      <g-show-propiedad
+      [propiedad]="propiedadFinded"
+      [prenda]="prendaFinded"
+      ></g-show-propiedad>
+    </ng-container>
+    <ng-template #elseTemplate>
+      <g-show-propiedad
+      [code]="codeScanned"
+      (close)="onClosePanel()"
+      ></g-show-propiedad>
+    </ng-template>
+
+
+  </mat-drawer>
+  <mat-drawer-content>
+
+    <div class="container">
+      <div class="row">
+        <div class="col s12">
+          <h2 class="center">Administración de base de datos</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Códigos QR</mat-card-title>
+              <mat-card-subtitle>Escanea para encontrar un código QR en la base de datos</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <g-scanner [title]="false"></g-scanner>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s12">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Propiedades</mat-card-title>
+              <mat-card-subtitle>Crea, busca y elimina propiedades</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <g-manage-propiedades></g-manage-propiedades>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+
+
+  </mat-drawer-content>
+</mat-drawer-container>

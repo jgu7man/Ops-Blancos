@@ -12,7 +12,7 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { LimpiezaDashboardComponent } from './components/limpieza-dashboard/limpieza-dashboard.component';
 import { LimpiezaHomeComponent } from './components/limpieza-dashboard/limpieza-home/limpieza-home.component';
 import { LimpiezaScanComponent } from './components/limpieza-dashboard/limpieza-scan/limpieza-scan.component';
-import { ScannerComponent } from './components/scanner/scanner.component';
+// import { ScannerComponent } from '../components/scanner/scanner.component';
 import { LimpiezaScannedFormDialog } from './components/limpieza-dashboard/limpieza-scan/limpieza-scanned-form-dialog/limpieza-scanned-form.component';
 import { FormsModule } from '@angular/forms';
 import { LimpiezaReporteFormComponent } from './components/limpieza-dashboard/limpieza-scan/limpieza-reporte-form/limpieza-reporte-form.component';
@@ -28,7 +28,7 @@ import { DialogHomeScannedComponent } from './components/limpieza-dashboard/limp
     LimpiezaDashboardComponent,
     LimpiezaHomeComponent,
     LimpiezaScanComponent,
-    ScannerComponent,
+    // ScannerComponent,
     LimpiezaScannedFormDialog,
     LimpiezaReporteFormComponent,
     TakeImageComponent,
