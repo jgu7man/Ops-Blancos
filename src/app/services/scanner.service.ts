@@ -31,6 +31,7 @@ export class ScannerService {
           part: +codeParts[3],
           total: +codeParts[4],
           code: codeParts[5],
+          prefix: codeParts[5].substring(3,9)
         }
 
 

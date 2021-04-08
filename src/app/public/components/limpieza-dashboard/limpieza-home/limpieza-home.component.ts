@@ -6,6 +6,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogHomeScannedComponent } from './dialog-home-scanned/dialog-home-scanned.component';
 import { Router } from '@angular/router';
 import { iCode } from 'src/app/models/prenda.model';
+import { PropiedadesService } from 'src/app/services/propiedades.service';
+import { GdevCache } from '@jgu7man/gdev-tools';
+import { iCurrentProp } from 'src/app/models/reporte.model';
+import { ReportesService } from 'src/app/services/reportes.service';
 
 @Component({
   templateUrl: './limpieza-home.component.html',
@@ -17,7 +21,10 @@ export class LimpiezaHomeComponent implements OnInit {
   constructor(
     private _scanner: ScannerService,
     private _dialog: MatDialog,
-    private _router: Router
+    private _router: Router,
+    private _propiedades: PropiedadesService,
+    private _cache: GdevCache,
+    private _reportes: ReportesService
   ) {
     this.scannerSubs =
       this._scanner.codeScanned$.
@@ -40,7 +47,11 @@ export class LimpiezaHomeComponent implements OnInit {
       disableClose: true
     }).afterClosed().subscribe(next => {
       if (next) {
-        this._router.navigate(['/limpieza/scan'])
+        this._reportes.searchForCurrentPropiedad(scanned.prefix, scanned.juego)
+          .then((propiedad) => {
+            this._cache.updateData('currentProp', propiedad)
+            this._router.navigate(['/limpieza/scan'])
+        })
       }
     })
   }

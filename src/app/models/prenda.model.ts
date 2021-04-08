@@ -7,7 +7,7 @@ export interface iPrendaModel {
   reporte?: iReporte
 }
 
-export type PrendaState = 'normal' | 'damage' | 'lost'
+export type PrendaState = 'sucio' | 'damage' | 'lost'
 export interface iPrendaState {
   display: string,
   value: PrendaState
@@ -25,5 +25,6 @@ export interface iCode {
   part: number;
   total: number;
   code: string;
+  prefix: string;
 }
 

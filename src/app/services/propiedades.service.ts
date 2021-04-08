@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { GdevAlert, GdevLoading } from '@jgu7man/gdev-tools';
 import { iJuego, iPrenda, iPropiedad } from '../models/propiedad.model';
 import firebase  from 'firebase/app'
+import { iCurrentProp } from '../models/reporte.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,8 @@ export class PropiedadesService {
     private _alert: GdevAlert
   ) { }
 
-  async searchForPropiedad(code: string) {
-    const prefix = code.substring(3, 9)
+
+  async searchForFullPropiedad(prefix: string) {
     const propRef = this._afs.collection('propiedades').doc(prefix).ref
 
     try {
@@ -82,9 +83,30 @@ export class PropiedadesService {
   }
 
 
+  async searchForPrenda(code: string): Promise<null | iPrenda> {
+    return new Promise((resolve, reject) => {
+      this._afs.collectionGroup('prendas',
+        ref => ref.where('code', '==', code)).get()
+        .subscribe(data => {
+          if(data.empty) resolve(null)
+          else resolve(data.docs[0].data() as iPrenda)
+        })
+    })
+  }
+
+
   async savePropiedad(propiedad: iPropiedad) {
     const propRef = this._afs.collection('propiedades').ref
       .doc(propiedad.prefix)
+
+    // if (propiedad.juegos.length > 0) {
+    //   await this._loading.asyncForEach(
+    //   propiedad.juegos,async (juego: iJuego) => {
+    //     if (juego.prendas.length > 0) {
+    //       juego.prendas.map(prenda => {return {...prenda}})
+    //     }
+    //   })
+    // }
 
     const propDoc = await propRef.get()
     if (propDoc.exists) {

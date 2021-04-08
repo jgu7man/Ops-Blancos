@@ -1,4 +1,4 @@
-<form [formGroup]="prendas_.reporteForm">
+<form [formGroup]="reportes_.reporteForm">
 
   <!-- Normal -->
   <ng-template #normal>
@@ -6,12 +6,23 @@
       ¿Algún problema con esta prenda?
     </p>
 
+    <mat-selection-list #problemasPanel
+    (selectionChange)="onSelecteIssue($event)"
+    [multiple]="false">
+      <mat-list-option
+      *ngFor="let item of reportes_.commonIssues"
+      [value]="item"
+      >
+        {{item}}
+      </mat-list-option>
+    </mat-selection-list>
+
     <div class="row">
       <div class="col s12 center">
         <button mat-raised-button color="warn"
-        (click)="prendas_.stateCtrl.setValue('damage')"
+        (click)="reportes_.stateCtrl.setValue('damage')"
         >
-          Reportar un problema
+          Reportar otro problema
         </button>
 
       </div>
@@ -20,7 +31,7 @@
 
 
   <!-- Reporte form -->
-  <div *ngIf="prendas_.stateCtrl.value != 'normal'; else normal">
+  <div *ngIf="reportes_.stateCtrl.value != 'sucio'; else normal">
 
     <!-- Reporte de estado -->
     <div class="row">
@@ -36,9 +47,9 @@
           matInput
           type="text"
           name="reporte"
-          [formControl]="prendas_.reporteCtrl"
+          [formControl]="reportes_.reporteCtrl"
           ></textarea>
-          <mat-error *ngIf="prendas_.reporteCtrl.hasError('required')">
+          <mat-error *ngIf="reportes_.reporteCtrl.hasError('required')">
             Es necesario que describas el estado de la prenda
           </mat-error>
         </mat-form-field>
@@ -64,7 +75,7 @@
     <div class="row">
       <div class="col s12 center">
         <button mat-raised-button
-        (click)="prendas_.stateCtrl.setValue('normal')"
+        (click)="reportes_.stateCtrl.setValue('sucio')"
         >La prenda está bien</button>
       </div>
     </div>

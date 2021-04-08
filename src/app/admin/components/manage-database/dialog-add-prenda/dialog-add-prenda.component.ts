@@ -19,11 +19,10 @@ export class DialogAddPrendaComponent implements OnInit {
 
   ngOnInit(): void {
     this._scanner.codeScanned$.subscribe(codeScanned => {
-      // if (this.prefix === codeScanned.code.substring(3, 9)) {
         let prenda: iPrenda = new iPrenda(
-          codeScanned.producto,
+          codeScanned.code,
           codeScanned.part,
-          codeScanned.code
+          codeScanned.producto,
         )
 
         this.dialog_.close(prenda)

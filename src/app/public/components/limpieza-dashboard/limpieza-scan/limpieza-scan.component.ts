@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { GdevAlert, GdevCache } from '@jgu7man/gdev-tools';
 import { Subscription } from 'rxjs';
 import { iCode } from 'src/app/models/prenda.model';
+import { iPropiedad } from 'src/app/models/propiedad.model';
+import { iCurrentProp } from 'src/app/models/reporte.model';
 import { iScannedSource } from 'src/app/models/scanned.model';
-import { PrendasService } from 'src/app/services/prendas.service';
 import { ScannerService } from 'src/app/services/scanner.service';
 import { ScannerComponent } from '../../../../components/scanner/scanner.component';
 import { LimpiezaScannedFormDialog } from './limpieza-scanned-form-dialog/limpieza-scanned-form.component';
@@ -17,18 +19,32 @@ export class LimpiezaScanComponent implements OnInit, OnDestroy {
   scannerSubs: Subscription
   constructor(
     private _scanner: ScannerService,
-    private _prendas: PrendasService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _cache: GdevCache,
+    private _alert: GdevAlert,
   ) {
     this._scanner.scannerSource = 'limpieza'
     this.scannerSubs =
       this._scanner.codeScanned$.
-        subscribe(codeScanned => {
-          this.onScanned(codeScanned)
-        })
+      subscribe(codeScanned => {
+        this.validateCodeScanned(codeScanned)
+      })
    }
 
   ngOnInit(): void {
+  }
+
+  validateCodeScanned(code:iCode) {
+    const currentProp = this._cache.getDataKey<iCurrentProp>('currentProp')
+    if (code.prefix === currentProp.prefix) {
+      if (code.juego === currentProp.juego) {
+        this.onScanned(code)
+      } else {
+        this._alert.sendMessageAlert('Esta prenda no pertenece al juego en turno')
+      }
+    } else {
+      this._alert.sendMessageAlert('Esta prenda no pertenece a esta propiedad')
+    }
   }
 
   // # On SCANNED

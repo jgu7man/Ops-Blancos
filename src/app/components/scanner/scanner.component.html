@@ -16,7 +16,7 @@
   </mat-card-header>
   <mat-card-content>
       <ng-container *ngIf="scannerEnabled; else pause">
-        <div class="scanner-box">
+        <div class="scanner-box" (click)="scannerEnabled = false">
           <div id="scanner-container">
             <zxing-scanner
               #scanner

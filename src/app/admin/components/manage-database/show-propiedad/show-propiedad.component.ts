@@ -35,16 +35,16 @@ export class ShowPropiedadComponent implements OnInit {
   addPropiedad() {
     if (this.code) {
       const prenda = new iPrenda(
-        this.code.producto,
-        this.code.part,
         this.code.code,
+        this.code.part,
+        this.code.producto,
       )
       const juego = {
         total: this.code.total, index: this.code.juego, prendas: [prenda]
       }
       this.propiedad = new iPropiedad(
         this.code.code.substring(0, 3),
-        this.code.code.substring(3, 9),
+        this.code.prefix,
         this.code.direccion,
         [juego]
       )

@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilKeyChanged, take } from 'rxjs/operators';
 import { iCode } from 'src/app/models/prenda.model';
 import { iPrenda, iPropiedad } from 'src/app/models/propiedad.model';
-import { PrendasService } from 'src/app/services/prendas.service';
 import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { ScannerService } from 'src/app/services/scanner.service';
 import { DialogAddPrendaComponent } from './dialog-add-prenda/dialog-add-prenda.component';
@@ -26,7 +25,6 @@ export class ManageDatabaseComponent implements OnInit {
   constructor(
     private _dialog: MatDialog,
     private _scanner: ScannerService,
-    private _prendas: PrendasService,
     private _propiedades: PropiedadesService
   ) { }
 
@@ -34,10 +32,10 @@ export class ManageDatabaseComponent implements OnInit {
     this.scannerSubs = this._scanner
       .codeScanned$
       .subscribe(code => {
-        this._prendas.searchForPrenda(code.code)
+        this._propiedades.searchForPrenda(code.code)
           .then((prenda) => {
             this.scannerSubs?.unsubscribe()
-            this._propiedades.searchForPropiedad(code.code)
+            this._propiedades.searchForFullPropiedad(code.prefix)
               .then(propiedad => {
                 this.propiedadFinded = propiedad
                 if (prenda) {

@@ -15,9 +15,9 @@ export interface iJuego {
 
 export class iPrenda {
   constructor(
-    public producto: Producto,
+    public code: string,
     public index: number,
-    public code: string
+    public producto?: Producto,
   ){}
 }
 

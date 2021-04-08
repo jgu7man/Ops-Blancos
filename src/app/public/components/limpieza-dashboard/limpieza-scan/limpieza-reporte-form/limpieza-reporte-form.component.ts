@@ -1,7 +1,8 @@
 import { Component, EventEmitter, OnChanges, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSelectionListChange } from '@angular/material/list';
 import { CameraService } from 'src/app/services/camera.service';
-import { PrendasService } from 'src/app/services/prendas.service';
+import { ReportesService } from 'src/app/services/reportes.service'
 import { LimpiezaEvidenciaDialog } from '../limpieza-evidencia-dialog/limpieza-evidencia-dialog.component';
 
 @Component({
@@ -14,13 +15,13 @@ export class LimpiezaReporteFormComponent implements OnInit {
   @Output() validForm = new EventEmitter<boolean>();
   state: string = ''
   constructor(
-    public prendas_: PrendasService,
+    public reportes_: ReportesService,
     private _dialog: MatDialog,
     private _camera: CameraService
   ) { }
 
   ngOnInit(): void {
-    this.prendas_.stateCtrl.valueChanges.subscribe(value => {
+    this.reportes_.stateCtrl.valueChanges.subscribe(value => {
       this.state = value
       this.validateForm(this.state)
     })
@@ -47,6 +48,12 @@ export class LimpiezaReporteFormComponent implements OnInit {
       if (save) {this.validateForm(this.state)}
     })
 
+  }
+
+
+  onSelecteIssue(event: MatSelectionListChange) {
+    this.reportes_.stateCtrl.setValue('damage')
+    this.reportes_.reporteCtrl.setValue(event.options[0].value)
   }
 
 }
