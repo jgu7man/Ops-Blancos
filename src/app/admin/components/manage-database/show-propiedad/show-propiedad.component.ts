@@ -1,3 +1,4 @@
+import { BehaviorSubject } from 'rxjs';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GdevAlert } from '@jgu7man/gdev-tools';
@@ -13,6 +14,11 @@ import { DialogAddPrendaComponent } from '../dialog-add-prenda/dialog-add-prenda
   styleUrls: ['./show-propiedad.component.scss']
 })
 export class ShowPropiedadComponent implements OnInit {
+
+
+  // private _code : BehaviorSubject<iCode> = new BehaviorSubject({} as iCode);
+  // @Input() set code(code: iCode) { this._code.next(code); }
+  // get code() { return this._code.getValue()}
 
   @Input() propiedad: iPropiedad
   @Input() public code?: iCode
@@ -33,6 +39,7 @@ export class ShowPropiedadComponent implements OnInit {
 
 
   addPropiedad() {
+    console.log( this.code )
     if (this.code) {
       const prenda = new iPrenda(
         this.code.code,

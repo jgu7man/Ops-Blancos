@@ -56,12 +56,12 @@ export class ManageDatabaseComponent implements OnInit {
   }
 
   onAddPropiedad(code: iCode) {
-    this.codeScanned = code
     this._dialog.open(DialogAddPropiedadComponent, {
       width: '100%',
       data: code
     }).afterClosed().subscribe(confirm => {
       if (confirm) {
+        this.codeScanned = code
         this.panel?.open()
       }
     })

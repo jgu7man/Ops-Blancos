@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { iMenuRoutes } from '../components/topbar/topbar.component';
 
 @Component({
   selector: 'g-public',
@@ -11,5 +12,9 @@ export class PublicComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  routes: iMenuRoutes[] = [
+    {displayName: 'Administradores', route: '/admin'}
+  ]
 
 }

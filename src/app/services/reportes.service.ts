@@ -9,9 +9,9 @@ import { Producto } from '../models/propiedad.model';
 import { iScannedSource } from '../models/scanned.model';
 import { LimpiezaScannedFormDialog } from '../public/components/limpieza-dashboard/limpieza-scan/limpieza-scanned-form-dialog/limpieza-scanned-form.component';
 import { ScannerService } from './scanner.service';
-import { iCurrentProp, iPrendaReport } from '../models/reporte.model';
+import { iCurrentProp, iHistory, iPrendaReport } from '../models/reporte.model';
 import { CameraService } from './camera.service';
-import { GdevCache } from '@jgu7man/gdev-tools';
+import { GdevAlert, GdevCache } from '@jgu7man/gdev-tools';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +33,8 @@ export class ReportesService {
   constructor(
     private _afs: AngularFirestore,
     private _camera: CameraService,
-    private _cache: GdevCache
+    private _cache: GdevCache,
+    private _alert: GdevAlert
   ) {
 
   }
@@ -89,29 +90,45 @@ export class ReportesService {
     return this.reporteCtrl.invalid
   }
 
+  indexPS(prenda: iPrendaReport):number {
+    return this.prendasChecklist.findIndex(p => p.code === prenda.code)
+  }
+
 
   onSaveReporte() {
-    const user = this._cache.getDataKey<iUser>('user')
-    if (this.currentPrenda) {
-      const prendaRef = this._afs.doc(`propiedades/${this.currentProp?.prefix}/juegos/${this.currentProp?.juego}/prendas/${this.currentPrenda.code}`)
+    try {
+      const user = this._cache.getDataKey<iUser>('user')
+      if (user) {
+        if (this.currentPrenda) {
+          const index = this.indexPS(this.currentPrenda)
+          if (index >= 0) {
 
-      if (this.stateCtrl.value === 'sucio') {
-        prendaRef.update({
-          state: 'sucio',
-        })
-      } else {
-        this.currentPrenda.state = this.stateCtrl.value
-        this.currentPrenda.reporte = this.reporteCtrl.value
-        this.currentPrenda.evidences = this._camera.captures
-      }
+            const prendaRef = this._afs.doc(`propiedades/${this.currentProp?.prefix}/juegos/${this.currentProp?.juego}/prendas/${this.currentPrenda.code}`)
+            let history: iHistory = {
+              date: new Date(),
+              state: this.stateCtrl.value,
+              responsable: user.uid
+            }
 
+            if (this.stateCtrl.value !== 'sucio') {
+              history.reporte = this.reporteCtrl.value
+              history.evidences = this._camera.captures
+            }
 
-      // this._afs.collection(`reportes`).add({
-      //   creado: new Date(),
-      //   responsable: user.uid,
-      // })
+            prendaRef.update({
+              state: this.stateCtrl.value, history
+            })
 
+            this.prendasChecklist.splice(index, 1)
+          } else { throw {message: 'Este código ya fue registrado'}}
+        } else { throw {message: 'No se registró el código'} }
+      } else { throw {message: 'No está autenticado'} }
+
+    } catch (error) {
+      console.error(error)
+      this._alert.sendError('Error', error)
     }
+
   }
 
   // # LISTA DE ESTADOS DE PRENDA

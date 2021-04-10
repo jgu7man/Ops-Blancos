@@ -9,17 +9,23 @@ export interface iCurrentProp {
   prendas: iPrendaReport[]
 }
 
+export interface iJuegoReport extends iJuego {
+  state: 'prop' | 'stock'
+  responsable: string
+  history: iHistory
+}
+
 export interface iPrendaReport extends iPrenda{
   state?: PrendaState,
-  reporte?: string,
-  evidences?: string[]
   history?: iHistory[]
 }
 
 export interface iHistory {
-  responsable: string,
   date: Date,
-  comment?: string
+  state: PrendaState
+  responsable: string,
+  reporte?: string,
+  evidences?: string[]
 }
 
 

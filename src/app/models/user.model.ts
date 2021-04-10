@@ -13,7 +13,7 @@ export interface iUser {
   /** REQUERIDO Define los permisos y vistas para el usuario */
   rol: tRol
   /** OPCIONAL. Dato identificador interno de la base de datos */
-  uid?: string
+  uid: string
 }
 
 /** Tipo de roles de usuario existentes en la aplicación */

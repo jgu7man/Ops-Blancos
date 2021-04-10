@@ -4,14 +4,15 @@
   [mode]="'over'"
   [opened]="false">
 
-    <ng-container *ngIf="propiedadFinded; else elseTemplate">
+    <ng-container *ngIf="propiedadFinded; else nuevaPropiedad">
       <g-show-propiedad
       [propiedad]="propiedadFinded"
       [prenda]="prendaFinded"
       ></g-show-propiedad>
     </ng-container>
-    <ng-template #elseTemplate>
+    <ng-template #nuevaPropiedad>
       <g-show-propiedad
+      *ngIf="codeScanned"
       [code]="codeScanned"
       (close)="onClosePanel()"
       ></g-show-propiedad>

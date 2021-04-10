@@ -10,7 +10,7 @@ import { iMenuRoutes } from '../components/topbar/topbar.component';
 export class AdminComponent implements OnInit {
 
   routes: iMenuRoutes[] = [
-    {displayName: 'Administradores', route: 'manage-admins'}
+    {displayName: 'Trabajadores', route: '/'}
   ]
 
   constructor(
