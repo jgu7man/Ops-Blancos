@@ -50,7 +50,7 @@ export class LimpiezaHomeComponent implements OnInit {
         this._reportes.searchForCurrentPropiedad(scanned.prefix, scanned.juego)
           .then((propiedad) => {
             this._cache.updateData('currentProp', propiedad)
-            this._router.navigate(['/limpieza/scan'])
+            this._router.navigate(['/limpieza/juego'])
         })
       }
     })

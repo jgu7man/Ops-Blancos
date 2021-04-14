@@ -23,4 +23,15 @@ export class iPrenda {
 
 
 
-export type Producto = "Toalla de Cuerpo" | "Toalla de Mano" | "Plana Matrimonial" | "Cajonera Matrimonial" | "Funda Almohada" | "Plana King Size" | "Cajonera King Size" | "Plana Queen Size" | "Cajonera Queen Size"
+export type Producto =
+  | 'Toalla de Cuerpo'
+  | 'Toalla de Mano'
+  | 'Funda Almohada'
+  | 'Plana Individual'
+  | 'Cajonera Individual'
+  | 'Plana Matrimonial'
+  | 'Cajonera Matrimonial'
+  | 'Plana Queen Size'
+  | 'Cajonera Queen Size'
+  | 'Plana King Size'
+  | 'Cajonera King Size'

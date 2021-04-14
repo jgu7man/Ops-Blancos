@@ -79,7 +79,7 @@ export class PersonalService {
 
         var nuevoAdmin = await this._afAuth
           .createUserWithEmailAndPassword( email, password );
-        user.uid = nuevoAdmin.user?.uid
+        user.uid = nuevoAdmin.user?.uid as string
 
         this.updateUserData( user )
         this.personalRef.doc(email).delete()

@@ -1,5 +1,6 @@
 mat-toolbar {
-  position: relative;
+  position: fixed;
+  z-index: 10;
 }
 
 .spacer {

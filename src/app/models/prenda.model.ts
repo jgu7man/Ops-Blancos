@@ -7,8 +7,8 @@ export interface iPrendaModel {
   reporte?: iReporte
 }
 
-export type PrendaState = 'sucio' | 'damage' | 'lost'
-export interface iPrendaState {
+export type PrendaState = 'sucio' | 'damage' | 'lost' | 'lavando' | 'bodega' | undefined
+export interface displayPrendaState {
   display: string,
   value: PrendaState
 }

@@ -4,14 +4,16 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatRadioChange } from '@angular/material/radio';
-import { iPrendaModel, iPrendaState, PrendaState } from '../models/prenda.model';
+import { iPrendaModel, displayPrendaState, PrendaState } from '../models/prenda.model';
 import { Producto } from '../models/propiedad.model';
 import { iScannedSource } from '../models/scanned.model';
 import { LimpiezaScannedFormDialog } from '../public/components/limpieza-dashboard/limpieza-scan/limpieza-scanned-form-dialog/limpieza-scanned-form.component';
 import { ScannerService } from './scanner.service';
-import { iCurrentProp, iHistory, iPrendaReport } from '../models/reporte.model';
+import {iCurrentProp, iHistory, iJuegoEvent, iJuegoState, iPrendaEvent, iPrendaState, JuegoState, PropEvent } from '../models/reporte.model';
 import { CameraService } from './camera.service';
-import { GdevAlert, GdevCache } from '@jgu7man/gdev-tools';
+import { GdevAlert, GdevCache, GdevLoading } from '@jgu7man/gdev-tools';
+import firebase from 'firebase/app'
+import { pickBy, identity } from 'lodash'
 
 @Injectable({
   providedIn: 'root'
@@ -26,20 +28,25 @@ export class ReportesService {
     'reporte': this.reporteCtrl
   })
   currentProp?: iCurrentProp
-  currentPrenda?: iPrendaReport
-  prendasChecklist: iPrendaReport[] = []
+  currentPrenda?: iPrendaState
+  prendasChecklist: iPrenda[] = []
+  user: iUser
 
 
   constructor(
     private _afs: AngularFirestore,
     private _camera: CameraService,
     private _cache: GdevCache,
-    private _alert: GdevAlert
+    private _alert: GdevAlert,
+    private _loading: GdevLoading
   ) {
-
+    this.user = this._cache.getDataKey<iUser>('user')
   }
 
-  async searchForCurrentPropiedad(prefix: string, juego: number) {
+  async searchForCurrentPropiedad(
+  prefix: string,
+  juego: number
+  ): Promise<iCurrentProp> {
     const propRef = this._afs.collection('propiedades').doc(prefix).ref
 
     try {
@@ -53,11 +60,20 @@ export class ReportesService {
 
 
           // 2. Search for juego
+        const currentJuegoRef = propDoc.ref
+          .collection('juegos').where('state', '==', 'prop')
+        var juegosCol = await currentJuegoRef.get()
+        var prendasCol
+        if (juegosCol.empty) {
+          const juegoQDoc = await propDoc.ref.collection(`juegos`).doc(`${juego}`).get()
+          prendasCol = await juegoQDoc.ref.collection(`prendas`).get()
+        } else {
+          const juegoDoc = juegosCol.docs[0]
+          prendasCol = await juegoDoc.ref.collection(`prendas`).get()
+        }
 
-        let prendasCol = await propDoc.ref
-          .collection(`juegos/${juego}/prendas`).get()
         prendasCol.forEach(
-          prenda => this.prendasChecklist.push(prenda.data() as iPrendaReport)
+          prenda => this.prendasChecklist.push(prenda.data() as iPrendaState)
         )
 
         this.currentProp = {
@@ -90,38 +106,68 @@ export class ReportesService {
     return this.reporteCtrl.invalid
   }
 
-  indexPS(prenda: iPrendaReport):number {
+  indexPS(prenda: iPrendaState):number {
     return this.prendasChecklist.findIndex(p => p.code === prenda.code)
   }
 
-
-  onSaveReporte() {
+  async onSavePrendaState(prenda: iPrendaEvent): Promise<iHistory | void> {
     try {
-      const user = this._cache.getDataKey<iUser>('user')
-      if (user) {
-        if (this.currentPrenda) {
-          const index = this.indexPS(this.currentPrenda)
-          if (index >= 0) {
+      if (this.user && this.currentProp) {
+        const prendaPath = `propiedades/${this.currentProp.prefix}/juegos/${this.currentProp.juego}/prendas/${prenda.code}`
+        const prendaRef = this._afs.doc(prendaPath).ref
 
-            const prendaRef = this._afs.doc(`propiedades/${this.currentProp?.prefix}/juegos/${this.currentProp?.juego}/prendas/${this.currentPrenda.code}`)
-            let history: iHistory = {
-              date: new Date(),
-              state: this.stateCtrl.value,
-              responsable: user.uid
-            }
+        // Save prenda history
+        prendaRef.update({
+          state: prenda.state,
+          history: firebase.firestore.FieldValue.arrayUnion({...prenda.event})
+        })
 
-            if (this.stateCtrl.value !== 'sucio') {
-              history.reporte = this.reporteCtrl.value
-              history.evidences = this._camera.captures
-            }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-            prendaRef.update({
-              state: this.stateCtrl.value, history
+
+  async onSaveReporte(propId: string, event: PropEvent) {
+    try {
+      if (this.user) {
+        const propPath = `propiedades/${propId}`
+        const propRef = this._afs.doc(propPath).ref
+        const juegoPath = `${propPath}/juegos/${event.juego.index}`
+        const eventRef = this._afs.collection(`${propPath}/events`).ref
+        const juegoRef = this._afs.doc(juegoPath).ref
+        const batch = this._afs.firestore.batch()
+
+
+        // Save prendas states
+        await this._loading.asyncForEach(event.juego.prendasReport,
+          async (prenda: iPrendaEvent, index: number) => {
+            const prendaPath = `${juegoPath}/prendas/${prenda.code}`
+            const prendaRef = this._afs.doc(prendaPath).ref
+
+            let prendaEvent = pickBy(prenda.event, identity)
+            batch.update(prendaRef, {
+              state: prenda.state,
+              history: firebase.firestore.FieldValue.arrayUnion(prendaEvent)
             })
+            event.juego.prendasReport[index].event = prendaEvent as iHistory
+            return
+          });
 
-            this.prendasChecklist.splice(index, 1)
-          } else { throw {message: 'Este código ya fue registrado'}}
-        } else { throw {message: 'No se registró el código'} }
+        let dateId = new Date().getTime()
+        // Save propiedad Event
+        console.log( {...event} )
+        batch.set(eventRef.doc(`${dateId}`), { ...event })
+
+        // Update juego state
+        batch.update(juegoRef,{
+            state: event.juego.state,
+            responsable: this.user.uid
+          })
+
+        batch.commit()
+        return
       } else { throw {message: 'No está autenticado'} }
 
     } catch (error) {
@@ -133,7 +179,7 @@ export class ReportesService {
 
   // # LISTA DE ESTADOS DE PRENDA
   /** Lista de los estados de prenda con valor visible y valor en base de datos */
-  public PrendasEstado: iPrendaState[] = [
+  public PrendasEstado: displayPrendaState[] = [
     {value: 'sucio', display: 'sucio'},
     {value: 'damage', display: 'Dañado'},
     {value: 'lost', display: 'Perdido'},

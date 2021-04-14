@@ -6,26 +6,57 @@ export interface iCurrentProp {
   prefix: string,
   direccion: string,
   juego: number,
-  prendas: iPrendaReport[]
+  prendas: iPrenda[]
 }
 
-export interface iJuegoReport extends iJuego {
-  state: 'prop' | 'stock'
-  responsable: string
-  history: iHistory
-}
+// export interface iJuegoReport extends iJuego {
+//   state: JuegoState
+//   responsable: string
+// }
 
-export interface iPrendaReport extends iPrenda{
-  state?: PrendaState,
-  history?: iHistory[]
-}
+export type JuegoState = 'prop' | 'stock' | 'lava'
 
-export interface iHistory {
-  date: Date,
-  state: PrendaState
+export class PropEvent {
+  constructor(
+    public date: Date,
+    public responsable: string,
+    public juego: iJuegoEvent
+    ){}
+  }
+
+// Juego Reports
+export interface iJuegoState {
   responsable: string,
-  reporte?: string,
-  evidences?: string[]
+  state: JuegoState
+}
+export interface iJuegoEvent {
+  index: number,
+  state: JuegoState,
+  prendasReport: iPrendaEvent[]
+}
+
+
+export interface iPrendaEvent extends iPrenda {
+  state: PrendaState;
+  event: iHistory
+  scanned?: boolean
+}
+
+
+// Prenda reports
+export interface iPrendaState extends iPrenda{
+  state?: PrendaState,
+  history?: iHistory[],
+}
+
+export class iHistory {
+  constructor(
+    public date: Date,
+    public state: PrendaState,
+    public responsable: string,
+    public reporte?: string,
+    public evidences?: string[]
+  ){}
 }
 
 

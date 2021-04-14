@@ -19,6 +19,8 @@ import { LimpiezaReporteFormComponent } from './components/limpieza-dashboard/li
 import { TakeImageComponent } from './components/take-image/take-image.component';
 import { LimpiezaEvidenciaDialog } from './components/limpieza-dashboard/limpieza-scan/limpieza-evidencia-dialog/limpieza-evidencia-dialog.component';
 import { DialogHomeScannedComponent } from './components/limpieza-dashboard/limpieza-home/dialog-home-scanned/dialog-home-scanned.component';
+import { LimpiezaJuegoScanComponent } from './components/limpieza-dashboard/limpieza-juego-scan/limpieza-juego-scan.component';
+import { DialogLimpiezaFaltantesComponent } from './components/limpieza-dashboard/limpieza-juego-scan/dialog-limpieza-faltantes/dialog-limpieza-faltantes.component';
 
 
 @NgModule({
@@ -34,6 +36,8 @@ import { DialogHomeScannedComponent } from './components/limpieza-dashboard/limp
     TakeImageComponent,
     LimpiezaEvidenciaDialog,
     DialogHomeScannedComponent,
+    LimpiezaJuegoScanComponent,
+    DialogLimpiezaFaltantesComponent,
   ],
   imports: [
     CommonModule,
