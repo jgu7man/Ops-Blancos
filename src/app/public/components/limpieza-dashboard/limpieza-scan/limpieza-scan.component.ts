@@ -6,6 +6,7 @@ import { iCode } from 'src/app/models/prenda.model';
 import { iPropiedad } from 'src/app/models/propiedad.model';
 import { iCurrentProp } from 'src/app/models/reporte.model';
 import { iScannedSource } from 'src/app/models/scanned.model';
+import { ReportesService } from 'src/app/services/reportes.service';
 import { ScannerService } from 'src/app/services/scanner.service';
 import { ScannerComponent } from '../../../../components/scanner/scanner.component';
 import { LimpiezaScannedFormDialog } from './limpieza-scanned-form-dialog/limpieza-scanned-form.component';
@@ -22,6 +23,7 @@ export class LimpiezaScanComponent implements OnInit, OnDestroy {
     private _dialog: MatDialog,
     private _cache: GdevCache,
     private _alert: GdevAlert,
+    private _reports: ReportesService
   ) {
     this._scanner.scannerSource = 'limpieza'
     this.scannerSubs =
@@ -56,8 +58,10 @@ export class LimpiezaScanComponent implements OnInit, OnDestroy {
       width: '100vw',
       data: scanned,
       disableClose: true
-    }).afterClosed().subscribe(next => {
-      if (next) this._scanner.startScan$.next()
+    }).afterClosed().subscribe(confirm => {
+      if (confirm) {
+        this._scanner.startScan$.next()
+      }
     })
   }
 

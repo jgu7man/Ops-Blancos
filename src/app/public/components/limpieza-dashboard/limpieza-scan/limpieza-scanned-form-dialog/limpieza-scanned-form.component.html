@@ -16,19 +16,16 @@
 style="display: flex; justify-content: space-around;">
     <button
     mat-raised-button
-    [disabled]="!isReady"
-    (click)="dialog_.close(true)"
-    color="primary"
-    >
-      Todo bien, continuar
+    (click)="dialog_.close()">
+      Cancelar
     </button>
 
     <button
     mat-raised-button
-    color="accent"
+    color="primary"
     [disabled]="!isReady"
-    (click)="dialog_.close(false)"
+    (click)="onReport()"
     >
-      Terminar
+      <b>REPORTAR</b>
     </button>
 </mat-dialog-actions>

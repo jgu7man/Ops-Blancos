@@ -28,7 +28,7 @@ export class ReportesService {
     'reporte': this.reporteCtrl
   })
   currentProp?: iCurrentProp
-  currentPrenda?: iPrendaState
+  currentPrenda?: iPrenda
   prendasChecklist: iPrenda[] = []
   user: iUser
 
@@ -110,21 +110,66 @@ export class ReportesService {
     return this.prendasChecklist.findIndex(p => p.code === prenda.code)
   }
 
-  async onSavePrendaState(prenda: iPrendaEvent): Promise<iHistory | void> {
+  async saveCurrentPrenda(): Promise<void> {
     try {
+      let prenda: iPrendaEvent
+      console.log( this.currentPrenda )
+      if (this.currentPrenda) {
+        let event = new iHistory(new Date(), this.stateCtrl.value as PrendaState, this.user.uid, this.reporteCtrl.value, this._camera.captures)
+
+        prenda = {
+          ...this.currentPrenda,
+          state: this.stateCtrl.value as PrendaState,
+          event
+        }
+
+        console.log( prenda )
+        return await this.savePrendaState(prenda)
+      } else {
+        throw {message: 'No hay prenda escaneada'}
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
+  async savePrendaState(prenda: iPrendaEvent): Promise< void> {
+    try {
+      this.currentProp = this._cache.getDataKey('currentProp')
+      console.log( this.user )
+      console.log(this.currentProp)
       if (this.user && this.currentProp) {
+        const propPath = `propiedades/${this.currentProp.prefix}`
+        const eventRef = this._afs.collection(`${propPath}/events`)
+          .ref.doc(`${new Date().getTime()}`)
+        const batch = this._afs.firestore.batch()
+
         const prendaPath = `propiedades/${this.currentProp.prefix}/juegos/${this.currentProp.juego}/prendas/${prenda.code}`
         const prendaRef = this._afs.doc(prendaPath).ref
 
         // Save prenda history
-        prendaRef.update({
+        batch.update(prendaRef, {
           state: prenda.state,
           history: firebase.firestore.FieldValue.arrayUnion({...prenda.event})
         })
 
+
+        prenda.event = {...prenda.event}
+        batch.set(eventRef, <PropEvent>{
+          date: new Date(),
+          responsable: this.user.uid,
+          juego: {
+            index: this.currentProp.juego,
+            state:'lava',
+            prendasReport: [prenda]
+          }
+        })
+
+        return batch.commit()
       }
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   }
 

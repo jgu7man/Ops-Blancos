@@ -3,7 +3,7 @@
   <!-- Normal -->
   <ng-template #normal>
     <p class="center">
-      ¿Algún problema con esta prenda?
+      ¿Qué problema hay con esta prenda?
     </p>
 
     <mat-selection-list #problemasPanel
@@ -19,7 +19,7 @@
 
     <div class="row">
       <div class="col s12 center">
-        <button mat-raised-button color="warn"
+        <button mat-raised-button color="accent"
         (click)="reportes_.stateCtrl.setValue('damage')"
         >
           Reportar otro problema
@@ -57,30 +57,32 @@
       </div>
     </div>
 
-    <!-- Evidencia -->
-    <div class="row">
-      <div class="col s12">
-        <div class="center">
-          <p class="center note">Toma una evidencia del daño de la prenda</p>
-          <button mat-raised-button color="accent"
-          (click)="onTakeEvidence()">
-            <i class="fas fa-camera fa-lg white-text"></i>
-          </button>
-        </div>
-      </div>
-    </div>
+
 
 
     <!-- Volver -->
-    <div class="row">
+    <!-- <div class="row">
       <div class="col s12 center">
         <button mat-raised-button
         (click)="reportes_.stateCtrl.setValue('sucio')"
         >La prenda está bien</button>
       </div>
-    </div>
+    </div> -->
+
   </div>
 
+  <!-- Evidencia -->
+  <div class="row">
+    <div class="col s12">
+      <div class="center">
+        <p class="center note">Toma una evidencia del daño de la prenda</p>
+        <button mat-raised-button color="primary"
+        (click)="onTakeEvidence()">
+          <i class="fas fa-camera fa-lg white-text"></i>
+        </button>
+      </div>
+    </div>
+  </div>
 
 
 

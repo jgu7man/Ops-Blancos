@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { GdevAlert, GdevLoading } from '@jgu7man/gdev-tools';
 import { ZXingScannerComponent } from "@zxing/ngx-scanner";
 import { debounceTime } from 'rxjs/operators';
@@ -16,6 +17,7 @@ export class ScannerComponent implements OnInit, AfterViewInit {
   @ViewChild('scanner') private scanner: ZXingScannerComponent = new ZXingScannerComponent();
   public scannerEnabled: boolean = false;
   @Input() title: boolean = true;
+  codeCtrl: FormControl = new FormControl('')
 
   constructor(
     private _loading: GdevLoading,

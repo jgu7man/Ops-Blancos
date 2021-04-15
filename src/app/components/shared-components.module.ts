@@ -7,6 +7,7 @@ import { FirebaseModule } from 'src/shared/firebase.module';
 import { TopbarComponent } from './topbar/topbar.component';
 import { ScannerComponent } from './scanner/scanner.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -21,7 +22,9 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     PublicRoutingModule,
     MaterialModule,
     FirebaseModule,
-    ZXingScannerModule
+    ZXingScannerModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     TopbarComponent,

@@ -14,8 +14,7 @@ zxing-scanner {
 
 .scanner-box {
   position: relative;
-  height: 72vw;
-  height: 72vw;
+  height: 62vw;
 }
 #scanner-container {
   position: absolute;
@@ -31,7 +30,7 @@ zxing-scanner {
 #scanner-paused {
   position: relative;
   width: 62vw;
-  height: 62vw;
+  // height: 62vw;
   margin: 0 auto;
   img {
     width: 100%;

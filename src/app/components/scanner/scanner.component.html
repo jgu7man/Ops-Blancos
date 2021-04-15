@@ -1,22 +1,22 @@
 <mat-card>
   <mat-card-header *ngIf="title">
-    <mat-card-title class="center" >
+    <!-- <mat-card-title class="center" >
       <i class="fas fa-camera fa-2x"></i>
       <br>
       Escaner QR
-    </mat-card-title>
+    </mat-card-title> -->
     <mat-card-subtitle class="center">
       <ng-container *ngIf="scannerEnabled; else push">
-      Enfoca el código para ser escanerado
+      Enfoca el código para ser escanerado.
       </ng-container>
       <ng-template #push>
-      Toca el código para escanear
+      Toca el recuadro para empezar a usar el escaner bluetooth.
       </ng-template>
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
       <ng-container *ngIf="scannerEnabled; else pause">
-        <div class="scanner-box" (click)="scannerEnabled = false">
+        <div class="scanner-box">
           <div id="scanner-container">
             <zxing-scanner
               #scanner
@@ -32,11 +32,40 @@
 
       </ng-container>
       <ng-template #pause>
-        <div id="scanner-paused" (click)="startScan()">
-          <img src="/assets/img/guestify-qr.png" alt="guestify-qr" >
+        <div id="scanner-paused" >
+          <mat-form-field appearance="outline">
+            <mat-label>Escaner bluetooth</mat-label>
+            <input
+            matInput
+            type="text"
+            name="name"
+            [formControl]="codeCtrl"
+            >
+          </mat-form-field>
         </div>
       </ng-template>
   </mat-card-content>
+  <p *ngIf="!scannerEnabled" class="center grey-text">O puedes usar la cámara de tu dispositivo</p>
+  <mat-card-actions
+  style="display: flex; justify-content: center;">
+  <!-- input button -->
+  <ng-container *ngIf="scannerEnabled; else input">
+    <button mat-raised-button
+    (click)="scannerEnabled = false"
+    color="primary">
+      <i class="fas fa-edit fa-lg"></i>
+    </button>
+  </ng-container>
+
+  <!-- camera button -->
+  <ng-template #input>
+    <button mat-raised-button
+    (click)="startScan()"
+    color="primary">
+      <i class="fas fa-camera fa-lg"></i>
+    </button>
+    </ng-template>
+  </mat-card-actions>
 </mat-card>
 
 
