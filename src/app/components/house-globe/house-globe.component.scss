@@ -1,0 +1,14 @@
+.container {
+  height: 88vh;
+  width: 100%;
+  z-index: 5;
+  position: fixed;
+  padding: 1em 1em;
+  top: 50%;
+  left: 0;
+  transform: translateY(-53%);
+  pointer-events: none;
+  button {
+    pointer-events: all;
+  }
+}

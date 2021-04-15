@@ -8,13 +8,15 @@ import { TopbarComponent } from './topbar/topbar.component';
 import { ScannerComponent } from './scanner/scanner.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HouseGlobeComponent } from './house-globe/house-globe.component';
 
 
 
 @NgModule({
   declarations: [
     TopbarComponent,
-    ScannerComponent
+    ScannerComponent,
+    HouseGlobeComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +30,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   exports: [
     TopbarComponent,
-    ScannerComponent
+    ScannerComponent,
+    HouseGlobeComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

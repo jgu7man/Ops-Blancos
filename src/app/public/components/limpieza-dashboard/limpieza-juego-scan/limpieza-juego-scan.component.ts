@@ -43,12 +43,15 @@ export class LimpiezaJuegoScanComponent implements OnInit {
       state: 'lava',
       prendasReport:[],
     };
+
+
     this.user = this._cache.getDataKey('user')
     this.propEvent = new PropEvent(new Date(), this.user.uid, this.juegoState)
   }
 
-  ngOnInit(): void {
-
+  async ngOnInit(){
+    const prendasReport = await this._cache.getAsyncKey<iPrendaEvent[]>('prendasReport')
+    if (prendasReport) this.juegoState.prendasReport = prendasReport
   }
 
   onScanned(code: iCode) {
@@ -106,9 +109,12 @@ export class LimpiezaJuegoScanComponent implements OnInit {
     } else {
       console.log( 'saving' )
       this.propEvent.juego = this.juegoState
-      console.log( this.propEvent )
+      console.log(this.propEvent)
       this._reportes.onSaveReporte(this.prop?.prefix as string, this.propEvent)
-      .then(() => this._router.navigate(['/limpieza/scan']))
+      .then(() => {
+        this._cache.updateData('prendasReport', this.propEvent.juego.prendasReport)
+        this._router.navigate(['/limpieza/scan'])
+        })
     }
   }
 
@@ -132,8 +138,11 @@ export class LimpiezaJuegoScanComponent implements OnInit {
           ...this.propEvent.juego.prendasReport,
           ...faltantes
         ]
-
         this._reportes.onSaveReporte(this.prop?.prefix as string, this.propEvent)
+        .then(() => {
+          this._cache.updateData('prendasReport', this.propEvent.juego.prendasReport)
+          this._router.navigate(['/limpieza/scan'])
+          })
         // save
       }
     })

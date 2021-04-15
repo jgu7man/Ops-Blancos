@@ -1,0 +1,21 @@
+<div class="container" *ngIf="propOpened | async">
+  <button
+  mat-mini-fab
+  color="primary"
+  [mat-menu-trigger-for]="house"
+  cdkDragBoundary=".container"
+  cdkDrag>
+      <i class="fas fa-house-user fa-lg"></i>
+  </button>
+  <mat-menu #house="matMenu">
+      <button mat-menu-item
+      (click)="closeProp()">
+          Cerrar propiedad
+      </button>
+      <button mat-menu-item
+      (click)="seeProp()">
+          Ver propiedad
+      </button>
+
+  </mat-menu>
+</div>
