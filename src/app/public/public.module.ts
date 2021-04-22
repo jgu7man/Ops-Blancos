@@ -16,7 +16,6 @@ import { LimpiezaScanComponent } from './components/limpieza-dashboard/limpieza-
 import { LimpiezaScannedFormDialog } from './components/limpieza-dashboard/limpieza-scan/limpieza-scanned-form-dialog/limpieza-scanned-form.component';
 import { FormsModule } from '@angular/forms';
 import { LimpiezaReporteFormComponent } from './components/limpieza-dashboard/limpieza-scan/limpieza-reporte-form/limpieza-reporte-form.component';
-import { TakeImageComponent } from './components/take-image/take-image.component';
 import { LimpiezaEvidenciaDialog } from './components/limpieza-dashboard/limpieza-scan/limpieza-evidencia-dialog/limpieza-evidencia-dialog.component';
 import { DialogHomeScannedComponent } from './components/limpieza-dashboard/limpieza-home/dialog-home-scanned/dialog-home-scanned.component';
 import { LimpiezaJuegoScanComponent } from './components/limpieza-dashboard/limpieza-juego-scan/limpieza-juego-scan.component';
@@ -34,7 +33,6 @@ import { LimpiezaResponsableComponent } from './components/limpieza-dashboard/li
     // ScannerComponent,
     LimpiezaScannedFormDialog,
     LimpiezaReporteFormComponent,
-    TakeImageComponent,
     LimpiezaEvidenciaDialog,
     DialogHomeScannedComponent,
     LimpiezaJuegoScanComponent,

@@ -25,7 +25,7 @@ export class ReportesService {
   })
   currentProp?: iCurrentProp
   currentPrenda?: iPrenda
-  prendasChecklist: iPrenda[] = []
+  prendasChecklist: iPrendaEvent[] = []
   user: iUser
 
 
@@ -69,7 +69,7 @@ export class ReportesService {
         }
 
         prendasCol.forEach(
-          prenda => this.prendasChecklist.push(prenda.data() as iPrendaState)
+          prenda => this.prendasChecklist.push(prenda.data() as iPrendaEvent)
         )
 
         this.currentProp = {

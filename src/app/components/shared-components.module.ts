@@ -9,6 +9,7 @@ import { ScannerComponent } from './scanner/scanner.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HouseGlobeComponent } from './house-globe/house-globe.component';
+import { TakeImageComponent } from '../components/take-image/take-image.component';
 
 
 
@@ -16,7 +17,9 @@ import { HouseGlobeComponent } from './house-globe/house-globe.component';
   declarations: [
     TopbarComponent,
     ScannerComponent,
-    HouseGlobeComponent
+    HouseGlobeComponent,
+    TakeImageComponent,
+
   ],
   imports: [
     CommonModule,
@@ -31,7 +34,8 @@ import { HouseGlobeComponent } from './house-globe/house-globe.component';
   exports: [
     TopbarComponent,
     ScannerComponent,
-    HouseGlobeComponent
+    HouseGlobeComponent,
+    TakeImageComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
