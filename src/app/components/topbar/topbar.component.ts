@@ -1,5 +1,7 @@
+import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { GdevAuth } from '@jgu7man/gdev-tools';
+import { DashboardService } from 'src/app/services/dashboard.service';
 
 @Component({
   selector: 'g-topbar',
@@ -11,7 +13,9 @@ export class TopbarComponent implements OnInit {
   @Input() menuRoutes: iMenuRoutes[] = []
 
   constructor(
-    public auth_: GdevAuth
+    public auth_: GdevAuth,
+    public dashboard_: DashboardService,
+    public location_: Location
   ) { }
 
   ngOnInit(): void {

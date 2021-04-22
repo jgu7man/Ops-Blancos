@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { iCode } from 'src/app/models/prenda.model';
 import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { GdevCache } from '@jgu7man/gdev-tools';
-import { iCurrentProp } from 'src/app/models/reporte.model';
+import { iCurrentProp } from 'src/app/models/propiedad.model';
 import { ReportesService } from 'src/app/services/reportes.service';
 
 @Component({

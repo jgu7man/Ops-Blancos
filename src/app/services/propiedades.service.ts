@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { GdevAlert, GdevLoading } from '@jgu7man/gdev-tools';
-import { iJuego, iPrenda, iPropiedad } from '../models/propiedad.model';
+import { iJuego, iPropiedad } from '../models/propiedad.model';
 import firebase  from 'firebase/app'
-import { iCurrentProp } from '../models/reporte.model';
+import { iPrenda } from '../models/prenda.model';
 
 @Injectable({
   providedIn: 'root'

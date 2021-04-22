@@ -3,12 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { GdevAlert, GdevCache } from '@jgu7man/gdev-tools';
 import { Subscription } from 'rxjs';
 import { iCode } from 'src/app/models/prenda.model';
-import { iPropiedad } from 'src/app/models/propiedad.model';
-import { iCurrentProp } from 'src/app/models/reporte.model';
-import { iScannedSource } from 'src/app/models/scanned.model';
+import { iCurrentProp } from 'src/app/models/propiedad.model';
 import { ReportesService } from 'src/app/services/reportes.service';
 import { ScannerService } from 'src/app/services/scanner.service';
-import { ScannerComponent } from '../../../../components/scanner/scanner.component';
 import { LimpiezaScannedFormDialog } from './limpieza-scanned-form-dialog/limpieza-scanned-form.component';
 
 @Component({

@@ -1,0 +1,15 @@
+.container {
+  height: 100% !important;
+  margin-top: 0;
+  padding: 4em 0em;
+  z-index: 0;
+}
+
+mat-card-subtitle{
+  margin-bottom: 0;
+}
+
+.options-zone {
+  display: flex;
+  justify-content: flex-end;
+}

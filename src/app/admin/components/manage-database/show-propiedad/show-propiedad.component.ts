@@ -1,9 +1,8 @@
-import { BehaviorSubject } from 'rxjs';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GdevAlert } from '@jgu7man/gdev-tools';
-import { iCode } from 'src/app/models/prenda.model';
-import { iPropiedad, iPrenda, iJuego } from 'src/app/models/propiedad.model';
+import { iCode, iPrenda } from 'src/app/models/prenda.model';
+import { iPropiedad, iJuego } from 'src/app/models/propiedad.model';
 import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { DialogAddJuegoComponent } from '../dialog-add-juego/dialog-add-juego.component';
 import { DialogAddPrendaComponent } from '../dialog-add-prenda/dialog-add-prenda.component';
@@ -41,11 +40,8 @@ export class ShowPropiedadComponent implements OnInit {
   addPropiedad() {
     console.log( this.code )
     if (this.code) {
-      const prenda = new iPrenda(
-        this.code.code,
-        this.code.part,
-        this.code.producto,
-      )
+      const {code, part: index, producto} = this.code
+      const prenda = {code, index, producto}
       const juego = {
         total: this.code.total, index: this.code.juego, prendas: [prenda]
       }

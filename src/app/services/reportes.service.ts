@@ -1,19 +1,15 @@
 import { iUser } from './../models/user.model';
-import { iJuego, iPrenda, iPropiedad } from '../models/propiedad.model';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatRadioChange } from '@angular/material/radio';
-import { iPrendaModel, displayPrendaState, PrendaState } from '../models/prenda.model';
-import { Producto } from '../models/propiedad.model';
-import { iScannedSource } from '../models/scanned.model';
-import { LimpiezaScannedFormDialog } from '../public/components/limpieza-dashboard/limpieza-scan/limpieza-scanned-form-dialog/limpieza-scanned-form.component';
-import { ScannerService } from './scanner.service';
-import {iCurrentProp, iHistory, iJuegoEvent, iJuegoState, iPrendaEvent, iPrendaState, JuegoState, PropEvent } from '../models/reporte.model';
+import { iPrenda, displayPrendaState, PrendaState, Producto } from '../models/prenda.model';
+import { iHistory, iPrendaEvent, iPrendaState, PropEvent } from '../models/reporte.model';
 import { CameraService } from './camera.service';
 import { GdevAlert, GdevCache, GdevLoading } from '@jgu7man/gdev-tools';
 import firebase from 'firebase/app'
 import { pickBy, identity } from 'lodash'
+import { iCurrentProp } from '../models/propiedad.model';
 
 @Injectable({
   providedIn: 'root'
@@ -161,7 +157,7 @@ export class ReportesService {
           responsable: this.user.uid,
           juego: {
             index: this.currentProp.juego,
-            state:'lava',
+            state:'washing',
             prendasReport: [prenda]
           }
         })

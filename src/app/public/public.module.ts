@@ -21,6 +21,7 @@ import { LimpiezaEvidenciaDialog } from './components/limpieza-dashboard/limpiez
 import { DialogHomeScannedComponent } from './components/limpieza-dashboard/limpieza-home/dialog-home-scanned/dialog-home-scanned.component';
 import { LimpiezaJuegoScanComponent } from './components/limpieza-dashboard/limpieza-juego-scan/limpieza-juego-scan.component';
 import { DialogLimpiezaFaltantesComponent } from './components/limpieza-dashboard/limpieza-juego-scan/dialog-limpieza-faltantes/dialog-limpieza-faltantes.component';
+import { LimpiezaResponsableComponent } from './components/limpieza-dashboard/limpieza-responsable/limpieza-responsable.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { DialogLimpiezaFaltantesComponent } from './components/limpieza-dashboar
     DialogHomeScannedComponent,
     LimpiezaJuegoScanComponent,
     DialogLimpiezaFaltantesComponent,
+    LimpiezaResponsableComponent,
   ],
   imports: [
     CommonModule,

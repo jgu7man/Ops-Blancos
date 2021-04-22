@@ -1,3 +1,6 @@
+import { iPrenda } from "./prenda.model";
+import { iPrendaEvent } from "./reporte.model";
+
 export class iPropiedad {
   constructor(
     public ciudad: string,
@@ -7,31 +10,28 @@ export class iPropiedad {
   ){}
 }
 
+export interface iCurrentProp {
+  ciudad: string,
+  prefix: string,
+  direccion: string,
+  juego: number,
+  prendas: iPrendaEvent[]
+}
+
+export interface iPropAcargo {
+  juego: number,
+  prefix: string,
+  state: string
+}
+
+
+export type JuegoState = 'prop' | 'stock' | 'washing' | 'collected'
+
 export interface iJuego {
   total: number
   index: number
   prendas: iPrenda[]
 }
 
-export class iPrenda {
-  constructor(
-    public code: string,
-    public index: number,
-    public producto?: Producto,
-  ){}
-}
 
 
-
-export type Producto =
-  | 'Toalla de Cuerpo'
-  | 'Toalla de Mano'
-  | 'Funda Almohada'
-  | 'Plana Individual'
-  | 'Cajonera Individual'
-  | 'Plana Matrimonial'
-  | 'Cajonera Matrimonial'
-  | 'Plana Queen Size'
-  | 'Cajonera Queen Size'
-  | 'Plana King Size'
-  | 'Cajonera King Size'

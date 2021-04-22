@@ -1,8 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { GdevAlert } from '@jgu7man/gdev-tools';
-import { iCode } from 'src/app/models/prenda.model';
-import { iPrenda } from 'src/app/models/propiedad.model';
+import { iCode, iPrenda } from 'src/app/models/prenda.model';
 import { ScannerService } from 'src/app/services/scanner.service';
 
 @Component({
@@ -19,16 +17,11 @@ export class DialogAddPrendaComponent implements OnInit {
 
   ngOnInit(): void {
     this._scanner.codeScanned$.subscribe(codeScanned => {
-        let prenda: iPrenda = new iPrenda(
-          codeScanned.code,
-          codeScanned.part,
-          codeScanned.producto,
-        )
+      const {code, part: index, producto } = codeScanned
+        let prenda: iPrenda = {code, index, producto }
 
         this.dialog_.close(prenda)
-      // } else {
-      //   this._alert.sendMessageAlert('Este código no pertenece')
-      // }
+
     })
   }
 

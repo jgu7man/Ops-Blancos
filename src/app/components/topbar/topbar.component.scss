@@ -3,6 +3,7 @@ mat-toolbar {
   z-index: 10;
 }
 
+
 .spacer {
   flex: 1 1 auto;
 }
@@ -11,8 +12,12 @@ span.logo-content {
   position: relative;
   height: 35px;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   font-weight: 800;
+  .back {
+    min-width: 32.38px;
+    margin-right: 5px;
+  }
   img {
     height: 100%;
     margin-right: 5px;

@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="row">
+    <div class="col s12">
+      <h2 class="center">Resumen</h2>
+      <p class="center">
+        Aquí podrás revisar los paquetes de prendas que están a tu cargo y modificarlos
+      </p>
+    </div>
+  </div>
+  <div class="row" *ngIf="(acargoList$ | async) as list">
+
+    <ng-container *ngIf="list.length > 0; else empty">
+      <div class="col s12" *ngFor="let item of list">
+        <mat-card
+        [routerLink]="['../juego', item.prefix]"
+        [queryParams]="{
+          juego:item.juego,
+          state:item.state
+        }" >
+        <div class="row align-cols">
+          <div class="col s12">
+            <mat-card-header>
+              <mat-card-title> {{item.prefix}} {{item.juego}} </mat-card-title>
+              <mat-card-subtitle> {{item.state}} </mat-card-subtitle>
+            </mat-card-header>
+          </div>
+          <!-- <div class="col s4 options-zone">
+            <button mat-icon-button color="warn" (click)="trashItem(item.prefix)">
+              <i class="fas fa-trash fa-lg"></i>
+            </button>
+          </div> -->
+        </div>
+        </mat-card>
+      </div>
+    </ng-container>
+    <ng-template #empty>
+      <div class="col s12" *ngFor="let item of [1, 2, 3, 4, 5]">
+        <mat-card class="empty-card"></mat-card>
+      </div>
+    </ng-template>
+  </div>
+</div>

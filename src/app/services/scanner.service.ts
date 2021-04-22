@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GdevAlert } from '@jgu7man/gdev-tools';
 import { Observable, Subject } from 'rxjs';
-import { iCode } from '../models/prenda.model';
-import { Producto } from '../models/propiedad.model';
+import { iCode, Producto } from '../models/prenda.model';
 import { ScannerSource } from '../models/scanned.model';
 
 

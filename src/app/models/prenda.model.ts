@@ -1,10 +1,7 @@
-import { Producto } from "./propiedad.model";
-
-export interface iPrendaModel {
-  id: string
-  code: iCode
-  state: PrendaState
-  reporte?: iReporte
+export interface iPrenda {
+  code: string,
+  index: number,
+  producto?: Producto,
 }
 
 export type PrendaState = 'sucio' | 'damage' | 'lost' | 'lavando' | 'bodega' | undefined
@@ -27,4 +24,18 @@ export interface iCode {
   code: string;
   prefix: string;
 }
+
+
+export type Producto =
+  | 'Toalla de Cuerpo'
+  | 'Toalla de Mano'
+  | 'Funda Almohada'
+  | 'Plana Individual'
+  | 'Cajonera Individual'
+  | 'Plana Matrimonial'
+  | 'Cajonera Matrimonial'
+  | 'Plana Queen Size'
+  | 'Cajonera Queen Size'
+  | 'Plana King Size'
+  | 'Cajonera King Size'
 

@@ -1,11 +1,7 @@
-import { iHistory, iPrendaEvent } from './../../../../../models/reporte.model';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatRadioChange } from '@angular/material/radio';
-import { GdevAlert, GdevCache } from '@jgu7man/gdev-tools';
-import { iCode, PrendaState } from 'src/app/models/prenda.model';
-import { iPrenda, iPropiedad } from 'src/app/models/propiedad.model';
+import { GdevAlert } from '@jgu7man/gdev-tools';
+import { iCode } from 'src/app/models/prenda.model';
 import { ReportesService } from 'src/app/services/reportes.service';
 
 @Component({
@@ -49,7 +45,7 @@ export class LimpiezaScannedFormDialog implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._reportes.currentPrenda = new iPrenda('', 0)
+    delete this._reportes.currentPrenda
   }
 
 
