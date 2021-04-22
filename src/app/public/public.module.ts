@@ -11,16 +11,17 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
 // Limpieza
 import { LimpiezaDashboardComponent } from './components/limpieza-dashboard/limpieza-dashboard.component';
 import { LimpiezaHomeComponent } from './components/limpieza-dashboard/limpieza-home/limpieza-home.component';
-import { LimpiezaScanComponent } from './components/limpieza-dashboard/limpieza-scan/limpieza-scan.component';
+import { LimpiezaReportComponent } from './components/limpieza-dashboard/limpieza-report/limpieza-report.component';
 // import { ScannerComponent } from '../components/scanner/scanner.component';
-import { LimpiezaScannedFormDialog } from './components/limpieza-dashboard/limpieza-scan/limpieza-scanned-form-dialog/limpieza-scanned-form.component';
+import { LimpiezaScannedFormDialog } from './components/limpieza-dashboard/limpieza-report/limpieza-scanned-form-dialog/limpieza-scanned-form.component';
 import { FormsModule } from '@angular/forms';
-import { LimpiezaReporteFormComponent } from './components/limpieza-dashboard/limpieza-scan/limpieza-reporte-form/limpieza-reporte-form.component';
-import { LimpiezaEvidenciaDialog } from './components/limpieza-dashboard/limpieza-scan/limpieza-evidencia-dialog/limpieza-evidencia-dialog.component';
+import { LimpiezaReporteFormComponent } from './components/limpieza-dashboard/limpieza-report/limpieza-reporte-form/limpieza-reporte-form.component';
+import { LimpiezaEvidenciaDialog } from './components/limpieza-dashboard/limpieza-report/limpieza-evidencia-dialog/limpieza-evidencia-dialog.component';
 import { DialogHomeScannedComponent } from './components/limpieza-dashboard/limpieza-home/dialog-home-scanned/dialog-home-scanned.component';
 import { LimpiezaJuegoScanComponent } from './components/limpieza-dashboard/limpieza-juego-scan/limpieza-juego-scan.component';
 import { DialogLimpiezaFaltantesComponent } from './components/limpieza-dashboard/limpieza-juego-scan/dialog-limpieza-faltantes/dialog-limpieza-faltantes.component';
 import { LimpiezaResponsableComponent } from './components/limpieza-dashboard/limpieza-responsable/limpieza-responsable.component';
+import { LavanderiaDashboardComponent } from './components/lavanderia-dashboard/lavanderia-dashboard.component';
 
 
 @NgModule({
@@ -29,7 +30,7 @@ import { LimpiezaResponsableComponent } from './components/limpieza-dashboard/li
     // Limpieza
     LimpiezaDashboardComponent,
     LimpiezaHomeComponent,
-    LimpiezaScanComponent,
+    LimpiezaReportComponent,
     // ScannerComponent,
     LimpiezaScannedFormDialog,
     LimpiezaReporteFormComponent,
@@ -38,6 +39,7 @@ import { LimpiezaResponsableComponent } from './components/limpieza-dashboard/li
     LimpiezaJuegoScanComponent,
     DialogLimpiezaFaltantesComponent,
     LimpiezaResponsableComponent,
+    LavanderiaDashboardComponent,
   ],
   imports: [
     CommonModule,

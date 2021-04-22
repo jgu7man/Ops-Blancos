@@ -4,7 +4,7 @@ import { LimpiezaDashboardComponent } from './components/limpieza-dashboard/limp
 import { LimpiezaHomeComponent } from './components/limpieza-dashboard/limpieza-home/limpieza-home.component';
 import { LimpiezaJuegoScanComponent } from './components/limpieza-dashboard/limpieza-juego-scan/limpieza-juego-scan.component';
 import { LimpiezaResponsableComponent } from './components/limpieza-dashboard/limpieza-responsable/limpieza-responsable.component';
-import { LimpiezaScanComponent } from './components/limpieza-dashboard/limpieza-scan/limpieza-scan.component';
+import { LimpiezaReportComponent } from './components/limpieza-dashboard/limpieza-report/limpieza-report.component';
 
 import { PublicComponent } from './public.component';
 
@@ -16,7 +16,7 @@ const routes: Routes = [
       { path: 'home', component: LimpiezaHomeComponent },
       { path: 'juego', component: LimpiezaJuegoScanComponent },
       { path: 'juego/:prefix', component: LimpiezaJuegoScanComponent },
-      { path: 'scan', component: LimpiezaScanComponent },
+      { path: 'resporte', component: LimpiezaReportComponent },
       { path: 'acargo', component: LimpiezaResponsableComponent },
     ] },
   ] },

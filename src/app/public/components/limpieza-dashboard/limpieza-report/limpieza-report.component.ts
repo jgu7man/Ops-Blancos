@@ -9,10 +9,10 @@ import { ScannerService } from 'src/app/services/scanner.service';
 import { LimpiezaScannedFormDialog } from './limpieza-scanned-form-dialog/limpieza-scanned-form.component';
 
 @Component({
-  templateUrl: './limpieza-scan.component.html',
-  styleUrls: ['./limpieza-scan.component.scss']
+  templateUrl: './limpieza-report.component.html',
+  styleUrls: ['./limpieza-report.component.scss']
 })
-export class LimpiezaScanComponent implements OnInit, OnDestroy {
+export class LimpiezaReportComponent implements OnInit, OnDestroy {
 
   scannerSubs: Subscription
   constructor(

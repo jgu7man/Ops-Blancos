@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LimpiezaScanComponent } from './limpieza-scan.component';
+import { LimpiezaReportComponent } from './limpieza-report.component';
 
-describe('LimpiezaScanComponent', () => {
-  let component: LimpiezaScanComponent;
-  let fixture: ComponentFixture<LimpiezaScanComponent>;
+describe('LimpiezaReportComponent', () => {
+  let component: LimpiezaReportComponent;
+  let fixture: ComponentFixture<LimpiezaReportComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LimpiezaScanComponent ]
+      declarations: [ LimpiezaReportComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LimpiezaScanComponent);
+    fixture = TestBed.createComponent(LimpiezaReportComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
