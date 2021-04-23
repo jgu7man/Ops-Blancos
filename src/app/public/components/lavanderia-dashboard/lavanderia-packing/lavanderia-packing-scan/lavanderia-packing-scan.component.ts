@@ -45,7 +45,7 @@ export class LavanderiaPackingScanComponent implements OnInit {
     this.juegoState = {
       index: 0,
       prendasReport: [],
-      state: 'collected',
+      state: 'stock',
     };
     this.propEvent = new PropEvent(new Date(), '', this.juegoState)
     this.user = this._cache.getDataKey<iUser>('user')
@@ -61,7 +61,6 @@ export class LavanderiaPackingScanComponent implements OnInit {
   }
 
   async getCurrentProp() {
-
     const prefix = this._route.snapshot.params['prefix']
     const {juego, state} = this._route.snapshot.queryParams
 
@@ -72,7 +71,7 @@ export class LavanderiaPackingScanComponent implements OnInit {
       this.review = true
       this.juegoState = {
         index: juego,
-        prendasReport: this.prop.prendas,
+        prendasReport: [],
         state
       }
     } else {
@@ -138,6 +137,7 @@ export class LavanderiaPackingScanComponent implements OnInit {
   onFinish() {
     console.log( 'finish' )
     var faltantes: any[] = []
+    this.juegoState.state = 'stock'
 
     // Search for "faltantes"
     this.prop?.prendas.forEach(pren => {

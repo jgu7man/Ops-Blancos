@@ -32,11 +32,10 @@ export class ResponsablesService {
 
     return juegosListRef.pipe(map(juegosList => {
 
-      console.log( juegosList.size )
       return juegosList.docs.map(doc => {
-        let {index: juego, state} = doc.data()
+        let {index: juego, state, lastUpdate} = doc.data()
         let prefix = doc.ref.path.split('/')[1]
-        return {juego, prefix, state}
+        return {juego, prefix, state, lastUpdate}
       })
 
     }))

@@ -16,7 +16,8 @@ export class PropEvent {
 // Juego Reports
 export interface iJuegoState extends iJuego{
   responsable: string,
-  state: JuegoState
+  state: JuegoState,
+  lastUpdate: Date | firebase.firestore.Timestamp
 }
 export interface iJuegoEvent {
   index: number,

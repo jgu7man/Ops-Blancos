@@ -1,0 +1,60 @@
+<span *ngIf="(time$ | async) as time; else calc">
+  Hace
+  <!-- Años -->
+  <span *ngIf="time.years >= 2; else inYear">
+    {{ time.years }}
+  </span>
+  <ng-template #inYear>
+    <span *ngIf="time.yearINmonths >= 12"> 1 año</span>
+
+    <!-- Meses -->
+    <span *ngIf="time.months >= 2; else inMonth">
+      {{ time.months }}
+    </span>
+    <ng-template #inMonth>
+      <span *ngIf="time.monthsINweeks >= 4"> 1 mes </span>
+
+      <!-- Semanas -->
+      <span *ngIf="time.weeks >= 2; else inWeek">
+        {{ time.weeks }} semanas
+      </span>
+      <ng-template #inWeek>
+        <span *ngIf="time.weeksINdays >= 7"> 1 semana </span>
+
+        <!-- Días -->
+        <span *ngIf="time.days >= 2; else inDay">
+          {{ time.days }} días
+        </span>
+        <ng-template #inDay>
+          <span *ngIf="time.daysINhours >= 24"> 1 día </span>
+
+          <!-- Horas -->
+          <span *ngIf="time.hours >= 2; else inHour">
+            {{ time.hours }} horas
+          </span>
+          <ng-template #inHour>
+            <span *ngIf="time.hoursINmin >= 60"> 1 hora </span>
+
+            <!-- Minutos -->
+            <span *ngIf="time.minutes >= 2; else inMin">
+              {{ time.minutes }} minutos
+            </span>
+            <ng-template #inMin>
+              <span *ngIf="time.minINsec >= 60; else inSeconds">1 minuto</span>
+
+              <!-- Segundos -->
+              <ng-template #inSeconds> hace unos segundos </ng-template>
+            </ng-template>
+          </ng-template>
+        </ng-template>
+      </ng-template>
+    </ng-template>
+  </ng-template>
+</span>
+<ng-template #calc>
+<div class="dots">
+  <span class="dot">·</span>
+  <span class="dot">·</span>
+  <span class="dot">·</span>
+</div>
+</ng-template>

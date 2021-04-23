@@ -26,13 +26,20 @@ export class HouseGlobeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  get opened(): boolean {
+    return this._cache.getDataKey('currentProp') ? true : false
+  }
+
   closeProp() {
+    let perfil = window.location.href.split('/')[3]
     this._cache.deleteDataKey('currentProp')
     this._cache.deleteDataKey('prendasReport')
+    this._router.navigate([`/${perfil}`])
   }
 
   seeProp() {
-    this._router.navigate(['/limpieza/juego'])
+    let perfil = window.location.href.split('/')[3]
+    this._router.navigate([`/${perfil}/juego`])
   }
 
 }

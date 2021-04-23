@@ -1,5 +1,6 @@
 import { iPrenda } from "./prenda.model";
 import { iPrendaEvent } from "./reporte.model";
+import firebase from 'firebase/app'
 
 export class iPropiedad {
   constructor(
@@ -21,7 +22,8 @@ export interface iCurrentProp {
 export interface iPropAcargo {
   juego: number,
   prefix: string,
-  state: string
+  state: string,
+  lastUpdate: firebase.firestore.Timestamp | Date
 }
 
 

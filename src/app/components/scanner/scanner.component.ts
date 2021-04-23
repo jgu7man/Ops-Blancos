@@ -23,7 +23,13 @@ export class ScannerComponent implements OnInit, AfterViewInit {
     private _loading: GdevLoading,
     private _scanner: ScannerService
   ) {
-
+    this.codeCtrl.valueChanges.subscribe(event => {
+      let splits = event.split('\t')
+      if (splits.length == 6){
+        this.scanSuccessHandler(event)
+        this.codeCtrl.setValue('')
+      }
+    })
     // Listen for scanAgain
     this._scanner.startScan$
       .pipe(debounceTime(1000))
@@ -56,7 +62,7 @@ export class ScannerComponent implements OnInit, AfterViewInit {
 
 
   scanSuccessHandler(result: string) {
-    this.scanner.scanStop()
+    if (this.scanner) this.scanner.scanStop()
     this.scannerEnabled = false
     // console.log(result.split('\t'))
     this._scanner.scannedSuccess(result)

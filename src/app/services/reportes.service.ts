@@ -58,9 +58,11 @@ export class ReportesService {
         const juegoQDoc = await propDoc.ref.collection(`juegos`).doc(`${juego}`).get()
         var prendasCol = await juegoQDoc.ref.collection(`prendas`).get()
 
+        console.log( prendasCol.size )
         prendasCol.forEach(
           prenda => this.prendasChecklist.push(prenda.data() as iPrendaEvent)
         )
+        console.log( this.prendasChecklist )
 
         this.currentProp = {
           ...prop, juego, prendas: this.prendasChecklist
@@ -205,14 +207,16 @@ export class ReportesService {
 
         let dateId = new Date().getTime()
         // Save propiedad Event
+        let cleanEvent = pickBy(event, identity)
         console.log( {...event} )
-        batch.set(eventRef.doc(`${dateId}`), { ...event })
+        batch.set(eventRef.doc(`${dateId}`), { ...cleanEvent })
 
         // Update juego state
         batch.update(juegoRef,{
-            state: event.juego.state,
-            responsable: this.user.uid
-          })
+          state: event.juego.state,
+          responsable: this.user.uid,
+          lastUpdate: new Date()
+        })
 
         batch.commit()
         return

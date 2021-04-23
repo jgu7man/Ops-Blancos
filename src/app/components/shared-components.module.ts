@@ -11,6 +11,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HouseGlobeComponent } from './house-globe/house-globe.component';
 import { TakeImageComponent } from '../components/take-image/take-image.component';
 import { SeeImageComponent } from './see-image/see-image.component';
+import { TimerComponent } from './timer/timer.component';
+import { NgVarDirective } from './ng-var.directive';
+import { PackageItemComponent } from './package-item/package-item.component';
 
 
 
@@ -21,7 +24,10 @@ import { SeeImageComponent } from './see-image/see-image.component';
     HouseGlobeComponent,
     TakeImageComponent,
     SeeImageComponent,
-
+    TimerComponent,
+    TimerComponent,
+    NgVarDirective,
+    PackageItemComponent
   ],
   imports: [
     CommonModule,
@@ -31,13 +37,15 @@ import { SeeImageComponent } from './see-image/see-image.component';
     FirebaseModule,
     ZXingScannerModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   exports: [
     TopbarComponent,
     ScannerComponent,
     HouseGlobeComponent,
-    TakeImageComponent
+    TakeImageComponent,
+    TimerComponent,
+    NgVarDirective
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { interval, Observable, of } from 'rxjs';
+import { map, scan, tap } from 'rxjs/operators';
 import { iPropAcargo } from 'src/app/models/propiedad.model';
 import { ResponsablesService } from 'src/app/services/responsables.service';
+import firebase from 'firebase/app'
 
 @Component({
   templateUrl: './lavanderia-working.component.html',
@@ -14,9 +16,13 @@ export class LavanderiaWorkingComponent implements OnInit {
     private _responsables: ResponsablesService
   ) {
     this.acargoList$ = this._responsables.getJuegosAcargo()
+    .pipe(map(juegos => {
+      return juegos.filter(j => j.state == 'washing')
+    }))
   }
 
   ngOnInit(): void {
   }
+
 
 }

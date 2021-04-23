@@ -39,7 +39,7 @@ export class DialogLavanderiaScannedFormComponent implements OnInit {
     this._reportes.saveCurrentPrenda()
       .then(() => {
         this._alert.sendFloatNotification('Prenda reportada')
-        this.dialog_.close(true)
+        this.dialog_.close()
       })
   }
 

@@ -4,6 +4,7 @@ import { GdevAlert, GdevCache } from '@jgu7man/gdev-tools';
 import { Subscription } from 'rxjs';
 import { iCode } from 'src/app/models/prenda.model';
 import { iCurrentProp } from 'src/app/models/propiedad.model';
+import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { ReportesService } from 'src/app/services/reportes.service';
 import { ScannerService } from 'src/app/services/scanner.service';
 import { DialogLavanderiaScannedFormComponent } from './dialog-lavanderia-scanned-form/dialog-lavanderia-scanned-form.component';
@@ -20,7 +21,8 @@ export class LavanderiaReportComponent implements OnInit {
     private _dialog: MatDialog,
     private _cache: GdevCache,
     private _alert: GdevAlert,
-    private _reports: ReportesService
+    private _reports: ReportesService,
+    private _propiedad: PropiedadesService
   ) {
     this._scanner.scannerSource = 'limpieza'
     this.scannerSubs =
@@ -33,17 +35,20 @@ export class LavanderiaReportComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  validateCodeScanned(code:iCode) {
-    const currentProp = this._cache.getDataKey<iCurrentProp>('currentProp')
-    if (code.prefix === currentProp.prefix) {
-      if (code.juego === currentProp.juego) {
-        this.onScanned(code)
-      } else {
-        this._alert.sendMessageAlert('Esta prenda no pertenece al juego en turno')
-      }
-    } else {
-      this._alert.sendMessageAlert('Esta prenda no pertenece a esta propiedad')
-    }
+  async validateCodeScanned(code:iCode) {
+    // const currentProp = this._cache.getDataKey<iCurrentProp>('currentProp')
+    // const currentProp = await this._propiedad.searchForPrenda(code.code)
+
+    this.onScanned(code)
+
+    // if (code.prefix === currentProp.prefix) {
+    //   if (code.juego === currentProp.juego) {
+    //   } else {
+    //     this._alert.sendMessageAlert('Esta prenda no pertenece al juego en turno')
+    //   }
+    // } else {
+    //   this._alert.sendMessageAlert('Esta prenda no pertenece a esta propiedad')
+    // }
   }
 
   // # On SCANNED

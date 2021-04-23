@@ -5,7 +5,7 @@
       <p class="center white-text">Escanea cada una de las prendas para verficarlas</p>
     </div>
   </div>
-  <div class="row" id="card-container">
+  <div class="row" id="card-container" *ngIf="!review">
     <div class="col s12">
       <g-scanner [title]="false"></g-scanner>
     </div>

@@ -46,7 +46,7 @@ export class LavanderiaJuegoScanComponent implements OnInit {
     this.juegoState = {
       index: 0,
       prendasReport: [],
-      state: 'collected',
+      state: 'washing',
     };
     this.propEvent = new PropEvent(new Date(), '', this.juegoState)
     this.user = this._cache.getDataKey<iUser>('user')
@@ -73,19 +73,26 @@ export class LavanderiaJuegoScanComponent implements OnInit {
       this.review = true
       this.juegoState = {
         index: juego,
-        prendasReport: this.prop.prendas.map(p => { return {...p, scanned: true}}),
+        prendasReport: this.prop.prendas
+          // .map(p => { return { ...p, scanned: true } })
+        ,
         state
       }
     } else {
       this.prop = this._cache.getDataKey<iCurrentProp>('currentProp')
-      this.juegoState = {
-        index: this.prop.juego,
-        state: 'collected',
-        prendasReport:[],
-      };
-      const prendasReport = await this._cache
-        .getAsyncKey<iPrendaEvent[]>('prendasReport')
-      if (prendasReport) this.juegoState.prendasReport = prendasReport
+
+      if (!this.prop) {
+        this._router.navigate(['/lavanderia'])
+      } else {
+        this.juegoState = {
+          index: this.prop.juego,
+          state: 'collected',
+          prendasReport:[],
+        };
+        const prendasReport = await this._cache
+          .getAsyncKey<iPrendaEvent[]>('prendasReport')
+        if (prendasReport) this.juegoState.prendasReport = prendasReport
+      }
     }
 
     this.propEvent = new PropEvent(new Date(), this.user.uid, this.juegoState)
@@ -139,6 +146,7 @@ export class LavanderiaJuegoScanComponent implements OnInit {
   onFinish() {
     console.log( 'finish' )
     var faltantes: any[] = []
+    this.juegoState.state = 'washing'
 
     // Search for "faltantes"
     this.prop?.prendas.forEach(pren => {
@@ -160,7 +168,7 @@ export class LavanderiaJuegoScanComponent implements OnInit {
         this._cache.updateData('prendasReport', this.propEvent?.juego.prendasReport)
         this.review
           ? this._location.back()
-          : this._router.navigate(['/limpieza/scan'])
+          : this._router.navigate(['/lavanderia/lavando'])
       })
     }
   }
@@ -198,7 +206,7 @@ export class LavanderiaJuegoScanComponent implements OnInit {
           this._cache.updateData('prendasReport', this.propEvent.juego.prendasReport)
           this.review
           ? this._location.back()
-          : this._router.navigate(['/limpieza/scan'])
+          : this._router.navigate(['/lavanderia/lavando'])
           })
         // save
       }

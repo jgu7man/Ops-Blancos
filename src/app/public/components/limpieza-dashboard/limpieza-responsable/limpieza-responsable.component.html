@@ -18,17 +18,19 @@
           state:item.state
         }" >
         <div class="row align-cols">
-          <div class="col s12">
+          <div class="col s1">
+            <i class="fas fa-home fa-lg"></i>
+          </div>
+          <div class="col s11 left">
             <mat-card-header>
-              <mat-card-title> {{item.prefix}} {{item.juego}} </mat-card-title>
-              <mat-card-subtitle> {{item.state}} </mat-card-subtitle>
+              <mat-card-title> {{item.prefix}} </mat-card-title>
+              <mat-card-subtitle>
+                Paquete:{{item.juego}}
+                <g-timer style="font-size: x-small;"
+                [timestamp]="item.lastUpdate"></g-timer>
+              </mat-card-subtitle>
             </mat-card-header>
           </div>
-          <!-- <div class="col s4 options-zone">
-            <button mat-icon-button color="warn" (click)="trashItem(item.prefix)">
-              <i class="fas fa-trash fa-lg"></i>
-            </button>
-          </div> -->
         </div>
         </mat-card>
       </div>
