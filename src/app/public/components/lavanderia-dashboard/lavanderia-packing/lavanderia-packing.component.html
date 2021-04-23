@@ -1,1 +1,37 @@
-<p>lavanderia-packing works!</p>
+<div class="container page-container">
+  <div class="row">
+    <div class="col s12">
+      <h2 class="center">Empacar</h2>
+      <p class="center">
+        Para terminar con el ciclo de prendas. Escanea las prendas si ya están limpias y listas para trabajar
+      </p>
+    </div>
+  </div>
+  <div class="row" *ngIf="(acargoList$ | async) as list">
+
+    <ng-container *ngIf="list.length > 0; else empty">
+      <div class="col s12" *ngFor="let item of list">
+        <mat-card
+        [routerLink]="['../empacar', item.prefix]"
+        [queryParams]="{
+          juego:item.juego,
+          state:item.state
+        }" >
+        <div class="row align-cols">
+          <div class="col s12">
+            <mat-card-header>
+              <mat-card-title> {{item.prefix}} {{item.juego}} </mat-card-title>
+              <mat-card-subtitle> {{item.state}} </mat-card-subtitle>
+            </mat-card-header>
+          </div>
+        </div>
+        </mat-card>
+      </div>
+    </ng-container>
+    <ng-template #empty>
+      <div class="col s12" *ngFor="let item of [1, 2, 3, 4, 5]">
+        <mat-card class="empty-card"></mat-card>
+      </div>
+    </ng-template>
+  </div>
+</div>

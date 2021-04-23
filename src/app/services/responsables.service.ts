@@ -46,7 +46,7 @@ export class ResponsablesService {
    async getJuegoAcargoContent(prefix: string, juego:string) {
     const propRef = this._afs.doc<iPropiedad>(`propiedades/${prefix}`)
     const juegoRef = propRef.collection<iJuegoState>('juegos').doc(juego)
-    const prendasRef = juegoRef.collection<iPrendaEvent>('prendas')
+    const prendasRef = juegoRef.collection<iPrendaState>('prendas')
     var currentProp: iCurrentProp = {} as iCurrentProp
 
     return new Promise<iCurrentProp>(resolve => {
@@ -57,7 +57,14 @@ export class ResponsablesService {
          return prendasRef.valueChanges()
        })
       ).subscribe(prendasCol => {
-        resolve({ ...currentProp, prendas: prendasCol })
+        resolve({
+          ...currentProp,
+          prendas: prendasCol.map(p => {
+            return {
+              ...p, event: p.history ? p.history[p.history.length-1] : p.history
+            } as iPrendaEvent
+          })
+        })
       })
      })
    }

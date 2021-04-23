@@ -1,0 +1,13 @@
+img {
+  width: 100%;
+}
+
+.img-dialog{
+  align-items: center;
+  height:fit-content;
+  mat-dialog-container{
+    height: fit-content ;
+    padding: 1px;
+    background:#202020
+  }
+}

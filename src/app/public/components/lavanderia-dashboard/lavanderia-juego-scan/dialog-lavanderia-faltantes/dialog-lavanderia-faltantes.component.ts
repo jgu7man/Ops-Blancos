@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { iPrendaState } from './../../../../../models/reporte.model';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   templateUrl: './dialog-lavanderia-faltantes.component.html',
@@ -6,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DialogLavanderiaFaltantesComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public faltantes: iPrendaState[],
+    public dialog: MatDialogRef<DialogLavanderiaFaltantesComponent>
+  ) { }
 
   ngOnInit(): void {
   }

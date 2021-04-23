@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { iPrendaEvent } from './../../../../models/reporte.model';
+import { iPrendaEvent } from 'src/app/models/reporte.model';
 import { MatDialog } from '@angular/material/dialog';
 import { GdevCache } from '@jgu7man/gdev-tools';
 import { Subscription } from 'rxjs';
@@ -8,22 +8,21 @@ import {  iHistory, iJuegoEvent, PropEvent } from 'src/app/models/reporte.model'
 import { iUser } from 'src/app/models/user.model';
 import { ReportesService } from 'src/app/services/reportes.service';
 import { ScannerService } from 'src/app/services/scanner.service';
-// import { DialogLimpiezaFaltantesComponent } from './dialog-limpieza-faltantes/dialog-limpieza-faltantes.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { iCurrentProp } from 'src/app/models/propiedad.model';
 import { ResponsablesService } from 'src/app/services/responsables.service';
 import { Location } from '@angular/common';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { take } from 'rxjs/operators';
-import { DialogLavanderiaFaltantesComponent } from './dialog-lavanderia-faltantes/dialog-lavanderia-faltantes.component';
+import { PackingFaltantesDialog } from './dialog-packing-faltantes/dialog-packing-faltantes.component';
 import { SeeImageComponent } from 'src/app/components/see-image/see-image.component';
 
 @Component({
-  selector: 'g-lavanderia-juego-scan',
-  templateUrl: './lavanderia-juego-scan.component.html',
-  styleUrls: ['./lavanderia-juego-scan.component.scss']
+  selector: 'g-lavanderia-packing-scan',
+  templateUrl: './lavanderia-packing-scan.component.html',
+  styleUrls: ['./lavanderia-packing-scan.component.scss']
 })
-export class LavanderiaJuegoScanComponent implements OnInit {
+export class LavanderiaPackingScanComponent implements OnInit {
 
   scannerSubs?: Subscription
   prop?: iCurrentProp
@@ -73,7 +72,7 @@ export class LavanderiaJuegoScanComponent implements OnInit {
       this.review = true
       this.juegoState = {
         index: juego,
-        prendasReport: this.prop.prendas.map(p => { return {...p, scanned: true}}),
+        prendasReport: this.prop.prendas,
         state
       }
     } else {
@@ -101,9 +100,9 @@ export class LavanderiaJuegoScanComponent implements OnInit {
           // Set scanned
           scanned: true,
           // Set actual state
-          state: 'wash',
+          state: 'stock',
           // Regist event, state and who
-          event: new iHistory(new Date(), 'wash', this.user?.uid as string),
+          event: new iHistory(new Date(), 'stock', this.user?.uid as string),
         }
         this.juegoState?.prendasReport.push(currentPrenda)
       }
@@ -160,7 +159,7 @@ export class LavanderiaJuegoScanComponent implements OnInit {
         this._cache.updateData('prendasReport', this.propEvent?.juego.prendasReport)
         this.review
           ? this._location.back()
-          : this._router.navigate(['/limpieza/scan'])
+          : this._router.navigate(['/lavanderia'])
       })
     }
   }
@@ -175,7 +174,7 @@ export class LavanderiaJuegoScanComponent implements OnInit {
 
 
   onFaltantes(faltantes:iPrendaEvent[]) {
-    this._dialog.open(DialogLavanderiaFaltantesComponent, {
+    this._dialog.open(PackingFaltantesDialog, {
       data: faltantes
     }).afterClosed().pipe(take(1)).subscribe(confirm => {
       if (confirm) {
@@ -198,7 +197,7 @@ export class LavanderiaJuegoScanComponent implements OnInit {
           this._cache.updateData('prendasReport', this.propEvent.juego.prendasReport)
           this.review
           ? this._location.back()
-          : this._router.navigate(['/limpieza/scan'])
+          : this._router.navigate(['/lavanderia'])
           })
         // save
       }

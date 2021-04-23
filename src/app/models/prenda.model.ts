@@ -4,7 +4,7 @@ export interface iPrenda {
   producto?: Producto,
 }
 
-export type PrendaState = 'sucio' | 'damage' | 'lost' | 'lavando' | 'bodega' | undefined
+export type PrendaState = 'sucio' | 'damage' | 'lost' | 'wash' | 'stock' | undefined
 export interface displayPrendaState {
   display: string,
   value: PrendaState

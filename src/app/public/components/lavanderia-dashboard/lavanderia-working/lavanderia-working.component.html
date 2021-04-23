@@ -12,7 +12,7 @@
     <ng-container *ngIf="list.length > 0; else empty">
       <div class="col s12" *ngFor="let item of list">
         <mat-card
-        [routerLink]="['../juego', item.prefix]"
+        [routerLink]="['../review', item.prefix]"
         [queryParams]="{
           juego:item.juego,
           state:item.state
@@ -24,11 +24,6 @@
               <mat-card-subtitle> {{item.state}} </mat-card-subtitle>
             </mat-card-header>
           </div>
-          <!-- <div class="col s4 options-zone">
-            <button mat-icon-button color="warn" (click)="trashItem(item.prefix)">
-              <i class="fas fa-trash fa-lg"></i>
-            </button>
-          </div> -->
         </div>
         </mat-card>
       </div>

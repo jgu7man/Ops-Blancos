@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { iPropAcargo } from 'src/app/models/propiedad.model';
+import { ResponsablesService } from 'src/app/services/responsables.service';
 
 @Component({
   templateUrl: './lavanderia-packing.component.html',
@@ -6,7 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LavanderiaPackingComponent implements OnInit {
 
-  constructor() { }
+  acargoList$: Observable<iPropAcargo[]>
+  constructor(
+    private _responsables: ResponsablesService
+  ) {
+    this.acargoList$ = this._responsables.getJuegosAcargo()
+  }
 
   ngOnInit(): void {
   }

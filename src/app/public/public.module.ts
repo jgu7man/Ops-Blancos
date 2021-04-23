@@ -32,6 +32,8 @@ import { LavanderiaFormReporteComponent } from './components/lavanderia-dashboar
 import { DialogLavanderiaScannedFormComponent } from './components/lavanderia-dashboard/lavanderia-report/dialog-lavanderia-scanned-form/dialog-lavanderia-scanned-form.component';
 import { LavanderiaPackingComponent } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing.component';
 import { LavanderiaWorkingComponent } from './components/lavanderia-dashboard/lavanderia-working/lavanderia-working.component';
+import { LavanderiaPackingScanComponent } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing-scan/lavanderia-packing-scan.component';
+import { PackingFaltantesDialog } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing-scan/dialog-packing-faltantes/dialog-packing-faltantes.component';
 
 
 @NgModule({
@@ -60,6 +62,8 @@ import { LavanderiaWorkingComponent } from './components/lavanderia-dashboard/la
     DialogLavanderiaScannedFormComponent,
     LavanderiaPackingComponent,
     LavanderiaWorkingComponent,
+    LavanderiaPackingScanComponent,
+    PackingFaltantesDialog
   ],
   imports: [
     CommonModule,

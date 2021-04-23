@@ -10,6 +10,7 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HouseGlobeComponent } from './house-globe/house-globe.component';
 import { TakeImageComponent } from '../components/take-image/take-image.component';
+import { SeeImageComponent } from './see-image/see-image.component';
 
 
 
@@ -19,6 +20,7 @@ import { TakeImageComponent } from '../components/take-image/take-image.componen
     ScannerComponent,
     HouseGlobeComponent,
     TakeImageComponent,
+    SeeImageComponent,
 
   ],
   imports: [

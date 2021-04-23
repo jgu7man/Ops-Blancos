@@ -12,6 +12,8 @@ import { LavanderiaUnpackageComponent } from './components/lavanderia-dashboard/
 import { LavanderiaWorkingComponent } from './components/lavanderia-dashboard/lavanderia-working/lavanderia-working.component';
 import { LavanderiaReportComponent } from './components/lavanderia-dashboard/lavanderia-report/lavanderia-report.component';
 import { LavanderiaPackingComponent } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing.component';
+import { LavanderiaJuegoScanComponent } from './components/lavanderia-dashboard/lavanderia-juego-scan/lavanderia-juego-scan.component';
+import { LavanderiaPackingScanComponent } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing-scan/lavanderia-packing-scan.component';
 
 const routes: Routes = [
   { path: '', component: PublicComponent, children: [
@@ -27,9 +29,12 @@ const routes: Routes = [
     { path: 'lavanderia', component: LavanderiaDashboardComponent, children:[
       { path: '', pathMatch: 'full', redirectTo: 'desempaque' },
       { path: 'desempaque', component: LavanderiaUnpackageComponent },
+      { path: 'juego', component: LavanderiaJuegoScanComponent },
+      { path: 'review/:prefix', component: LavanderiaJuegoScanComponent },
       { path: 'lavando', component: LavanderiaWorkingComponent },
       { path: 'reporte', component: LavanderiaReportComponent },
       { path: 'empaque', component: LavanderiaPackingComponent },
+      { path: 'empacar/:prefix', component: LavanderiaPackingScanComponent },
     ] },
   ] },
 

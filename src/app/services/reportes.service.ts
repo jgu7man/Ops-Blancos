@@ -233,11 +233,20 @@ export class ReportesService {
     {value: 'lost', display: 'Perdido'},
   ];
 
-  public commonIssues: string[] = [
+  public limpiezaIssues: string[] = [
     "Manchado de sangre, tinta o pintura",
     "Manchada de cera derretida",
     "Le cayó vómito u otro desecho",
     "Descosida",
+    "Rota o con orificios",
+    "La prenda está quemada",
+  ]
+
+  public lavanderiaIssues: string[] = [
+    "No se pudo quitar la mancha",
+    "Quedó percudida",
+    "Se desgastó por la lavada",
+    "Se decoloró",
     "Rota o con orificios",
     "La prenda está quemada",
   ]
