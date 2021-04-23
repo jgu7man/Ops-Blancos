@@ -9,7 +9,7 @@ import { CameraService } from './camera.service';
 import { GdevAlert, GdevCache, GdevLoading } from '@jgu7man/gdev-tools';
 import firebase from 'firebase/app'
 import { pickBy, identity } from 'lodash'
-import { iCurrentProp } from '../models/propiedad.model';
+import { iCurrentProp, JuegoState } from '../models/propiedad.model';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +41,8 @@ export class ReportesService {
 
   async searchForCurrentPropiedad(
   prefix: string,
-  juego: number
+    juego: number,
+  prevState: JuegoState
   ): Promise<iCurrentProp> {
     const propRef = this._afs.collection('propiedades').doc(prefix).ref
 
@@ -53,20 +54,9 @@ export class ReportesService {
       } else {
 
         const prop = propDoc.data() as iCurrentProp
-
-
-          // 2. Search for juego
-        const currentJuegoRef = propDoc.ref
-          .collection('juegos').where('state', '==', 'prop')
-        var juegosCol = await currentJuegoRef.get()
-        var prendasCol
-        if (juegosCol.empty) {
-          const juegoQDoc = await propDoc.ref.collection(`juegos`).doc(`${juego}`).get()
-          prendasCol = await juegoQDoc.ref.collection(`prendas`).get()
-        } else {
-          const juegoDoc = juegosCol.docs[0]
-          prendasCol = await juegoDoc.ref.collection(`prendas`).get()
-        }
+        // 2. Search for juego
+        const juegoQDoc = await propDoc.ref.collection(`juegos`).doc(`${juego}`).get()
+        var prendasCol = await juegoQDoc.ref.collection(`prendas`).get()
 
         prendasCol.forEach(
           prenda => this.prendasChecklist.push(prenda.data() as iPrendaEvent)
@@ -75,9 +65,8 @@ export class ReportesService {
         this.currentProp = {
           ...prop, juego, prendas: this.prendasChecklist
         }
+
         return this.currentProp
-
-
 
       }
     } catch (error) {
@@ -88,6 +77,24 @@ export class ReportesService {
   }
 
 
+  async searchForReports(prefix: string) {
+    const eventsRef = this._afs.collection<PropEvent>(`propiedades/${prefix}/events`)
+    const eventsDocs = await eventsRef.ref
+      .where('checked', '!=', true)
+      .get()
+
+    const events: PropEvent[] = []
+    await this._loading.asyncForEach(
+      eventsDocs.docs,
+      (doc: firebase.firestore.QueryDocumentSnapshot<PropEvent>) => {
+        let date = doc.data().date as firebase.firestore.Timestamp
+        let event = doc.data()
+        event.date = date.toDate()
+      return events.push(doc.data())
+      })
+
+    return events
+  }
 
 
   // # PRENDA STATE CHANGE

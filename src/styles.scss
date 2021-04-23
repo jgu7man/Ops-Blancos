@@ -72,3 +72,11 @@ mat-card {
     background-position-x: -200%;
   }
 }
+
+
+.page-container {
+  height: 100vh !important;
+  margin-top: 0 !important;
+  padding: 4em 0em !important;
+  z-index: 0;
+}

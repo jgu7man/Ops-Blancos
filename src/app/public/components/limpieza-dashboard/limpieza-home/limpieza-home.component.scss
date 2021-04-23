@@ -1,13 +1,6 @@
-.container {
-  min-height: 100vh;
-  position: relative;
-  padding: 4em 0em;
-  margin: 0;
-  .img-background{
-    position: absolute;
-    bottom:0;
-    z-index: 0;
-  }
+.img-background{
+  position: absolute;
+  bottom:0;
 }
 
 #card-container {

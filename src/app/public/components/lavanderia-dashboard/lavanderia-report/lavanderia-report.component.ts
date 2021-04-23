@@ -6,13 +6,13 @@ import { iCode } from 'src/app/models/prenda.model';
 import { iCurrentProp } from 'src/app/models/propiedad.model';
 import { ReportesService } from 'src/app/services/reportes.service';
 import { ScannerService } from 'src/app/services/scanner.service';
-import { LimpiezaScannedFormDialog } from './limpieza-scanned-form-dialog/limpieza-scanned-form.component';
+import { DialogLavanderiaScannedFormComponent } from './dialog-lavanderia-scanned-form/dialog-lavanderia-scanned-form.component';
 
 @Component({
-  templateUrl: './limpieza-report.component.html',
-  styleUrls: ['./limpieza-report.component.scss']
+  templateUrl: './lavanderia-report.component.html',
+  styleUrls: ['./lavanderia-report.component.scss']
 })
-export class LimpiezaReportComponent implements OnInit, OnDestroy {
+export class LavanderiaReportComponent implements OnInit {
 
   scannerSubs: Subscription
   constructor(
@@ -50,7 +50,7 @@ export class LimpiezaReportComponent implements OnInit, OnDestroy {
   /** Abre un cuadro de diálogo con el formulario correspondiente a `limpieza` o `lavandería` para registrar la prenda escaneada */
   onScanned(scanned: iCode) {
 
-    this._dialog.open( LimpiezaScannedFormDialog, {
+    this._dialog.open( DialogLavanderiaScannedFormComponent, {
       // height: '80vh',
       width: '100vw',
       data: scanned,

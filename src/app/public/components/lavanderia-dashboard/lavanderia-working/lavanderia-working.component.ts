@@ -4,11 +4,10 @@ import { iPropAcargo } from 'src/app/models/propiedad.model';
 import { ResponsablesService } from 'src/app/services/responsables.service';
 
 @Component({
-  selector: 'g-limpieza-responsable',
-  templateUrl: './limpieza-responsable.component.html',
-  styleUrls: ['./limpieza-responsable.component.scss']
+  templateUrl: './lavanderia-working.component.html',
+  styleUrls: ['./lavanderia-working.component.scss']
 })
-export class LimpiezaResponsableComponent implements OnInit {
+export class LavanderiaWorkingComponent implements OnInit {
 
   acargoList$: Observable<iPropAcargo[]>
   constructor(
@@ -18,10 +17,6 @@ export class LimpiezaResponsableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  trashItem() {
-
   }
 
 }

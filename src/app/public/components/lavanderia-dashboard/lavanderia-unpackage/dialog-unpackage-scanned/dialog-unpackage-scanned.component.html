@@ -1,0 +1,26 @@
+<h1 mat-dialog-title class="center">Atención</h1>
+<mat-dialog-content>
+  <p class="center">En esta propiedad se ha reportado lo siguiente</p>
+
+  <mat-card class="mat-elevation-z0" *ngFor="let event of reportes">
+    <mat-card-header>
+      <mat-card-title>{{event.juego.prendasReport}}</mat-card-title>
+      <mat-card-subtitle>subtitle</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+    {{event.juego.index}}
+    </mat-card-content>
+  </mat-card>
+
+</mat-dialog-content>
+<mat-dialog-actions
+style="display: flex; justify-content: space-around;">
+    <button mat-raised-button
+    (click)="dialog_.close()"
+    >Cancelar</button>
+    <button mat-raised-button
+    color="primary"
+    [mat-dialog-close]="true"
+    cdkFocusInitial
+    >Sí, a desempacar</button>
+</mat-dialog-actions>

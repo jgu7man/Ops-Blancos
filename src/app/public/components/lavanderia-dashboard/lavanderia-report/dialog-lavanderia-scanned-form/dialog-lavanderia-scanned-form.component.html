@@ -1,0 +1,32 @@
+<mat-dialog-content>
+  <div class="row">
+    <div class="col s12">
+      <p>
+        <b class="cyan-text"> {{data.producto}} </b>
+        Paquete: {{data.juego}}, pieza: {{data.part}}/{{data.total}}
+      </p>
+
+    </div>
+  </div>
+  <g-lavanderia-form-reporte
+  (validForm)="validateReady($event)"
+  ></g-lavanderia-form-reporte>
+</mat-dialog-content>
+
+<mat-dialog-actions
+style="display: flex; justify-content: space-around;">
+    <button
+    mat-raised-button
+    (click)="dialog_.close()">
+      Cancelar
+    </button>
+
+    <button
+    mat-raised-button
+    color="primary"
+    [disabled]="!isReady"
+    (click)="onReport()"
+    >
+      <b>REPORTAR</b>
+    </button>
+</mat-dialog-actions>

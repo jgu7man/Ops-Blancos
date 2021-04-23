@@ -1,0 +1,22 @@
+.img-background{
+  bottom: 0;
+  position: relative;
+  width: 100%;
+  display: flex;
+  img {
+    width: 65%;
+    margin: 0 auto;
+    justify-content: center;
+  }
+}
+
+#card-container {
+  height: 40vh;
+  padding:0 10%;
+  width: 100%;
+  margin: 0;
+}
+
+::ng-deep .mat-card-header-text{
+  width: 100%;
+}

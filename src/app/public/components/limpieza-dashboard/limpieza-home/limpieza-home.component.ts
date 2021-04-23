@@ -47,7 +47,7 @@ export class LimpiezaHomeComponent implements OnInit {
       disableClose: true
     }).afterClosed().subscribe(next => {
       if (next) {
-        this._reportes.searchForCurrentPropiedad(scanned.prefix, scanned.juego)
+        this._reportes.searchForCurrentPropiedad(scanned.prefix, scanned.juego, 'prop')
           .then((propiedad) => {
             this._cache.updateData('currentProp', propiedad)
             this._router.navigate(['/limpieza/juego'])

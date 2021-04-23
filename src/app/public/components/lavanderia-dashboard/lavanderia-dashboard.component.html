@@ -7,13 +7,16 @@
   id="bottom-bar"
 >
   <span class="navbtn">
-    <i class="fas fa-box-open fa-lg  white-text" [routerLink]="['home']" [routerLinkActive]="'active'" [ngClass]="{'active': juegoActive.isActive}"></i>
+    <i class="fas fa-box-open fa-lg  white-text" [routerLink]="['desempaque']" [routerLinkActive]="'active'" [ngClass]="{'active': juegoActive.isActive}"></i>
   </span>
   <span class="navbtn">
-    <i class="fas fa-clipboard-list fa-lg  white-text" [routerLink]="['scan']" [routerLinkActive]="'active'"></i>
+    <i class="fas fa-soap fa-lg  white-text" [routerLink]="['lavando']" [routerLinkActive]="'active'" ></i>
   </span>
   <span class="navbtn">
-    <i class="fas fa-soap fa-lg  white-text" [routerLink]="['acargo']" [routerLinkActive]="'active'" ></i>
+    <i class="fas fa-clipboard-list fa-lg  white-text" [routerLink]="['reporte']" [routerLinkActive]="'active'"></i>
+  </span>
+  <span class="navbtn">
+    <i class="fas fa-box fa-lg  white-text" [routerLink]="['empaque']" [routerLinkActive]="'active'" [ngClass]="{'active': juegoActive.isActive}"></i>
   </span>
   <a routerLink="juego" routerLinkActive #juegoActive="routerLinkActive" hidden="true"></a>
 </mat-toolbar>

@@ -1,16 +1,16 @@
+import { DialogLavanderiaEvidenciaComponent } from './../dialog-lavanderia-evidencia/dialog-lavanderia-evidencia.component';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectionListChange } from '@angular/material/list';
 import { CameraService } from 'src/app/services/camera.service';
 import { ReportesService } from 'src/app/services/reportes.service'
-import { LimpiezaEvidenciaDialog } from '../limpieza-evidencia-dialog/limpieza-evidencia-dialog.component';
 
 @Component({
-  selector: 'g-limpieza-reporte-form',
-  templateUrl: './limpieza-reporte-form.component.html',
-  styleUrls: ['./limpieza-reporte-form.component.scss']
+  selector: 'g-lavanderia-form-reporte',
+  templateUrl: './lavanderia-form-reporte.component.html',
+  styleUrls: ['./lavanderia-form-reporte.component.scss']
 })
-export class LimpiezaReporteFormComponent implements OnInit {
+export class LavanderiaFormReporteComponent implements OnInit {
 
   @Output() validForm = new EventEmitter<boolean>();
   state: string = ''
@@ -40,7 +40,7 @@ export class LimpiezaReporteFormComponent implements OnInit {
   }
 
   onTakeEvidence() {
-    this._dialog.open(LimpiezaEvidenciaDialog, {
+    this._dialog.open(DialogLavanderiaEvidenciaComponent, {
       maxWidth: '100vw',
       width: '100vw',
       height: '80vh',
@@ -55,5 +55,4 @@ export class LimpiezaReporteFormComponent implements OnInit {
     this.reportes_.stateCtrl.setValue('damage')
     this.reportes_.reporteCtrl.setValue(event.options[0].value)
   }
-
 }

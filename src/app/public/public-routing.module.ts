@@ -7,6 +7,11 @@ import { LimpiezaResponsableComponent } from './components/limpieza-dashboard/li
 import { LimpiezaReportComponent } from './components/limpieza-dashboard/limpieza-report/limpieza-report.component';
 
 import { PublicComponent } from './public.component';
+import { LavanderiaDashboardComponent } from './components/lavanderia-dashboard/lavanderia-dashboard.component';
+import { LavanderiaUnpackageComponent } from './components/lavanderia-dashboard/lavanderia-unpackage/lavanderia-unpackage.component';
+import { LavanderiaWorkingComponent } from './components/lavanderia-dashboard/lavanderia-working/lavanderia-working.component';
+import { LavanderiaReportComponent } from './components/lavanderia-dashboard/lavanderia-report/lavanderia-report.component';
+import { LavanderiaPackingComponent } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing.component';
 
 const routes: Routes = [
   { path: '', component: PublicComponent, children: [
@@ -18,6 +23,13 @@ const routes: Routes = [
       { path: 'juego/:prefix', component: LimpiezaJuegoScanComponent },
       { path: 'resporte', component: LimpiezaReportComponent },
       { path: 'acargo', component: LimpiezaResponsableComponent },
+    ] },
+    { path: 'lavanderia', component: LavanderiaDashboardComponent, children:[
+      { path: '', pathMatch: 'full', redirectTo: 'desempaque' },
+      { path: 'desempaque', component: LavanderiaUnpackageComponent },
+      { path: 'lavando', component: LavanderiaWorkingComponent },
+      { path: 'reporte', component: LavanderiaReportComponent },
+      { path: 'empaque', component: LavanderiaPackingComponent },
     ] },
   ] },
 

@@ -22,6 +22,16 @@ import { LimpiezaJuegoScanComponent } from './components/limpieza-dashboard/limp
 import { DialogLimpiezaFaltantesComponent } from './components/limpieza-dashboard/limpieza-juego-scan/dialog-limpieza-faltantes/dialog-limpieza-faltantes.component';
 import { LimpiezaResponsableComponent } from './components/limpieza-dashboard/limpieza-responsable/limpieza-responsable.component';
 import { LavanderiaDashboardComponent } from './components/lavanderia-dashboard/lavanderia-dashboard.component';
+import { LavanderiaUnpackageComponent } from './components/lavanderia-dashboard/lavanderia-unpackage/lavanderia-unpackage.component';
+import { DialogUnpackageScannedComponent } from './components/lavanderia-dashboard/lavanderia-unpackage/dialog-unpackage-scanned/dialog-unpackage-scanned.component';
+import { LavanderiaJuegoScanComponent } from './components/lavanderia-dashboard/lavanderia-juego-scan/lavanderia-juego-scan.component';
+import { DialogLavanderiaFaltantesComponent } from './components/lavanderia-dashboard/lavanderia-juego-scan/dialog-lavanderia-faltantes/dialog-lavanderia-faltantes.component';
+import { LavanderiaReportComponent } from './components/lavanderia-dashboard/lavanderia-report/lavanderia-report.component';
+import { DialogLavanderiaEvidenciaComponent } from './components/lavanderia-dashboard/lavanderia-report/dialog-lavanderia-evidencia/dialog-lavanderia-evidencia.component';
+import { LavanderiaFormReporteComponent } from './components/lavanderia-dashboard/lavanderia-report/lavanderia-form-reporte/lavanderia-form-reporte.component';
+import { DialogLavanderiaScannedFormComponent } from './components/lavanderia-dashboard/lavanderia-report/dialog-lavanderia-scanned-form/dialog-lavanderia-scanned-form.component';
+import { LavanderiaPackingComponent } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing.component';
+import { LavanderiaWorkingComponent } from './components/lavanderia-dashboard/lavanderia-working/lavanderia-working.component';
 
 
 @NgModule({
@@ -40,6 +50,16 @@ import { LavanderiaDashboardComponent } from './components/lavanderia-dashboard/
     DialogLimpiezaFaltantesComponent,
     LimpiezaResponsableComponent,
     LavanderiaDashboardComponent,
+    LavanderiaUnpackageComponent,
+    DialogUnpackageScannedComponent,
+    LavanderiaJuegoScanComponent,
+    DialogLavanderiaFaltantesComponent,
+    LavanderiaReportComponent,
+    DialogLavanderiaEvidenciaComponent,
+    LavanderiaFormReporteComponent,
+    DialogLavanderiaScannedFormComponent,
+    LavanderiaPackingComponent,
+    LavanderiaWorkingComponent,
   ],
   imports: [
     CommonModule,

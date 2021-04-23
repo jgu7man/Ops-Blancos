@@ -1,0 +1,13 @@
+<mat-dialog-content>
+  <g-take-image></g-take-image>
+</mat-dialog-content>
+<mat-dialog-actions
+style="display: flex; justify-content: space-around;">
+    <button mat-raised-button
+    (click)="dialog_.close()"
+    >Cancelar</button>
+    <button mat-raised-button
+    color="primary"
+    (click)="dialog_.close(true)"
+    >Guardar fotos</button>
+</mat-dialog-actions>

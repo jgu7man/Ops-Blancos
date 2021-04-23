@@ -1,13 +1,15 @@
 import { iPrenda, PrendaState } from "./prenda.model";
 import { iJuego, JuegoState } from "./propiedad.model";
+import firebase from 'firebase/app';
 
 
 
 export class PropEvent {
   constructor(
-    public date: Date,
+    public date: Date | firebase.firestore.Timestamp,
     public responsable: string,
-    public juego: iJuegoEvent
+    public juego: iJuegoEvent,
+    public checked?: boolean
     ){}
   }
 
