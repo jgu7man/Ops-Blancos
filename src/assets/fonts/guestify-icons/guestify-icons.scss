@@ -1,0 +1,109 @@
+@import "variables";
+
+@font-face {
+  font-family: 'guestify-icons';
+  src:  url('fonts/guestify-icons.eot?r4lize');
+  src:  url('fonts/guestify-icons.eot?r4lize#iefix') format('embedded-opentype'),
+    url('fonts/guestify-icons.ttf?r4lize') format('truetype'),
+    url('fonts/guestify-icons.woff?r4lize') format('woff'),
+    url('fonts/guestify-icons.svg?r4lize#guestify-icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="gfy-"], [class*=" gfy-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'guestify-icons' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class*=" gfy-lg"] {
+  font-size: 1.5em;
+}
+
+.gfy-almohada {
+  &:before {
+    content: $gfy-almohada;
+  }
+}
+.gfy-toalla-mano {
+  &:before {
+    content: $gfy-toalla-mano;
+  }
+}
+.gfy-cajonera-ind {
+  &:before {
+    content: $gfy-cajonera-ind;
+  }
+}
+.gfy-edredron-ind {
+  &:before {
+    content: $gfy-edredron-ind;
+  }
+}
+.gfy-plana-ind {
+  &:before {
+    content: $gfy-plana-ind;
+  }
+}
+.gfy-cajonera-king {
+  &:before {
+    content: $gfy-cajonera-king;
+  }
+}
+.gfy-edredon-king {
+  &:before {
+    content: $gfy-edredon-king;
+  }
+}
+.gfy-plana-king {
+  &:before {
+    content: $gfy-plana-king;
+  }
+}
+.gfy-cajonera-mat {
+  &:before {
+    content: $gfy-cajonera-mat;
+  }
+}
+.gfy-edredon-mat {
+  &:before {
+    content: $gfy-edredon-mat;
+  }
+}
+.gfy-plana-mat {
+  &:before {
+    content: $gfy-plana-mat;
+  }
+}
+.gfy-cajonera-queen {
+  &:before {
+    content: $gfy-cajonera-queen;
+  }
+}
+.gfy-edredon-queen {
+  &:before {
+    content: $gfy-edredon-queen;
+  }
+}
+.gfy-plana-queen {
+  &:before {
+    content: $gfy-plana-queen;
+  }
+}
+.gfy-toalla {
+  &:before {
+    content: $gfy-toalla;
+  }
+}
+

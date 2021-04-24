@@ -13,64 +13,77 @@
 
 
   <div class="row">
-    <div class="col s12" *ngFor="let prenda of prop?.prendas">
+    <div class="col s6" *ngFor="let prenda of prop?.prendas">
       <mat-card>
-
-        <!-- Scanned notification -->
-        <span *ngIf="scanned(prenda) !== undefined"
-        matBadge="{{badge(prenda)}}"
-        [matBadgeColor]="colorBadge(prenda)"
-        ></span>
 
         <!-- Item Info -->
         <mat-card-content>
           <div class="row">
-            <div class="col s6">
+            <!-- Scanned notification -->
+            <div class="col s3">
+              <span *ngIf="scanned(prenda) !== undefined"
+              matBadge="{{badge(prenda)}}"
+              [matBadgeColor]="colorBadge(prenda)"
+              ></span>
               <p [ngSwitch]="prenda.producto">
                 <span *ngSwitchCase="'Toalla de Cuerpo'" >
-                  <i class="prenda-icon flaticon-towel"></i>
+                  <i class="gfy-toalla gfy-lg"></i>
                 </span>
                 <span *ngSwitchCase="'Toalla de Mano'" >
-                  <i class="prenda-icon flaticon-towel"></i>
+                  <i class="gfy-toalla-mano gfy-lg"></i>
                 </span>
                 <span *ngSwitchCase="'Funda Almohada'" >
-                  <i class="prenda-icon flaticon-pillow"></i>
+                  <i class="gfy-almohada gfy-lg"></i>
                 </span>
                 <span *ngSwitchCase="'Plana Individual'" >
-
+                  <i class="gfy-plana-ind gfy-lg"></i>
                 </span>
                 <span *ngSwitchCase="'Cajonera Individual'" >
-
+                  <i class="gfy-cajonera-ind gfy-lg"></i>
+                </span>
+                <span *ngSwitchCase="'Edredon Individual'" >
+                  <i class="gfy-edredon-ind gfy-lg"></i>
                 </span>
                 <span *ngSwitchCase="'Plana Matrimonial'" >
-
+                  <i class="gfy-plana-mat gfy-lg"></i>
                 </span>
                 <span *ngSwitchCase="'Cajonera Matrimonial'" >
-
+                  <i class="gfy-cajonera-mat gfy-lg"></i>
+                </span>
+                <span *ngSwitchCase="'Edredon Matrimonial'" >
+                  <i class="gfy-cajonera-mat gfy-lg"></i>
                 </span>
                 <span *ngSwitchCase="'Plana Queen Size'" >
-
+                  <i class="gfy-plana-queen gfy-lg"></i>
                 </span>
                 <span *ngSwitchCase="'Cajonera Queen Size'" >
-
+                  <i class="gfy-cajonera-queen gfy-lg"></i>
+                </span>
+                <span *ngSwitchCase="'Edredon Queen Size'" >
+                  <i class="gfy-edredon-queen gfy-lg"></i>
                 </span>
                 <span *ngSwitchCase="'Plana King Size'" >
-
+                  <i class="gfy-plana-king gfy-lg"></i>
                 </span>
                 <span *ngSwitchCase="'Cajonera King Size'" >
-
+                  <i class="gfy-cajonera-king gfy-lg"></i>
+                </span>
+                <span *ngSwitchCase="'Edredon King Size'" >
+                  <i class="gfy-edredon-king gfy-lg"></i>
                 </span>
                 <span *ngSwitchDefault>  </span>
                 {{prenda.producto}} {{prenda.index}}
               </p>
             </div>
-            <div class="col s6">
-              <mat-chip-list>
-                <mat-chip [color]="prenda.state != 'sucio' ? 'warn' : 'accent'">
-                  {{prenda.state}}
-                </mat-chip>
-              </mat-chip-list>
+
+            <!-- Item Info -->
+            <div class="col s7">
+              <p style="margin-bottom: 0;">{{prenda.producto}}</p>
             </div>
+            <div class="col s2">
+              {{prenda.index}}
+            </div>
+
           </div>
         </mat-card-content>
       </mat-card>

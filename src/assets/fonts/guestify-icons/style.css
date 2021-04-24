@@ -1,0 +1,72 @@
+@font-face {
+  font-family: 'guestify-icons';
+  src:  url('fonts/guestify-icons.eot?r4lize');
+  src:  url('fonts/guestify-icons.eot?r4lize#iefix') format('embedded-opentype'),
+    url('fonts/guestify-icons.ttf?r4lize') format('truetype'),
+    url('fonts/guestify-icons.woff?r4lize') format('woff'),
+    url('fonts/guestify-icons.svg?r4lize#guestify-icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="gfy-"], [class*=" gfy-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'guestify-icons' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.gfy-almohada:before {
+  content: "\e90d";
+}
+.gfy-toalla-mano:before {
+  content: "\e90e";
+}
+.gfy-cajonera-ind:before {
+  content: "\e900";
+}
+.gfy-edredron-ind:before {
+  content: "\e901";
+}
+.gfy-plana-ind:before {
+  content: "\e902";
+}
+.gfy-cajonera-king:before {
+  content: "\e903";
+}
+.gfy-edredon-king:before {
+  content: "\e904";
+}
+.gfy-plana-king:before {
+  content: "\e905";
+}
+.gfy-cajonera-mat:before {
+  content: "\e906";
+}
+.gfy-edredon-mat:before {
+  content: "\e907";
+}
+.gfy-plana-mat:before {
+  content: "\e908";
+}
+.gfy-cajonera-queen:before {
+  content: "\e909";
+}
+.gfy-edredon-queen:before {
+  content: "\e90a";
+}
+.gfy-plana-queen:before {
+  content: "\e90b";
+}
+.gfy-toalla:before {
+  content: "\e90c";
+}

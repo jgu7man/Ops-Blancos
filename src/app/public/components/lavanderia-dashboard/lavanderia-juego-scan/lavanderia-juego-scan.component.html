@@ -30,37 +30,49 @@
               <div class="col s9">
                 <p [ngSwitch]="prenda.producto">
                   <span *ngSwitchCase="'Toalla de Cuerpo'" >
-                    <i class="prenda-icon flaticon-towel"></i>
+                    <i class="gfy-toalla gfy-lg"></i>
                   </span>
                   <span *ngSwitchCase="'Toalla de Mano'" >
-                    <i class="prenda-icon flaticon-towel"></i>
+                    <i class="gfy-toalla-mano gfy-lg"></i>
                   </span>
                   <span *ngSwitchCase="'Funda Almohada'" >
-                    <i class="prenda-icon flaticon-pillow"></i>
+                    <i class="gfy-almohada gfy-lg"></i>
                   </span>
                   <span *ngSwitchCase="'Plana Individual'" >
-
+                    <i class="gfy-plana-ind gfy-lg"></i>
                   </span>
                   <span *ngSwitchCase="'Cajonera Individual'" >
-
+                    <i class="gfy-cajonera-ind gfy-lg"></i>
+                  </span>
+                  <span *ngSwitchCase="'Edredon Individual'" >
+                    <i class="gfy-edredon-ind gfy-lg"></i>
                   </span>
                   <span *ngSwitchCase="'Plana Matrimonial'" >
-
+                    <i class="gfy-plana-mat gfy-lg"></i>
                   </span>
                   <span *ngSwitchCase="'Cajonera Matrimonial'" >
-
+                    <i class="gfy-cajonera-mat gfy-lg"></i>
+                  </span>
+                  <span *ngSwitchCase="'Edredon Matrimonial'" >
+                    <i class="gfy-cajonera-mat gfy-lg"></i>
                   </span>
                   <span *ngSwitchCase="'Plana Queen Size'" >
-
+                    <i class="gfy-plana-queen gfy-lg"></i>
                   </span>
                   <span *ngSwitchCase="'Cajonera Queen Size'" >
-
+                    <i class="gfy-cajonera-queen gfy-lg"></i>
+                  </span>
+                  <span *ngSwitchCase="'Edredon Queen Size'" >
+                    <i class="gfy-edredon-queen gfy-lg"></i>
                   </span>
                   <span *ngSwitchCase="'Plana King Size'" >
-
+                    <i class="gfy-plana-king gfy-lg"></i>
                   </span>
                   <span *ngSwitchCase="'Cajonera King Size'" >
-
+                    <i class="gfy-cajonera-king gfy-lg"></i>
+                  </span>
+                  <span *ngSwitchCase="'Edredon King Size'" >
+                    <i class="gfy-edredon-king gfy-lg"></i>
                   </span>
                   <span *ngSwitchDefault>  </span>
                   {{prenda.producto}} {{prenda.index}}
