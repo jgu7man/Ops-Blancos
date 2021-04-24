@@ -182,7 +182,11 @@ export class LimpiezaJuegoScanComponent implements OnInit, OnDestroy{
           ...this.propEvent.juego.prendasReport,
           ...faltantes
         ]
-        this._reportes.onSaveReporte(this.prop?.prefix as string, this.propEvent)
+        this._reportes.onSaveReporte(
+          this.prop?.prefix as string,
+          this.propEvent,
+          true
+        )
         .then(() => {
           this._cache.updateData('prendasReport', this.propEvent.juego.prendasReport)
           this.review

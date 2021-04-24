@@ -50,3 +50,7 @@ export class iHistory {
 }
 
 
+export interface iAlertReport extends PropEvent {
+  prefix: string
+  ciudad: string
+}

@@ -4,7 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatRadioChange } from '@angular/material/radio';
 import { iPrenda, displayPrendaState, PrendaState, Producto } from '../models/prenda.model';
-import { iHistory, iPrendaEvent, iPrendaState, PropEvent } from '../models/reporte.model';
+import { iAlertReport, iHistory, iPrendaEvent, iPrendaState, PropEvent } from '../models/reporte.model';
 import { CameraService } from './camera.service';
 import { GdevAlert, GdevCache, GdevLoading } from '@jgu7man/gdev-tools';
 import firebase from 'firebase/app'
@@ -148,6 +148,8 @@ export class ReportesService {
         const propPath = `propiedades/${this.currentProp.prefix}`
         const eventRef = this._afs.collection(`${propPath}/events`)
           .ref.doc(`${new Date().getTime()}`)
+        const alertRef = this._afs.collection('alerts')
+        .ref.doc(`${new Date().getTime()}`)
         const batch = this._afs.firestore.batch()
 
         const prendaPath = `propiedades/${this.currentProp.prefix}/juegos/${this.currentProp.juego}/prendas/${prenda.code}`
@@ -160,8 +162,8 @@ export class ReportesService {
         })
 
 
-        prenda.event = {...prenda.event}
-        batch.set(eventRef, <PropEvent>{
+        prenda.event = { ...prenda.event }
+        let event: PropEvent = {
           date: new Date(),
           responsable: this.user.uid,
           juego: {
@@ -169,7 +171,14 @@ export class ReportesService {
             state:'washing',
             prendasReport: [prenda]
           }
-        })
+        }
+        batch.set(eventRef, { ...event })
+        batch.set(alertRef,
+          <iAlertReport>{
+            ...event,
+            prefix: this.currentProp.prefix,
+            ciudad: this.currentProp.ciudad
+          })
 
         return batch.commit()
       }
@@ -179,13 +188,15 @@ export class ReportesService {
   }
 
 
-  async onSaveReporte(propId: string, event: PropEvent) {
+  async onSaveReporte(propId: string, event: PropEvent, alert?: true) {
     try {
       if (this.user) {
+
         const propPath = `propiedades/${propId}`
         const propRef = this._afs.doc(propPath).ref
         const juegoPath = `${propPath}/juegos/${event.juego.index}`
         const eventRef = this._afs.collection(`${propPath}/events`).ref
+        const alertRef = this._afs.collection('alerts').ref
         const juegoRef = this._afs.doc(juegoPath).ref
         const batch = this._afs.firestore.batch()
 
@@ -206,10 +217,17 @@ export class ReportesService {
           });
 
         let dateId = new Date().getTime()
+        var ciudad = event.juego.prendasReport[0].code.substring(1,3)
         // Save propiedad Event
         let cleanEvent = pickBy(event, identity)
         console.log( {...event} )
         batch.set(eventRef.doc(`${dateId}`), { ...cleanEvent })
+        // Save propiedad alert
+        if (alert) batch.set(alertRef.doc(`${dateId}`), <iAlertReport>{
+          ...cleanEvent,
+          prefix: propId,
+          ciudad: ciudad ? ciudad : ''
+        })
 
         // Update juego state
         batch.update(juegoRef,{
