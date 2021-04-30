@@ -29,7 +29,7 @@ export class LimpiezaScannedFormDialog implements OnInit, OnDestroy {
   }
 
   validatePropOwner() {
-    // this._reportes.currentProp?.juegos
+    // this._reportes.currentProp?.paquetes
   }
 
   validateReady(event: boolean) {

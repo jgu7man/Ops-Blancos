@@ -15,7 +15,7 @@ import { AdminDashboardComponent } from './components/admin-dashboard/admin-dash
 import { ManageDatabaseComponent } from './components/manage-database/manage-database.component';
 import { ManagePropiedadesComponent } from './components/manage-database/manage-propiedades/manage-propiedades.component';
 import { DialogAddPropiedadComponent } from './components/manage-database/dialog-add-propiedad/dialog-add-propiedad.component';
-import { DialogAddJuegoComponent } from './components/manage-database/dialog-add-juego/dialog-add-juego.component';
+import { DialogAddPaqueteComponent } from './components/manage-database/dialog-add-paquete/dialog-add-paquete.component';
 import { DialogAddPrendaComponent } from './components/manage-database/dialog-add-prenda/dialog-add-prenda.component';
 import { ShowPropiedadComponent } from './components/manage-database/show-propiedad/show-propiedad.component';
 import { HistorialComponent } from './components/admin-dashboard/historial/historial.component';
@@ -29,7 +29,7 @@ import { HistorialComponent } from './components/admin-dashboard/historial/histo
     ManageDatabaseComponent,
     ManagePropiedadesComponent,
     DialogAddPropiedadComponent,
-    DialogAddJuegoComponent,
+    DialogAddPaqueteComponent,
     DialogAddPrendaComponent,
     ShowPropiedadComponent,
     HistorialComponent,

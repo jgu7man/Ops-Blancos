@@ -18,14 +18,14 @@ import { FormsModule } from '@angular/forms';
 import { LimpiezaReporteFormComponent } from './components/limpieza-dashboard/limpieza-report/limpieza-reporte-form/limpieza-reporte-form.component';
 import { LimpiezaEvidenciaDialog } from './components/limpieza-dashboard/limpieza-report/limpieza-evidencia-dialog/limpieza-evidencia-dialog.component';
 import { DialogHomeScannedComponent } from './components/limpieza-dashboard/limpieza-home/dialog-home-scanned/dialog-home-scanned.component';
-import { LimpiezaJuegoScanComponent } from './components/limpieza-dashboard/limpieza-juego-scan/limpieza-juego-scan.component';
-import { DialogLimpiezaFaltantesComponent } from './components/limpieza-dashboard/limpieza-juego-scan/dialog-limpieza-faltantes/dialog-limpieza-faltantes.component';
+import { LimpiezaPaqueteScanComponent } from './components/limpieza-dashboard/limpieza-paquete-scan/limpieza-paquete-scan.component';
+import { DialogLimpiezaFaltantesComponent } from './components/limpieza-dashboard/limpieza-paquete-scan/dialog-limpieza-faltantes/dialog-limpieza-faltantes.component';
 import { LimpiezaResponsableComponent } from './components/limpieza-dashboard/limpieza-responsable/limpieza-responsable.component';
 import { LavanderiaDashboardComponent } from './components/lavanderia-dashboard/lavanderia-dashboard.component';
 import { LavanderiaUnpackageComponent } from './components/lavanderia-dashboard/lavanderia-unpackage/lavanderia-unpackage.component';
 import { DialogUnpackageScannedComponent } from './components/lavanderia-dashboard/lavanderia-unpackage/dialog-unpackage-scanned/dialog-unpackage-scanned.component';
-import { LavanderiaJuegoScanComponent } from './components/lavanderia-dashboard/lavanderia-juego-scan/lavanderia-juego-scan.component';
-import { DialogLavanderiaFaltantesComponent } from './components/lavanderia-dashboard/lavanderia-juego-scan/dialog-lavanderia-faltantes/dialog-lavanderia-faltantes.component';
+import { LavanderiaPaqueteScanComponent } from './components/lavanderia-dashboard/lavanderia-paquete-scan/lavanderia-paquete-scan.component';
+import { DialogLavanderiaFaltantesComponent } from './components/lavanderia-dashboard/lavanderia-paquete-scan/dialog-lavanderia-faltantes/dialog-lavanderia-faltantes.component';
 import { LavanderiaReportComponent } from './components/lavanderia-dashboard/lavanderia-report/lavanderia-report.component';
 import { DialogLavanderiaEvidenciaComponent } from './components/lavanderia-dashboard/lavanderia-report/dialog-lavanderia-evidencia/dialog-lavanderia-evidencia.component';
 import { LavanderiaFormReporteComponent } from './components/lavanderia-dashboard/lavanderia-report/lavanderia-form-reporte/lavanderia-form-reporte.component';
@@ -48,13 +48,13 @@ import { PackingFaltantesDialog } from './components/lavanderia-dashboard/lavand
     LimpiezaReporteFormComponent,
     LimpiezaEvidenciaDialog,
     DialogHomeScannedComponent,
-    LimpiezaJuegoScanComponent,
+    LimpiezaPaqueteScanComponent,
     DialogLimpiezaFaltantesComponent,
     LimpiezaResponsableComponent,
     LavanderiaDashboardComponent,
     LavanderiaUnpackageComponent,
     DialogUnpackageScannedComponent,
-    LavanderiaJuegoScanComponent,
+    LavanderiaPaqueteScanComponent,
     DialogLavanderiaFaltantesComponent,
     LavanderiaReportComponent,
     DialogLavanderiaEvidenciaComponent,

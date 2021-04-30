@@ -74,16 +74,16 @@ export class ManageDatabaseComponent implements OnInit {
     }).afterClosed().subscribe(confirm => {
       if (confirm) {
         if (this.propiedadFinded) {
-          var juegoIndex = this.propiedadFinded.juegos.findIndex(
-            j => j.index === code.juego
+          var paqueteIndex = this.propiedadFinded.paquetes.findIndex(
+            j => j.index === code.paquete
           )
-          var juegoFinded = this.propiedadFinded.juegos[juegoIndex]
-          juegoFinded.prendas.push({
+          var paqueteFinded = this.propiedadFinded.paquetes[paqueteIndex]
+          paqueteFinded.prendas.push({
             index: code.part,
             producto: code.producto,
             code: code.code
           })
-          this.propiedadFinded.juegos[juegoIndex] = juegoFinded
+          this.propiedadFinded.paquetes[paqueteIndex] = paqueteFinded
         }
       }
     })

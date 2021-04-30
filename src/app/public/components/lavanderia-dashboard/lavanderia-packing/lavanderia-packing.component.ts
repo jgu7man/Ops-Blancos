@@ -14,9 +14,9 @@ export class LavanderiaPackingComponent implements OnInit {
   constructor(
     private _responsables: ResponsablesService
   ) {
-    this.acargoList$ = this._responsables.getJuegosAcargo()
-      .pipe(map(juegos => {
-      return juegos.filter(j => j.state == 'washing')
+    this.acargoList$ = this._responsables.getPaquetesAcargo()
+      .pipe(map(paquetes => {
+      return paquetes.filter(j => j.state == 'washing')
     }))
   }
 

@@ -9,7 +9,7 @@ import { CameraService } from './camera.service';
 import { GdevAlert, GdevCache, GdevLoading } from '@jgu7man/gdev-tools';
 import firebase from 'firebase/app'
 import { pickBy, identity } from 'lodash'
-import { iCurrentProp, JuegoState } from '../models/propiedad.model';
+import { iCurrentProp, PaqueteState } from '../models/propiedad.model';
 
 @Injectable({
   providedIn: 'root'
@@ -41,8 +41,8 @@ export class ReportesService {
 
   async searchForCurrentPropiedad(
   prefix: string,
-    juego: number,
-  prevState: JuegoState
+    paquete: number,
+  prevState: PaqueteState
   ): Promise<iCurrentProp> {
     const propRef = this._afs.collection('propiedades').doc(prefix).ref
 
@@ -54,9 +54,9 @@ export class ReportesService {
       } else {
 
         const prop = propDoc.data() as iCurrentProp
-        // 2. Search for juego
-        const juegoQDoc = await propDoc.ref.collection(`juegos`).doc(`${juego}`).get()
-        var prendasCol = await juegoQDoc.ref.collection(`prendas`).get()
+        // 2. Search for paquete
+        const paqueteQDoc = await propDoc.ref.collection(`paquetes`).doc(`${paquete}`).get()
+        var prendasCol = await paqueteQDoc.ref.collection(`prendas`).get()
 
         console.log(prendasCol.size)
         this.prendasChecklist = []
@@ -66,7 +66,7 @@ export class ReportesService {
         console.log( this.prendasChecklist )
 
         this.currentProp = {
-          ...prop, juego, prendas: this.prendasChecklist
+          ...prop, paquete, prendas: this.prendasChecklist
         }
 
         return this.currentProp
@@ -153,7 +153,7 @@ export class ReportesService {
         .ref.doc(`${new Date().getTime()}`)
         const batch = this._afs.firestore.batch()
 
-        const prendaPath = `propiedades/${this.currentProp.prefix}/juegos/${this.currentProp.juego}/prendas/${prenda.code}`
+        const prendaPath = `propiedades/${this.currentProp.prefix}/paquetes/${this.currentProp.paquete}/prendas/${prenda.code}`
         const prendaRef = this._afs.doc(prendaPath).ref
 
         // Save prenda history
@@ -167,8 +167,8 @@ export class ReportesService {
         let event: PropEvent = {
           date: new Date(),
           responsable: this.user.uid,
-          juego: {
-            index: this.currentProp.juego,
+          paquete: {
+            index: this.currentProp.paquete,
             state:'washing',
             prendasReport: [prenda]
           }
@@ -195,17 +195,17 @@ export class ReportesService {
 
         const propPath = `propiedades/${propId}`
         const propRef = this._afs.doc(propPath).ref
-        const juegoPath = `${propPath}/juegos/${event.juego.index}`
+        const paquetePath = `${propPath}/paquetes/${event.paquete.index}`
         const eventRef = this._afs.collection(`${propPath}/events`).ref
         const alertRef = this._afs.collection('alerts').ref
-        const juegoRef = this._afs.doc(juegoPath).ref
+        const paqueteRef = this._afs.doc(paquetePath).ref
         const batch = this._afs.firestore.batch()
 
 
         // Save prendas states
-        await this._loading.asyncForEach(event.juego.prendasReport,
+        await this._loading.asyncForEach(event.paquete.prendasReport,
           async (prenda: iPrendaEvent, index: number) => {
-            const prendaPath = `${juegoPath}/prendas/${prenda.code}`
+            const prendaPath = `${paquetePath}/prendas/${prenda.code}`
             const prendaRef = this._afs.doc(prendaPath).ref
 
             let prendaEvent = pickBy(prenda.event, identity)
@@ -213,12 +213,12 @@ export class ReportesService {
               state: prenda.state,
               history: firebase.firestore.FieldValue.arrayUnion(prendaEvent)
             })
-            event.juego.prendasReport[index].event = prendaEvent as iHistory
+            event.paquete.prendasReport[index].event = prendaEvent as iHistory
             return
           });
 
         let dateId = new Date().getTime()
-        var ciudad = event.juego.prendasReport[0].code.substring(1,3)
+        var ciudad = event.paquete.prendasReport[0].code.substring(1,3)
         // Save propiedad Event
         let cleanEvent = pickBy(event, identity)
         console.log( {...event} )
@@ -230,9 +230,9 @@ export class ReportesService {
           ciudad: ciudad ? ciudad : ''
         })
 
-        // Update juego state
-        batch.update(juegoRef,{
-          state: event.juego.state,
+        // Update paquete state
+        batch.update(paqueteRef,{
+          state: event.paquete.state,
           responsable: this.user.uid,
           lastUpdate: new Date()
         })

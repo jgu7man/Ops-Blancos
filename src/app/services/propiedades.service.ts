@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { GdevAlert, GdevLoading } from '@jgu7man/gdev-tools';
-import { iJuego, iPropiedad } from '../models/propiedad.model';
+import { iPaquete, iPropiedad } from '../models/propiedad.model';
 import firebase  from 'firebase/app'
 import { iPrenda } from '../models/prenda.model';
 
@@ -31,20 +31,20 @@ export class PropiedadesService {
         const prop = propDoc.data() as iPropiedad
         var propiedad = new iPropiedad(prop.ciudad, prop.prefix, prop.direccion, [])
 
-        // 2. Search for juegos
-        const juegosRef = propRef.collection('juegos')
-        const juegosCol = await juegosRef.get()
+        // 2. Search for paquetes
+        const paquetesRef = propRef.collection('paquetes')
+        const paquetesCol = await paquetesRef.get()
 
-        if (juegosCol.empty) {
+        if (paquetesCol.empty) {
           throw {error: 'JUEGOS_EMPTY'}
         } else {
 
           // 3. Search for prendas
-          await this._loading.asyncForEach( juegosCol.docs,
-            async (juegoDoc: firebase.firestore.DocumentData) => {
-              let juego = await this.searchForJuego(propiedad.prefix, juegoDoc.id)
-              juego = juego ? juego : juegoDoc.data() as iJuego
-              propiedad.juegos?.push(juego)
+          await this._loading.asyncForEach( paquetesCol.docs,
+            async (paqueteDoc: firebase.firestore.DocumentData) => {
+              let paquete = await this.searchForPaquete(propiedad.prefix, paqueteDoc.id)
+              paquete = paquete ? paquete : paqueteDoc.data() as iPaquete
+              propiedad.paquetes?.push(paquete)
             }
           )
         }
@@ -59,26 +59,26 @@ export class PropiedadesService {
   }
 
 
-  async searchForJuego(propPrefix: string, index: number): Promise<iJuego | null> {
-    var juego: iJuego = { total: 0, index: 0, prendas: [] }
-    const juegoRef = this._afs.doc(
-      `propiedades/${propPrefix}/juegos/${index}`
+  async searchForPaquete(propPrefix: string, index: number): Promise<iPaquete | null> {
+    var paquete: iPaquete = { total: 0, index: 0, prendas: [] }
+    const paqueteRef = this._afs.doc(
+      `propiedades/${propPrefix}/paquetes/${index}`
     )
-    const juegoDoc = await juegoRef.ref.get()
+    const paqueteDoc = await paqueteRef.ref.get()
 
-    if (!juegoDoc.exists) {
+    if (!paqueteDoc.exists) {
       return null
     } else {
-      juego = juegoDoc.data() as iJuego
-      if (!juego.prendas) juego.prendas = []
-      var prendasCol = await juegoDoc.ref.collection('prendas').get()
+      paquete = paqueteDoc.data() as iPaquete
+      if (!paquete.prendas) paquete.prendas = []
+      var prendasCol = await paqueteDoc.ref.collection('prendas').get()
       await this._loading.asyncForEach(prendasCol.docs,
         (prenda: firebase.firestore.DocumentData) => {
-          juego.prendas.push(prenda.data() as iPrenda)
+          paquete.prendas.push(prenda.data() as iPrenda)
         }
       ).catch(err => {throw err});
 
-      return juego
+      return paquete
     }
   }
 
@@ -99,11 +99,11 @@ export class PropiedadesService {
     const propRef = this._afs.collection('propiedades').ref
       .doc(propiedad.prefix)
 
-    // if (propiedad.juegos.length > 0) {
+    // if (propiedad.paquetes.length > 0) {
     //   await this._loading.asyncForEach(
-    //   propiedad.juegos,async (juego: iJuego) => {
-    //     if (juego.prendas.length > 0) {
-    //       juego.prendas.map(prenda => {return {...prenda}})
+    //   propiedad.paquetes,async (paquete: iPaquete) => {
+    //     if (paquete.prendas.length > 0) {
+    //       paquete.prendas.map(prenda => {return {...prenda}})
     //     }
     //   })
     // }
@@ -118,19 +118,19 @@ export class PropiedadesService {
         direccion: propiedad.direccion,
       }, {merge: true})
 
-      if (propiedad.juegos && propiedad.juegos.length > 0) {
-        propiedad.juegos.forEach( async juego => {
-          const juegoRef = propRef.collection('juegos').doc(`${juego.index}`)
+      if (propiedad.paquetes && propiedad.paquetes.length > 0) {
+        propiedad.paquetes.forEach( async paquete => {
+          const paqueteRef = propRef.collection('paquetes').doc(`${paquete.index}`)
 
-            juegoRef.set({
-              index: juego.index,
-              total: juego.total,
+            paqueteRef.set({
+              index: paquete.index,
+              total: paquete.total,
             }, { merge: true })
 
-          if (juego.prendas && juego.prendas.length > 0) {
+          if (paquete.prendas && paquete.prendas.length > 0) {
             var lote =  this._afs.firestore.batch()
-            juego.prendas.forEach(prenda => {
-              var prendaRef = juegoRef.collection('prendas').doc(prenda.code)
+            paquete.prendas.forEach(prenda => {
+              var prendaRef = paqueteRef.collection('prendas').doc(prenda.code)
               lote.set(prendaRef, {...prenda})
             })
             await lote.commit()

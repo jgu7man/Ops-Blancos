@@ -26,7 +26,7 @@ export class ScannerService {
         let code: iCode = {
           direccion: codeParts[0],
           producto: codeParts[1] as Producto,
-          juego: +codeParts[2],
+          paquete: +codeParts[2],
           part: +codeParts[3],
           total: +codeParts[4],
           code: codeParts[5],

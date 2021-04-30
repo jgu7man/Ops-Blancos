@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LimpiezaJuegoScanComponent } from './limpieza-juego-scan.component';
+import { DialogAddPaqueteComponent } from './dialog-add-paquete.component';
 
-describe('LimpiezaJuegoScanComponent', () => {
-  let component: LimpiezaJuegoScanComponent;
-  let fixture: ComponentFixture<LimpiezaJuegoScanComponent>;
+describe('DialogAddPaqueteComponent', () => {
+  let component: DialogAddPaqueteComponent;
+  let fixture: ComponentFixture<DialogAddPaqueteComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LimpiezaJuegoScanComponent ]
+      declarations: [ DialogAddPaqueteComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LimpiezaJuegoScanComponent);
+    fixture = TestBed.createComponent(DialogAddPaqueteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

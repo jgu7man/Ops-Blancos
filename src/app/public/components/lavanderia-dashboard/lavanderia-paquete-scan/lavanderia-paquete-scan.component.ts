@@ -1,30 +1,33 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { iPrendaEvent } from './../../../../models/reporte.model';
+import { iPrendaEvent } from '../../../../models/reporte.model';
 import { MatDialog } from '@angular/material/dialog';
 import { GdevCache } from '@jgu7man/gdev-tools';
 import { Subscription } from 'rxjs';
 import { iCode, iPrenda } from 'src/app/models/prenda.model';
-import {  iHistory, iJuegoEvent, PropEvent } from 'src/app/models/reporte.model';
+import {  iHistory, iPaqueteEvent, PropEvent } from 'src/app/models/reporte.model';
 import { iUser } from 'src/app/models/user.model';
 import { ReportesService } from 'src/app/services/reportes.service';
 import { ScannerService } from 'src/app/services/scanner.service';
-import { DialogLimpiezaFaltantesComponent } from './dialog-limpieza-faltantes/dialog-limpieza-faltantes.component';
+// import { DialogLimpiezaFaltantesComponent } from './dialog-limpieza-faltantes/dialog-limpieza-faltantes.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { iCurrentProp } from 'src/app/models/propiedad.model';
 import { ResponsablesService } from 'src/app/services/responsables.service';
 import { Location } from '@angular/common';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { take } from 'rxjs/operators';
+import { DialogLavanderiaFaltantesComponent } from './dialog-lavanderia-faltantes/dialog-lavanderia-faltantes.component';
+import { SeeImageComponent } from 'src/app/components/see-image/see-image.component';
 
 @Component({
-  templateUrl: './limpieza-juego-scan.component.html',
-  styleUrls: ['./limpieza-juego-scan.component.scss']
+  selector: 'g-lavanderia-paquete-scan',
+  templateUrl: './lavanderia-paquete-scan.component.html',
+  styleUrls: ['./lavanderia-paquete-scan.component.scss']
 })
-export class LimpiezaJuegoScanComponent implements OnInit, OnDestroy{
+export class LavanderiaPaqueteScanComponent implements OnInit {
 
   scannerSubs?: Subscription
   prop?: iCurrentProp
-  juegoState: iJuegoEvent
+  paqueteState: iPaqueteEvent
   propEvent: PropEvent
   user: iUser
   review: boolean = false
@@ -37,15 +40,15 @@ export class LimpiezaJuegoScanComponent implements OnInit, OnDestroy{
     private _route: ActivatedRoute,
     private _responsables: ResponsablesService,
     private _location: Location,
-    private _dashboard: DashboardService
+    private _dashboard: DashboardService,
   ) {
     this._dashboard.toggleBack = true
-    this.juegoState = {
+    this.paqueteState = {
       index: 0,
       prendasReport: [],
-      state: 'collected',
+      state: 'washing',
     };
-    this.propEvent = new PropEvent(new Date(), '', this.juegoState)
+    this.propEvent = new PropEvent(new Date(), '', this.paqueteState)
     this.user = this._cache.getDataKey<iUser>('user')
     this.getCurrentProp()
   }
@@ -61,31 +64,38 @@ export class LimpiezaJuegoScanComponent implements OnInit, OnDestroy{
   async getCurrentProp() {
 
     const prefix = this._route.snapshot.params['prefix']
-    const {juego, state} = this._route.snapshot.queryParams
+    const {paquete, state} = this._route.snapshot.queryParams
 
     if (prefix) {
-      this.prop = await this._responsables.getJuegoAcargoContent(prefix, juego)
+      this.prop = await this._responsables.getPaqueteAcargoContent(prefix, paquete)
       console.log( this.prop )
-      this.prop.juego = juego
+      this.prop.paquete = paquete
       this.review = true
-      this.juegoState = {
-        index: juego,
-        prendasReport: this.prop.prendas.map(p => { return {...p, scanned: true}}),
+      this.paqueteState = {
+        index: paquete,
+        prendasReport: this.prop.prendas
+          // .map(p => { return { ...p, scanned: true } })
+        ,
         state
       }
     } else {
       this.prop = this._cache.getDataKey<iCurrentProp>('currentProp')
-      this.juegoState = {
-        index: this.prop.juego,
-        state: 'collected',
-        prendasReport:[],
-      };
-      const prendasReport = await this._cache
-        .getAsyncKey<iPrendaEvent[]>('prendasReport')
-      if (prendasReport) this.juegoState.prendasReport = prendasReport
+
+      if (!this.prop) {
+        this._router.navigate(['/lavanderia'])
+      } else {
+        this.paqueteState = {
+          index: this.prop.paquete,
+          state: 'collected',
+          prendasReport:[],
+        };
+        const prendasReport = await this._cache
+          .getAsyncKey<iPrendaEvent[]>('prendasReport')
+        if (prendasReport) this.paqueteState.prendasReport = prendasReport
+      }
     }
 
-    this.propEvent = new PropEvent(new Date(), this.user.uid, this.juegoState)
+    this.propEvent = new PropEvent(new Date(), this.user.uid, this.paqueteState)
   }
 
   onScanned(code: iCode) {
@@ -98,18 +108,18 @@ export class LimpiezaJuegoScanComponent implements OnInit, OnDestroy{
           // Set scanned
           scanned: true,
           // Set actual state
-          state: 'sucio',
+          state: 'wash',
           // Regist event, state and who
-          event: new iHistory(new Date(), 'sucio', this.user?.uid as string),
+          event: new iHistory(new Date(), 'wash', this.user?.uid as string),
         }
-        this.juegoState?.prendasReport.push(currentPrenda)
+        this.paqueteState?.prendasReport.push(currentPrenda)
       }
     }
   }
 
   /**  Validate if prenda is scanned */
   scanned(prenda: iPrenda) {
-    return this.juegoState?.prendasReport
+    return this.paqueteState?.prendasReport
       .find(p => p.code === prenda.code)?.scanned
   }
 
@@ -136,10 +146,11 @@ export class LimpiezaJuegoScanComponent implements OnInit, OnDestroy{
   onFinish() {
     console.log( 'finish' )
     var faltantes: any[] = []
+    this.paqueteState.state = 'washing'
 
     // Search for "faltantes"
     this.prop?.prendas.forEach(pren => {
-      let prenda = this.juegoState?.prendasReport.find(
+      let prenda = this.paqueteState?.prendasReport.find(
         p => p.code == pren.code
       )
       if (!prenda || prenda.scanned !== true)
@@ -151,20 +162,28 @@ export class LimpiezaJuegoScanComponent implements OnInit, OnDestroy{
       this.onFaltantes(faltantes)
     } else {
       console.log('saving')
-      if (this.juegoState && this.propEvent) this.propEvent.juego = this.juegoState
+      if (this.paqueteState && this.propEvent) this.propEvent.paquete = this.paqueteState
       this._reportes.onSaveReporte(this.prop?.prefix as string, this.propEvent)
       .then(() => {
-        this._cache.updateData('prendasReport', this.propEvent?.juego.prendasReport)
+        this._cache.updateData('prendasReport', this.propEvent?.paquete.prendasReport)
         this.review
           ? this._location.back()
-          : this._router.navigate(['/limpieza/acargo'])
+          : this._router.navigate(['/lavanderia/lavando'])
       })
     }
   }
 
 
+  openImage(img: string) {
+    this._dialog.open(SeeImageComponent, {
+      data: img,
+      panelClass: 'img-dialog'
+    })
+  }
+
+
   onFaltantes(faltantes:iPrendaEvent[]) {
-    this._dialog.open(DialogLimpiezaFaltantesComponent, {
+    this._dialog.open(DialogLavanderiaFaltantesComponent, {
       data: faltantes
     }).afterClosed().pipe(take(1)).subscribe(confirm => {
       if (confirm) {
@@ -178,20 +197,16 @@ export class LimpiezaJuegoScanComponent implements OnInit, OnDestroy{
           }
         })
 
-        this.propEvent.juego.prendasReport = [
-          ...this.propEvent.juego.prendasReport,
+        this.propEvent.paquete.prendasReport = [
+          ...this.propEvent.paquete.prendasReport,
           ...faltantes
         ]
-        this._reportes.onSaveReporte(
-          this.prop?.prefix as string,
-          this.propEvent,
-          true
-        )
+        this._reportes.onSaveReporte(this.prop?.prefix as string, this.propEvent)
         .then(() => {
-          this._cache.updateData('prendasReport', this.propEvent.juego.prendasReport)
+          this._cache.updateData('prendasReport', this.propEvent.paquete.prendasReport)
           this.review
           ? this._location.back()
-          : this._router.navigate(['/limpieza/acargo'])
+          : this._router.navigate(['/lavanderia/lavando'])
           })
         // save
       }

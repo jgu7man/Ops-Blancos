@@ -39,7 +39,7 @@ export class HouseGlobeComponent implements OnInit {
 
   seeProp() {
     let perfil = window.location.href.split('/')[3]
-    this._router.navigate([`/${perfil}/juego`])
+    this._router.navigate([`/${perfil}/paquete`])
   }
 
 }

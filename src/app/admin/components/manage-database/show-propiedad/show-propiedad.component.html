@@ -44,18 +44,18 @@
           </tbody>
         </table>
 
-        <p class="cyan-text"><b>Juegos</b>
+        <p class="cyan-text"><b>Paquetes</b>
           <button mat-icon-button
-          (click)="onAddJuego()">
+          (click)="onAddPaquete()">
               <i class="fas fa-plus "></i>
           </button>
         </p>
         <div class="row">
-          <div class="col s12" *ngFor="let jue of propiedad.juegos; index as ji">
+          <div class="col s12" *ngFor="let jue of propiedad.paquetes; index as ji">
             <table >
               <tbody>
                 <tr>
-                  <th>Juego</th>
+                  <th>Paquete</th>
                   <td>{{jue.index}}</td>
                 </tr>
                 <tr>

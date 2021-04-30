@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GdevCache } from '@jgu7man/gdev-tools';
 import { Subscription } from 'rxjs';
 import { iCode, iPrenda } from 'src/app/models/prenda.model';
-import {  iHistory, iJuegoEvent, PropEvent } from 'src/app/models/reporte.model';
+import {  iHistory, iPaqueteEvent, PropEvent } from 'src/app/models/reporte.model';
 import { iUser } from 'src/app/models/user.model';
 import { ReportesService } from 'src/app/services/reportes.service';
 import { ScannerService } from 'src/app/services/scanner.service';
@@ -26,7 +26,7 @@ export class LavanderiaPackingScanComponent implements OnInit {
 
   scannerSubs?: Subscription
   prop?: iCurrentProp
-  juegoState: iJuegoEvent
+  paqueteState: iPaqueteEvent
   propEvent: PropEvent
   user: iUser
   review: boolean = false
@@ -42,12 +42,12 @@ export class LavanderiaPackingScanComponent implements OnInit {
     private _dashboard: DashboardService,
   ) {
     this._dashboard.toggleBack = true
-    this.juegoState = {
+    this.paqueteState = {
       index: 0,
       prendasReport: [],
       state: 'stock',
     };
-    this.propEvent = new PropEvent(new Date(), '', this.juegoState)
+    this.propEvent = new PropEvent(new Date(), '', this.paqueteState)
     this.user = this._cache.getDataKey<iUser>('user')
     this.getCurrentProp()
   }
@@ -62,31 +62,31 @@ export class LavanderiaPackingScanComponent implements OnInit {
 
   async getCurrentProp() {
     const prefix = this._route.snapshot.params['prefix']
-    const {juego, state} = this._route.snapshot.queryParams
+    const {paquete, state} = this._route.snapshot.queryParams
 
     if (prefix) {
-      this.prop = await this._responsables.getJuegoAcargoContent(prefix, juego)
+      this.prop = await this._responsables.getPaqueteAcargoContent(prefix, paquete)
       console.log( this.prop )
-      this.prop.juego = juego
+      this.prop.paquete = paquete
       this.review = true
-      this.juegoState = {
-        index: juego,
+      this.paqueteState = {
+        index: paquete,
         prendasReport: [],
         state
       }
     } else {
       this.prop = this._cache.getDataKey<iCurrentProp>('currentProp')
-      this.juegoState = {
-        index: this.prop.juego,
+      this.paqueteState = {
+        index: this.prop.paquete,
         state: 'collected',
         prendasReport:[],
       };
       const prendasReport = await this._cache
         .getAsyncKey<iPrendaEvent[]>('prendasReport')
-      if (prendasReport) this.juegoState.prendasReport = prendasReport
+      if (prendasReport) this.paqueteState.prendasReport = prendasReport
     }
 
-    this.propEvent = new PropEvent(new Date(), this.user.uid, this.juegoState)
+    this.propEvent = new PropEvent(new Date(), this.user.uid, this.paqueteState)
   }
 
   onScanned(code: iCode) {
@@ -103,14 +103,14 @@ export class LavanderiaPackingScanComponent implements OnInit {
           // Regist event, state and who
           event: new iHistory(new Date(), 'stock', this.user?.uid as string),
         }
-        this.juegoState?.prendasReport.push(currentPrenda)
+        this.paqueteState?.prendasReport.push(currentPrenda)
       }
     }
   }
 
   /**  Validate if prenda is scanned */
   scanned(prenda: iPrenda) {
-    return this.juegoState?.prendasReport
+    return this.paqueteState?.prendasReport
       .find(p => p.code === prenda.code)?.scanned
   }
 
@@ -137,11 +137,11 @@ export class LavanderiaPackingScanComponent implements OnInit {
   onFinish() {
     console.log( 'finish' )
     var faltantes: any[] = []
-    this.juegoState.state = 'stock'
+    this.paqueteState.state = 'stock'
 
     // Search for "faltantes"
     this.prop?.prendas.forEach(pren => {
-      let prenda = this.juegoState?.prendasReport.find(
+      let prenda = this.paqueteState?.prendasReport.find(
         p => p.code == pren.code
       )
       if (!prenda || prenda.scanned !== true)
@@ -153,10 +153,10 @@ export class LavanderiaPackingScanComponent implements OnInit {
       this.onFaltantes(faltantes)
     } else {
       console.log('saving')
-      if (this.juegoState && this.propEvent) this.propEvent.juego = this.juegoState
+      if (this.paqueteState && this.propEvent) this.propEvent.paquete = this.paqueteState
       this._reportes.onSaveReporte(this.prop?.prefix as string, this.propEvent)
       .then(() => {
-        this._cache.updateData('prendasReport', this.propEvent?.juego.prendasReport)
+        this._cache.updateData('prendasReport', this.propEvent?.paquete.prendasReport)
         this.review
           ? this._location.back()
           : this._router.navigate(['/lavanderia'])
@@ -188,13 +188,13 @@ export class LavanderiaPackingScanComponent implements OnInit {
           }
         })
 
-        this.propEvent.juego.prendasReport = [
-          ...this.propEvent.juego.prendasReport,
+        this.propEvent.paquete.prendasReport = [
+          ...this.propEvent.paquete.prendasReport,
           ...faltantes
         ]
         this._reportes.onSaveReporte(this.prop?.prefix as string, this.propEvent)
         .then(() => {
-          this._cache.updateData('prendasReport', this.propEvent.juego.prendasReport)
+          this._cache.updateData('prendasReport', this.propEvent.paquete.prendasReport)
           this.review
           ? this._location.back()
           : this._router.navigate(['/lavanderia'])

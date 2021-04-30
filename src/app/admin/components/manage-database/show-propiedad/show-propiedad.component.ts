@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GdevAlert } from '@jgu7man/gdev-tools';
 import { iCode, iPrenda } from 'src/app/models/prenda.model';
-import { iPropiedad, iJuego } from 'src/app/models/propiedad.model';
+import { iPropiedad, iPaquete } from 'src/app/models/propiedad.model';
 import { PropiedadesService } from 'src/app/services/propiedades.service';
-import { DialogAddJuegoComponent } from '../dialog-add-juego/dialog-add-juego.component';
+import { DialogAddPaqueteComponent } from '../dialog-add-paquete/dialog-add-paquete.component';
 import { DialogAddPrendaComponent } from '../dialog-add-prenda/dialog-add-prenda.component';
 
 @Component({
@@ -42,43 +42,43 @@ export class ShowPropiedadComponent implements OnInit {
     if (this.code) {
       const {code, part: index, producto} = this.code
       const prenda = {code, index, producto}
-      const juego = {
-        total: this.code.total, index: this.code.juego, prendas: [prenda]
+      const paquete = {
+        total: this.code.total, index: this.code.paquete, prendas: [prenda]
       }
       this.propiedad = new iPropiedad(
         this.code.code.substring(0, 3),
         this.code.prefix,
         this.code.direccion,
-        [juego]
+        [paquete]
       )
     }
   }
 
 
-  onAddJuego() {
-    this._dialog.open(DialogAddJuegoComponent, {
+  onAddPaquete() {
+    this._dialog.open(DialogAddPaqueteComponent, {
       width: '100%',
       disableClose: true
-    }).afterClosed().subscribe((result:iJuego) => {
+    }).afterClosed().subscribe((result:iPaquete) => {
       if (result) {
-        var duplicated = this.propiedad.juegos?.find(
+        var duplicated = this.propiedad.paquetes?.find(
           j => j.index == result.index
         )
-        if (duplicated) this._alert.sendMessageAlert(`El juego ${result.index} ya existe, crea otro juego`)
-        else this.propiedad.juegos?.push(result)
+        if (duplicated) this._alert.sendMessageAlert(`El paquete ${result.index} ya existe, crea otro paquete`)
+        else this.propiedad.paquetes?.push(result)
       }
     })
   }
 
-  onAddPrenda(juego: number) {
-    const juegoIndex = this.propiedad.juegos?.findIndex(j => j.index === juego)
+  onAddPrenda(paquete: number) {
+    const paqueteIndex = this.propiedad.paquetes?.findIndex(j => j.index === paquete)
     this._dialog.open(DialogAddPrendaComponent, {
       width: '100%',
       disableClose: true
     }).afterClosed().subscribe((result: iPrenda) => {
       let prefix = result.code.substring(3, 9)
-      if (prefix === this.propiedad.prefix && this.propiedad.juegos) {
-        this.propiedad.juegos[juegoIndex ? juegoIndex : 0]
+      if (prefix === this.propiedad.prefix && this.propiedad.paquetes) {
+        this.propiedad.paquetes[paqueteIndex ? paqueteIndex : 0]
         .prendas?.push(result)
       } else {
         this._alert.sendMessageAlert('Este código no pertenece a la propiedad, no lo puedes agregar')
@@ -86,31 +86,31 @@ export class ShowPropiedadComponent implements OnInit {
     })
   }
 
-  deletePrenda(juegoIndex: number, prendaIndex: number) {
+  deletePrenda(paqueteIndex: number, prendaIndex: number) {
     // this.propiedad = {
     //   ...this.propiedad,
-    //   juegos: this.propiedad.juegos.map(juego =>
-    //     juego.index != juegoIndex ? juego :
+    //   paquetes: this.propiedad.paquetes.map(paquete =>
+    //     paquete.index != paqueteIndex ? paquete :
     //       {
-    //         ...juego,
-    //         prendas: juego.prendas.filter(
+    //         ...paquete,
+    //         prendas: paquete.prendas.filter(
     //           prenda => prenda.index != prendaIndex
     //         )
     //       }
     //   )
     // }
 
-      let juegoFinded = this.propiedad.juegos[juegoIndex]
-      console.log( juegoFinded )
-      juegoFinded.prendas.splice(prendaIndex, 1)
-      this.propiedad.juegos[juegoIndex] = juegoFinded
+      let paqueteFinded = this.propiedad.paquetes[paqueteIndex]
+      console.log( paqueteFinded )
+      paqueteFinded.prendas.splice(prendaIndex, 1)
+      this.propiedad.paquetes[paqueteIndex] = paqueteFinded
   }
 
 
   async onSavePropiedad() {
-    this.propiedad.juegos.forEach((juego, index) => {
-      juego.total = juego.prendas.length
-      this.propiedad.juegos[index] = juego
+    this.propiedad.paquetes.forEach((paquete, index) => {
+      paquete.total = paquete.prendas.length
+      this.propiedad.paquetes[index] = paquete
     })
     await this._propiedades.savePropiedad(this.propiedad)
     this.close.emit()

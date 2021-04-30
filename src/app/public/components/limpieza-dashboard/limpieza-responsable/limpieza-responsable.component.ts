@@ -14,7 +14,7 @@ export class LimpiezaResponsableComponent implements OnInit {
   constructor(
     private _responsables: ResponsablesService
   ) {
-    this.acargoList$ = this._responsables.getJuegosAcargo()
+    this.acargoList$ = this._responsables.getPaquetesAcargo()
   }
 
   ngOnInit(): void {

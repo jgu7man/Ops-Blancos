@@ -32,7 +32,7 @@ export class LimpiezaHomeComponent implements OnInit, OnDestroy {
           this.onScanned(codeScanned)
         })
     let currentProp = this._cache.getDataKey('currentProp')
-    if (currentProp) {this._router.navigate(['/limpieza/juego'])}
+    if (currentProp) {this._router.navigate(['/limpieza/paquete'])}
    }
 
   ngOnInit(): void {
@@ -49,10 +49,10 @@ export class LimpiezaHomeComponent implements OnInit, OnDestroy {
       disableClose: true
     }).afterClosed().subscribe(next => {
       if (next) {
-        this._reportes.searchForCurrentPropiedad(scanned.prefix, scanned.juego, 'prop')
+        this._reportes.searchForCurrentPropiedad(scanned.prefix, scanned.paquete, 'prop')
           .then((propiedad) => {
             this._cache.updateData('currentProp', propiedad)
-            this._router.navigate(['/limpieza/juego'])
+            this._router.navigate(['/limpieza/paquete'])
         })
       }
     })

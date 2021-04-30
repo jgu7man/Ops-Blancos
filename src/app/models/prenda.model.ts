@@ -18,7 +18,7 @@ export interface iReporte {
 export interface iCode {
   direccion: string;
   producto: Producto;
-  juego: number;
+  paquete: number;
   part: number;
   total: number;
   code: string;

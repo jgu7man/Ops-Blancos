@@ -28,7 +28,7 @@ export class DialogLavanderiaScannedFormComponent implements OnInit {
   }
 
   validatePropOwner() {
-    // this._reportes.currentProp?.juegos
+    // this._reportes.currentProp?.paquetes
   }
 
   validateReady(event: boolean) {

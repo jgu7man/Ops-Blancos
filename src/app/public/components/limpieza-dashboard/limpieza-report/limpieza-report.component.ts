@@ -36,10 +36,10 @@ export class LimpiezaReportComponent implements OnInit, OnDestroy {
   validateCodeScanned(code:iCode) {
     const currentProp = this._cache.getDataKey<iCurrentProp>('currentProp')
     if (code.prefix === currentProp.prefix) {
-      if (code.juego === currentProp.juego) {
+      if (code.paquete === currentProp.paquete) {
         this.onScanned(code)
       } else {
-        this._alert.sendMessageAlert('Esta prenda no pertenece al juego en turno')
+        this._alert.sendMessageAlert('Esta prenda no pertenece al paquete en turno')
       }
     } else {
       this._alert.sendMessageAlert('Esta prenda no pertenece a esta propiedad')

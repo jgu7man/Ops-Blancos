@@ -7,7 +7,7 @@
   id="bottom-bar"
 >
   <span class="navbtn">
-    <i class="fas fa-home fa-lg  white-text" [routerLink]="['home']" [routerLinkActive]="'active'" [ngClass]="{'active': juegoActive.isActive}"></i>
+    <i class="fas fa-home fa-lg  white-text" [routerLink]="['home']" [routerLinkActive]="'active'" [ngClass]="{'active': paqueteActive.isActive}"></i>
   </span>
   <span class="navbtn">
     <i class="fas fa-clipboard-list fa-lg  white-text" [routerLink]="['reporte']" [routerLinkActive]="'active'"></i>
@@ -15,6 +15,6 @@
   <span class="navbtn">
     <i class="fas fa-truck fa-lg  white-text" [routerLink]="['acargo']" [routerLinkActive]="'active'" ></i>
   </span>
-  <a routerLink="juego" routerLinkActive #juegoActive="routerLinkActive" hidden="true"></a>
+  <a routerLink="paquete" routerLinkActive #paqueteActive="routerLinkActive" hidden="true"></a>
 </mat-toolbar>
 

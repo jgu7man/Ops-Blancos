@@ -4,7 +4,7 @@ import { GdevCache } from '@jgu7man/gdev-tools';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, mergeScan } from 'rxjs/operators';
 import { iCurrentProp, iPropAcargo, iPropiedad } from '../models/propiedad.model';
-import { iJuegoState, iPrendaEvent, iPrendaState } from '../models/reporte.model';
+import { iPaqueteState, iPrendaEvent, iPrendaState } from '../models/reporte.model';
 import { iUser } from '../models/user.model';
 import firebase from 'firebase/app'
 import { MergeScanOperator } from 'rxjs/internal/operators/mergeScan';
@@ -24,28 +24,28 @@ export class ResponsablesService {
    }
 
 
-  getJuegosAcargo(uid?: string): Observable<iPropAcargo[]> {
+  getPaquetesAcargo(uid?: string): Observable<iPropAcargo[]> {
     if (!uid) uid = this.currentUser.uid
-    const juegos: iPropAcargo[] = []
-    const juegosListRef = this._afs.collectionGroup<iJuegoState>('juegos',
+    const paquetes: iPropAcargo[] = []
+    const paquetesListRef = this._afs.collectionGroup<iPaqueteState>('paquetes',
       ref => ref.where('responsable', '==', uid)).get()
 
-    return juegosListRef.pipe(map(juegosList => {
+    return paquetesListRef.pipe(map(paquetesList => {
 
-      return juegosList.docs.map(doc => {
-        let {index: juego, state, lastUpdate} = doc.data()
+      return paquetesList.docs.map(doc => {
+        let {index: paquete, state, lastUpdate} = doc.data()
         let prefix = doc.ref.path.split('/')[1]
-        return {juego, prefix, state, lastUpdate}
+        return {paquete, prefix, state, lastUpdate}
       })
 
     }))
 
   }
 
-   async getJuegoAcargoContent(prefix: string, juego:string) {
+   async getPaqueteAcargoContent(prefix: string, paquete:string) {
     const propRef = this._afs.doc<iPropiedad>(`propiedades/${prefix}`)
-    const juegoRef = propRef.collection<iJuegoState>('juegos').doc(juego)
-    const prendasRef = juegoRef.collection<iPrendaState>('prendas')
+    const paqueteRef = propRef.collection<iPaqueteState>('paquetes').doc(paquete)
+    const prendasRef = paqueteRef.collection<iPrendaState>('prendas')
     var currentProp: iCurrentProp = {} as iCurrentProp
 
     return new Promise<iCurrentProp>(resolve => {

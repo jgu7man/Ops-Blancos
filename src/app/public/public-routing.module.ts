@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LimpiezaDashboardComponent } from './components/limpieza-dashboard/limpieza-dashboard.component';
 import { LimpiezaHomeComponent } from './components/limpieza-dashboard/limpieza-home/limpieza-home.component';
-import { LimpiezaJuegoScanComponent } from './components/limpieza-dashboard/limpieza-juego-scan/limpieza-juego-scan.component';
+import { LimpiezaPaqueteScanComponent } from './components/limpieza-dashboard/limpieza-paquete-scan/limpieza-paquete-scan.component';
 import { LimpiezaResponsableComponent } from './components/limpieza-dashboard/limpieza-responsable/limpieza-responsable.component';
 import { LimpiezaReportComponent } from './components/limpieza-dashboard/limpieza-report/limpieza-report.component';
 
@@ -12,7 +12,7 @@ import { LavanderiaUnpackageComponent } from './components/lavanderia-dashboard/
 import { LavanderiaWorkingComponent } from './components/lavanderia-dashboard/lavanderia-working/lavanderia-working.component';
 import { LavanderiaReportComponent } from './components/lavanderia-dashboard/lavanderia-report/lavanderia-report.component';
 import { LavanderiaPackingComponent } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing.component';
-import { LavanderiaJuegoScanComponent } from './components/lavanderia-dashboard/lavanderia-juego-scan/lavanderia-juego-scan.component';
+import { LavanderiaPaqueteScanComponent } from './components/lavanderia-dashboard/lavanderia-paquete-scan/lavanderia-paquete-scan.component';
 import { LavanderiaPackingScanComponent } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing-scan/lavanderia-packing-scan.component';
 
 const routes: Routes = [
@@ -21,16 +21,16 @@ const routes: Routes = [
     { path: 'limpieza', component: LimpiezaDashboardComponent, children:[
       { path: '', pathMatch: 'full', redirectTo: 'home' },
       { path: 'home', component: LimpiezaHomeComponent },
-      { path: 'juego', component: LimpiezaJuegoScanComponent },
-      { path: 'juego/:prefix', component: LimpiezaJuegoScanComponent },
+      { path: 'paquete', component: LimpiezaPaqueteScanComponent },
+      { path: 'paquete/:prefix', component: LimpiezaPaqueteScanComponent },
       { path: 'reporte', component: LimpiezaReportComponent },
       { path: 'acargo', component: LimpiezaResponsableComponent },
     ] },
     { path: 'lavanderia', component: LavanderiaDashboardComponent, children:[
       { path: '', pathMatch: 'full', redirectTo: 'desempaque' },
       { path: 'desempaque', component: LavanderiaUnpackageComponent },
-      { path: 'juego', component: LavanderiaJuegoScanComponent },
-      { path: 'review/:prefix', component: LavanderiaJuegoScanComponent },
+      { path: 'paquete', component: LavanderiaPaqueteScanComponent },
+      { path: 'review/:prefix', component: LavanderiaPaqueteScanComponent },
       { path: 'lavando', component: LavanderiaWorkingComponent },
       { path: 'reporte', component: LavanderiaReportComponent },
       { path: 'empaque', component: LavanderiaPackingComponent },

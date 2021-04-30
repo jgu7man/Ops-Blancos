@@ -42,9 +42,9 @@ export class LavanderiaReportComponent implements OnInit {
     this.onScanned(code)
 
     // if (code.prefix === currentProp.prefix) {
-    //   if (code.juego === currentProp.juego) {
+    //   if (code.paquete === currentProp.paquete) {
     //   } else {
-    //     this._alert.sendMessageAlert('Esta prenda no pertenece al juego en turno')
+    //     this._alert.sendMessageAlert('Esta prenda no pertenece al paquete en turno')
     //   }
     // } else {
     //   this._alert.sendMessageAlert('Esta prenda no pertenece a esta propiedad')

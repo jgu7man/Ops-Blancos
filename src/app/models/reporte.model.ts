@@ -1,5 +1,5 @@
 import { iPrenda, PrendaState } from "./prenda.model";
-import { iJuego, JuegoState } from "./propiedad.model";
+import { iPaquete, PaqueteState } from "./propiedad.model";
 import firebase from 'firebase/app';
 
 
@@ -8,20 +8,20 @@ export class PropEvent {
   constructor(
     public date: Date | firebase.firestore.Timestamp,
     public responsable: string,
-    public juego: iJuegoEvent,
+    public paquete: iPaqueteEvent,
     public checked?: boolean
     ){}
   }
 
-// Juego Reports
-export interface iJuegoState extends iJuego{
+// Paquete Reports
+export interface iPaqueteState extends iPaquete{
   responsable: string,
-  state: JuegoState,
+  state: PaqueteState,
   lastUpdate: Date | firebase.firestore.Timestamp
 }
-export interface iJuegoEvent {
+export interface iPaqueteEvent {
   index: number,
-  state: JuegoState,
+  state: PaqueteState,
   prendasReport: iPrendaEvent[]
 }
 

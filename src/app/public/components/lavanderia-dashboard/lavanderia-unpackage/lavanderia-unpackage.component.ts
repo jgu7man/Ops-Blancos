@@ -27,7 +27,7 @@ export class LavanderiaUnpackageComponent implements OnInit, OnDestroy {
           this.onScanned(codeScanned)
         })
     let currentProp = this._cache.getDataKey('currentProp')
-    if (currentProp) {this._router.navigate(['/lavanderia/juego'])}
+    if (currentProp) {this._router.navigate(['/lavanderia/paquete'])}
    }
 
   ngOnInit(): void {
@@ -38,7 +38,7 @@ export class LavanderiaUnpackageComponent implements OnInit, OnDestroy {
   async onScanned(scanned: iCode) {
 
     const propiedad = await this._reportes
-      .searchForCurrentPropiedad(scanned.prefix, scanned.juego, 'collected')
+      .searchForCurrentPropiedad(scanned.prefix, scanned.paquete, 'collected')
       this._cache.updateData('currentProp', propiedad)
 
     const reportes = await this._reportes
@@ -49,7 +49,7 @@ export class LavanderiaUnpackageComponent implements OnInit, OnDestroy {
     //     data: reportes
     //   })
     // } else {
-      this._router.navigate(['/lavanderia/juego'])
+      this._router.navigate(['/lavanderia/paquete'])
     // }
 
 

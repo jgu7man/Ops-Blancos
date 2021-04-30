@@ -7,7 +7,7 @@ export class iPropiedad {
     public ciudad: string,
     public prefix: string,
     public direccion: string,
-    public juegos: iJuego[]
+    public paquetes: iPaquete[]
   ){}
 }
 
@@ -15,21 +15,21 @@ export interface iCurrentProp {
   ciudad: string,
   prefix: string,
   direccion: string,
-  juego: number,
+  paquete: number,
   prendas: iPrendaEvent[]
 }
 
 export interface iPropAcargo {
-  juego: number,
+  paquete: number,
   prefix: string,
   state: string,
   lastUpdate: firebase.firestore.Timestamp | Date
 }
 
 
-export type JuegoState = 'prop' | 'stock' | 'washing' | 'collected'
+export type PaqueteState = 'prop' | 'stock' | 'washing' | 'collected'
 
-export interface iJuego {
+export interface iPaquete {
   pid: string
   total: number
   index: number

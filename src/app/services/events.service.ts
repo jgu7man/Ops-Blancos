@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { GdevCache } from '@jgu7man/gdev-tools';
 import { forkJoin, zip } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { iJuegoEvent, iJuegoState, PropEvent } from '../models/reporte.model';
+import { iPaqueteEvent, iPaqueteState, PropEvent } from '../models/reporte.model';
 
 @Injectable({
   providedIn: 'root'
@@ -43,14 +43,14 @@ export class EventsService {
   }
 
   getWashingUps() {
-    return this._afs.collectionGroup<iJuegoState>('juegos',
+    return this._afs.collectionGroup<iPaqueteState>('paquetes',
       ref => ref.where('state', '==', 'washing'))
       .valueChanges()
       .pipe(tap(data => this._cache.updateData('washing', data)))
   }
 
   getCollected() {
-    return this._afs.collectionGroup('juegos',
+    return this._afs.collectionGroup('paquetes',
       ref => ref.where('state', '==', 'collected'))
       .valueChanges()
       .pipe(tap(data => this._cache.updateData('collected', data)))
