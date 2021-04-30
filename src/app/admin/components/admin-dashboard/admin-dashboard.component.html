@@ -1,1 +1,68 @@
-<p>admin-dashboard works!</p>
+<div class="container page-container">
+  <div class="row">
+    <div class="col s12">
+      <h2 class="center"><b>Tablero</b></h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s6">
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{todayEvents | async}}</mat-card-title>
+          <mat-card-subtitle>Eventos del día de hoy</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions style="display:flex; justify-content:flex-end">
+          <button mat-button color="primary">
+            Ver historial
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+    </div>
+
+    <div class="col s6">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>0</mat-card-title>
+          <mat-card-subtitle>Paquetes lavando</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions style="display:flex; justify-content:flex-end">
+          <button mat-button color="primary">
+            Ver paquetes en espera
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <div class="col s6">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>0</mat-card-title>
+          <mat-card-subtitle>Paquetes sin lavar</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions style="display:flex; justify-content:flex-end">
+          <button mat-button color="primary">
+            Ver paquetes en espera
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <div class="col s6">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>0</mat-card-title>
+          <mat-card-subtitle>Prendas dañadas</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions style="display:flex; justify-content:flex-end">
+          <button mat-button color="primary">
+            Ver prendas
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+
+  </div>
+</div>

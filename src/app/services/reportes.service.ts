@@ -238,6 +238,7 @@ export class ReportesService {
         })
 
         batch.commit()
+        this._cache.deleteDataKey('currentProp')
         return
       } else { throw {message: 'No está autenticado'} }
 

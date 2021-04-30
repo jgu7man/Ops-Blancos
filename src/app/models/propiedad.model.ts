@@ -30,6 +30,7 @@ export interface iPropAcargo {
 export type JuegoState = 'prop' | 'stock' | 'washing' | 'collected'
 
 export interface iJuego {
+  pid: string
   total: number
   index: number
   prendas: iPrenda[]

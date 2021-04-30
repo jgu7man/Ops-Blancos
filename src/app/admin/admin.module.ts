@@ -18,6 +18,7 @@ import { DialogAddPropiedadComponent } from './components/manage-database/dialog
 import { DialogAddJuegoComponent } from './components/manage-database/dialog-add-juego/dialog-add-juego.component';
 import { DialogAddPrendaComponent } from './components/manage-database/dialog-add-prenda/dialog-add-prenda.component';
 import { ShowPropiedadComponent } from './components/manage-database/show-propiedad/show-propiedad.component';
+import { HistorialComponent } from './components/admin-dashboard/historial/historial.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { ShowPropiedadComponent } from './components/manage-database/show-propie
     DialogAddJuegoComponent,
     DialogAddPrendaComponent,
     ShowPropiedadComponent,
+    HistorialComponent,
   ],
   imports: [
     CommonModule,

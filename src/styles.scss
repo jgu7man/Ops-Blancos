@@ -25,6 +25,7 @@ $ops-blancos-theme: mat-light-theme((
 $guestify-typography: mat-typography-config(
   $font-family: 'Lato',
   $headline: mat-typography-level(32px, 48px, 700),
+  $title: mat-typography-level(24px, 24px, 600),
   $body-1: mat-typography-level(16px, 24px, 500)
 );
 

@@ -157,7 +157,7 @@ export class LimpiezaJuegoScanComponent implements OnInit, OnDestroy{
         this._cache.updateData('prendasReport', this.propEvent?.juego.prendasReport)
         this.review
           ? this._location.back()
-          : this._router.navigate(['/limpieza/scan'])
+          : this._router.navigate(['/limpieza/acargo'])
       })
     }
   }
@@ -191,7 +191,7 @@ export class LimpiezaJuegoScanComponent implements OnInit, OnDestroy{
           this._cache.updateData('prendasReport', this.propEvent.juego.prendasReport)
           this.review
           ? this._location.back()
-          : this._router.navigate(['/limpieza/scan'])
+          : this._router.navigate(['/limpieza/acargo'])
           })
         // save
       }
