@@ -23,7 +23,7 @@ const routes: Routes = [
       { path: 'home', component: LimpiezaHomeComponent },
       { path: 'juego', component: LimpiezaJuegoScanComponent },
       { path: 'juego/:prefix', component: LimpiezaJuegoScanComponent },
-      { path: 'resporte', component: LimpiezaReportComponent },
+      { path: 'reporte', component: LimpiezaReportComponent },
       { path: 'acargo', component: LimpiezaResponsableComponent },
     ] },
     { path: 'lavanderia', component: LavanderiaDashboardComponent, children:[

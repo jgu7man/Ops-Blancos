@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ScannerService } from 'src/app/services/scanner.service';
 import { iScannedSource } from 'src/app/models/scanned.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,7 +15,7 @@ import { ReportesService } from 'src/app/services/reportes.service';
   templateUrl: './limpieza-home.component.html',
   styleUrls: ['./limpieza-home.component.scss']
 })
-export class LimpiezaHomeComponent implements OnInit {
+export class LimpiezaHomeComponent implements OnInit, OnDestroy {
 
   scannerSubs: Subscription
   constructor(
@@ -31,6 +31,8 @@ export class LimpiezaHomeComponent implements OnInit {
         subscribe(codeScanned => {
           this.onScanned(codeScanned)
         })
+    let currentProp = this._cache.getDataKey('currentProp')
+    if (currentProp) {this._router.navigate(['/limpieza/juego'])}
    }
 
   ngOnInit(): void {
@@ -54,6 +56,10 @@ export class LimpiezaHomeComponent implements OnInit {
         })
       }
     })
+  }
+
+  ngOnDestroy(){
+    if (this.scannerSubs) this.scannerSubs.unsubscribe()
   }
 
 }

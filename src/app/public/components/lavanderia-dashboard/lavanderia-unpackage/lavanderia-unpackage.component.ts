@@ -26,6 +26,8 @@ export class LavanderiaUnpackageComponent implements OnInit, OnDestroy {
         subscribe(codeScanned => {
           this.onScanned(codeScanned)
         })
+    let currentProp = this._cache.getDataKey('currentProp')
+    if (currentProp) {this._router.navigate(['/lavanderia/juego'])}
    }
 
   ngOnInit(): void {

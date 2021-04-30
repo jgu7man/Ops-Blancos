@@ -58,7 +58,8 @@ export class ReportesService {
         const juegoQDoc = await propDoc.ref.collection(`juegos`).doc(`${juego}`).get()
         var prendasCol = await juegoQDoc.ref.collection(`prendas`).get()
 
-        console.log( prendasCol.size )
+        console.log(prendasCol.size)
+        this.prendasChecklist = []
         prendasCol.forEach(
           prenda => this.prendasChecklist.push(prenda.data() as iPrendaEvent)
         )
