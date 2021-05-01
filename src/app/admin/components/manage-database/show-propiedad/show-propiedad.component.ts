@@ -41,9 +41,11 @@ export class ShowPropiedadComponent implements OnInit {
     console.log( this.code )
     if (this.code) {
       const {code, part: index, producto} = this.code
-      const prenda = {code, index, producto}
+      const prenda = { code, index, producto }
+      const paqueteId = this.code.code.substring(0,9)
       const paquete = {
-        total: this.code.total, index: this.code.paquete, prendas: [prenda]
+        total: this.code.total, index: this.code.paquete, prendas: [prenda],
+        pid:paqueteId
       }
       this.propiedad = new iPropiedad(
         this.code.code.substring(0, 3),

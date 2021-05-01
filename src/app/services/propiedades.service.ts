@@ -60,7 +60,7 @@ export class PropiedadesService {
 
 
   async searchForPaquete(propPrefix: string, index: number): Promise<iPaquete | null> {
-    var paquete: iPaquete = { total: 0, index: 0, prendas: [] }
+    var paquete: iPaquete = { total: 0, index: 0, prendas: [], pid:'' }
     const paqueteRef = this._afs.doc(
       `propiedades/${propPrefix}/paquetes/${index}`
     )
