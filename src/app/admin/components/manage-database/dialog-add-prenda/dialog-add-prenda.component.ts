@@ -17,8 +17,8 @@ export class DialogAddPrendaComponent implements OnInit {
 
   ngOnInit(): void {
     this._scanner.codeScanned$.subscribe(codeScanned => {
-      const {code, part: index, producto } = codeScanned
-        let prenda: iPrenda = {code, index, producto }
+      const {codigo, unidad, producto } = codeScanned
+        let prenda: iPrenda = {codigo, unidad, producto }
 
         this.dialog_.close(prenda)
 

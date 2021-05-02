@@ -113,7 +113,7 @@ export class ReportesService {
   }
 
   indexPS(prenda: iPrendaState):number {
-    return this.prendasChecklist.findIndex(p => p.code === prenda.code)
+    return this.prendasChecklist.findIndex(p => p.codigo === prenda.codigo)
   }
 
   async saveCurrentPrenda(): Promise<void> {
@@ -153,7 +153,7 @@ export class ReportesService {
         .ref.doc(`${new Date().getTime()}`)
         const batch = this._afs.firestore.batch()
 
-        const prendaPath = `propiedades/${this.currentProp.prefix}/paquetes/${this.currentProp.paquete}/prendas/${prenda.code}`
+        const prendaPath = `propiedades/${this.currentProp.prefix}/paquetes/${this.currentProp.paquete}/prendas/${prenda.codigo}`
         const prendaRef = this._afs.doc(prendaPath).ref
 
         // Save prenda history
@@ -205,7 +205,7 @@ export class ReportesService {
         // Save prendas states
         await this._loading.asyncForEach(event.paquete.prendasReport,
           async (prenda: iPrendaEvent, index: number) => {
-            const prendaPath = `${paquetePath}/prendas/${prenda.code}`
+            const prendaPath = `${paquetePath}/prendas/${prenda.codigo}`
             const prendaRef = this._afs.doc(prendaPath).ref
 
             let prendaEvent = pickBy(prenda.event, identity)
@@ -218,7 +218,7 @@ export class ReportesService {
           });
 
         let dateId = new Date().getTime()
-        var ciudad = event.paquete.prendasReport[0].code.substring(1,3)
+        var ciudad = event.paquete.prendasReport[0].codigo.substring(1,3)
         // Save propiedad Event
         let cleanEvent = pickBy(event, identity)
         console.log( {...event} )

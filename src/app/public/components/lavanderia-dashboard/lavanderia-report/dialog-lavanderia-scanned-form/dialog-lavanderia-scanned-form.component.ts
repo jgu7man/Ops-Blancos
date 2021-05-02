@@ -21,8 +21,8 @@ export class DialogLavanderiaScannedFormComponent implements OnInit {
 
   ngOnInit(): void {
     this._reportes.currentPrenda = {
-      code: this.data.code,
-      index: this.data.part,
+      codigo: this.data.codigo,
+      unidad: this.data.unidad,
       producto: this.data.producto,
     }
   }

@@ -31,7 +31,7 @@ export class ManageDatabaseComponent implements OnInit {
     this.scannerSubs = this._scanner
       .codeScanned$
       .subscribe(code => {
-        this._propiedades.searchForPrenda(code.code)
+        this._propiedades.searchForPrenda(code.codigo)
           .then((prenda) => {
             this.scannerSubs?.unsubscribe()
             this._propiedades.searchForFullPropiedad(code.prefix)
@@ -79,9 +79,9 @@ export class ManageDatabaseComponent implements OnInit {
           )
           var paqueteFinded = this.propiedadFinded.paquetes[paqueteIndex]
           paqueteFinded.prendas.push({
-            index: code.part,
+            unidad: code.unidad,
             producto: code.producto,
-            code: code.code
+            codigo: code.codigo
           })
           this.propiedadFinded.paquetes[paqueteIndex] = paqueteFinded
         }

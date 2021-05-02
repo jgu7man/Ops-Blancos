@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
@@ -19,6 +19,11 @@ import { DialogAddPaqueteComponent } from './components/manage-database/dialog-a
 import { DialogAddPrendaComponent } from './components/manage-database/dialog-add-prenda/dialog-add-prenda.component';
 import { ShowPropiedadComponent } from './components/manage-database/show-propiedad/show-propiedad.component';
 import { HistorialComponent } from './components/admin-dashboard/historial/historial.component';
+import { GdevStorageModule } from '@marxa/storage';
+import { HttpClientModule } from '@angular/common/http';
+import { ColumnsSelectorComponent } from './components/manage-database/manage-propiedades/columns-selector/columns-selector.component';
+import { ColumnEditorComponent } from './components/manage-database/manage-propiedades/column-editor/column-editor.component';
+import { DialogImportComponent } from './components/manage-database/manage-propiedades/dialog-import/dialog-import.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +38,9 @@ import { HistorialComponent } from './components/admin-dashboard/historial/histo
     DialogAddPrendaComponent,
     ShowPropiedadComponent,
     HistorialComponent,
+    ColumnsSelectorComponent,
+    ColumnEditorComponent,
+    DialogImportComponent,
   ],
   imports: [
     CommonModule,
@@ -42,7 +50,12 @@ import { HistorialComponent } from './components/admin-dashboard/historial/histo
     ListCrudModule,
     ReactiveFormsModule,
     FormsModule,
-    SharedComponentsModule
+    SharedComponentsModule,
+    GdevStorageModule,
+    HttpClientModule
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ]
 })
 export class AdminModule { }

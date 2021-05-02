@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -22,7 +23,8 @@ import { CreateAccountComponent } from './components/create-account/create-accou
     BrowserAnimationsModule,
     FirebaseModule,
     MaterialModule,
-    GdevToolsModule
+    GdevToolsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

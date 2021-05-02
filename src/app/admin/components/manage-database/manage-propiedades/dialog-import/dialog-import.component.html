@@ -1,0 +1,19 @@
+<span class="right" [style.width]="'100%'">
+  <button mat-icon-button>
+    <i class="fas fa-times fa-lg"></i>
+  </button>
+</span>
+<p mat-dialog-title class="center">Cargando registros</p>
+<mat-dialog-content>
+
+  <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+  <p class="center"> {{impExport.state$ | async}} </p>
+
+</mat-dialog-content>
+<mat-dialog-actions
+style="display: flex; justify-content: center;">
+    <button mat-raised-button
+    (click)="dialog.close()"
+    [disabled]="progress !== 100"
+    >Cerrar</button>
+</mat-dialog-actions>

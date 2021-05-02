@@ -1,0 +1,30 @@
+<p mat-dialog-title class="center">Selecciona las columnas</p>
+
+<mat-dialog-content>
+  <mat-selection-list #columnsPanel
+  (selectionChange)="onlyColumnSelected($event)"
+  [multiple]="true">
+    <mat-list-option
+    *ngFor="let col of headersRow, index as i"
+    [value]="col"
+    >
+    <div class="row">
+      <div class="col s12">
+        {{col}}
+      </div>
+      <div class="col s12">
+        <g-column-editor
+        [value]="col"
+        (changes)="editColumn($event, i) "
+        ></g-column-editor>
+      </div>
+    </div>
+    </mat-list-option>
+  </mat-selection-list>
+</mat-dialog-content>
+<mat-dialog-actions
+style="display: flex; justify-content: center;">
+    <button mat-raised-button
+    (click)="close()"
+    >Listo!</button>
+</mat-dialog-actions>

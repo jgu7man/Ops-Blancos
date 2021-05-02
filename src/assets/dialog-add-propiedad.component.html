@@ -37,14 +37,14 @@
         minlength="6"
         required
         pattern="[A-Z]"
-        #code="ngModel"
+        #codigo="ngModel"
         oninput="this.value = this.value.toUpperCase()"
         >
       </mat-form-field>
-      <mat-error *ngIf="code.hasError('required') && code.hasError('dirty')">
+      <mat-error *ngIf="codigo.hasError('required') && codigo.hasError('dirty')">
         Este dato es necesario
       </mat-error>
-      <mat-error *ngIf="code.hasError('minlength')">
+      <mat-error *ngIf="codigo.hasError('minlength')">
         Se requieren 6 caracteres
       </mat-error>
     </div>

@@ -1,12 +1,38 @@
 
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Importar</mat-card-title>
+    <mat-card-subtitle>Sube un archivo CSV para subir registros</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+
 <div class="row">
   <div class="col s12">
-    Buscador
+
+  </div>
+  <div  class="col s12">
+    <gdev-files-picker
+    [maxFileSize]="2097152"
+    [path]="'imports'"
+    toggleButtonLabel="Importar CSV"
+    [multiple]="false"
+    dropzoneLabel="Toca o arrastra un archivo hasta aquí"
+    [uploadButton]="false"
+    >
+    </gdev-files-picker>
+
   </div>
 </div>
-<div class="row">
-  <div class="col s12">
-    <button mat-raised-button color='primary' >Importar</button>
-    <button mat-raised-button color='primary' >Exportar</button>
-  </div>
-</div>
+
+  </mat-card-content>
+  <mat-card-actions style="display: flex; justify-content:space-around"
+  *ngIf="storage.showDropzone">
+    <button mat-raised-button color='primary'
+
+    [disabled]="storage.files.length < 1"
+    (click)="onImport()" >Importar</button>
+
+    <button mat-raised-button
+    (click)="storage.showDropzone = false">Cancelar</button>
+  </mat-card-actions>
+</mat-card>

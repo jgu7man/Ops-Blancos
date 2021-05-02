@@ -1,6 +1,6 @@
 export interface iPrenda {
-  code: string,
-  index: number,
+  codigo: string,
+  unidad: string,
   producto?: Producto,
 }
 
@@ -16,12 +16,12 @@ export interface iReporte {
 }
 
 export interface iCode {
-  direccion: string;
+  propiedad: string;
   producto: Producto;
-  paquete: number;
-  part: number;
-  total: number;
-  code: string;
+  paquete: string;
+  unidad: string;
+  total: string;
+  codigo: string;
   prefix: string;
 }
 

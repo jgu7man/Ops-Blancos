@@ -59,8 +59,8 @@ export class PropiedadesService {
   }
 
 
-  async searchForPaquete(propPrefix: string, index: number): Promise<iPaquete | null> {
-    var paquete: iPaquete = { total: 0, index: 0, prendas: [], pid:'' }
+  async searchForPaquete(propPrefix: string, index: string): Promise<iPaquete | null> {
+    var paquete: iPaquete = { total: 0, index: '', prendas: [], pid:'' }
     const paqueteRef = this._afs.doc(
       `propiedades/${propPrefix}/paquetes/${index}`
     )
@@ -83,10 +83,10 @@ export class PropiedadesService {
   }
 
 
-  async searchForPrenda(code: string): Promise<null | iPrenda> {
+  async searchForPrenda(codigo: string): Promise<null | iPrenda> {
     return new Promise((resolve, reject) => {
       this._afs.collectionGroup('prendas',
-        ref => ref.where('code', '==', code)).get()
+        ref => ref.where('codigo', '==', codigo)).get()
         .subscribe(data => {
           if(data.empty) resolve(null)
           else resolve(data.docs[0].data() as iPrenda)
@@ -130,7 +130,7 @@ export class PropiedadesService {
           if (paquete.prendas && paquete.prendas.length > 0) {
             var lote =  this._afs.firestore.batch()
             paquete.prendas.forEach(prenda => {
-              var prendaRef = paqueteRef.collection('prendas').doc(prenda.code)
+              var prendaRef = paqueteRef.collection('prendas').doc(prenda.codigo)
               lote.set(prendaRef, {...prenda})
             })
             await lote.commit()

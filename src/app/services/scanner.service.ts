@@ -24,12 +24,12 @@ export class ScannerService {
     if (codeParts.length > 1) {
       try {
         let code: iCode = {
-          direccion: codeParts[0],
+          propiedad: codeParts[0],
           producto: codeParts[1] as Producto,
-          paquete: +codeParts[2],
-          part: +codeParts[3],
-          total: +codeParts[4],
-          code: codeParts[5],
+          paquete: codeParts[2],
+          unidad: codeParts[3],
+          total: codeParts[4],
+          codigo: codeParts[5],
           prefix: codeParts[5].substring(3,9)
         }
 

@@ -91,7 +91,7 @@ export class LavanderiaPackingScanComponent implements OnInit {
 
   onScanned(code: iCode) {
     if (this.prop) {
-      let prendaScanned = this.prop.prendas.findIndex(p => p.code == code.code)
+      let prendaScanned = this.prop.prendas.findIndex(p => p.codigo == code.codigo)
       if (prendaScanned >= 0) {
         let currentPrenda: iPrendaEvent = {
           // Info de la prenda
@@ -111,7 +111,7 @@ export class LavanderiaPackingScanComponent implements OnInit {
   /**  Validate if prenda is scanned */
   scanned(prenda: iPrenda) {
     return this.paqueteState?.prendasReport
-      .find(p => p.code === prenda.code)?.scanned
+      .find(p => p.codigo === prenda.codigo)?.scanned
   }
 
   /** Put a check icon for prenda scanned */
@@ -142,7 +142,7 @@ export class LavanderiaPackingScanComponent implements OnInit {
     // Search for "faltantes"
     this.prop?.prendas.forEach(pren => {
       let prenda = this.paqueteState?.prendasReport.find(
-        p => p.code == pren.code
+        p => p.codigo == pren.codigo
       )
       if (!prenda || prenda.scanned !== true)
         faltantes.push(pren)

@@ -40,17 +40,17 @@ export class ShowPropiedadComponent implements OnInit {
   addPropiedad() {
     console.log( this.code )
     if (this.code) {
-      const {code, part: index, producto} = this.code
-      const prenda = { code, index, producto }
-      const paqueteId = this.code.code.substring(0,9)
+      const {codigo, unidad, producto} = this.code
+      const prenda = { codigo, unidad, producto }
+      const paqueteId = this.code.codigo.substring(0,9)
       const paquete = {
         total: this.code.total, index: this.code.paquete, prendas: [prenda],
         pid:paqueteId
       }
       this.propiedad = new iPropiedad(
-        this.code.code.substring(0, 3),
+        this.code.codigo.substring(0, 3),
         this.code.prefix,
-        this.code.direccion,
+        this.code.propiedad,
         [paquete]
       )
     }
@@ -78,7 +78,7 @@ export class ShowPropiedadComponent implements OnInit {
       width: '100%',
       disableClose: true
     }).afterClosed().subscribe((result: iPrenda) => {
-      let prefix = result.code.substring(3, 9)
+      let prefix = result.codigo.substring(3, 9)
       if (prefix === this.propiedad.prefix && this.propiedad.paquetes) {
         this.propiedad.paquetes[paqueteIndex ? paqueteIndex : 0]
         .prendas?.push(result)
