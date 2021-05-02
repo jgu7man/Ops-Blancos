@@ -6,7 +6,7 @@
         <input
         matInput
         type="number"
-        [(ngModel)]="paquete.index"
+        [(ngModel)]="paqueteNumber"
         name="index"
         required
         >
@@ -21,6 +21,6 @@ style="display: flex; justify-content: space-around;">
     >Cancelar</button>
     <button mat-raised-button
     color="primary"
-    (click)="dialog_.close(paquete)"
+    (click)="dialog_.close(paqueteNumber)"
     >Agregar</button>
 </mat-dialog-actions>

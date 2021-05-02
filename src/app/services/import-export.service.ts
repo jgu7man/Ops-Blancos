@@ -7,6 +7,7 @@ import { GdevAlert, GdevLoading } from '@jgu7man/gdev-tools';
 import { GdevStorage, iFileInfo } from '@marxa/storage';
 import { BehaviorSubject } from 'rxjs';
 import { ColumnsSelectorComponent } from '../admin/components/manage-database/manage-propiedades/columns-selector/columns-selector.component';
+import { iImportRecord } from '../models/import-export.model';
 import { iCode, Producto } from '../models/prenda.model';
 
 @Injectable({
@@ -80,7 +81,7 @@ export class ImportExportService {
       try {
         let currentRecord = record.split(',')
         if (currentRecord.length === this.headerMap.size) {
-          let registro: Record = this.setNewRecord(currentRecord)
+          let registro: iImportRecord = this.setNewRecord(currentRecord)
           if (registro.prefix || registro.paqueteId || registro.codigo) {
             let propRef = this._afs.doc(`propiedades/${registro.prefix}`).ref
           let paqRef = propRef.collection('paquetes').doc(registro.paqueteId)
@@ -109,7 +110,6 @@ export class ImportExportService {
               this.state$.next(`Creando paquete ${registro.paqueteId}`)
               await t.set(paqRef, {
                 pid: registro.paqueteId,
-                total: registro.total,
                 state: 'stock'
               })
             }
@@ -123,6 +123,7 @@ export class ImportExportService {
               codigo: registro.codigo,
               unidad: registro.unidad,
               producto: registro.producto,
+              total: registro.total,
               state: 'stock'
             }, { merge: true })
 
@@ -142,9 +143,9 @@ export class ImportExportService {
   }
 
   setNewRecord(recordArray: string[]) {
-    let nuevo: Record = {} as Record
+    let nuevo: iImportRecord = {} as iImportRecord
     this.headerMap.forEach((index, field) => {
-      nuevo[field as keyof Record] = recordArray[index]
+      nuevo[field as keyof iImportRecord] = recordArray[index]
     })
     let { codigo, paquete } = nuevo
     nuevo["prefix"] = codigo.substring(0, 9)
@@ -195,14 +196,3 @@ export class ImportExportService {
 
 
 
-export interface Record {
-  "propiedad": string,
-  "producto": string,
-  "paquete": string ,
-  "unidad": string,
-  "total": string,
-  "codigo": string,
-  prefix: string,
-  ciudad: string,
-  paqueteId: string
-}

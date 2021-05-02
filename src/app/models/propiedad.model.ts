@@ -31,8 +31,6 @@ export type PaqueteState = 'prop' | 'stock' | 'washing' | 'collected'
 
 export interface iPaquete {
   pid: string
-  total: number
-  index: string
   prendas: iPrenda[]
 }
 

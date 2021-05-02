@@ -24,6 +24,7 @@ export class DialogLavanderiaScannedFormComponent implements OnInit {
       codigo: this.data.codigo,
       unidad: this.data.unidad,
       producto: this.data.producto,
+      total: this.data.total,
     }
   }
 

@@ -42,10 +42,10 @@ export class ShowPropiedadComponent implements OnInit {
     if (this.code) {
       const {codigo, unidad, producto} = this.code
       const prenda = { codigo, unidad, producto }
-      const paqueteId = this.code.codigo.substring(0,9)
-      const paquete = {
-        total: this.code.total, index: this.code.paquete, prendas: [prenda],
-        pid:paqueteId
+      const paqueteId = `${this.code.codigo.substring(0,9)}${this.code.paquete}`
+      const paquete = <iPaquete>{
+        prendas: [prenda],
+        pid:paqueteId,
       }
       this.propiedad = new iPropiedad(
         this.code.codigo.substring(0, 3),
@@ -61,19 +61,23 @@ export class ShowPropiedadComponent implements OnInit {
     this._dialog.open(DialogAddPaqueteComponent, {
       width: '100%',
       disableClose: true
-    }).afterClosed().subscribe((result:iPaquete) => {
+    }).afterClosed().subscribe((result:number) => {
       if (result) {
+        let pid = `${this.propiedad.prefix}${result}`
         var duplicated = this.propiedad.paquetes?.find(
-          j => j.index == result.index
+          j => j.pid == pid
         )
-        if (duplicated) this._alert.sendMessageAlert(`El paquete ${result.index} ya existe, crea otro paquete`)
-        else this.propiedad.paquetes?.push(result)
+        if (duplicated) this._alert.sendMessageAlert(`El paquete ${pid} ya existe, crea otro paquete`)
+        else {
+          let paquete = { prendas:[], pid}
+          this.propiedad.paquetes?.push(paquete)
+        }
       }
     })
   }
 
-  onAddPrenda(paquete: number) {
-    const paqueteIndex = this.propiedad.paquetes?.findIndex(j => j.index === paquete)
+  onAddPrenda(paquete: string) {
+    const paqueteIndex = this.propiedad.paquetes?.findIndex(j => j.pid === paquete)
     this._dialog.open(DialogAddPrendaComponent, {
       width: '100%',
       disableClose: true
@@ -111,7 +115,6 @@ export class ShowPropiedadComponent implements OnInit {
 
   async onSavePropiedad() {
     this.propiedad.paquetes.forEach((paquete, index) => {
-      paquete.total = paquete.prendas.length
       this.propiedad.paquetes[index] = paquete
     })
     await this._propiedades.savePropiedad(this.propiedad)

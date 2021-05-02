@@ -41,7 +41,7 @@ export class LimpiezaPaqueteScanComponent implements OnInit, OnDestroy{
   ) {
     this._dashboard.toggleBack = true
     this.paqueteState = {
-      index: 0,
+      index: '',
       prendasReport: [],
       state: 'collected',
     };

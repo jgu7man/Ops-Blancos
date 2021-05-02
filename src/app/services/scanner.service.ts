@@ -30,7 +30,7 @@ export class ScannerService {
           unidad: codeParts[3],
           total: codeParts[4],
           codigo: codeParts[5],
-          prefix: codeParts[5].substring(3,9)
+          prefix: codeParts[5].substring(0,9)
         }
 
 

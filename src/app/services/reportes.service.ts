@@ -41,7 +41,7 @@ export class ReportesService {
 
   async searchForCurrentPropiedad(
   prefix: string,
-    paquete: number,
+  paquete: string,
   prevState: PaqueteState
   ): Promise<iCurrentProp> {
     const propRef = this._afs.collection('propiedades').doc(prefix).ref

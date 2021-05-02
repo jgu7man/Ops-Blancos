@@ -9,7 +9,7 @@
 
       <mat-card>
         <mat-card-header>
-          <mat-card-title>{{todayEvents | async}}</mat-card-title>
+          <mat-card-title>{{todayEvents}}</mat-card-title>
           <mat-card-subtitle>Eventos del día de hoy</mat-card-subtitle>
         </mat-card-header>
         <mat-card-actions style="display:flex; justify-content:flex-end">
@@ -24,7 +24,7 @@
     <div class="col s6">
       <mat-card>
         <mat-card-header>
-          <mat-card-title>0</mat-card-title>
+          <mat-card-title>{{washingUps}}</mat-card-title>
           <mat-card-subtitle>Paquetes lavando</mat-card-subtitle>
         </mat-card-header>
         <mat-card-actions style="display:flex; justify-content:flex-end">
@@ -38,7 +38,7 @@
     <div class="col s6">
       <mat-card>
         <mat-card-header>
-          <mat-card-title>0</mat-card-title>
+          <mat-card-title>{{collected}}</mat-card-title>
           <mat-card-subtitle>Paquetes sin lavar</mat-card-subtitle>
         </mat-card-header>
         <mat-card-actions style="display:flex; justify-content:flex-end">
@@ -52,7 +52,7 @@
     <div class="col s6">
       <mat-card>
         <mat-card-header>
-          <mat-card-title>0</mat-card-title>
+          <mat-card-title>{{damaged}}</mat-card-title>
           <mat-card-subtitle>Prendas dañadas</mat-card-subtitle>
         </mat-card-header>
         <mat-card-actions style="display:flex; justify-content:flex-end">

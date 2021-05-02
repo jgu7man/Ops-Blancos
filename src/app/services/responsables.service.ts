@@ -33,9 +33,10 @@ export class ResponsablesService {
     return paquetesListRef.pipe(map(paquetesList => {
 
       return paquetesList.docs.map(doc => {
-        let {index: paquete, state, lastUpdate} = doc.data()
-        let prefix = doc.ref.path.split('/')[1]
-        return {paquete, prefix, state, lastUpdate}
+        let paquete = doc.id
+        let { state, lastUpdate} = doc.data()
+        let pid = doc.ref.path.split('/')[1]
+        return {paquete, pid, state, lastUpdate}
       })
 
     }))

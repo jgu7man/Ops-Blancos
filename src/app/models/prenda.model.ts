@@ -2,6 +2,7 @@ export interface iPrenda {
   codigo: string,
   unidad: string,
   producto?: Producto,
+  total:string
 }
 
 export type PrendaState = 'sucio' | 'damage' | 'lost' | 'wash' | 'stock' | undefined

@@ -3,7 +3,7 @@
   <p>Estas prendas aún no se han escaneado</p>
   <ul>
     <li *ngFor="let item of faltantes">
-      {{item.producto}} {{item.index}}
+      {{item.producto}} {{item.unidad}}/{{item.total}}
     </li>
   </ul>
 </mat-dialog-content>

@@ -25,6 +25,7 @@ export class LimpiezaScannedFormDialog implements OnInit, OnDestroy {
       codigo: this.data.codigo,
       unidad: this.data.unidad,
       producto: this.data.producto,
+      total: this.data.total,
     }
   }
 

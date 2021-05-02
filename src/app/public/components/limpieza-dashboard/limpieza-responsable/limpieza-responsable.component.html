@@ -12,7 +12,7 @@
     <ng-container *ngIf="list.length > 0; else empty">
       <div class="col s12" *ngFor="let item of list">
         <mat-card
-        [routerLink]="['../paquete', item.prefix]"
+        [routerLink]="['../paquete', item.pid]"
         [queryParams]="{
           paquete:item.paquete,
           state:item.state
@@ -23,7 +23,7 @@
           </div>
           <div class="col s11 left">
             <mat-card-header>
-              <mat-card-title> {{item.prefix}} </mat-card-title>
+              <mat-card-title> {{item.pid}} </mat-card-title>
               <mat-card-subtitle>
                 Paquete:{{item.paquete}}
                 <g-timer style="font-size: x-small;"

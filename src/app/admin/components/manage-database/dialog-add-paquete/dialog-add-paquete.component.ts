@@ -9,10 +9,11 @@ import { iPaquete } from 'src/app/models/propiedad.model';
 export class DialogAddPaqueteComponent implements OnInit {
 
   paquete: iPaquete
+  paqueteNumber: number = 0
   constructor(
     public dialog_: MatDialogRef<DialogAddPaqueteComponent>
   ) {
-    this.paquete = {total: 0,index: 0, prendas:[], pid: ''}
+    this.paquete = { prendas:[], pid: ''}
    }
 
   ngOnInit(): void {

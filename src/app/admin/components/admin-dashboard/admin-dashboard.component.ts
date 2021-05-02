@@ -9,12 +9,20 @@ import { EventsService } from 'src/app/services/events.service';
 })
 export class AdminDashboardComponent implements OnInit {
 
-  todayEvents: Observable<number>
+  todayEvents: number = 0
+  washingUps: number = 0
+  collected: number = 0
+  damaged: number = 0
   constructor(
     private _events: EventsService
   ) {
-    this.todayEvents = this._events.getTodayEvents()
-    .pipe(map(events => events.length))
+    this._events.getStatesResume()
+      .subscribe(resume => {
+        this.todayEvents = resume.todayEvents.length
+        this.washingUps = resume.washingUps.length
+        this.collected = resume.collected.length
+        this.damaged = resume.damaged.length
+    })
    }
 
   ngOnInit(): void {

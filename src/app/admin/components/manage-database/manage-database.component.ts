@@ -74,14 +74,16 @@ export class ManageDatabaseComponent implements OnInit {
     }).afterClosed().subscribe(confirm => {
       if (confirm) {
         if (this.propiedadFinded) {
+          let paqueteId = `${code.prefix}${code.paquete}`
           var paqueteIndex = this.propiedadFinded.paquetes.findIndex(
-            j => j.index === code.paquete
+            j => j.pid === paqueteId
           )
           var paqueteFinded = this.propiedadFinded.paquetes[paqueteIndex]
           paqueteFinded.prendas.push({
             unidad: code.unidad,
             producto: code.producto,
-            codigo: code.codigo
+            codigo: code.codigo,
+            total: code.total
           })
           this.propiedadFinded.paquetes[paqueteIndex] = paqueteFinded
         }

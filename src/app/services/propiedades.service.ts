@@ -18,7 +18,7 @@ export class PropiedadesService {
 
 
   async searchForFullPropiedad(prefix: string) {
-    const propRef = this._afs.collection('propiedades').doc(prefix).ref
+    const propRef = this._afs.collection<iPropiedad>('propiedades').doc(prefix).ref
 
     try {
 
@@ -42,7 +42,7 @@ export class PropiedadesService {
           // 3. Search for prendas
           await this._loading.asyncForEach( paquetesCol.docs,
             async (paqueteDoc: firebase.firestore.DocumentData) => {
-              let paquete = await this.searchForPaquete(propiedad.prefix, paqueteDoc.id)
+              let paquete = await this.searchForPaquete(propiedad.prefix, paqueteDoc.pid)
               paquete = paquete ? paquete : paqueteDoc.data() as iPaquete
               propiedad.paquetes?.push(paquete)
             }
@@ -59,10 +59,10 @@ export class PropiedadesService {
   }
 
 
-  async searchForPaquete(propPrefix: string, index: string): Promise<iPaquete | null> {
-    var paquete: iPaquete = { total: 0, index: '', prendas: [], pid:'' }
+  async searchForPaquete(propPrefix: string, pid: string): Promise<iPaquete | null> {
+    var paquete: iPaquete = {prendas: [], pid:'' }
     const paqueteRef = this._afs.doc(
-      `propiedades/${propPrefix}/paquetes/${index}`
+      `propiedades/${propPrefix}/paquetes/${pid}`
     )
     const paqueteDoc = await paqueteRef.ref.get()
 
@@ -120,11 +120,10 @@ export class PropiedadesService {
 
       if (propiedad.paquetes && propiedad.paquetes.length > 0) {
         propiedad.paquetes.forEach( async paquete => {
-          const paqueteRef = propRef.collection('paquetes').doc(`${paquete.index}`)
+          const paqueteRef = propRef.collection('paquetes').doc(`${paquete.pid}`)
 
             paqueteRef.set({
-              index: paquete.index,
-              total: paquete.total,
+              pid: paquete.pid,
             }, { merge: true })
 
           if (paquete.prendas && paquete.prendas.length > 0) {

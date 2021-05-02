@@ -7,7 +7,7 @@
       <tbody>
         <tr>
           <th>Prenda</th>
-          <td>{{prenda.unidad}}</td>
+          <td>{{prenda.unidad}}/{{prenda.total}}</td>
         </tr>
         <tr>
           <th>Producto</th>
@@ -56,18 +56,14 @@
               <tbody>
                 <tr>
                   <th>Paquete</th>
-                  <td>{{jue.index}}</td>
-                </tr>
-                <tr>
-                  <th>Cantidad de prendas</th>
-                  <td>{{jue.total}} </td>
+                  <td>{{jue.pid}}</td>
                 </tr>
               </tbody>
             </table>
 
             <p class="cyan-text"><b>Prendas</b>
               <button mat-icon-button
-              (click)="onAddPrenda(jue.index)">
+              (click)="onAddPrenda(jue.pid)">
                 <i class="fas fa-plus "></i>
               </button>
             </p>
@@ -82,7 +78,7 @@
                   <tbody>
                     <tr>
                       <th>Prenda</th>
-                      <td>{{prend.unidad}}</td>
+                      <td>{{prend.unidad}}/{{prend.total}}</td>
                     </tr>
                     <tr>
                       <th>Producto</th>
