@@ -70,7 +70,14 @@ export class LimpiezaPaqueteScanComponent implements OnInit, OnDestroy{
       this.review = true
       this.paqueteState = {
         index: paquete,
-        prendasReport: this.prop.prendas.map(p => { return {...p, scanned: true}}),
+        prendasReport: this.prop.prendas.map(prenda => {
+            let {state, producto, total, unidad, codigo} = prenda
+            return <iPrendaEvent> {
+              state, producto, total, unidad, codigo, scanned: true,
+              event: prenda.history
+                ? prenda.history[prenda.history.length - 1] : {} as iHistory
+            }
+          }),
         state
       }
     } else {

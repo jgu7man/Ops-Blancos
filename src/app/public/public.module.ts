@@ -34,6 +34,7 @@ import { LavanderiaPackingComponent } from './components/lavanderia-dashboard/la
 import { LavanderiaWorkingComponent } from './components/lavanderia-dashboard/lavanderia-working/lavanderia-working.component';
 import { LavanderiaPackingScanComponent } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing-scan/lavanderia-packing-scan.component';
 import { PackingFaltantesDialog } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing-scan/dialog-packing-faltantes/dialog-packing-faltantes.component';
+import { LavanderiaTimingComponent } from './components/lavanderia-dashboard/lavanderia-working/lavanderia-timing/lavanderia-timing.component';
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import { PackingFaltantesDialog } from './components/lavanderia-dashboard/lavand
     LavanderiaPackingComponent,
     LavanderiaWorkingComponent,
     LavanderiaPackingScanComponent,
-    PackingFaltantesDialog
+    PackingFaltantesDialog,
+    LavanderiaTimingComponent
   ],
   imports: [
     CommonModule,

@@ -73,9 +73,14 @@ export class LavanderiaPaqueteScanComponent implements OnInit {
       this.review = true
       this.paqueteState = {
         index: paquete,
-        prendasReport: this.prop.prendas
-          // .map(p => { return { ...p, scanned: true } })
-        ,
+        prendasReport: this.prop.prendas.map(prenda => {
+          let {state, producto, total, unidad, codigo} = prenda
+          return <iPrendaEvent> {
+            state, producto, total, unidad, codigo,
+            event: prenda.history
+              ? prenda.history[prenda.history.length - 1] : {} as iHistory
+          }
+        }),
         state
       }
     } else {
@@ -87,11 +92,18 @@ export class LavanderiaPaqueteScanComponent implements OnInit {
         this.paqueteState = {
           index: this.prop.paquete,
           state: 'collected',
-          prendasReport:[],
+          prendasReport: this.prop.prendas.map(prenda => {
+            let {state, producto, total, unidad, codigo} = prenda
+            return <iPrendaEvent> {
+              state, producto, total, unidad, codigo,
+              event: prenda.history
+                ? prenda.history[prenda.history.length - 1] : {} as iHistory
+            }
+          }),
         };
-        const prendasReport = await this._cache
-          .getAsyncKey<iPrendaEvent[]>('prendasReport')
-        if (prendasReport) this.paqueteState.prendasReport = prendasReport
+        // const prendasReport = await this._cache
+        //   .getAsyncKey<iPrendaEvent[]>('prendasReport')
+        // if (prendasReport) this.paqueteState.prendasReport = prendasReport
       }
     }
 
@@ -100,19 +112,25 @@ export class LavanderiaPaqueteScanComponent implements OnInit {
 
   onScanned(code: iCode) {
     if (this.prop) {
-      let prendaScanned = this.prop.prendas.findIndex(p => p.codigo == code.codigo)
+      let prendaScanned = this.paqueteState.prendasReport.findIndex(p => p.codigo == code.codigo)
       if (prendaScanned >= 0) {
-        let currentPrenda: iPrendaEvent = {
-          // Info de la prenda
-          ...this.prop.prendas[prendaScanned],
-          // Set scanned
-          scanned: true,
-          // Set actual state
-          state: 'wash',
-          // Regist event, state and who
-          event: new iHistory(new Date(), 'wash', this.user?.uid as string),
-        }
-        this.paqueteState?.prendasReport.push(currentPrenda)
+        // let currentPrenda: iPrendaEvent = {
+        //   // Info de la prenda
+        //   ...this.paqueteState.prendasReport[prendaScanned],
+        //   // Set scanned
+        //   scanned: true,
+        //   // Set actual state
+        //   state: 'wash',
+        //   // Regist event, state and who
+        //   event: new iHistory(new Date(), 'wash', this.user?.uid as string),
+        // }
+        this.paqueteState.prendasReport =
+          this.paqueteState?.prendasReport.map((p, i) =>  i === prendaScanned
+            ? {...p,
+              scanned: true, state: 'wash',
+              event: new iHistory(new Date(), 'wash', this.user?.uid as string)
+            } : p
+          )
       }
     }
   }

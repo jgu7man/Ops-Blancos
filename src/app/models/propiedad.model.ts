@@ -1,5 +1,5 @@
 import { iPrenda } from "./prenda.model";
-import { iPrendaEvent } from "./reporte.model";
+import { iPrendaEvent, iPrendaState } from "./reporte.model";
 import firebase from 'firebase/app'
 
 export class iPropiedad {
@@ -16,7 +16,7 @@ export interface iCurrentProp {
   prefix: string,
   direccion: string,
   paquete: string,
-  prendas: iPrendaEvent[]
+  prendas: iPrendaState[]
 }
 
 export interface iPropAcargo {

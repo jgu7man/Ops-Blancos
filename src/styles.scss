@@ -77,6 +77,19 @@ mat-card {
 }
 
 
+#work-area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 4em 1em !important;
+  min-height: 100vh;
+  width: 100% !important;
+  background: url(/assets/img/gradient-blue-bg.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .empty-card {
   min-height: 80px;
   background: #eee;
@@ -98,7 +111,8 @@ mat-card {
   margin-top: 0 !important;
   padding: 4em 0em !important;
   z-index: 0;
-  overflow: auto
+  overflow: auto;
+  position: relative;
 }
 
 
