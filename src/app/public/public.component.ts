@@ -13,8 +13,6 @@ export class PublicComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  routes: iMenuRoutes[] = [
-    {displayName: 'Administradores', route: '/admin'}
-  ]
+
 
 }

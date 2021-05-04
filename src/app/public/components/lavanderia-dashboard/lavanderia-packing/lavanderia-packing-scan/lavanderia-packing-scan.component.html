@@ -70,16 +70,17 @@
                 <i class="gfy-edredon-king gfy-lg"></i>
               </span>
               <span *ngSwitchDefault>  </span>
-              {{prenda.producto}} {{prenda.unidad}}/{{prenda.total}}
             </p>
           </div>
 
           <!-- Item Info -->
           <div class="col s7">
-            <p style="margin-bottom: 0;">{{prenda.producto}}</p>
+            <p style="margin-bottom: 0; font-size: small">{{prenda.producto}}</p>
           </div>
           <div class="col s2">
-            {{prenda.unidad}}/{{prenda.total}}
+            <p style="margin-bottom: 0; font-size: small">
+              {{prenda.unidad}}/{{prenda.total}}
+            </p>
           </div>
 
         </div>

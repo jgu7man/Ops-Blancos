@@ -1,4 +1,4 @@
-<div class="container page-container">
+<div class="container">
   <div class="row">
     <div class="col s12 center">
       <h2 class="center white-text">¡Listo!</h2>
@@ -75,8 +75,9 @@
                     <i class="gfy-edredon-king gfy-lg"></i>
                   </span>
                   <span *ngSwitchDefault>  </span>
-                  {{prenda.producto}} {{prenda.unidad}}/{{prenda.total}}
-                </p>
+                  <span style="margin-bottom: 0; font-size: small;">
+                    {{prenda.producto}} {{prenda.unidad}}/{{prenda.total}}
+                  </span>
               </div>
               <div class="col s3">
                 <mat-chip-list>

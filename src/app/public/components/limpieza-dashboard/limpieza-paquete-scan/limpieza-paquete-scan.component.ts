@@ -134,7 +134,6 @@ export class LimpiezaPaqueteScanComponent implements OnInit, OnDestroy{
   }
 
   onFinish() {
-    console.log( 'finish' )
     var faltantes: any[] = []
 
     // Search for "faltantes"
@@ -146,11 +145,9 @@ export class LimpiezaPaqueteScanComponent implements OnInit, OnDestroy{
         faltantes.push(pren)
     })
 
-    console.log( faltantes.length, faltantes )
     if (faltantes.length > 0) {
       this.onFaltantes(faltantes)
     } else {
-      console.log('saving')
       if (this.paqueteState && this.propEvent) this.propEvent.paquete = this.paqueteState
       this._reportes.onSaveReporte(this.prop?.prefix as string, this.propEvent)
       .then(() => {

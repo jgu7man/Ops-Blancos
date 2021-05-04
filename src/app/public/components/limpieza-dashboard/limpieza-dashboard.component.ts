@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { iMenuRoutes } from 'src/app/components/topbar/topbar.component';
 
 @Component({
   templateUrl: './limpieza-dashboard.component.html',
@@ -10,5 +11,9 @@ export class LimpiezaDashboardComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  routes: iMenuRoutes[] = [
+    {displayName: 'Administradores', route: '/admin'}
+  ]
 
 }

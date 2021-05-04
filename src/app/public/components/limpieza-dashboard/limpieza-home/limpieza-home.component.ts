@@ -53,7 +53,7 @@ export class LimpiezaHomeComponent implements OnInit, OnDestroy {
         this._reportes.searchForCurrentPropiedad(scanned.prefix, paquete, 'prop')
           .then((propiedad) => {
             this._cache.updateData('currentProp', propiedad)
-            this._router.navigate(['/limpieza/paquete'])
+            this._router.navigate(['/limpieza/paquete', ])
         })
       }
     })

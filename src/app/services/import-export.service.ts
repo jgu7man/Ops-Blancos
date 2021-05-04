@@ -96,7 +96,7 @@ export class ImportExportService {
               await t.set(propRef, {
                 ciudad: registro.ciudad,
                 direccion: registro.propiedad,
-                pid: registro.prefix
+                prefix: registro.prefix
               })
             }
             return
