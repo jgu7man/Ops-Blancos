@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CameraService } from 'src/app/services/camera.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { CameraService } from 'src/app/services/camera.service';
   templateUrl: './take-image.component.html',
   styleUrls: ['./take-image.component.scss']
 })
-export class TakeImageComponent implements OnInit, AfterViewInit{
+export class TakeImageComponent implements OnInit, AfterViewInit, OnDestroy{
 
   @ViewChild("video")
     public video?: ElementRef;
@@ -14,6 +14,7 @@ export class TakeImageComponent implements OnInit, AfterViewInit{
     @ViewChild("canvas")
     public canvas?: ElementRef;
 
+  streamMedia: any
 
 
   constructor(
@@ -25,11 +26,13 @@ export class TakeImageComponent implements OnInit, AfterViewInit{
 
   public ngAfterViewInit() {
     if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
-        if (this.video) {
-          this.video.nativeElement.srcObject = stream;
-          this.video.nativeElement.play();
-        }
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          this.streamMedia = stream
+          if (this.video) {
+            this.video.nativeElement.srcObject = stream;
+            this.video.nativeElement.play();
+          }
       });
     }
   }
@@ -47,6 +50,14 @@ export class TakeImageComponent implements OnInit, AfterViewInit{
     audio.src = "/assets/audio/camera-shutter-click-08.wav";
     audio.load();
     audio.play();
+  }
+
+  ngOnDestroy() {
+    if (this.streamMedia) {
+      this.streamMedia.getTracks().forEach((track: any) => {
+        track.stop()
+      })
+    }
   }
 
 }

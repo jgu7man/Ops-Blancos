@@ -26,7 +26,8 @@ export class LimpiezaReportComponent implements OnInit, OnDestroy {
     this.scannerSubs =
       this._scanner.codeScanned$.
       subscribe(codeScanned => {
-        this.validateCodeScanned(codeScanned)
+        console.log( codeScanned )
+        this.onScanned(codeScanned)
       })
    }
 
@@ -57,7 +58,7 @@ export class LimpiezaReportComponent implements OnInit, OnDestroy {
       disableClose: true
     }).afterClosed().subscribe(confirm => {
       if (confirm) {
-        this._scanner.startScan$.next()
+        // this._scanner.startScan$.next()
       }
     })
   }

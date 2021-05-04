@@ -26,11 +26,11 @@ export class ScannerService {
         let code: iCode = {
           propiedad: codeParts[0],
           producto: codeParts[1] as Producto,
-          paquete: codeParts[2],
           unidad: codeParts[3],
           total: codeParts[4],
           codigo: codeParts[5],
-          prefix: codeParts[5].substring(0,9)
+          prefix: codeParts[5].substring(0,9),
+          paquete: codeParts[5].substring(0,9)+codeParts[2],
         }
 
 

@@ -76,4 +76,9 @@ export class ScannerComponent implements OnInit, AfterViewInit {
     audio.play();
   }
 
+  turnTobluetooth() {
+    this.scannerEnabled = false
+    if (this.scanner) this.scanner.scanStop()
+  }
+
 }

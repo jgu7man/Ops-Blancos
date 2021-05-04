@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { GdevAlert } from '@jgu7man/gdev-tools';
-import { iCode } from 'src/app/models/prenda.model';
+import { iCode, PrendaModel } from 'src/app/models/prenda.model';
 import { ReportesService } from 'src/app/services/reportes.service';
 
 @Component({
@@ -20,12 +20,8 @@ export class DialogLavanderiaScannedFormComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this._reportes.currentPrenda = {
-      codigo: this.data.codigo,
-      unidad: this.data.unidad,
-      producto: this.data.producto,
-      total: this.data.total,
-    }
+    this._reportes.currentPrenda = new PrendaModel(this.data)
+    // this._reportes.CurrentPrenda(this.data)
   }
 
   validatePropOwner() {

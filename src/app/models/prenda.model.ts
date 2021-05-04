@@ -5,6 +5,26 @@ export interface iPrenda {
   total:string
 }
 
+export class PrendaModel {
+  prefix: string
+  paquete: string
+  codigo: string
+  unidad: string
+  producto?: Producto
+  total: string
+
+  constructor(
+    code: iCode
+  ) {
+    this.prefix = code.prefix
+    this.paquete = code.paquete
+    this.codigo = code.codigo
+    this.unidad = code.unidad
+    this.producto = code.producto
+    this.total = code.total
+  }
+}
+
 export type PrendaState = 'sucio' | 'damage' | 'lost' | 'wash' | 'stock' | undefined
 export interface displayPrendaState {
   display: string,

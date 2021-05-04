@@ -51,7 +51,7 @@
   <!-- input button -->
   <ng-container *ngIf="scannerEnabled; else input">
     <button mat-raised-button
-    (click)="scannerEnabled = false"
+    (click)="turnTobluetooth()"
     color="primary">
       <i class="fas fa-edit fa-lg"></i>
     </button>

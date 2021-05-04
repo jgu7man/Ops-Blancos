@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { GdevAlert } from '@jgu7man/gdev-tools';
-import { iCode } from 'src/app/models/prenda.model';
+import { iCode, PrendaModel } from 'src/app/models/prenda.model';
 import { ReportesService } from 'src/app/services/reportes.service';
 
 @Component({
@@ -21,12 +21,7 @@ export class LimpiezaScannedFormDialog implements OnInit, OnDestroy {
    }
 
   ngOnInit(): void {
-    this._reportes.currentPrenda = {
-      codigo: this.data.codigo,
-      unidad: this.data.unidad,
-      producto: this.data.producto,
-      total: this.data.total,
-    }
+    this._reportes.currentPrenda = new PrendaModel(this.data)
   }
 
   validatePropOwner() {
@@ -42,6 +37,12 @@ export class LimpiezaScannedFormDialog implements OnInit, OnDestroy {
       .then(() => {
         this._alert.sendFloatNotification('Prenda reportada')
         this.dialog_.close(true)
+      }).catch((error) => {
+        this._alert.sendError(error.message
+          ? error.message
+          : 'ERROR DESCONOCIDO: No se pudo guardar',
+          JSON.stringify(error)
+        );
       })
   }
 
