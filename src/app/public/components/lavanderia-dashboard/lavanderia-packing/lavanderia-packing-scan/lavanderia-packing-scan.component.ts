@@ -3,7 +3,7 @@ import { iPrendaEvent } from 'src/app/models/reporte.model';
 import { MatDialog } from '@angular/material/dialog';
 import { GdevCache } from '@jgu7man/gdev-tools';
 import { Subscription } from 'rxjs';
-import { iCode, iPrenda } from 'src/app/models/prenda.model';
+import { iCode, iPrenda, PrendaState } from 'src/app/models/prenda.model';
 import {  iHistory, iPaqueteEvent, PropEvent } from 'src/app/models/reporte.model';
 import { iUser } from 'src/app/models/user.model';
 import { ReportesService } from 'src/app/services/reportes.service';
@@ -93,15 +93,17 @@ export class LavanderiaPackingScanComponent implements OnInit {
     if (this.prop) {
       let prendaScanned = this.prop.prendas.findIndex(p => p.codigo == code.codigo)
       if (prendaScanned >= 0) {
+        let currentState = this.prop.prendas[prendaScanned].state != 'damage'
+          ? 'stock' : 'damage' as PrendaState
         let currentPrenda: iPrendaEvent = {
           // Info de la prenda
           ...this.prop.prendas[prendaScanned],
           // Set scanned
           scanned: true,
           // Set actual state
-          state: 'stock',
+          state: currentState,
           // Regist event, state and who
-          event: new iHistory(new Date(), 'stock', this.user?.uid as string),
+          event: new iHistory(new Date(), currentState, this.user?.uid as string),
         }
         this.paqueteState?.prendasReport.push(currentPrenda)
       }

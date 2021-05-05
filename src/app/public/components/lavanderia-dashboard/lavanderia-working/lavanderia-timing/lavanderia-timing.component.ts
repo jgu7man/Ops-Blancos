@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GdevCache } from '@jgu7man/gdev-tools';
-import { Observable, interval } from 'rxjs';
+import { Observable, interval, Subscription } from 'rxjs';
 import { map, scan, startWith, take } from 'rxjs/operators';
 import { iLavanderiaEvent, LavanderiaAction } from 'src/app/models/events.model';
 import { iCurrentProp } from 'src/app/models/propiedad.model';
@@ -15,7 +15,7 @@ import { ResponsablesService } from 'src/app/services/responsables.service';
   templateUrl: './lavanderia-timing.component.html',
   styleUrls: ['./lavanderia-timing.component.scss']
 })
-export class LavanderiaTimingComponent implements OnInit {
+export class LavanderiaTimingComponent implements OnInit, OnDestroy {
 
   user: iUser
   propiedad?: iCurrentProp
@@ -23,6 +23,7 @@ export class LavanderiaTimingComponent implements OnInit {
   currentTime?: Observable<any>
   started: boolean = false
   events: iLavanderiaEvent[] = []
+  eventSubscription?: Subscription
 
   constructor(
     private _cache: GdevCache,
@@ -82,6 +83,7 @@ export class LavanderiaTimingComponent implements OnInit {
         .getPaqueteAcargoContent(prefix, paquete)
 
       this.propiedad.paquete = paquete
+      this.eventSubscription =
       this._lavanderia.getLastEvents(prefix, paquete)
         .subscribe(events => {
         console.log( events )
@@ -104,6 +106,10 @@ export class LavanderiaTimingComponent implements OnInit {
 
   duration(count?: number) {
     return new Date(0,0,0,0,0,0, count)
+  }
+
+  ngOnDestroy() {
+    if (this.eventSubscription) this.eventSubscription.unsubscribe()
   }
 
 }
