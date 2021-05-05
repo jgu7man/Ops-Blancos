@@ -11,7 +11,7 @@
 
 $ops-blancos-primary: mat-palette($guestify-primary);
 $ops-blancos-accent: mat-palette($guestify-accent, 500, A100, A400);
-
+$primary: map-get($guestify-primary, 500);
 $ops-blancos-warn: mat-palette($mat-red);
 
 $ops-blancos-theme: mat-light-theme((
@@ -58,6 +58,11 @@ mat-form-field {
 mat-card {
   margin-bottom: 0.75rem;
   width: 100%;
+}
+
+.data-text {
+  color: $primary;
+  font-weight: bold !important;
 }
 
 #bottom-bar {

@@ -1,0 +1,54 @@
+<mat-dialog-content>
+  <div class="row">
+    <div class="col s12">
+      <p>Responsable:<span class="data-text"> <br>
+        {{user?.full_name}} <br>
+      </span>
+      <span style="font-size:x-small">{{user?.celular}}</span>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12">
+      <p>Propiedad: <span class="data-text">
+        {{propiedad?.direccion}}
+      </span></p>
+      <p>Paquete: <span class="data-text">
+        {{event.paquete.index}}
+      </span> </p>
+      <p>Reporte: <span class="data-text">
+        {{states(event.paquete.state)}}
+      </span> </p>
+    </div>
+    <div class="col s12">
+      <ul>
+        <li *ngFor="let prenda of event.paquete.prendasReport">
+          <p>
+            {{prenda.producto}}
+            {{prenda.unidad}}/{{prenda.total}} <br>
+            <span style="font-size:x-small">
+              {{prenda.codigo}}
+            </span>
+          </p>
+          <p> {{states(prenda.state)}} </p>
+          <p> {{prenda.event.reporte}} </p>
+
+          <mat-grid-list *ngIf="prenda.event.evidences"
+          cols="1" rowHeight="1:1">
+            <mat-grid-tile *ngFor="let item of prenda.event.evidences">
+              <img [src]="item">
+            </mat-grid-tile>
+          </mat-grid-list>
+        </li>
+      </ul>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions
+style="display: flex; justify-content: center;">
+    <button mat-raised-button
+    color="primary"
+    (click)="dialog.close()"
+    >Cerrar</button>
+</mat-dialog-actions>
+

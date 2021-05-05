@@ -21,7 +21,7 @@ export interface iPaqueteState extends iPaquete{
 }
 export interface iPaqueteEvent {
   index: string,
-  state: PaqueteState,
+  state: PaqueteState | PrendaState,
   prendasReport: iPrendaEvent[]
 }
 

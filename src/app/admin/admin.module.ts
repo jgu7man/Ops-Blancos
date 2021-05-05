@@ -24,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ColumnsSelectorComponent } from './components/manage-database/manage-propiedades/columns-selector/columns-selector.component';
 import { ColumnEditorComponent } from './components/manage-database/manage-propiedades/column-editor/column-editor.component';
 import { DialogImportComponent } from './components/manage-database/manage-propiedades/dialog-import/dialog-import.component';
+import { DialogEventComponent } from './components/admin-dashboard/historial/dialog-event/dialog-event.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { DialogImportComponent } from './components/manage-database/manage-propi
     ColumnsSelectorComponent,
     ColumnEditorComponent,
     DialogImportComponent,
+    DialogEventComponent,
   ],
   imports: [
     CommonModule,

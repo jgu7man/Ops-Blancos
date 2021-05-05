@@ -10,6 +10,7 @@ import { MaterialModule } from 'src/shared/material.module';
 import { LoginComponent } from './components/login/login.component';
 import { GdevToolsModule } from '@jgu7man/gdev-tools';
 import { CreateAccountComponent } from './components/create-account/create-account.component';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,9 @@ import { CreateAccountComponent } from './components/create-account/create-accou
     GdevToolsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'es-MX'},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -58,6 +58,11 @@ export class PropiedadesService {
 
   }
 
+  async searchForPropiedad(prefix: string): Promise<iPropiedad> {
+    const propRef = this._afs.doc(`propiedades/${prefix}`).ref
+    return await (await propRef.get()).data() as iPropiedad
+  }
+
 
   async searchForPaquete(propPrefix: string, pid: string): Promise<iPaquete | null> {
     var paquete: iPaquete = {prendas: [], pid:'' }

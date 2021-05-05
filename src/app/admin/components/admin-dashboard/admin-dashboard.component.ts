@@ -13,6 +13,7 @@ export class AdminDashboardComponent implements OnInit {
   washingUps: number = 0
   collected: number = 0
   damaged: number = 0
+  alerts: number = 0
   constructor(
     private _events: EventsService
   ) {
@@ -22,6 +23,7 @@ export class AdminDashboardComponent implements OnInit {
         this.washingUps = resume.washingUps.length
         this.collected = resume.collected.length
         this.damaged = resume.damaged.length
+        this.alerts = resume.alerts.length
     })
    }
 

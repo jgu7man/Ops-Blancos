@@ -6,6 +6,11 @@ export interface iEventsResume {
   todayEvents: PropEvent[],
 }
 
+export interface iDay {
+  date: Date,
+  events: PropEvent[],
+}
+
 
 export interface iLavanderiaEvent extends iCurrentProp {
   start: number,

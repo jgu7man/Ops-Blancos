@@ -193,7 +193,7 @@ export class ReportesService {
           responsable: this.user.uid,
           paquete: {
             index: this.currentPrenda.paquete,
-            state: 'washing',
+            state: 'damage',
             prendasReport: [prenda],
           },
         };
@@ -206,7 +206,8 @@ export class ReportesService {
         batch.set(alertRef, <iAlertReport>{
           ...event,
           prefix: this.currentPrenda.prefix,
-          ciudad: this.currentPrenda.prefix.substring(0,3),
+          ciudad: this.currentPrenda.prefix.substring(0, 3),
+          checked: false
         });
 
         return batch.commit();

@@ -130,4 +130,10 @@ export class PersonalService {
 
   }
 
+
+  async getUser(uid: string): Promise<iUser> {
+    return await (await this._afs.collection('users')
+      .ref.doc(uid).get()).data() as iUser
+  }
+
 }
