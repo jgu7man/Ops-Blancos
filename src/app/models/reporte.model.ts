@@ -20,7 +20,7 @@ export interface iPaqueteState extends iPaquete{
   lastUpdate: Date | firebase.firestore.Timestamp
 }
 export interface iPaqueteEvent {
-  index: string,
+  pid: string,
   state: PaqueteState | PrendaState,
   prendasReport: iPrendaEvent[]
 }

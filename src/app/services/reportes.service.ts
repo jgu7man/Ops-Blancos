@@ -192,7 +192,7 @@ export class ReportesService {
           date: new Date(),
           responsable: this.user.uid,
           paquete: {
-            index: this.currentPrenda.paquete,
+            pid: this.currentPrenda.paquete,
             state: 'damage',
             prendasReport: [prenda],
           },
@@ -225,7 +225,7 @@ export class ReportesService {
       if (this.user) {
         const propPath = `propiedades/${propId}`;
         const propRef = this._afs.doc(propPath).ref;
-        const paquetePath = `${propPath}/paquetes/${event.paquete.index}`;
+        const paquetePath = `${propPath}/paquetes/${event.paquete.pid}`;
         const eventRef = this._afs.collection(`${propPath}/events`).ref;
         const alertRef = this._afs.collection('alerts').ref;
         const paqueteRef = this._afs.doc(paquetePath).ref;

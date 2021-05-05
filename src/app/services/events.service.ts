@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { GdevCache } from '@jgu7man/gdev-tools';
+import { GdevCache, GdevLoading } from '@jgu7man/gdev-tools';
 import { combineLatest, forkJoin, zip } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { iPaqueteEvent, iPaqueteState, iPrendaState, PropEvent } from '../models/reporte.model';
+import firebase  from 'firebase/app'
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class EventsService {
   now: Date
   constructor(
     private _afs: AngularFirestore,
-    private _cache: GdevCache
+    private _cache: GdevCache,
+    private _loading: GdevLoading
   ) {
     this.now = new Date()
     this.today = new Date(
@@ -24,77 +26,40 @@ export class EventsService {
       0, 0, 0
     )
     this.getStatesResume()
+    // this.changeIndexField()
    }
 
 
-  async getDayEvents(day: Date) {
-    let minDate = new Date(day.getFullYear(), day.getMonth(), day.getDate(), 0, 0, 0)
-    let maxDate = new Date(day.getFullYear(), day.getMonth(), day.getDate() + 1, 0,0,0)
-    return await this._afs.collectionGroup<PropEvent>('events',
-      ref => ref
-        .where('date', '>=', minDate)
-        .where('date', '<=', maxDate)
-    ).get().pipe(take(1),
-      map(docs => docs.docs.map(doc => doc.data()))
-    ).toPromise()
-  }
-
   getStatesResume() {
-    return combineLatest(
-      this.getTodayEvents(),
-      this.getWashingUps(),
-      this.getCollected(),
-      this.getDamaged(),
+    return combineLatest([
+      this.getRealtimeEvents('events', 'date', '>=', this.today, 'todayEvents'),
+      this.getRealtimeEvents('paquetes', 'state', '==', 'washing', 'washingUps'),
+      this.getRealtimeEvents('paquetes', 'state', '==', 'collected', 'collected'),
+      this.getRealtimeEvents('prendas', 'state', '==', 'damage', 'damaged'),
       this.getAlerts()
-    ).pipe(map(([
-      todayEvents,
-      washingUps,
-      collected,
-      damaged,
-      alerts
-    ]) => ({
-      todayEvents,
-      washingUps,
-      collected,
-      damaged,
-      alerts
+    ]).pipe(map((result) => ({
+      todayEvents:result[0],
+      washingUps:result[1],
+      collected:result[2],
+      damaged:result[3],
+      alerts:result[4],
       }))
     )
   }
 
-  getTodayEvents() {
-    return this._afs.collectionGroup<PropEvent>('events',
-      ref => ref.where('date', '>=', this.today))
-      .valueChanges()
-      .pipe(
-        tap(data => this._cache.updateData('todayEvents', data)),
-      )
-  }
 
-  getWashingUps() {
-    return this._afs.collectionGroup<iPaqueteState>('paquetes',
-      ref => ref.where('state', '==', 'washing'))
-      .valueChanges()
-      .pipe(
-        tap(data => this._cache.updateData('washingUps', data)),
-      )
-  }
-
-  getCollected() {
-    return this._afs.collectionGroup<iPaqueteState>('paquetes',
-      ref => ref.where('state', '==', 'collected'))
-      .valueChanges()
-      .pipe(
-        tap(data => this._cache.updateData('collected', data)),
-      )
-  }
-
-  getDamaged() {
-    return this._afs.collectionGroup<iPrendaState>('prendas',
-      ref => ref.where('state', '==', 'damage'))
-      .valueChanges()
-      .pipe(
-        tap(data => this._cache.updateData('damaged', data)),
+  getRealtimeEvents(
+    collection: string,
+    field: string,
+    comparator: firebase.firestore.WhereFilterOp,
+    value: any,
+    label: string
+  ) {
+    return this._afs.collectionGroup<PropEvent>(collection,
+    ref => ref.where(field, comparator, value))
+      .valueChanges().pipe(
+        tap(data => this._cache.updateData(label, data)
+        )
       )
   }
 
@@ -105,5 +70,21 @@ export class EventsService {
       .pipe(
       tap(data => this._cache.updateData('alerts', data)),
     )
+  }
+
+
+  async changeIndexField() {
+    const eREF = this._afs.collection(`propiedades/GDLREFORM/events`).ref
+    const batch = this._afs.firestore.batch()
+    let events = await eREF.get()
+
+    await this._loading.asyncForEach(events.docs,
+      (doc: any) => {
+      batch.update(doc.ref, {
+        "paquete.pid": doc.get('paquete.index')
+      })
+    })
+
+    batch.commit()
   }
 }

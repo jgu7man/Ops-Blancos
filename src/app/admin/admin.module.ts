@@ -25,6 +25,7 @@ import { ColumnsSelectorComponent } from './components/manage-database/manage-pr
 import { ColumnEditorComponent } from './components/manage-database/manage-propiedades/column-editor/column-editor.component';
 import { DialogImportComponent } from './components/manage-database/manage-propiedades/dialog-import/dialog-import.component';
 import { DialogEventComponent } from './components/admin-dashboard/historial/dialog-event/dialog-event.component';
+import { HistorialItemComponent } from './components/admin-dashboard/historial/historial-item/historial-item.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { DialogEventComponent } from './components/admin-dashboard/historial/dia
     ColumnEditorComponent,
     DialogImportComponent,
     DialogEventComponent,
+    HistorialItemComponent,
   ],
   imports: [
     CommonModule,

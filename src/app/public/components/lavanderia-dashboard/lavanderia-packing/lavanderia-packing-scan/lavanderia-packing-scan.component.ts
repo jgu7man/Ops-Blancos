@@ -43,7 +43,7 @@ export class LavanderiaPackingScanComponent implements OnInit {
   ) {
     this._dashboard.toggleBack = true
     this.paqueteState = {
-      index: '',
+      pid: '',
       prendasReport: [],
       state: 'stock',
     };
@@ -70,14 +70,14 @@ export class LavanderiaPackingScanComponent implements OnInit {
       this.prop.paquete = paquete
       this.review = true
       this.paqueteState = {
-        index: paquete,
+        pid: paquete,
         prendasReport: [],
         state
       }
     } else {
       this.prop = this._cache.getDataKey<iCurrentProp>('currentProp')
       this.paqueteState = {
-        index: this.prop.paquete,
+        pid: this.prop.paquete,
         state: 'collected',
         prendasReport:[],
       };

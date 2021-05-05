@@ -1,0 +1,58 @@
+<div class="row">
+  <div class="col s12">
+
+    <!-- Show date -->
+    <p class="fecha">
+      {{ day.date | date: "dd/MM/yyyy" }}
+      <mat-divider [inset]="true"></mat-divider>
+    </p>
+
+    <!-- Show events -->
+    <ng-container *ngIf="day.events.length > 0; else empty">
+      <mat-selection-list
+        #daysPanel
+        (selectionChange)="onSelectEvent($event, daysPanel)"
+        [multiple]="false"
+      >
+        <mat-list-option *ngFor="let item of day.events" [value]="item">
+
+          <!-- IS EVENT -->
+          <ng-container *ngIf="isEvent(item) as event">
+          <div class="row">
+            <div class="col s10">
+              {{ event.paquete.pid }} <br />
+              <span style="font-size: small"> {{ event.paquete.state }} </span>
+            </div>
+            <div class="col s2">
+              <span style="font-size: xx-small">
+                {{ historial.toDate(event.date) | date: "HH:mm" }}
+              </span>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- IS PAQUETE -->
+        <ng-container *ngIf="isPaquete(item) as paquete">
+          <div class="row">
+            <div class="col s10">
+              {{ paquete.pid }} <br />
+              <span style="font-size: small"> {{ paquete.state }} </span>
+            </div>
+            <div class="col s2">
+              <span style="font-size: xx-small">
+                {{ historial.toDate(paquete.lastUpdate) | date: "HH:mm" }}
+              </span>
+            </div>
+          </div>
+        </ng-container>
+        </mat-list-option>
+
+      </mat-selection-list>
+    </ng-container>
+
+    <ng-template #empty>
+      <p class="center">No hubo eventos este día</p>
+    </ng-template>
+
+  </div>
+</div>

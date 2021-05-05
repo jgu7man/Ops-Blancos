@@ -13,7 +13,8 @@
           <mat-card-subtitle>Eventos del día de hoy</mat-card-subtitle>
         </mat-card-header>
         <mat-card-actions style="display:flex; justify-content:flex-end">
-          <button mat-button color="primary">
+          <button mat-button color="primary"
+          [routerLink]="['/historial']" [queryParams]="{'query':'day'}">
             Ver historial
           </button>
         </mat-card-actions>
@@ -28,8 +29,10 @@
           <mat-card-subtitle>Paquetes lavando</mat-card-subtitle>
         </mat-card-header>
         <mat-card-actions style="display:flex; justify-content:flex-end">
-          <button mat-button color="primary">
-            Ver paquetes en espera
+          <button mat-button color="primary"
+          [routerLink]="['/historial']"
+          [queryParams]="{'query':'paquete', 'value': 'washingUps'}">
+            Ver paquetes lavando
           </button>
         </mat-card-actions>
       </mat-card>
@@ -42,7 +45,9 @@
           <mat-card-subtitle>Paquetes sin lavar</mat-card-subtitle>
         </mat-card-header>
         <mat-card-actions style="display:flex; justify-content:flex-end">
-          <button mat-button color="primary">
+          <button mat-button color="primary"
+          [routerLink]="['/historial']"
+          [queryParams]="{'query':'paquete', 'value': 'collected'}">
             Ver paquetes en espera
           </button>
         </mat-card-actions>

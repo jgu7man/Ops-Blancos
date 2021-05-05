@@ -41,7 +41,7 @@ export class LimpiezaPaqueteScanComponent implements OnInit, OnDestroy{
   ) {
     this._dashboard.toggleBack = true
     this.paqueteState = {
-      index: '',
+      pid: '',
       prendasReport: [],
       state: 'collected',
     };
@@ -69,7 +69,7 @@ export class LimpiezaPaqueteScanComponent implements OnInit, OnDestroy{
       this.prop.paquete = paquete
       this.review = true
       this.paqueteState = {
-        index: paquete,
+        pid: paquete,
         prendasReport: this.prop.prendas.map(prenda => {
             let {state, producto, total, unidad, codigo} = prenda
             return <iPrendaEvent> {
@@ -83,7 +83,7 @@ export class LimpiezaPaqueteScanComponent implements OnInit, OnDestroy{
     } else {
       this.prop = this._cache.getDataKey<iCurrentProp>('currentProp')
       this.paqueteState = {
-        index: this.prop.paquete,
+        pid: this.prop.paquete,
         state: 'collected',
         prendasReport:[],
       };

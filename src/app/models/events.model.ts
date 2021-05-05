@@ -1,4 +1,4 @@
-import { PropEvent } from "./reporte.model";
+import { iPaqueteEvent, iPaqueteState, PropEvent } from "./reporte.model";
 import firebase from "firebase/app"
 import { iCurrentProp } from "./propiedad.model";
 
@@ -8,7 +8,7 @@ export interface iEventsResume {
 
 export interface iDay {
   date: Date,
-  events: PropEvent[],
+  events: (PropEvent | iPaqueteState)[],
 }
 
 

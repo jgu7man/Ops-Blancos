@@ -2,3 +2,18 @@
   color: #00a5ba;
   font-weight: bold;
 }
+
+.right {
+  display: flex;
+  justify-content: flex-end
+}
+
+.date-selector {
+  ::ng-deep {
+    .mat-form-field-suffix {
+      display: flex;
+      align-items:center;
+      top: -5px;
+    }
+  }
+}

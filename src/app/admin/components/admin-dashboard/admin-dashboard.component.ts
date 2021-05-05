@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GdevLoading } from '@jgu7man/gdev-tools';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { EventsService } from 'src/app/services/events.service';
@@ -15,8 +16,11 @@ export class AdminDashboardComponent implements OnInit {
   damaged: number = 0
   alerts: number = 0
   constructor(
-    private _events: EventsService
+    private _events: EventsService,
+    private _loading: GdevLoading,
   ) {
+    this._loading.toggleWaitingSpinner('open')
+
     this._events.getStatesResume()
       .subscribe(resume => {
         this.todayEvents = resume.todayEvents.length
@@ -24,6 +28,8 @@ export class AdminDashboardComponent implements OnInit {
         this.collected = resume.collected.length
         this.damaged = resume.damaged.length
         this.alerts = resume.alerts.length
+
+        this._loading.toggleWaitingSpinner('close')
     })
    }
 

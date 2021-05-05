@@ -26,7 +26,7 @@ export class DialogEventComponent implements OnInit {
 
   async ngOnInit() {
     this.user = await this._personal.getUser(this.event.responsable)
-    let prefix = this.event.paquete.index.substring(0, 9)
+    let prefix = this.event.paquete.pid.substring(0, 9)
     console.log( prefix )
     this.propiedad = await this._propiedades.searchForPropiedad(prefix)
   }

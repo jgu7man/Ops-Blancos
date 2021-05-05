@@ -9,6 +9,8 @@ import { DialogEventComponent } from './dialog-event/dialog-event.component';
 import { take } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { HistorialQuery, HistorialService } from 'src/app/services/historial.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   templateUrl: './historial.component.html',
@@ -16,28 +18,24 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 })
 export class HistorialComponent implements OnInit {
 
-  days: iDay[] = []
-  lastDayTaked: Date = new Date()
-  dateSelected?: Date
-  filtering: boolean = false
-  dayFiltered: iDay = { date: new Date, events: [] }
-  dateCtrl: FormControl = new FormControl(new Date())
+  query: HistorialQuery
 
   constructor(
     private _cache: GdevCache,
     private _events: EventsService,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private _route: ActivatedRoute,
+    public historial: HistorialService,
   ) {
-    this.days = [{
-      events: this._cache.getDataKey('todayEvents'),
-      date: this.lastDayTaked
-     }]
+    this.query = this._route.snapshot.queryParams['query']
+    let value: string = this._route.snapshot.queryParams['value']
+    this.historial.methodIndex(this.query, value)
    }
 
   ngOnInit(): void {
   }
 
-  onSelect(event: MatSelectionListChange, panel: MatSelectionList) {
+  onSelectEvent(event: MatSelectionListChange, panel: MatSelectionList) {
     this._dialog.open(DialogEventComponent, {
       minWidth: '50%',
       data: event.options[0].value
@@ -46,43 +44,7 @@ export class HistorialComponent implements OnInit {
     })
   }
 
-  filterByDate(event: MatDatepickerInputEvent<Date>) {
-    this.dateSelected = event.value as Date
-      this._events.getDayEvents(this.dateSelected)
-        .then(events => {
-          this.dayFiltered = {
-            date: this.dateSelected as Date,
-            events: events
-          }
-          this.filtering = true
-        })
-  }
 
 
-  clearFilter() {
-    this.filtering = false
-    this.dateCtrl.setValue(new Date())
-  }
 
-  getDayLess() {
-    this.lastDayTaked.setHours(
-      this.lastDayTaked.getHours()-24
-    )
-    this._events.getDayEvents(this.lastDayTaked)
-      .then(events => {
-        console.log(events)
-        this.days.push({
-          date: this.lastDayTaked,
-          events
-        })
-    })
-  }
-
-  toDate(stamp: firebase.firestore.Timestamp | Date) {
-    if ('seconds' in stamp) {
-      return new Date(stamp.seconds * 1000)
-    } else {
-      return stamp
-    }
-  }
 }

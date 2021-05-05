@@ -1,113 +1,73 @@
 <div class="container">
   <div class="row">
     <div class="col s12">
-      <h2 class="center">Historial</h2>
+      <h2 class="center">{{historial.historyLabel(query)}}</h2>
+      <!-- <p class="center">  </p> -->
     </div>
   </div>
 
+
+  <!-- BUSCADOR -->
   <div class="row">
-    <div class="col s6">
-      <p>Buscar por fecha</p>
-    </div>
-    <div class="col s6">
-      <mat-form-field appearance="fill">
-        <mat-label>Elige una fecha</mat-label>
+    <div class="col s12">
+      <mat-form-field appearance="outline" class="date-selector">
+        <mat-label>Buscar por fecha</mat-label>
+        <!-- Datepicker input -->
         <input matInput [matDatepicker]="picker"
-        [formControl]="dateCtrl"
-        (dateChange)="filterByDate( $event)" >
+        [formControl]="historial.dateCtrl"
+        (dateChange)="historial.filterByDate( $event)" >
+        <!-- Close button -->
+        <button mat-icon-button matSuffix *ngIf="historial.filtering"
+        color="accent" (click)="historial.clearFilter()"
+        > <i class="fas fa-times"></i></button>
+        <!-- Datepicker button -->
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
     </div>
   </div>
 
-  <ng-container *ngIf="!filtering; else filtered">
 
-    <div class="row" *ngFor="let day of days; index as i ">
-      <div class="col s12">
-        <p class="fecha">{{day.date | date: 'dd/MM/yyyy'}}
-          <mat-divider [inset]="true"></mat-divider>
-        </p>
-        <ng-container *ngIf="day.events.length > 0; else empty">
-        <mat-selection-list #daysPanel
-        (selectionChange)="onSelect($event, daysPanel)"
-        [multiple]="false">
-          <mat-list-option
-          *ngFor="let event of day.events"
-          [value]="event"
-          >
-          <div class="row">
-            <div class="col s10">
-              {{event.paquete.index}} <br>
-              <span style="font-size: small;">
-                {{event.paquete.state}} </span>
-            </div>
-            <div class="col s2">
-              <span style="font-size: xx-small;">
-                {{toDate(event.date) | date: 'HH:mm'}}
-              </span>
-            </div>
-          </div>
-          </mat-list-option>
-        </mat-selection-list>
-        </ng-container>
-        <ng-template #empty >
-          <p class="center">No hubo eventos este día</p>
-        </ng-template>
+  <!-- LISTA DE DÍAS -->
+  <ng-container *ngIf="!historial.filtering; else filtered">
+    <ng-container *ngIf="historial.days.length > 0; else empty">
+      <ng-container *ngFor="let day of historial.days; index as i">
+        <g-historial-item [day]="day"></g-historial-item>
+      </ng-container>
+    </ng-container>
+
+    <!-- NAVIGATOR BUTTON -->
+    <div class="row" *ngIf="query == 'day'">
+      <div class="col s12 center">
+        <button mat-raised-button color='primary'
+        (click)="historial.getDayLess()" >Un día atrás</button>
       </div>
     </div>
-
   </ng-container>
+
+
+  <!-- DÍA FILTRADO -->
   <ng-template #filtered >
+    <ng-container *ngIf="historial.dayFiltered; else empty">
+      <g-historial-item [day]="historial.dayFiltered"></g-historial-item>
+    </ng-container>
+  </ng-template>
 
+  <!-- CONSULTA VACÍA -->
+  <ng-template #empty >
     <div class="row">
-
-      <div class="col s12 right" style="display: flex; justify-content: flex-end">
-        <button mat-button
-        color="accent"
-        (click)="clearFilter()"
-        >Borrar filtro</button>
-      </div>
-
-      <div class="col s12">
-        <p class="fecha">{{dateSelected | date: 'dd/MM/yyyy'}}
-          <mat-divider [inset]="true"></mat-divider>
-        </p>
-        <ng-container *ngIf="dayFiltered.events.length > 0; else empty">
-        <mat-selection-list #daysPanel
-        (selectionChange)="onSelect($event, daysPanel)"
-        [multiple]="false">
-          <mat-list-option
-          *ngFor="let event of dayFiltered.events"
-          [value]="event"
-          >
-          <div class="row">
-            <div class="col s10">
-              {{event.paquete.index}} <br>
-              <span style="font-size: small;">
-                {{event.paquete.state}} </span>
-            </div>
-            <div class="col s2">
-              <span style="font-size: xx-small;">
-                {{toDate(event.date) | date: 'HH:mm'}}
-              </span>
-            </div>
-          </div>
-          </mat-list-option>
-        </mat-selection-list>
-        </ng-container>
-        <ng-template #empty >
-          <p class="center">No hubo eventos este día</p>
-        </ng-template>
+      <div class="col s12 center">
+        <p class="center">Nada que mostrar</p>
+        <div class="img-background">
+          <img src="/assets/img/sleeping.png" alt="sleeping">
+        </div>
       </div>
     </div>
   </ng-template>
 
 
-  <div class="row">
-    <div class="col s12 center">
-      <button mat-raised-button color='primary'
-      (click)="getDayLess()" >Un día atrás</button>
-    </div>
-  </div>
+
+
+
+
 </div>
