@@ -14,13 +14,13 @@ export class DialogLavanderiaScannedFormComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: iCode,
     public dialog_: MatDialogRef<DialogLavanderiaScannedFormComponent>,
-    private _reportes: ReportesService,
+    public reportes_: ReportesService,
     private _alert: GdevAlert
   ) {
    }
 
   ngOnInit(): void {
-    this._reportes.currentPrenda = new PrendaModel(this.data)
+    this.reportes_.currentPrenda = new PrendaModel(this.data)
     // this._reportes.CurrentPrenda(this.data)
   }
 
@@ -33,15 +33,21 @@ export class DialogLavanderiaScannedFormComponent implements OnInit {
   }
 
   onReport() {
-    this._reportes.saveCurrentPrenda()
+    this.reportes_.saveCurrentPrenda()
       .then(() => {
         this._alert.sendFloatNotification('Prenda reportada')
         this.dialog_.close()
+      }).catch(error => {
+        this._alert.sendError(error.message
+          ? error.message
+          : 'ERROR DESCONOCIDO: No se pudo guardar',
+          JSON.stringify(error)
+        );
       })
   }
 
   ngOnDestroy() {
-    delete this._reportes.currentPrenda
+    delete this.reportes_.currentPrenda
   }
 
 }

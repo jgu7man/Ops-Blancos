@@ -24,7 +24,7 @@ style="display: flex; justify-content: space-around;">
     <button
     mat-raised-button
     color="primary"
-    [disabled]="!isReady"
+    [disabled]="!isReady || reportes_.stateCtrl.value == 'sucio'"
     (click)="onReport()"
     >
       <b>REPORTAR</b>
