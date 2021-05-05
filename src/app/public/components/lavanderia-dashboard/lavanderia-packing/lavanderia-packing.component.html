@@ -1,4 +1,5 @@
 <div class="container">
+
   <div class="row">
     <div class="col s12">
       <h2 class="center">Empacar</h2>
@@ -7,15 +8,11 @@
       </p>
     </div>
   </div>
+
   <div class="row" *ngIf="(acargoList$ | async) as list; else noList">
     <ng-container *ngIf="list.length > 0; else empty">
-      <div class="col s6" *ngFor="let item of list">
-        <mat-card
-        [routerLink]="['../empacar', item.pid]"
-        [queryParams]="{
-          paquete:item.paquete,
-          state:item.state
-        }" >
+      <div class="col s12" *ngFor="let item of list">
+        <mat-card (click)="toPack(item)">
           <div class="row align-cols">
             <div class="col s1">
               <i class="fas fa-home fa-lg"></i>

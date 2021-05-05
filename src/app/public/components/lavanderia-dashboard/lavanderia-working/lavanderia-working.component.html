@@ -10,9 +10,9 @@
   <div class="row" *ngIf="(acargoList$ | async) as list; else loading">
 
     <ng-container *ngIf="list.length > 0; else empty">
-      <div class="col s6" *ngFor="let item of list">
+      <div class="col s12" *ngFor="let item of list">
         <mat-card
-        [routerLink]="['../review', item.pid]"
+        [routerLink]="['../timing', item.pid]"
         [queryParams]="{
           paquete:item.paquete,
           state:item.state

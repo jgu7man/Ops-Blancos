@@ -132,7 +132,6 @@ export class ReportesService {
   async saveCurrentPrenda(): Promise<void> {
     try {
       let prenda: iPrendaEvent;
-      console.log(this.currentPrenda);
       if (this.currentPrenda) {
         let event = new iHistory(
           new Date(),
@@ -148,7 +147,6 @@ export class ReportesService {
           event,
         };
 
-        console.log(prenda);
         return await this.savePrendaState(prenda)
 
       } else {
@@ -162,10 +160,7 @@ export class ReportesService {
 
   async savePrendaState(prenda: iPrendaEvent): Promise<void> {
     try {
-      // this.currentProp = this._cache.getDataKey('currentProp');
-      console.log(prenda);
-      // let prefix = prenda.codigo.substring(0, 9)
-      // let paquete = prenda.codigo.substring(0,9)+prenda
+
       if (this.user && this.currentPrenda?.prefix) {
         const propPath = `propiedades/${this.currentPrenda.prefix}`;
         const eventRef = this._afs

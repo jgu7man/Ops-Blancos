@@ -1,0 +1,68 @@
+<div id="work-area" class="container">
+  <div class="row">
+    <div class="col s12 center">
+      <h2 class="center white-text">A trabajar</h2>
+      <p class="center white-text">
+        Informa con un tap cuando este paquete empezó a trabajar
+      </p>
+      <p class="center white-text">
+        PAQUETE:{{propiedad?.paquete}}
+      </p>
+      <p class="center white-text">
+        {{propiedad?.direccion}}
+      </p>
+    </div>
+  </div>
+
+  <div class="row chrono">
+    <div class="col s12">
+      <p class="center">
+        <span *ngIf="currentTime | async as time">
+          {{time | date: 'HH:mm:ss'}}
+        </span>
+      </p>
+    </div>
+  </div>
+
+  <div class="row controls">
+    <div class="col s12 center">
+      <ng-container *ngIf="!started; else stopped">
+          <button mat-raised-button
+          (click)="startCount('lavar')"
+          ><b>LAVAR</b></button>
+          <button mat-raised-button
+          (click)="startCount('secar')"
+          ><b>SECAR</b></button>
+      </ng-container>
+      <ng-template #stopped >
+        <button mat-raised-button color="accent"
+          (click)="stopCount()"
+          >Detener</button>
+      </ng-template>
+    </div>
+  </div>
+
+
+  <div class="row eventList">
+    <div class="col s12">
+      <mat-card *ngFor="let event of events" class="record">
+        <mat-card-content>
+          <div class="row align-cols">
+            <div class="col s6">
+              <span [ngSwitch]="event.action">
+              <span *ngSwitchCase="'lavar'">LAVADO</span>
+              <span *ngSwitchCase="'secar'">SECADO</span>
+              <span *ngSwitchDefault></span>
+              </span>
+            </div>
+            <div class="col s6 duration align-cols">
+              <span class="durationLabel" >Duración:</span>
+              <b>{{duration(event.count) | date: 'HH:mm:ss'}}</b>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+</div>

@@ -14,6 +14,7 @@ import { LavanderiaReportComponent } from './components/lavanderia-dashboard/lav
 import { LavanderiaPackingComponent } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing.component';
 import { LavanderiaPaqueteScanComponent } from './components/lavanderia-dashboard/lavanderia-paquete-scan/lavanderia-paquete-scan.component';
 import { LavanderiaPackingScanComponent } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing-scan/lavanderia-packing-scan.component';
+import { LavanderiaTimingComponent } from './components/lavanderia-dashboard/lavanderia-working/lavanderia-timing/lavanderia-timing.component';
 
 const routes: Routes = [
   { path: '', component: PublicComponent, children: [
@@ -31,6 +32,7 @@ const routes: Routes = [
       { path: 'desempaque', component: LavanderiaUnpackageComponent },
       { path: 'paquete', component: LavanderiaPaqueteScanComponent },
       { path: 'review/:prefix', component: LavanderiaPaqueteScanComponent },
+      { path: 'timing/:prefix', component: LavanderiaTimingComponent },
       { path: 'lavando', component: LavanderiaWorkingComponent },
       { path: 'reporte', component: LavanderiaReportComponent },
       { path: 'empaque', component: LavanderiaPackingComponent },

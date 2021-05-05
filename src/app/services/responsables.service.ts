@@ -8,6 +8,7 @@ import { iPaqueteState, iPrendaEvent, iPrendaState } from '../models/reporte.mod
 import { iUser } from '../models/user.model';
 import firebase from 'firebase/app'
 import { MergeScanOperator } from 'rxjs/internal/operators/mergeScan';
+import { iLavanderiaEvent } from '../models/events.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,7 @@ export class ResponsablesService {
 
     return paquetesListRef.pipe(map(paquetesList => {
 
-      return paquetesList.docs.map(doc => {
+      return paquetesList.docs.map( doc => {
         let paquete = doc.id
         let { state, lastUpdate} = doc.data()
         let pid = doc.ref.path.split('/')[1]
