@@ -5,7 +5,6 @@ import { combineLatest, forkJoin, zip } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { iAlertReport, iPaqueteEvent, iPaqueteState, iPrendaState, PropEvent } from '../models/reporte.model';
 import firebase  from 'firebase/app'
-import * as events from 'events';
 
 @Injectable({
   providedIn: 'root'
