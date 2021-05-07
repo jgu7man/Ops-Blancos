@@ -111,11 +111,11 @@ export class PersonalService {
     return this.personalMap
   }
 
-  getMemberData(uid: string) {
+  getMemberData(uid: string): iUser {
     if (this.personalMap.size == 0) {
       this.getPersonal().pipe(take(1)).subscribe()
     }
-    return this.personalMap.get(uid)
+    return this.personalMap.get(uid) as iUser
   }
 
   private async updateUserData( user: iUser ) {

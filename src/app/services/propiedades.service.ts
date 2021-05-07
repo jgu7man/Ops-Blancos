@@ -5,11 +5,14 @@ import { iPaquete, iPropiedad } from '../models/propiedad.model';
 import firebase  from 'firebase/app'
 import { iPrenda, PrendaModel } from '../models/prenda.model';
 import { iPaqueteState, iPrendaState } from '../models/reporte.model';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PropiedadesService {
+
+  propiedadChange: BehaviorSubject<any> = new BehaviorSubject(false);
 
   constructor(
     private _afs: AngularFirestore,
@@ -44,20 +47,17 @@ export class PropiedadesService {
           await this._loading.asyncForEach( paquetesCol.docs,
             async (paqueteDoc: firebase.firestore.DocumentData) => {
               let paquete: iPaquete = paqueteDoc.data() as iPaquete
-              console.log( paquete )
               let prendas = await this.paquetesPrendas(
                 propiedad.prefix,
                 paquete.pid
               )
               paquete.prendas = prendas as PrendaModel[]
-              console.log( paquete )
               propiedad.paquetes?.push(paquete)
               return
             }
           )
         }
 
-        console.log( propiedad )
          return propiedad
       }
     } catch (error) {
@@ -73,7 +73,6 @@ export class PropiedadesService {
   }
 
   async paquetesPrendas(propPrefix: string, pid: string): Promise<iPrendaState[]> {
-    console.log( propPrefix, pid )
     const paqueteRef = this._afs.doc(
       `propiedades/${propPrefix}/paquetes/${pid}`)
     const prendasRef = paqueteRef.collection('prendas').ref
@@ -82,7 +81,6 @@ export class PropiedadesService {
 
     await this._loading.asyncForEach(prendasCol.docs,
       async (doc: firebase.firestore.DocumentData) => {
-        console.log( doc.data() )
         prendas.push(doc.data() as iPrendaState)
         return
       })
@@ -91,10 +89,11 @@ export class PropiedadesService {
   }
 
 
-  async searchForPaquete(propPrefix: string, pid: string): Promise<iPaquete | null> {
+  async searchForPaquete(pid: string): Promise<iPaquete | null> {
     var paquete: iPaquete = new iPaquete('stock', '', [])
+    const prefix = pid.substring(0, 9)
     const paqueteRef = this._afs.doc(
-      `propiedades/${propPrefix}/paquetes/${pid}`
+      `propiedades/${prefix}/paquetes/${pid}`
     )
     const paqueteDoc = await paqueteRef.ref.get()
 

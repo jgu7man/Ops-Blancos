@@ -7,6 +7,7 @@ import { HistorialComponent } from './components/admin-dashboard/historial/histo
 import { ManageAdminsComponent } from './components/manage-admins/manage-admins.component';
 import { ManageDatabaseComponent } from './components/manage-database/manage-database.component';
 import { PropiedadesComponent } from './components/propiedades/propiedades.component';
+import { ShowPaqueteComponent } from './components/propiedades/show-paquete/show-paquete.component';
 import { ShowPrendaComponent } from './components/propiedades/show-prenda/show-prenda.component';
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
     { path: 'historial', component: HistorialComponent },
     { path: 'propiedades', component: PropiedadesComponent },
     { path: 'dashboard', component: AdminDashboardComponent },
+    { path: 'paquete/:pid', component: ShowPaqueteComponent },
     { path: 'prenda/:codigo', component: ShowPrendaComponent },
     { path: 'manage-admins', component: ManageAdminsComponent },
     { path: 'manage-database', component: ManageDatabaseComponent },

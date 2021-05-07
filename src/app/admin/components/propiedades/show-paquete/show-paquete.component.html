@@ -1,0 +1,68 @@
+<mat-card *ngIf="paquete">
+  <mat-card-header>
+    <mat-card-title>Paquete</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <table>
+      <tbody>
+        <tr>
+          <th>Código</th>
+          <td class="data-text">{{ paquete.pid }}</td>
+        </tr>
+
+        <tr *ngIf="responsable(paquete.responsable) as responsable">
+          <th>Actual responsable</th>
+          <td  class="data-text">{{ responsable.full_name }} <br>
+            <span class="small-text">
+              {{responsable.celular}}
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <th>Estado</th>
+          <td>
+            <mat-chip-list>
+                <mat-chip>{{paquete.state}}</mat-chip>
+            </mat-chip-list>
+          </td>
+        </tr>
+        <tr>
+          <th>Última actualización</th>
+          <td class="data-text">{{ date_.toDate(paquete.lastUpdate) | date: 'dd / MMM / yy - HH:mm' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-subtitle>Historial de lavandería</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let item of events | async">
+        <mat-expansion-panel-header>
+          <mat-panel-description>
+            {{date_.toDate(item.start) | date: 'dd / MMM / yy - HH:mm'}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="row historial-item">
+          <div class="col s12">
+
+            <p class="small-text">Acción: <span class="data-text">
+              {{item.action}}
+            </span> </p>
+            <p class="small-text">Duración: <span class="data-text">
+              {{date_.toDate(item.count) | date: 'HH:mm:ss'}}
+            </span> </p>
+
+
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-card-content>
+</mat-card>
+

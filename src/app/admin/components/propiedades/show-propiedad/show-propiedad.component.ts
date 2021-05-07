@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GdevAlert, GdevCache } from '@jgu7man/gdev-tools';
 import { iCode, iPrenda, PrendaModel } from 'src/app/models/prenda.model';
@@ -9,13 +9,15 @@ import { DialogAddPrendaComponent } from '../../manage-database/dialog-add-prend
 import firebase from 'firebase/app'
 import { GdevDate as MxDate } from 'src/app/services/gdev-date.service';
 import { Router } from '@angular/router';
+import { DashboardService } from 'src/app/services/dashboard.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'g-show-propiedad',
   templateUrl: './show-propiedad.component.html',
   styleUrls: ['./show-propiedad.component.scss']
 })
-export class ShowPropiedadComponent implements OnInit {
+export class ShowPropiedadComponent implements OnInit, OnDestroy{
 
 
   // private _code : BehaviorSubject<iCode> = new BehaviorSubject({} as iCode);
@@ -26,21 +28,27 @@ export class ShowPropiedadComponent implements OnInit {
   @Input() public code?: iCode
   @Input() prenda?: iPrenda
   @Output() close: EventEmitter<any> = new EventEmitter()
+  changesSubscription?: Subscription
+  allowSave: boolean = false
 
   constructor(
     private _dialog: MatDialog,
     private _alert: GdevAlert,
-    private _propiedades: PropiedadesService,
+    public propiedades_: PropiedadesService,
     public date_: MxDate,
     private _cache: GdevCache,
-    private _router: Router
+    private _router: Router,
+    private _dashboard: DashboardService
   ) {
-    this.propiedad = new iPropiedad('','','',[])
+    this.propiedades_.propiedadChange.subscribe(change => {
+      this.allowSave = change
+    })
+    this.propiedad = new iPropiedad('', '', '', [])
+    this._dashboard.toggleBack = true
    }
 
   ngOnInit(): void {
     this.addPropiedad()
-    console.log( this.propiedad )
   }
 
 
@@ -59,6 +67,7 @@ export class ShowPropiedadComponent implements OnInit {
         this.code.propiedad,
         [paquete]
       )
+      this.propiedades_.propiedadChange.next(true)
     }
   }
 
@@ -77,6 +86,7 @@ export class ShowPropiedadComponent implements OnInit {
         else {
           let paquete: iPaquete = new iPaquete('stock', pid, [])
           this.propiedad.paquetes?.push(paquete)
+          this.propiedades_.propiedadChange.next(true)
         }
       }
     })
@@ -93,7 +103,8 @@ export class ShowPropiedadComponent implements OnInit {
       let prefix = result.codigo.substring(3, 9)
       if (prefix === this.propiedad.prefix && this.propiedad.paquetes) {
         this.propiedad.paquetes[paqueteIndex ? paqueteIndex : 0]
-        .prendas?.push(result)
+          .prendas?.push(result)
+        this.propiedades_.propiedadChange.next(true)
       } else {
         this._alert.sendMessageAlert('Este código no pertenece a la propiedad, no lo puedes agregar')
       }
@@ -117,8 +128,14 @@ export class ShowPropiedadComponent implements OnInit {
     this.propiedad.paquetes.forEach((paquete, index) => {
       this.propiedad.paquetes[index] = paquete
     })
-    await this._propiedades.savePropiedad(this.propiedad)
-    this.close.emit()
+    await this.propiedades_.savePropiedad(this.propiedad)
+    this.propiedades_.propiedadChange.next(false)
+  }
+
+
+  ngOnDestroy() {
+    this._dashboard.toggleBack = false
+    this.changesSubscription?.unsubscribe()
   }
 
 }

@@ -82,7 +82,8 @@
                 </p>
               </div>
               <div class="col s6 right">
-                <button mat-button color="primary">
+                <button mat-button color="primary"
+                [routerLink]="['/admin/paquete', pack.pid]">
                   Ver historial <i class="fas fa-external-link-alt"></i>
                 </button>
 
@@ -143,14 +144,15 @@
     </div>
   </mat-card-content>
   <mat-card-actions style="display: flex; justify-content: space-around">
-    <button mat-raised-button (click)="close.emit()">Cerrar</button>
+    <!-- <button mat-raised-button (click)="close.emit()">Cerrar</button> -->
     <button
       mat-raised-button
       (click)="onSavePropiedad()"
       color="primary"
       cdkFocusInitial
+      [disabled]="!allowSave"
     >
-      Guardar
+      Guardar cambios
     </button>
   </mat-card-actions>
 </mat-card>

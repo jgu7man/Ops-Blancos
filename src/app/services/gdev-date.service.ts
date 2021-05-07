@@ -8,12 +8,12 @@ export class GdevDate {
 
   constructor() { }
 
-  toDate(date?:Date | firebase.firestore.Timestamp) {
-    if (date) {
+  toDate(date?:Date | firebase.firestore.Timestamp | number) {
+    if (date && typeof date !== 'number') {
       return 'seconds' in date
         ? new Date(date.seconds * 1000) : date
     } else {
-      return ''
+      return date ? new Date(date) : ''
     }
   }
 

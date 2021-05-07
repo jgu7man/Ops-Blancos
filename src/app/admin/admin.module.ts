@@ -30,6 +30,7 @@ import { PropiedadSearchComponent } from './components/propiedades/propiedad-sea
 import { PropiedadesComponent } from './components/propiedades/propiedades.component';
 import { DialogAlertComponent } from './components/admin-dashboard/historial/dialog-alert/dialog-alert.component';
 import { ShowPrendaComponent } from './components/propiedades/show-prenda/show-prenda.component';
+import { ShowPaqueteComponent } from './components/propiedades/show-paquete/show-paquete.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { ShowPrendaComponent } from './components/propiedades/show-prenda/show-p
     PropiedadesComponent,
     DialogAlertComponent,
     ShowPrendaComponent,
+    ShowPaqueteComponent,
   ],
   imports: [
     CommonModule,

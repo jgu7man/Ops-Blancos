@@ -9,6 +9,7 @@ import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { ScannerService } from 'src/app/services/scanner.service';
 import { DialogAddPropiedadComponent } from '../manage-database/dialog-add-propiedad/dialog-add-propiedad.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { GdevLoading } from '@jgu7man/gdev-tools';
 
 @Component({
   templateUrl: './propiedades.component.html',
@@ -27,12 +28,15 @@ export class PropiedadesComponent implements OnInit {
     private _scanner: ScannerService,
     private _propiedades: PropiedadesService,
     private _router: Router,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _loading: GdevLoading,
   ) {
     this._route.queryParams.subscribe(params => {
       let { prefix, code } = params;
-      console.log( prefix, code )
-      if (prefix || code) this.openPanel(prefix, code ? code : null)
+      if (prefix || code) {
+        this._loading.toggleWaitingSpinner('open')
+        this.openPanel(prefix, code ? code : null)
+      }
     })
    }
 
@@ -61,6 +65,7 @@ export class PropiedadesComponent implements OnInit {
       }
 
       this.panel?.open()
+      this._loading.toggleWaitingSpinner('close')
 
     } catch (err) {
       if (err.error == 'PROP_NOT_EXISTS' && code)
