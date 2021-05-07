@@ -77,7 +77,7 @@
             <div class="row">
               <div class="col s6">
                 <p class="small-text">
-                  {{toDate(pack.lastUpdate) | date:'dd / MMM / yy - HH:mm:ss'}}
+                  {{date_.toDate(pack.lastUpdate) | date:'dd / MMM / yy - HH:mm:ss'}}
                   <mat-chip-list> <mat-chip> {{pack.state}} </mat-chip> </mat-chip-list>
                 </p>
               </div>
@@ -117,7 +117,8 @@
                     <p></p>
                   </div>
                   <div class="col s6 right">
-                    <button mat-button color="primary">
+                    <button mat-button color="primary"
+                    (click)="goToPrenda(prenda)">
                       Ver historial <i class="fas fa-external-link-alt"></i>
                     </button>
                   </div>

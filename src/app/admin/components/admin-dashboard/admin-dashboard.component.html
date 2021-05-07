@@ -61,7 +61,8 @@
           <mat-card-subtitle>Prendas dañadas</mat-card-subtitle>
         </mat-card-header>
         <mat-card-actions style="display:flex; justify-content:flex-end">
-          <button mat-button color="primary">
+          <button mat-button color="primary"[routerLink]="['/historial']"
+          [queryParams]="{'query':'prenda'}">
             Ver prendas
           </button>
         </mat-card-actions>

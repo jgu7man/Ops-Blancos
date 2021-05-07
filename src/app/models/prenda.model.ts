@@ -1,4 +1,5 @@
 import { iHistory } from "./reporte.model"
+import firebase from "firebase/app"
 
 export interface iPrenda {
   codigo: string,
@@ -16,6 +17,7 @@ export class PrendaModel {
   total: string
   state?: PrendaState
   history?: iHistory[]
+  lastUpdate?: Date | firebase.firestore.Timestamp
 
   constructor(
     code: iCode

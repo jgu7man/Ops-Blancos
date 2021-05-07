@@ -182,6 +182,7 @@ export class ReportesService {
           history: firebase.firestore.FieldValue.arrayUnion({
             ...prenda.event,
           }),
+          lastUpdate: new Date()
         });
 
 
@@ -242,6 +243,7 @@ export class ReportesService {
             batch.update(prendaRef, {
               state: prenda.state,
               history: firebase.firestore.FieldValue.arrayUnion(prendaEvent),
+              lastUpdate: new Date()
             });
             event.paquete.prendasReport[index].event = prendaEvent as iHistory;
             return;

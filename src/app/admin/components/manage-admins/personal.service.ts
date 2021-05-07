@@ -4,6 +4,8 @@ import { iRolSelect, iUser } from 'src/app/models/user.model';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { map, startWith, switchMap, take, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +20,7 @@ export class PersonalService {
   ]
 
   adminList: iUser[] = []
+  personalMap: Map<string,iUser> = new Map()
 
   constructor(
     private _alert: GdevAlert,
@@ -98,6 +101,21 @@ export class PersonalService {
 
   getPersonal() {
     return this._afs.collection<iUser>('users').valueChanges()
+      .pipe( tap(list => this.mapPersonal(list)) )
+  }
+
+  mapPersonal(list: iUser[]) {
+    list.forEach(user => {
+      this.personalMap.set(user.uid, user)
+    })
+    return this.personalMap
+  }
+
+  getMemberData(uid: string) {
+    if (this.personalMap.size == 0) {
+      this.getPersonal().pipe(take(1)).subscribe()
+    }
+    return this.personalMap.get(uid)
   }
 
   private async updateUserData( user: iUser ) {

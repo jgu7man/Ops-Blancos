@@ -28,7 +28,7 @@
             </div>
             <div class="col s2">
               <span style="font-size: xx-small">
-                {{ historial.toDate(event.date) | date: "HH:mm" }}
+                {{ date_.toDate(event.date) | date: "HH:mm" }}
               </span>
             </div>
           </div>
@@ -43,13 +43,29 @@
             </div>
             <div class="col s2">
               <span style="font-size: xx-small">
-                {{ historial.toDate(paquete.lastUpdate) | date: "HH:mm" }}
+                {{ date_.toDate(paquete.lastUpdate) | date: "HH:mm" }}
               </span>
             </div>
           </div>
         </ng-container>
 
 
+        <!-- IS PRENDA -->
+        <ng-container *ngIf="isPrenda(item) as prenda">
+          <div class="row prenda">
+            <div class="col s10">
+              {{ prenda.producto }}
+              {{prenda.unidad}}/{{prenda.total}}
+              <br/>
+              <span style="font-size: small"> {{ prenda.codigo }} </span>
+            </div>
+            <div class="col s2">
+              <span style="font-size: xx-small">
+                {{ date_.toDate(prenda.lastUpdate) | date: "HH:mm" }}
+              </span>
+            </div>
+          </div>
+        </ng-container>
 
         </mat-list-option>
 

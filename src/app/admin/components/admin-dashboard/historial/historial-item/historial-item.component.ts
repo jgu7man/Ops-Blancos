@@ -2,9 +2,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectionList, MatSelectionListChange } from '@angular/material/list';
 import { Router } from '@angular/router';
+import { GdevCache } from '@jgu7man/gdev-tools';
 import { take } from 'rxjs/operators';
 import { iDay } from 'src/app/models/events.model';
+import { PrendaModel } from 'src/app/models/prenda.model';
 import { iAlertReport, iPaqueteState, PropEvent } from 'src/app/models/reporte.model';
+import { GdevDate } from 'src/app/services/gdev-date.service';
 import { HistorialService } from 'src/app/services/historial.service';
 import { DialogAlertComponent } from '../dialog-alert/dialog-alert.component';
 import { DialogEventComponent } from '../dialog-event/dialog-event.component';
@@ -21,7 +24,9 @@ export class HistorialItemComponent implements OnInit {
   constructor(
     public historial: HistorialService,
     private _dialog: MatDialog,
-    private _router: Router
+    private _router: Router,
+    private _cache: GdevCache,
+    public date_: GdevDate
   ) { }
 
   ngOnInit(): void {
@@ -38,21 +43,27 @@ export class HistorialItemComponent implements OnInit {
         panel.deselectAll()
       })
 
-    } else if (this.historial.query == 'state') {
-      let prefix = 'prefix' in value ? value.prefix
-        : value['pid'].substring(0, 9)
-      console.log( prefix )
-      this._router.navigate(['/admin/propiedades'], {
-        queryParams: { prefix}})
-
     } else if (this.historial.query == 'alert') {
-      this.day =  this.historial.markAsChecked(value.id, this.day )
+      this.day = this.historial.markAsChecked(value.id, this.day)
       this._dialog.open(DialogAlertComponent, {
         minWidth: '50%',
         data: value
       }).afterClosed().pipe(take(1)).subscribe(data => {
         panel.deselectAll()
       })
+
+
+    } else if (this.historial.query == 'state') {
+      let prefix = 'prefix' in value ? value.prefix
+        : value['pid'].substring(0, 9)
+      console.log(prefix)
+      this._router.navigate(['/admin/propiedades'], {
+        queryParams: { prefix }
+      })
+
+    } else if (this.historial.query == 'prenda') {
+      this._cache.updateData('currentPrenda', value)
+      this._router.navigate(['/admin/prenda', value.codigo])
     }
   }
 
@@ -63,14 +74,14 @@ export class HistorialItemComponent implements OnInit {
   }
 
   isPaquete(item: iPaqueteState | PropEvent): iPaqueteState | false {
-    if ('state' in item) {
+    if ('state' in item && 'responsable' in item) {
       return item as iPaqueteState
     } else return false
   }
 
-  isAlert(item: iPaqueteState | PropEvent | iAlertReport): iAlertReport | false {
-    if ('ciudad' in item) {
-      return item as iAlertReport
+  isPrenda(item: any): PrendaModel | false {
+    if ('producto' in item) {
+      return item as PrendaModel
     } else return false
   }
 

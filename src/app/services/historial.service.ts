@@ -8,6 +8,8 @@ import { iDay } from '../models/events.model';
 import { iAlertReport, iPaqueteEvent, iPaqueteState, iPrendaState, PropEvent } from '../models/reporte.model';
 import firebase  from 'firebase/app'
 import { chain, find, groupBy } from 'lodash';
+import { PrendaModel } from '../models/prenda.model';
+import { GdevDate } from './gdev-date.service';
 
 
 @Injectable({
@@ -26,7 +28,8 @@ export class HistorialService {
 
   constructor(
     private _afs: AngularFirestore,
-    private _cache: GdevCache
+    private _cache: GdevCache,
+    private _date: GdevDate
   ) { }
 
 
@@ -44,14 +47,7 @@ export class HistorialService {
     let paquetes = this._cache.getDataKey<iPaqueteState[]>(state)
     paquetes.forEach(pack => {
       if ('seconds' in pack.lastUpdate) {
-        let date: Date = this.plainDate(pack.lastUpdate)
-        let day = find(this.days, { date })
-        if (!day) {
-          this.days.push({ date, events: [pack]  })
-        } else {
-          this.days = this.days.map(d => d.date == date
-            ? { ...d, events: [...d.events, pack] } : d)
-        }
+        this.addEvents(pack.lastUpdate, pack)
       }
     })
   }
@@ -60,24 +56,33 @@ export class HistorialService {
     this.days = []
     let alerts = this._cache.getDataKey<iAlertReport[]>('alerts')
     alerts.forEach(alert => {
-      console.log( alert )
       if ('seconds' in alert.date) {
-        let date: Date = this.plainDate(alert.date)
+        this.addEvents(alert.date, alert)
+      }
+    })
+  }
+
+
+  setDamaged() {
+    this.days = []
+    const prendas = this._cache.getDataKey<PrendaModel[]>('damaged')
+    prendas.forEach(prenda => {
+      if (prenda.lastUpdate && 'seconds' in prenda.lastUpdate) {
+        this.addEvents(prenda.lastUpdate, prenda)
+      }
+    })
+  }
+
+
+  addEvents(itemDate: firebase.firestore.Timestamp, event: any) {
+    let date: Date = this._date.plainDate(itemDate)
         let day = find(this.days, { date })
         if (!day) {
-          console.log( 'nueva' )
-          this.days.push({ date, events: [alert]  })
+          this.days.push({ date, events: [event]  })
         } else {
-          console.log( 'agregar' )
-          this.days.forEach(d => {
-            if (d.date.getTime() == date.getTime()) {
-              d.events.push(alert)
-            }
-          })
+          this.days = this.days.map(d => d.date == date
+            ? { ...d, events: [...d.events, event] } : d)
         }
-      }
-      // console.log( this.days )
-    })
   }
 
   methodIndex(key: HistorialQuery, value?: any) {
@@ -87,7 +92,7 @@ export class HistorialService {
         break;
       case 'state': this.setPaquetesDates(value)
         break;
-      case 'prenda':
+      case 'prenda': this.setDamaged()
         break;
       case 'alert': this.setAlerts()
         break;
@@ -155,23 +160,7 @@ export class HistorialService {
 
   // UTILIDADES
 
-  toDate(stamp: firebase.firestore.Timestamp | Date) {
-    if ('seconds' in stamp) {
-      return new Date(stamp.seconds * 1000)
-    } else {
-      return stamp
-    }
-  }
 
-
-  plainDate(date: firebase.firestore.Timestamp) {
-    let onDate = new Date(date.seconds * 1000)
-    onDate.setHours(0)
-    onDate.setMinutes(0)
-    onDate.setSeconds(0)
-    onDate.setMilliseconds(0)
-    return onDate
-  }
 
   get HistoryLabel() {
     return this.query ? this.historialQueryMap.get(this.query) : ''

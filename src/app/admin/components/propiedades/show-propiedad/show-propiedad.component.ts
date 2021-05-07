@@ -1,12 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { GdevAlert } from '@jgu7man/gdev-tools';
+import { GdevAlert, GdevCache } from '@jgu7man/gdev-tools';
 import { iCode, iPrenda, PrendaModel } from 'src/app/models/prenda.model';
 import { iPropiedad, iPaquete } from 'src/app/models/propiedad.model';
 import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { DialogAddPaqueteComponent } from '../../manage-database/dialog-add-paquete/dialog-add-paquete.component';
 import { DialogAddPrendaComponent } from '../../manage-database/dialog-add-prenda/dialog-add-prenda.component';
 import firebase from 'firebase/app'
+import { GdevDate as MxDate } from 'src/app/services/gdev-date.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'g-show-propiedad',
@@ -22,13 +24,16 @@ export class ShowPropiedadComponent implements OnInit {
 
   @Input() propiedad: iPropiedad
   @Input() public code?: iCode
-  @Output() close: EventEmitter<any> = new EventEmitter()
   @Input() prenda?: iPrenda
+  @Output() close: EventEmitter<any> = new EventEmitter()
 
   constructor(
     private _dialog: MatDialog,
     private _alert: GdevAlert,
-    private _propiedades: PropiedadesService
+    private _propiedades: PropiedadesService,
+    public date_: MxDate,
+    private _cache: GdevCache,
+    private _router: Router
   ) {
     this.propiedad = new iPropiedad('','','',[])
    }
@@ -77,14 +82,7 @@ export class ShowPropiedadComponent implements OnInit {
     })
   }
 
-  toDate(date?:Date | firebase.firestore.Timestamp) {
-    if (date) {
-      return 'seconds' in date
-        ? new Date(date.seconds * 1000) : date
-    } else {
-      return ''
-    }
-  }
+
 
   onAddPrenda(paquete: string) {
     const paqueteIndex = this.propiedad.paquetes?.findIndex(j => j.pid === paquete)
@@ -100,6 +98,11 @@ export class ShowPropiedadComponent implements OnInit {
         this._alert.sendMessageAlert('Este código no pertenece a la propiedad, no lo puedes agregar')
       }
     })
+  }
+
+  goToPrenda(prenda: PrendaModel) {
+    this._cache.updateData('currentPrenda', prenda)
+    this._router.navigate(['/admin/prenda', prenda.codigo])
   }
 
   deletePrenda(paqueteIndex: number, prendaIndex: number) {
