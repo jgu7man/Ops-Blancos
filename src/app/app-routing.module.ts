@@ -15,6 +15,7 @@ const routes: Routes = [
   },
 
   { path: '', pathMatch: 'full', redirectTo: 'login' },
+  { path: 'city-manager', pathMatch: 'full', redirectTo: 'admin' },
   { path: 'login', component: LoginComponent,  },
   { path: 'create', component: CreateAccountComponent,  },
 ];

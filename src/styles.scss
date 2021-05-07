@@ -135,6 +135,10 @@ mat-card {
   position: relative;
 }
 
+.container {
+  max-width: 600px;
+}
+
 
 .img-dialog{
   align-items: center;
@@ -166,3 +170,6 @@ mat-card {
     justify-content: center;
   }
 }
+
+
+
