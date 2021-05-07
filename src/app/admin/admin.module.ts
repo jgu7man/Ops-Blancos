@@ -28,6 +28,7 @@ import { DialogEventComponent } from './components/admin-dashboard/historial/dia
 import { HistorialItemComponent } from './components/admin-dashboard/historial/historial-item/historial-item.component';
 import { PropiedadSearchComponent } from './components/propiedades/propiedad-search/propiedad-search.component';
 import { PropiedadesComponent } from './components/propiedades/propiedades.component';
+import { DialogAlertComponent } from './components/admin-dashboard/historial/dialog-alert/dialog-alert.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { PropiedadesComponent } from './components/propiedades/propiedades.compo
     HistorialItemComponent,
     PropiedadSearchComponent,
     PropiedadesComponent,
+    DialogAlertComponent,
   ],
   imports: [
     CommonModule,

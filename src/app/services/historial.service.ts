@@ -5,7 +5,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { GdevCache } from '@jgu7man/gdev-tools';
 import { map, take, tap } from 'rxjs/operators';
 import { iDay } from '../models/events.model';
-import { iPaqueteEvent, iPaqueteState, iPrendaState, PropEvent } from '../models/reporte.model';
+import { iAlertReport, iPaqueteEvent, iPaqueteState, iPrendaState, PropEvent } from '../models/reporte.model';
 import firebase  from 'firebase/app'
 import { chain, find, groupBy } from 'lodash';
 
@@ -32,7 +32,7 @@ export class HistorialService {
 
 
   setTodayEvents() {
-    console.log( 'hola' )
+    this.days = []
     this.days = [{
       events: this._cache.getDataKey('todayEvents'),
       date: this.lastDayTaked
@@ -40,6 +40,7 @@ export class HistorialService {
   }
 
   setPaquetesDates(state: 'washingUps' | 'collected') {
+    this.days = []
     let paquetes = this._cache.getDataKey<iPaqueteState[]>(state)
     paquetes.forEach(pack => {
       if ('seconds' in pack.lastUpdate) {
@@ -51,8 +52,31 @@ export class HistorialService {
           this.days = this.days.map(d => d.date == date
             ? { ...d, events: [...d.events, pack] } : d)
         }
-
       }
+    })
+  }
+
+  setAlerts() {
+    this.days = []
+    let alerts = this._cache.getDataKey<iAlertReport[]>('alerts')
+    alerts.forEach(alert => {
+      console.log( alert )
+      if ('seconds' in alert.date) {
+        let date: Date = this.plainDate(alert.date)
+        let day = find(this.days, { date })
+        if (!day) {
+          console.log( 'nueva' )
+          this.days.push({ date, events: [alert]  })
+        } else {
+          console.log( 'agregar' )
+          this.days.forEach(d => {
+            if (d.date.getTime() == date.getTime()) {
+              d.events.push(alert)
+            }
+          })
+        }
+      }
+      // console.log( this.days )
     })
   }
 
@@ -65,7 +89,7 @@ export class HistorialService {
         break;
       case 'prenda':
         break;
-      case 'alert':
+      case 'alert': this.setAlerts()
         break;
     }
   }
@@ -100,6 +124,20 @@ export class HistorialService {
     })
   }
 
+
+  markAsChecked(id: string, day: iDay) {
+    this._afs.collection('alerts').doc(id).update({ checked: true })
+    return {
+      ...day,
+      events: day.events.map(
+        event => 'id' in event && event.id === id ?
+          {
+            ...event,
+            checked: true
+          } : event
+      )
+    }
+  }
 
 
   async getDayEvents(day: Date) {

@@ -18,10 +18,13 @@
 
           <!-- IS EVENT -->
           <ng-container *ngIf="isEvent(item) as event">
-          <div class="row">
-            <div class="col s10">
+          <div class="row event">
+            <div class="col s8">
               {{ event.paquete.pid }} <br />
               <span style="font-size: small"> {{ event.paquete.state }} </span>
+            </div>
+            <div class="col s2">
+              <i class="fas fa-circle" [ngClass]="{'red-text': !event.checked, 'grey-text': event.checked}"></i>
             </div>
             <div class="col s2">
               <span style="font-size: xx-small">
@@ -32,8 +35,8 @@
         </ng-container>
 
         <!-- IS PAQUETE -->
-        <ng-container *ngIf="isPaquete(item) as paquete">
-          <div class="row">
+        <ng-container class="paquete" *ngIf="isPaquete(item) as paquete">
+          <div class="row paquete">
             <div class="col s10">
               {{ paquete.pid }} <br />
               <span style="font-size: small"> {{ paquete.state }} </span>
@@ -45,7 +48,12 @@
             </div>
           </div>
         </ng-container>
+
+
+
         </mat-list-option>
+
+
 
       </mat-selection-list>
     </ng-container>

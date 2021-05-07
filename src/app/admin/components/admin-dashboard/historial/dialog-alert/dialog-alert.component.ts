@@ -7,16 +7,17 @@ import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { PersonalService } from '../../../manage-admins/personal.service';
 
 @Component({
-  templateUrl: './dialog-event.component.html',
-  styleUrls: ['./dialog-event.component.scss']
+  templateUrl: './dialog-alert.component.html',
+  styleUrls: ['./dialog-alert.component.scss']
 })
-export class DialogEventComponent implements OnInit {
+export class DialogAlertComponent implements OnInit {
+
 
   user?: iUser
   propiedad?: iPropiedad
   constructor(
     @Inject(MAT_DIALOG_DATA) public event: PropEvent,
-    public dialog: MatDialogRef<DialogEventComponent>,
+    public dialog: MatDialogRef<DialogAlertComponent>,
     private _personal: PersonalService,
     private _propiedades: PropiedadesService
   ) {
@@ -27,7 +28,7 @@ export class DialogEventComponent implements OnInit {
   async ngOnInit() {
     this.user = await this._personal.getUser(this.event.responsable)
     let prefix = this.event.paquete.pid.substring(0, 9)
-    console.log( prefix )
+    // console.log( prefix )
     this.propiedad = await this._propiedades.searchForPropiedad(prefix)
   }
 
@@ -35,7 +36,6 @@ export class DialogEventComponent implements OnInit {
     if (state) { return statesMap.get(state) }
     else { return '' }
   }
-
 
 
 }

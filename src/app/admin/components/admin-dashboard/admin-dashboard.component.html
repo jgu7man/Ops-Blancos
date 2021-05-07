@@ -78,7 +78,8 @@
           <mat-card-subtitle>Alertas sin revisar</mat-card-subtitle>
         </mat-card-header>
         <mat-card-actions style="display:flex; justify-content:flex-end">
-          <button mat-button color="primary">
+          <button mat-button color="primary"[routerLink]="['/historial']"
+          [queryParams]="{'query':'alert'}">
             Revisar las alertas
           </button>
         </mat-card-actions>

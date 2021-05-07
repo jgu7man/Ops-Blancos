@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { GdevCache, GdevLoading } from '@jgu7man/gdev-tools';
 import { combineLatest, forkJoin, zip } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
-import { iPaqueteEvent, iPaqueteState, iPrendaState, PropEvent } from '../models/reporte.model';
+import { iAlertReport, iPaqueteEvent, iPaqueteState, iPrendaState, PropEvent } from '../models/reporte.model';
 import firebase  from 'firebase/app'
 
 @Injectable({
@@ -64,11 +64,9 @@ export class EventsService {
   }
 
   getAlerts() {
-    return this._afs.collection('alerts',
-      ref => ref.where('checked', '!=', 'true')
-    ).valueChanges()
-      .pipe(
-      tap(data => this._cache.updateData('alerts', data)),
+    return this._afs.collection<iAlertReport>('alerts',)
+      .valueChanges({ idField: 'id' })
+      .pipe( tap(data => this._cache.updateData('alerts', data)),
     )
   }
 

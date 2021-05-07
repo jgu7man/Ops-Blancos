@@ -41,7 +41,15 @@ export class iPaquete {
 
   }
 
+
+
 }
 
-
+export const statesMap: Map<string, string> = new Map([
+  ['damage', 'Dañado'],
+  ['lost', 'Perdida'],
+  ['stock', 'En bodega'],
+  ['washing', 'Lavando'],
+  ['collected', 'Recogido'],
+])
 

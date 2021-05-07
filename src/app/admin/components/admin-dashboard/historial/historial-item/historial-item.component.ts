@@ -4,8 +4,9 @@ import { MatSelectionList, MatSelectionListChange } from '@angular/material/list
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { iDay } from 'src/app/models/events.model';
-import { iPaqueteState, PropEvent } from 'src/app/models/reporte.model';
+import { iAlertReport, iPaqueteState, PropEvent } from 'src/app/models/reporte.model';
 import { HistorialService } from 'src/app/services/historial.service';
+import { DialogAlertComponent } from '../dialog-alert/dialog-alert.component';
 import { DialogEventComponent } from '../dialog-event/dialog-event.component';
 
 @Component({
@@ -24,7 +25,6 @@ export class HistorialItemComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log( this.day )
   }
 
   onSelectEvent(event: MatSelectionListChange, panel: MatSelectionList) {
@@ -44,11 +44,20 @@ export class HistorialItemComponent implements OnInit {
       console.log( prefix )
       this._router.navigate(['/admin/propiedades'], {
         queryParams: { prefix}})
+
+    } else if (this.historial.query == 'alert') {
+      this.day =  this.historial.markAsChecked(value.id, this.day )
+      this._dialog.open(DialogAlertComponent, {
+        minWidth: '50%',
+        data: value
+      }).afterClosed().pipe(take(1)).subscribe(data => {
+        panel.deselectAll()
+      })
     }
   }
 
   isEvent(item: iPaqueteState | PropEvent): PropEvent | false {
-    if ('paquete' in item) {
+    if ('paquete' in item && 'ciudad' !in item) {
       return item as PropEvent
     } else return false
   }
@@ -59,5 +68,10 @@ export class HistorialItemComponent implements OnInit {
     } else return false
   }
 
+  isAlert(item: iPaqueteState | PropEvent | iAlertReport): iAlertReport | false {
+    if ('ciudad' in item) {
+      return item as iAlertReport
+    } else return false
+  }
 
 }

@@ -27,8 +27,7 @@ export class AdminDashboardComponent implements OnInit {
         this.washingUps = resume.washingUps.length
         this.collected = resume.collected.length
         this.damaged = resume.damaged.length
-        this.alerts = resume.alerts.length
-
+        this.alerts = resume.alerts.filter(alert => !alert.checked ).length
         this._loading.toggleWaitingSpinner('close')
     })
    }
