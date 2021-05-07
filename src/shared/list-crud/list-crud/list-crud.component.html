@@ -11,7 +11,7 @@
            >Cancelar</button>
            <button mat-raised-button
            (click)="addItem.close()"
-           (click)="onSave.emit()"
+           (click)="onAdd.emit()"
            color="primary"
            >Guardar</button>
        </mat-card-actions>
@@ -24,10 +24,11 @@
         <mat-card-actions
         style="display: flex; justify-content: space-around;">
            <button mat-raised-button
-           (click)="addItem.close()"
+           (click)="currentItem.close()"
+           (click)="listPanel.deselectAll()"
            >Cancelar</button>
            <button mat-raised-button
-           (click)="addItem.close()"
+           (click)="currentItem.close()"
            (click)="onSave.emit()"
            >Guardar</button>
        </mat-card-actions>

@@ -33,6 +33,7 @@ export class ListCrudComponent implements OnInit, AfterViewInit {
   @ViewChild( 'addItem' ) addPanel?: MatDrawer
 
 
+  @Output() onAdd: EventEmitter<any> = new EventEmitter()
   @Output() onSave: EventEmitter<any> = new EventEmitter()
 
 

@@ -1,6 +1,7 @@
+import { Component, Input, OnInit } from '@angular/core';
 import { PersonalService } from './../personal.service';
-import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { iUser } from 'src/app/models/user.model';
 
 @Component({
   selector: 'g-add-personal',
@@ -15,6 +16,8 @@ export class AddPersonalComponent implements OnInit {
   celCtrl: FormControl
   rolCtrl: FormControl
 
+  @Input() user?: iUser
+
   constructor(
     public personal_: PersonalService
   ) {
@@ -27,6 +30,10 @@ export class AddPersonalComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    if (this.user) {
+      console.log( this.user )
+      this.personalForm.patchValue(this.user)
+    }
   }
 
 }

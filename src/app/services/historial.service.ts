@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { GdevCache } from '@jgu7man/gdev-tools';
 import { map, take, tap } from 'rxjs/operators';
-import { iDay } from '../models/events.model';
+import { iDay, iLavanderiaEvent } from '../models/events.model';
 import { iAlertReport, iPaqueteEvent, iPaqueteState, iPrendaState, PropEvent } from '../models/reporte.model';
 import firebase  from 'firebase/app'
 import { chain, find, groupBy } from 'lodash';
@@ -80,9 +80,36 @@ export class HistorialService {
         if (!day) {
           this.days.push({ date, events: [event]  })
         } else {
-          this.days = this.days.map(d => d.date == date
-            ? { ...d, events: [...d.events, event] } : d)
+          this.days.forEach(day => {
+            if (date.getTime() == day.date.getTime()) {
+              day.events.push(event)
+            }
+          })
         }
+  }
+
+  getEventsByUser(uid: string) {
+    return this._afs.collectionGroup<PropEvent | iLavanderiaEvent>('events',
+      ref => ref.where('responsable', '==', uid)
+    ).valueChanges({ idField: 'id' })
+      .subscribe((events => {
+        console.log( events )
+        events.forEach(event => {
+            if ('start' in event) {
+              let stamp = new firebase.firestore.Timestamp(
+                event.start / 1000,
+                event.start
+              )
+              console.log( stamp )
+              this.addEvents(stamp, event)
+            } else {
+              if ('seconds' in event.date)
+              this.addEvents(event.date, event)
+          }
+          console.log( this.days )
+        })
+      })
+      )
   }
 
   methodIndex(key: HistorialQuery, value?: any) {
@@ -95,6 +122,8 @@ export class HistorialService {
       case 'prenda': this.setDamaged()
         break;
       case 'alert': this.setAlerts()
+        break;
+      case 'user': this.getEventsByUser(value)
         break;
     }
   }
@@ -171,6 +200,7 @@ export class HistorialService {
     ['state', 'Estado de paquetes'],
     ['prenda', 'Prendas'],
     ['alert', 'Alertas'],
+    ['user', 'Usuario'],
   ])
 }
 
@@ -180,3 +210,4 @@ export type HistorialQuery =
   | 'state'
   | 'prenda'
   | 'alert'
+  | 'user'

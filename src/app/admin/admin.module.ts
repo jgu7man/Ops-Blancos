@@ -31,6 +31,7 @@ import { PropiedadesComponent } from './components/propiedades/propiedades.compo
 import { DialogAlertComponent } from './components/admin-dashboard/historial/dialog-alert/dialog-alert.component';
 import { ShowPrendaComponent } from './components/propiedades/show-prenda/show-prenda.component';
 import { ShowPaqueteComponent } from './components/propiedades/show-paquete/show-paquete.component';
+import { ShowAdminComponent } from './components/manage-admins/show-admin/show-admin.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { ShowPaqueteComponent } from './components/propiedades/show-paquete/show
     DialogAlertComponent,
     ShowPrendaComponent,
     ShowPaqueteComponent,
+    ShowAdminComponent,
   ],
   imports: [
     CommonModule,

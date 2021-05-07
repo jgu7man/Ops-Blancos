@@ -30,12 +30,14 @@ export class HistorialItemComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log( this.day )
   }
 
   onSelectEvent(event: MatSelectionListChange, panel: MatSelectionList) {
     const value = event.options[0].value
 
     if (this.historial.query == 'day') {
+      this.day = this.historial.markAsChecked(value.id, this.day)
       this._dialog.open(DialogEventComponent, {
         minWidth: '50%',
         data: value
@@ -68,7 +70,7 @@ export class HistorialItemComponent implements OnInit {
   }
 
   isEvent(item: iPaqueteState | PropEvent): PropEvent | false {
-    if ('paquete' in item && 'ciudad' !in item) {
+    if ('paquete' in item) {
       return item as PropEvent
     } else return false
   }

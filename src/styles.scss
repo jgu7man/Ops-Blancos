@@ -66,6 +66,11 @@ mat-card {
   justify-content:flex-end;
 }
 
+.center {
+  display: flex;
+  justify-content: space-evenly;
+}
+
 .data-text {
   color: $primary;
   font-weight: bold !important;
@@ -124,7 +129,7 @@ mat-card {
 .page-container {
   height: 100vh !important;
   margin-top: 0 !important;
-  padding: 4em 0em !important;
+  padding: 3em 0em !important;
   z-index: 0;
   overflow: auto;
   position: relative;

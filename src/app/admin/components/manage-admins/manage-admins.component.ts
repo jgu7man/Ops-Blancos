@@ -28,9 +28,13 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   }
 
-  save() {
+  sendCreateMail() {
     let newPersonal: iUser = this.addComponent.personalForm.value
     this._personal.pretendCreateUser(newPersonal)
+  }
+
+  updateUser() {
+
   }
 
   ngOnDestroy(): void {

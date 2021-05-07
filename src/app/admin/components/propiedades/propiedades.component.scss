@@ -2,5 +2,10 @@ mat-drawer-container {
   min-height: 88vh;
 }
 mat-drawer {
+  overflow: auto;
   width: 100%;
+  height: 104vh;
+  padding-bottom: 5em;
+  position: fixed;
+  padding-top: 3em;
 }

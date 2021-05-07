@@ -2,13 +2,16 @@
 listName="Personal"
 [selectTemplate]="select"
 [addTemplate]="add"
+[selectTemplate]="select"
 [height_vh]="'90vh'"
-(onSave)="save()"
+(onAdd)="sendCreateMail()"
+(onSave)="updateUser()"
 [List]="personal"
 itemSelector="full_name"
 >
-    <ng-template #select let-branch="item" >
+    <ng-template #select let-user="item" >
         <!-- <gdev-branch-form (updated)="onUpdate()" [Sucursal]="branch"></gdev-branch-form> -->
+        <g-show-admin [user]="user"></g-show-admin>
       </ng-template>
 
       <ng-template #add>
