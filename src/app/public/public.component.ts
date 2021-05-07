@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { GdevAuth } from '@jgu7man/gdev-tools';
 import { iMenuRoutes } from '../components/topbar/topbar.component';
 
 @Component({
@@ -8,11 +10,17 @@ import { iMenuRoutes } from '../components/topbar/topbar.component';
 })
 export class PublicComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(
+    public auth_: GdevAuth,
+    private _router: Router
+  ) {
+    this.auth_.user$.subscribe(user => {
+      if (user.rol === 'admin' || user.rol === 'city-manager'){
+        // this._router.navigate([`/${user.rol}`])
+      }
+    })
   }
 
-
+  ngOnInit(){}
 
 }

@@ -13,7 +13,7 @@ export class LimpiezaDashboardComponent implements OnInit {
   }
 
   routes: iMenuRoutes[] = [
-    {displayName: 'Administradores', route: '/admin'}
+    // {displayName: 'Lavanderia', route: '/lavanderia'}
   ]
 
 }
