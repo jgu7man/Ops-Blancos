@@ -22,6 +22,8 @@ export class HistorialService {
   filtering: boolean = false
   dateCtrl: FormControl = new FormControl(new Date())
 
+  query?: HistorialQuery
+
   constructor(
     private _afs: AngularFirestore,
     private _cache: GdevCache
@@ -44,7 +46,7 @@ export class HistorialService {
         let date: Date = this.plainDate(pack.lastUpdate)
         let day = find(this.days, { date })
         if (!day) {
-          this.days.push({ date, events: [pack] })
+          this.days.push({ date, events: [pack]  })
         } else {
           this.days = this.days.map(d => d.date == date
             ? { ...d, events: [...d.events, pack] } : d)
@@ -59,7 +61,7 @@ export class HistorialService {
     switch (key) {
       case 'day': this.setTodayEvents()
         break;
-      case 'paquete': this.setPaquetesDates(value)
+      case 'state': this.setPaquetesDates(value)
         break;
       case 'prenda':
         break;
@@ -133,13 +135,13 @@ export class HistorialService {
     return onDate
   }
 
-  historyLabel(label: HistorialQuery) {
-    return this.historialQueryMap.get(label)
+  get HistoryLabel() {
+    return this.query ? this.historialQueryMap.get(this.query) : ''
   }
 
   historialQueryMap: Map<HistorialQuery, string> = new Map([
     ['day', 'Diario'],
-    ['paquete', 'Estado de paquetes'],
+    ['state', 'Estado de paquetes'],
     ['prenda', 'Prendas'],
     ['alert', 'Alertas'],
   ])
@@ -148,6 +150,6 @@ export class HistorialService {
 
 export type HistorialQuery =
   | 'day'
-  | 'paquete'
+  | 'state'
   | 'prenda'
   | 'alert'

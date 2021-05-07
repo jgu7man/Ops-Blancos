@@ -18,7 +18,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class HistorialComponent implements OnInit {
 
-  query: HistorialQuery
+
 
   constructor(
     private _cache: GdevCache,
@@ -27,9 +27,12 @@ export class HistorialComponent implements OnInit {
     private _route: ActivatedRoute,
     public historial: HistorialService,
   ) {
-    this.query = this._route.snapshot.queryParams['query']
+    this.historial.query = this._route.snapshot.queryParams['query']
     let value: string = this._route.snapshot.queryParams['value']
-    this.historial.methodIndex(this.query, value)
+    if (this.historial.query) {
+
+      this.historial.methodIndex(this.historial.query, value)
+    }
    }
 
   ngOnInit(): void {

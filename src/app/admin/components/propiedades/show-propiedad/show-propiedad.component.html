@@ -1,0 +1,155 @@
+<mat-card *ngIf="prenda">
+  <mat-card-header>
+    <mat-card-title>Prenda encontrada!</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <table>
+      <tbody>
+        <tr>
+          <th>Prenda</th>
+          <td>{{ prenda.unidad }}/{{ prenda.total }}</td>
+        </tr>
+        <tr>
+          <th>Producto</th>
+          <td>{{ prenda.producto }}</td>
+        </tr>
+        <tr>
+          <th>Codigo</th>
+          <td>{{ prenda.codigo }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>
+<br />
+<mat-card class="mat-elevation-z0">
+  <mat-card-content>
+    <div class="row">
+      <div class="col s12">
+        <p class="cyan-text"><b>Propiedad</b></p>
+        <table>
+          <tbody>
+            <tr>
+              <th>Ciudad</th>
+              <td>{{ propiedad.ciudad }}</td>
+            </tr>
+            <tr>
+              <th>Prefijo</th>
+              <td>{{ propiedad.prefix }}</td>
+            </tr>
+            <tr>
+              <th>Dirección</th>
+              <td>{{ propiedad.direccion }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row">
+          <div class="col s12 right">
+            <button mat-button color="primary">
+              Ver historial <i class="fas fa-external-link-alt"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12">
+        <p class="cyan-text">
+          <b>Paquetes</b>
+          <button mat-icon-button (click)="onAddPaquete()">
+            <i class="fas fa-plus"></i>
+          </button>
+        </p>
+
+        <mat-accordion>
+          <mat-expansion-panel
+            *ngFor="let pack of propiedad.paquetes; index as pid"
+            class="paquete-content"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{ pack.pid }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <!-- PAQUETE CONTENT -->
+            <div class="row">
+              <div class="col s6">
+                <p class="small-text">
+                  {{toDate(pack.lastUpdate) | date:'dd / MMM / yy - HH:mm:ss'}}
+                  <mat-chip-list> <mat-chip> {{pack.state}} </mat-chip> </mat-chip-list>
+                </p>
+              </div>
+              <div class="col s6 right">
+                <button mat-button color="primary">
+                  Ver historial <i class="fas fa-external-link-alt"></i>
+                </button>
+
+              </div>
+            </div>
+
+
+            <p class="cyan-text" [style.margin-left]="'1em'">
+              <b>Prendas</b>
+              <button mat-icon-button (click)="onAddPrenda(pack.pid)">
+                <i class="fas fa-plus"></i>
+              </button>
+            </p>
+
+            <mat-accordion>
+              <mat-expansion-panel
+                *ngFor="let prenda of pack.prendas; index as i"
+              >
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{ prenda.producto }}
+                    {{ prenda.unidad }}/{{ prenda.total }}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="row">
+                  <div class="col s6">
+                    <p class="data-text"
+                    style="font-size: x-small;"
+                    > {{prenda.codigo}} </p>
+                    <mat-chip> {{prenda.state}} </mat-chip>
+                    <p></p>
+                  </div>
+                  <div class="col s6 right">
+                    <button mat-button color="primary">
+                      Ver historial <i class="fas fa-external-link-alt"></i>
+                    </button>
+                  </div>
+                </div>
+
+
+                <mat-action-row>
+                  <button
+                    mat-raised-button
+                    color="warn"
+                    (click)="deletePrenda(pid, i)"
+                  >
+                    Borrar
+                  </button>
+                </mat-action-row>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+  </mat-card-content>
+  <mat-card-actions style="display: flex; justify-content: space-around">
+    <button mat-raised-button (click)="close.emit()">Cerrar</button>
+    <button
+      mat-raised-button
+      (click)="onSavePropiedad()"
+      color="primary"
+      cdkFocusInitial
+    >
+      Guardar
+    </button>
+  </mat-card-actions>
+</mat-card>

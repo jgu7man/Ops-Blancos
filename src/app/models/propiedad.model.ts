@@ -1,4 +1,4 @@
-import { iPrenda } from "./prenda.model";
+import { iPrenda, PrendaModel } from "./prenda.model";
 import { iPrendaEvent, iPrendaState } from "./reporte.model";
 import firebase from 'firebase/app'
 
@@ -29,9 +29,18 @@ export interface iPropAcargo {
 
 export type PaqueteState = 'prop' | 'stock' | 'washing' | 'collected'
 
-export interface iPaquete {
-  pid: string
-  prendas: iPrenda[]
+export class iPaquete {
+  responsable?: string
+
+  constructor(
+    public state: PaqueteState,
+    public pid: string,
+    public prendas: PrendaModel[],
+    public lastUpdate?: Date | firebase.firestore.Timestamp
+  ) {
+
+  }
+
 }
 
 

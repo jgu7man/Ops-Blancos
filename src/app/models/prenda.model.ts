@@ -1,3 +1,5 @@
+import { iHistory } from "./reporte.model"
+
 export interface iPrenda {
   codigo: string,
   unidad: string,
@@ -12,6 +14,8 @@ export class PrendaModel {
   unidad: string
   producto?: Producto
   total: string
+  state?: PrendaState
+  history?: iHistory[]
 
   constructor(
     code: iCode
@@ -22,6 +26,10 @@ export class PrendaModel {
     this.unidad = code.unidad
     this.producto = code.producto
     this.total = code.total
+  }
+
+  get History(): iHistory[] {
+    return this.history ? this.history : []
   }
 }
 

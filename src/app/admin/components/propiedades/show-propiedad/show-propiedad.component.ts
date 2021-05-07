@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GdevAlert } from '@jgu7man/gdev-tools';
-import { iCode, iPrenda } from 'src/app/models/prenda.model';
+import { iCode, iPrenda, PrendaModel } from 'src/app/models/prenda.model';
 import { iPropiedad, iPaquete } from 'src/app/models/propiedad.model';
 import { PropiedadesService } from 'src/app/services/propiedades.service';
-import { DialogAddPaqueteComponent } from '../dialog-add-paquete/dialog-add-paquete.component';
-import { DialogAddPrendaComponent } from '../dialog-add-prenda/dialog-add-prenda.component';
+import { DialogAddPaqueteComponent } from '../../manage-database/dialog-add-paquete/dialog-add-paquete.component';
+import { DialogAddPrendaComponent } from '../../manage-database/dialog-add-prenda/dialog-add-prenda.component';
+import firebase from 'firebase/app'
 
 @Component({
   selector: 'g-show-propiedad',
@@ -34,11 +35,11 @@ export class ShowPropiedadComponent implements OnInit {
 
   ngOnInit(): void {
     this.addPropiedad()
+    console.log( this.propiedad )
   }
 
 
   addPropiedad() {
-    console.log( this.code )
     if (this.code) {
       const {codigo, unidad, producto} = this.code
       const prenda = { codigo, unidad, producto }
@@ -69,11 +70,20 @@ export class ShowPropiedadComponent implements OnInit {
         )
         if (duplicated) this._alert.sendMessageAlert(`El paquete ${pid} ya existe, crea otro paquete`)
         else {
-          let paquete = { prendas:[], pid}
+          let paquete: iPaquete = new iPaquete('stock', pid, [])
           this.propiedad.paquetes?.push(paquete)
         }
       }
     })
+  }
+
+  toDate(date?:Date | firebase.firestore.Timestamp) {
+    if (date) {
+      return 'seconds' in date
+        ? new Date(date.seconds * 1000) : date
+    } else {
+      return ''
+    }
   }
 
   onAddPrenda(paquete: string) {
@@ -81,7 +91,7 @@ export class ShowPropiedadComponent implements OnInit {
     this._dialog.open(DialogAddPrendaComponent, {
       width: '100%',
       disableClose: true
-    }).afterClosed().subscribe((result: iPrenda) => {
+    }).afterClosed().subscribe((result: PrendaModel) => {
       let prefix = result.codigo.substring(3, 9)
       if (prefix === this.propiedad.prefix && this.propiedad.paquetes) {
         this.propiedad.paquetes[paqueteIndex ? paqueteIndex : 0]
@@ -93,23 +103,10 @@ export class ShowPropiedadComponent implements OnInit {
   }
 
   deletePrenda(paqueteIndex: number, prendaIndex: number) {
-    // this.propiedad = {
-    //   ...this.propiedad,
-    //   paquetes: this.propiedad.paquetes.map(paquete =>
-    //     paquete.index != paqueteIndex ? paquete :
-    //       {
-    //         ...paquete,
-    //         prendas: paquete.prendas.filter(
-    //           prenda => prenda.index != prendaIndex
-    //         )
-    //       }
-    //   )
-    // }
-
-      let paqueteFinded = this.propiedad.paquetes[paqueteIndex]
-      console.log( paqueteFinded )
-      paqueteFinded.prendas.splice(prendaIndex, 1)
-      this.propiedad.paquetes[paqueteIndex] = paqueteFinded
+    let paqueteFinded = this.propiedad.paquetes[paqueteIndex]
+    console.log( paqueteFinded )
+    paqueteFinded.prendas.splice(prendaIndex, 1)
+    this.propiedad.paquetes[paqueteIndex] = paqueteFinded
   }
 
 

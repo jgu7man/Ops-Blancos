@@ -3,7 +3,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { GdevAlert, GdevLoading } from '@jgu7man/gdev-tools';
 import { iPaquete, iPropiedad } from '../models/propiedad.model';
 import firebase  from 'firebase/app'
-import { iPrenda } from '../models/prenda.model';
+import { iPrenda, PrendaModel } from '../models/prenda.model';
+import { iPaqueteState, iPrendaState } from '../models/reporte.model';
 
 @Injectable({
   providedIn: 'root'
@@ -42,13 +43,21 @@ export class PropiedadesService {
           // 3. Search for prendas
           await this._loading.asyncForEach( paquetesCol.docs,
             async (paqueteDoc: firebase.firestore.DocumentData) => {
-              let paquete = await this.searchForPaquete(propiedad.prefix, paqueteDoc.pid)
-              paquete = paquete ? paquete : paqueteDoc.data() as iPaquete
+              let paquete: iPaquete = paqueteDoc.data() as iPaquete
+              console.log( paquete )
+              let prendas = await this.paquetesPrendas(
+                propiedad.prefix,
+                paquete.pid
+              )
+              paquete.prendas = prendas as PrendaModel[]
+              console.log( paquete )
               propiedad.paquetes?.push(paquete)
+              return
             }
           )
         }
 
+        console.log( propiedad )
          return propiedad
       }
     } catch (error) {
@@ -63,9 +72,27 @@ export class PropiedadesService {
     return await (await propRef.get()).data() as iPropiedad
   }
 
+  async paquetesPrendas(propPrefix: string, pid: string): Promise<iPrendaState[]> {
+    console.log( propPrefix, pid )
+    const paqueteRef = this._afs.doc(
+      `propiedades/${propPrefix}/paquetes/${pid}`)
+    const prendasRef = paqueteRef.collection('prendas').ref
+    const prendasCol = await prendasRef.get()
+    const prendas: iPrendaState[] = []
+
+    await this._loading.asyncForEach(prendasCol.docs,
+      async (doc: firebase.firestore.DocumentData) => {
+        console.log( doc.data() )
+        prendas.push(doc.data() as iPrendaState)
+        return
+      })
+
+    return prendas
+  }
+
 
   async searchForPaquete(propPrefix: string, pid: string): Promise<iPaquete | null> {
-    var paquete: iPaquete = {prendas: [], pid:'' }
+    var paquete: iPaquete = new iPaquete('stock', '', [])
     const paqueteRef = this._afs.doc(
       `propiedades/${propPrefix}/paquetes/${pid}`
     )
@@ -79,7 +106,7 @@ export class PropiedadesService {
       var prendasCol = await paqueteDoc.ref.collection('prendas').get()
       await this._loading.asyncForEach(prendasCol.docs,
         (prenda: firebase.firestore.DocumentData) => {
-          paquete.prendas.push(prenda.data() as iPrenda)
+          return paquete.prendas.push(prenda.data() as PrendaModel)
         }
       ).catch(err => {throw err});
 
@@ -144,6 +171,13 @@ export class PropiedadesService {
       }
 
     }
+  }
+
+
+
+
+  get AllPropiedades() {
+    return this._afs.collection<iPropiedad>('propiedades').valueChanges()
   }
 
 }

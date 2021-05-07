@@ -60,9 +60,19 @@ mat-card {
   width: 100%;
 }
 
+.right {
+  display: flex;
+  float: right !important;
+  justify-content:flex-end;
+}
+
 .data-text {
   color: $primary;
   font-weight: bold !important;
+}
+
+.small-text {
+  font-size: x-small;
 }
 
 #bottom-bar {

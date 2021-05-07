@@ -17,7 +17,7 @@ import { ManagePropiedadesComponent } from './components/manage-database/manage-
 import { DialogAddPropiedadComponent } from './components/manage-database/dialog-add-propiedad/dialog-add-propiedad.component';
 import { DialogAddPaqueteComponent } from './components/manage-database/dialog-add-paquete/dialog-add-paquete.component';
 import { DialogAddPrendaComponent } from './components/manage-database/dialog-add-prenda/dialog-add-prenda.component';
-import { ShowPropiedadComponent } from './components/manage-database/show-propiedad/show-propiedad.component';
+import { ShowPropiedadComponent } from './components/propiedades/show-propiedad/show-propiedad.component';
 import { HistorialComponent } from './components/admin-dashboard/historial/historial.component';
 import { GdevStorageModule } from '@marxa/storage';
 import { HttpClientModule } from '@angular/common/http';
@@ -26,6 +26,8 @@ import { ColumnEditorComponent } from './components/manage-database/manage-propi
 import { DialogImportComponent } from './components/manage-database/manage-propiedades/dialog-import/dialog-import.component';
 import { DialogEventComponent } from './components/admin-dashboard/historial/dialog-event/dialog-event.component';
 import { HistorialItemComponent } from './components/admin-dashboard/historial/historial-item/historial-item.component';
+import { PropiedadSearchComponent } from './components/propiedades/propiedad-search/propiedad-search.component';
+import { PropiedadesComponent } from './components/propiedades/propiedades.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { HistorialItemComponent } from './components/admin-dashboard/historial/h
     DialogImportComponent,
     DialogEventComponent,
     HistorialItemComponent,
+    PropiedadSearchComponent,
+    PropiedadesComponent,
   ],
   imports: [
     CommonModule,

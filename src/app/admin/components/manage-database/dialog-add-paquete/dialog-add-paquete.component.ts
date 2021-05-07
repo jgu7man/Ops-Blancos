@@ -13,7 +13,7 @@ export class DialogAddPaqueteComponent implements OnInit {
   constructor(
     public dialog_: MatDialogRef<DialogAddPaqueteComponent>
   ) {
-    this.paquete = { prendas:[], pid: ''}
+    this.paquete = new iPaquete('stock', '', [])
    }
 
   ngOnInit(): void {

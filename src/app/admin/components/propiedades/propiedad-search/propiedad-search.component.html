@@ -1,0 +1,21 @@
+<form class="example-form">
+  <mat-form-field appearance="outline">
+    <mat-label>Dirección de propiedad</mat-label>
+    <input
+      type="text"
+      matInput
+      [formControl]="propiedadNameCtrl"
+      [matAutocomplete]="auto"
+    />
+
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
+    (optionSelected)="onSelect($event)">
+      <mat-option
+        *ngFor="let propiedad of filteredPropiedades | async"
+        [value]="propiedad"
+      >
+        {{ propiedad.direccion }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
