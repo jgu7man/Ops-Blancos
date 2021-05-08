@@ -1,22 +1,29 @@
-<gdev-list-crud
-listName="Personal"
-[selectTemplate]="select"
-[addTemplate]="add"
-[selectTemplate]="select"
-[height_vh]="'90vh'"
-(onAdd)="sendCreateMail()"
-(onSave)="updateUser()"
-[List]="personal"
-itemSelector="full_name"
->
-    <ng-template #select let-user="item" >
-        <!-- <gdev-branch-form (updated)="onUpdate()" [Sucursal]="branch"></gdev-branch-form> -->
-        <g-show-admin [user]="user"></g-show-admin>
-      </ng-template>
+<div class="container">
+  <div class="row">
+    <div class="col s12">
+      <gdev-list-crud
+      listName="Personal"
+      [selectTemplate]="select"
+      [addTemplate]="add"
+      [selectTemplate]="select"
+      [height_vh]="'90vh'"
+      (onAdd)="sendCreateMail()"
+      (onSave)="updateUser()"
+      [List]="personal"
+      itemSelector="full_name"
+      >
+          <ng-template #select let-user="item" >
+              <!-- <gdev-branch-form (updated)="onUpdate()" [Sucursal]="branch"></gdev-branch-form> -->
+              <g-show-admin [user]="user"></g-show-admin>
+            </ng-template>
 
-      <ng-template #add>
-      <g-add-personal></g-add-personal>
-        <!-- <gdev-branch-form (updated)="onUpdate()"></gdev-branch-form> -->
-    </ng-template>
+            <ng-template #add>
+            <g-add-personal></g-add-personal>
+              <!-- <gdev-branch-form (updated)="onUpdate()"></gdev-branch-form> -->
+          </ng-template>
 
-</gdev-list-crud>
+      </gdev-list-crud>
+
+    </div>
+  </div>
+</div>

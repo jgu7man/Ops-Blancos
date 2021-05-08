@@ -24,9 +24,9 @@ $ops-blancos-theme: mat-light-theme((
 
 $guestify-typography: mat-typography-config(
   $font-family: 'Lato',
-  $headline: mat-typography-level(32px, 48px, 700),
-  $title: mat-typography-level(24px, 24px, 600),
-  $body-1: mat-typography-level(16px, 24px, 500)
+  $headline: mat-typography-level(2rem, 48px, 700),
+  $title: mat-typography-level(1.5rem, 24px, 600),
+  $body-1: mat-typography-level(1rem, 24px, 500)
 );
 
 @include angular-material-typography($guestify-typography);
@@ -66,10 +66,10 @@ mat-card {
   justify-content:flex-end;
 }
 
-.center {
-  display: flex;
-  justify-content: space-evenly;
-}
+// .center {
+//   display: flex;
+//   justify-content: space-evenly;
+// }
 
 .data-text {
   color: $primary;
@@ -171,5 +171,8 @@ mat-card {
   }
 }
 
-
-
+@media screen and (max-width:350px){
+  .row .col.s6 {
+    width:49% !important
+  }
+}

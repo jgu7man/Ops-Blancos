@@ -21,7 +21,7 @@ export class AdminComponent implements OnInit {
   ) {
     this.auth_.user$.subscribe(user => {
       // if (user.rol === 'admin' || user.rol === 'city-manager')
-      if (user.rol !== 'admin' || user.rol !== 'city-manager') {
+      if (user.rol !== 'admin' && user.rol !== 'city-manager') {
         this._router.navigate([`/${user.rol}`])
       }
     })
