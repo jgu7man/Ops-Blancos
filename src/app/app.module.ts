@@ -11,6 +11,8 @@ import { LoginComponent } from './components/login/login.component';
 import { GdevToolsModule } from '@jgu7man/gdev-tools';
 import { CreateAccountComponent } from './components/create-account/create-account.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,13 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     FirebaseModule,
     MaterialModule,
     GdevToolsModule,
-    HttpClientModule
+    HttpClientModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'es-MX'},
