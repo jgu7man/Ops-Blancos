@@ -63,9 +63,9 @@ export class HistorialService {
   }
 
 
-  setDamaged() {
+  setPrendas(state:'damaged' | 'lost') {
     this.days = []
-    const prendas = this._cache.getDataKey<PrendaModel[]>('damaged')
+    const prendas = this._cache.getDataKey<PrendaModel[]>(state)
     prendas.forEach(prenda => {
       if (prenda.lastUpdate && 'seconds' in prenda.lastUpdate) {
         this.addEvents(prenda.lastUpdate, prenda)
@@ -119,7 +119,7 @@ export class HistorialService {
         break;
       case 'state': this.setPaquetesDates(value)
         break;
-      case 'prenda': this.setDamaged()
+      case 'prenda': this.setPrendas(value)
         break;
       case 'alert': this.setAlerts()
         break;

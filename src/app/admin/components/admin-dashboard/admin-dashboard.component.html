@@ -4,76 +4,11 @@
       <h2 class="center"><b>Tablero</b></h2>
     </div>
   </div>
-  <div class="row">
-    <div class="col s6">
 
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>{{todayEvents}}</mat-card-title>
-          <mat-card-subtitle>Eventos del día de hoy</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-actions style="display:flex; justify-content:flex-end">
-          <button mat-button color="primary"
-          [routerLink]="['/historial']" [queryParams]="{'query':'day'}">
-            Ver historial
-          </button>
-        </mat-card-actions>
-      </mat-card>
-
-    </div>
-
-    <div class="col s6">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>{{washingUps}}</mat-card-title>
-          <mat-card-subtitle>Paquetes lavando</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-actions style="display:flex; justify-content:flex-end">
-          <button mat-button color="primary"
-          [routerLink]="['/historial']"
-          [queryParams]="{'query':'state', 'value': 'washingUps'}">
-            Ver paquetes lavando
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
-
-    <div class="col s6">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>{{collected}}</mat-card-title>
-          <mat-card-subtitle>Paquetes sin lavar</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-actions style="display:flex; justify-content:flex-end">
-          <button mat-button color="primary"
-          [routerLink]="['/historial']"
-          [queryParams]="{'query':'state', 'value': 'collected'}">
-            Ver paquetes en espera
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
-
-    <div class="col s6">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>{{damaged}}</mat-card-title>
-          <mat-card-subtitle>Prendas dañadas</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-actions style="display:flex; justify-content:flex-end">
-          <button mat-button color="primary"[routerLink]="['/historial']"
-          [queryParams]="{'query':'prenda'}">
-            Ver prendas
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
-
-
-  </div>
+  <!-- ALERTS -->
   <div class="row">
     <div class="col s12">
-      <mat-card>
+      <mat-card class="min-card">
         <mat-card-header>
           <mat-card-title>{{alerts}}</mat-card-title>
           <mat-card-subtitle>Alertas sin revisar</mat-card-subtitle>
@@ -88,10 +23,99 @@
     </div>
   </div>
 
-
   <div class="img-background row">
     <img [src]="alerts > 0
     ?  '/assets/img/maltratado.png'
     : '/assets/img/limpio.png'" alt="alertas">
   </div>
+
+
+  <div class="row">
+
+    <!-- DIARIO -->
+    <div class="col s12 m6">
+
+      <mat-card class="min-card">
+        <mat-card-header>
+          <mat-card-title>{{todayEvents}}</mat-card-title>
+          <mat-card-subtitle>Eventos del día de hoy</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions style="display:flex; justify-content:flex-end">
+          <button mat-button color="primary"
+          [routerLink]="['/historial']" [queryParams]="{'query':'day'}">
+            Ver historial
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+    </div>
+
+    <!-- LAVANDO -->
+    <div class="col s12 m6">
+      <mat-card class="min-card">
+        <mat-card-header>
+          <mat-card-title>{{washingUps}}</mat-card-title>
+          <mat-card-subtitle>Paquetes lavando</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions style="display:flex; justify-content:flex-end">
+          <button mat-button color="primary"
+          [routerLink]="['/historial']"
+          [queryParams]="{'query':'state', 'value': 'washingUps'}">
+            Ver paquetes lavando
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <!-- RECOGIDOS -->
+    <div class="col s12 m6">
+      <mat-card class="min-card">
+        <mat-card-header>
+          <mat-card-title>{{collected}}</mat-card-title>
+          <mat-card-subtitle>Paquetes sin lavar</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions style="display:flex; justify-content:flex-end">
+          <button mat-button color="primary"
+          [routerLink]="['/historial']"
+          [queryParams]="{'query':'state', 'value': 'collected'}">
+            Ver paquetes en espera
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <!-- DAÑADAS -->
+    <div class="col s12 m6">
+      <mat-card class="min-card">
+        <mat-card-header>
+          <mat-card-title>{{damaged}}</mat-card-title>
+          <mat-card-subtitle>Prendas dañadas</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions style="display:flex; justify-content:flex-end">
+          <button mat-button color="primary"[routerLink]="['/historial']"
+          [queryParams]="{'query':'prenda', 'value':'damaged'}">
+            Ver prendas
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <!-- PERDIDAS -->
+    <div class="col s12 m6">
+      <mat-card class="min-card">
+        <mat-card-header>
+          <mat-card-title>{{lost}}</mat-card-title>
+          <mat-card-subtitle>Prendas perdidas</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions style="display:flex; justify-content:flex-end">
+          <button mat-button color="primary"[routerLink]="['/historial']"
+          [queryParams]="{'query':'prenda','value':'lost'}">
+            Ver prendas
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+  </div>
+
 </div>

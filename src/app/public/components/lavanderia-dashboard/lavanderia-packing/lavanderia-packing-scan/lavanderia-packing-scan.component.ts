@@ -194,7 +194,7 @@ export class LavanderiaPackingScanComponent implements OnInit {
           ...this.propEvent.paquete.prendasReport,
           ...faltantes
         ]
-        this._reportes.onSaveReporte(this.prop?.prefix as string, this.propEvent)
+        this._reportes.onSaveReporte(this.prop?.prefix as string, this.propEvent, true)
         .then(() => {
           this._cache.updateData('prendasReport', this.propEvent.paquete.prendasReport)
           this.review

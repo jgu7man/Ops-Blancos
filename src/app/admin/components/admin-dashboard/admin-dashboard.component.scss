@@ -1,4 +1,22 @@
-button {
-  white-space: inherit;
-    line-height: 1;
+
+.min-card {
+  @media (max-width: 414px){
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    ::ng-deep{
+      .mat-card-header-text {
+        display: flex;
+        align-items: baseline;
+        mat-card-title {
+          margin-right: .25em;
+        }
+      }
+      button {
+        white-space: inherit;
+        line-height: 1;
+        text-align: right;
+      }
+    }
+  }
 }

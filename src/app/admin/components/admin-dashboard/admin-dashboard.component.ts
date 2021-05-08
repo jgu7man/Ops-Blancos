@@ -15,6 +15,7 @@ export class AdminDashboardComponent implements OnInit {
   collected: number = 0
   damaged: number = 0
   alerts: number = 0
+  lost: number = 0
   constructor(
     private _events: EventsService,
     private _loading: GdevLoading,
@@ -27,6 +28,7 @@ export class AdminDashboardComponent implements OnInit {
         this.washingUps = resume.washingUps.length
         this.collected = resume.collected.length
         this.damaged = resume.damaged.length
+        this.lost = resume.lost.length
         this.alerts = resume.alerts.filter(alert => !alert.checked ).length
         this._loading.toggleWaitingSpinner('close')
     })

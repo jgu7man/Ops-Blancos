@@ -18,7 +18,7 @@
           <th>Estado</th>
           <td>
             <mat-chip-list>
-              <ng-container *ngIf="prenda.state != 'damage'; else damage">
+              <ng-container *ngIf="prenda.state !== 'damage'; else damage">
                 <mat-chip>{{prenda.state}}</mat-chip>
               </ng-container>
               <ng-template #damage >

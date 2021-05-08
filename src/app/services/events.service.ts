@@ -36,13 +36,15 @@ export class EventsService {
       this.getRealtimeEvents('paquetes', 'state', '==', 'washing', 'washingUps'),
       this.getRealtimeEvents('paquetes', 'state', '==', 'collected', 'collected'),
       this.getRealtimeEvents('prendas', 'state', '==', 'damage', 'damaged'),
+      this.getRealtimeEvents('prendas', 'state', '==', 'lost', 'lost'),
       this.getAlerts()
     ]).pipe(map((result) => ({
       todayEvents:result[0],
       washingUps:result[1],
       collected:result[2],
       damaged:result[3],
-      alerts:result[4],
+      lost:result[4],
+      alerts:result[5],
       }))
     )
   }
