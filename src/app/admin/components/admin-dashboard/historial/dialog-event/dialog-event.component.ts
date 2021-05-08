@@ -20,14 +20,12 @@ export class DialogEventComponent implements OnInit {
     private _personal: PersonalService,
     private _propiedades: PropiedadesService
   ) {
-    console.log(this.event)
 
   }
 
   async ngOnInit() {
-    this.user = await this._personal.getUser(this.event.responsable)
+    this.user = await this._personal.getMemberData(this.event.responsable)
     let prefix = this.event.paquete.pid.substring(0, 9)
-    console.log( prefix )
     this.propiedad = await this._propiedades.searchForPropiedad(prefix)
   }
 
@@ -36,6 +34,8 @@ export class DialogEventComponent implements OnInit {
     else { return '' }
   }
 
-
+  closeEvent() {
+    this.dialog.close()
+  }
 
 }

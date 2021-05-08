@@ -159,8 +159,8 @@ export class HistorialService {
   }
 
 
-  markAsChecked(id: string, day: iDay) {
-    this._afs.collection('alerts').doc(id).update({ checked: true })
+  markAsChecked(id: string, collection: string, day: iDay) {
+    this._afs.collection(collection).doc(id).update({ checked: true })
     return {
       ...day,
       events: day.events.map(

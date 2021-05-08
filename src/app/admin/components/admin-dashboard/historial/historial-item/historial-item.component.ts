@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSelectionList, MatSelectionListChange } from '@angular/material/list';
 import { Router } from '@angular/router';
 import { GdevCache } from '@jgu7man/gdev-tools';
-import { take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { finalize, take } from 'rxjs/operators';
 import { iDay } from 'src/app/models/events.model';
 import { PrendaModel } from 'src/app/models/prenda.model';
 import { iAlertReport, iPaqueteState, PropEvent } from 'src/app/models/reporte.model';
@@ -17,9 +18,11 @@ import { DialogEventComponent } from '../dialog-event/dialog-event.component';
   templateUrl: './historial-item.component.html',
   styleUrls: ['./historial-item.component.scss']
 })
-export class HistorialItemComponent implements OnInit {
+export class HistorialItemComponent implements OnInit, OnDestroy {
 
   @Input() day: iDay = { date: new Date, events: [] }
+  itemDialog?: MatDialogRef<any>
+  dialogSubscription?: Subscription
 
   constructor(
     public historial: HistorialService,
@@ -30,35 +33,32 @@ export class HistorialItemComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log( this.day )
   }
 
   onSelectEvent(event: MatSelectionListChange, panel: MatSelectionList) {
     const value = event.options[0].value
 
     if (this.historial.query == 'day') {
-      this.day = this.historial.markAsChecked(value.id, this.day)
-      this._dialog.open(DialogEventComponent, {
-        minWidth: '50%',
-        data: value
-      }).afterClosed().pipe(take(1)).subscribe(data => {
-        panel.deselectAll()
-      })
+      let prefix = value.paquete.pid.substring(0, 9)
+      let pathCol = `propiedades/${prefix}/events`
+      this.day = this.historial.markAsChecked(value.id, pathCol, this.day)
+      this.itemDialog = this._dialog
+        .open(DialogEventComponent, {
+          minWidth: '50%',
+          data: value
+        })
 
     } else if (this.historial.query == 'alert') {
-      this.day = this.historial.markAsChecked(value.id, this.day)
-      this._dialog.open(DialogAlertComponent, {
-        minWidth: '50%',
-        data: value
-      }).afterClosed().pipe(take(1)).subscribe(data => {
-        panel.deselectAll()
-      })
-
+      this.day = this.historial.markAsChecked(value.id, 'alerts', this.day)
+      this.itemDialog = this._dialog
+        .open(DialogAlertComponent, {
+          minWidth: '50%',
+          data: value
+        })
 
     } else if (this.historial.query == 'state') {
       let prefix = 'prefix' in value ? value.prefix
         : value['pid'].substring(0, 9)
-      console.log(prefix)
       this._router.navigate(['/admin/propiedades'], {
         queryParams: { prefix }
       })
@@ -66,6 +66,14 @@ export class HistorialItemComponent implements OnInit {
     } else if (this.historial.query == 'prenda') {
       this._cache.updateData('currentPrenda', value)
       this._router.navigate(['/admin/prenda', value.codigo])
+    }
+
+
+    if (this.itemDialog) {
+        this.itemDialog.afterClosed()
+        .pipe(take(1),).subscribe(() => {
+          panel.deselectAll()
+        })
     }
   }
 
@@ -85,6 +93,11 @@ export class HistorialItemComponent implements OnInit {
     if ('producto' in item) {
       return item as PrendaModel
     } else return false
+  }
+
+  ngOnDestroy() {
+    this.itemDialog
+    if (this.dialogSubscription) this.dialogSubscription.unsubscribe()
   }
 
 }

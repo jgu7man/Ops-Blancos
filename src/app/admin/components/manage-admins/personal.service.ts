@@ -111,9 +111,9 @@ export class PersonalService {
     return this.personalMap
   }
 
-  getMemberData(uid: string): iUser {
+  async getMemberData(uid: string): Promise<iUser> {
     if (this.personalMap.size == 0) {
-      this.getPersonal().pipe(take(1)).subscribe()
+      await this.getPersonal().pipe(take(1)).toPromise()
     }
     return this.personalMap.get(uid) as iUser
   }

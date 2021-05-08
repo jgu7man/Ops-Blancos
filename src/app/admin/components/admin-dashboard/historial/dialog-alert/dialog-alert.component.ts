@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { iPropiedad, statesMap } from 'src/app/models/propiedad.model';
 import { PropEvent } from 'src/app/models/reporte.model';
 import { iUser } from 'src/app/models/user.model';
+import { EventsService } from 'src/app/services/events.service';
 import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { PersonalService } from '../../../manage-admins/personal.service';
 
@@ -19,17 +20,16 @@ export class DialogAlertComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public event: PropEvent,
     public dialog: MatDialogRef<DialogAlertComponent>,
     private _personal: PersonalService,
-    private _propiedades: PropiedadesService
+    private _propiedades: PropiedadesService,
+    private _events: EventsService
   ) {
-    console.log(this.event)
 
   }
 
   async ngOnInit() {
-    this.user = await this._personal.getUser(this.event.responsable)
-    let prefix = this.event.paquete.pid.substring(0, 9)
-    // console.log( prefix )
-    this.propiedad = await this._propiedades.searchForPropiedad(prefix)
+    // this.user = await this._personal.getUser(this.event.responsable)
+    // let prefix = this.event.paquete.pid.substring(0, 9)
+    // this.propiedad = await this._propiedades.searchForPropiedad(prefix)
   }
 
   states(state?: string) {
@@ -37,5 +37,14 @@ export class DialogAlertComponent implements OnInit {
     else { return '' }
   }
 
+
+  closeAlert() {
+    this.dialog.close()
+  }
+
+  deleteAlert() {
+    if (this.event.id)
+    this._events.deleteAlert(this.event.id)
+  }
 
 }

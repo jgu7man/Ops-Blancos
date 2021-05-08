@@ -48,7 +48,11 @@
 style="display: flex; justify-content: center;">
     <button mat-raised-button
     color="primary"
-    (click)="dialog.close()"
+    (click)="closeAlert()"
     >Cerrar</button>
+    <button mat-raised-button
+    color="warn"
+    (click)="deleteAlert()"
+    >Eliminar</button>
 </mat-dialog-actions>
 

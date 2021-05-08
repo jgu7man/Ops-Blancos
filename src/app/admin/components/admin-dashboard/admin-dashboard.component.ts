@@ -20,7 +20,7 @@ export class AdminDashboardComponent implements OnInit {
     private _events: EventsService,
     private _loading: GdevLoading,
   ) {
-    this._loading.toggleWaitingSpinner('open')
+    // this._loading.toggleWaitingSpinner('open')
 
     this._events.getStatesResume()
       .subscribe(resume => {
@@ -30,7 +30,7 @@ export class AdminDashboardComponent implements OnInit {
         this.damaged = resume.damaged.length
         this.lost = resume.lost.length
         this.alerts = resume.alerts.filter(alert => !alert.checked ).length
-        this._loading.toggleWaitingSpinner('close')
+        // this._loading.toggleWaitingSpinner('close')
     })
    }
 

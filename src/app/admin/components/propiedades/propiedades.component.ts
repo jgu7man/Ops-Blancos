@@ -34,7 +34,7 @@ export class PropiedadesComponent implements OnInit {
     this._route.queryParams.subscribe(params => {
       let { prefix, code } = params;
       if (prefix || code) {
-        this._loading.toggleWaitingSpinner('open')
+        // this._loading.toggleWaitingSpinner('open')
         this.openPanel(prefix, code ? code : null)
       }
     })
@@ -65,7 +65,7 @@ export class PropiedadesComponent implements OnInit {
       }
 
       this.panel?.open()
-      this._loading.toggleWaitingSpinner('close')
+      // this._loading.toggleWaitingSpinner('close')
 
     } catch (err) {
       if (err.error == 'PROP_NOT_EXISTS' && code)

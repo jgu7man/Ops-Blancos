@@ -30,12 +30,12 @@ export class ShowPaqueteComponent implements OnInit, OnDestroy {
     private _loading: GdevLoading,
     public date_: GdevDate
   ) {
-    this._loading.toggleWaitingSpinner('open')
+    // this._loading.toggleWaitingSpinner('open')
     this._dashboard.toggleBack = true
     this.pid = this._route.snapshot.params['pid']
     this.paquete = new iPaquete('stock', this.pid, [])
     this.events = this._paquetes.getEvents(this.pid)
-    .pipe(tap(() => {this._loading.toggleWaitingSpinner('close')}))
+    // .pipe(tap(() => {this._loading.toggleWaitingSpinner('close')}))
     this._propiedades.searchForPaquete(this.pid)
       .then(paquete => {
         if (paquete) { this.paquete = paquete }
@@ -46,8 +46,9 @@ export class ShowPaqueteComponent implements OnInit, OnDestroy {
     console.log( this.paquete )
   }
 
-  responsable(uid?: string): iUser | null {
-    return uid ? this._personal.getMemberData(uid) : null
+  async responsable(uid?: string): Promise<iUser | null> {
+    let user = uid ? await this._personal.getMemberData(uid) : null
+    return user
   }
 
   ngOnDestroy() {
