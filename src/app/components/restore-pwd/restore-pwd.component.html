@@ -1,0 +1,35 @@
+<mat-dialog-content>
+  <p>
+    Ingresa el correo del cual quieres recuperar contraseña. <br>
+    Llegará un correo con las instrucciones para volver a crear otra contraseña
+  </p>
+
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input
+    matInput
+    type="text"
+    name="email"
+    [formControl]="emailCtrl"
+    >
+    <mat-error *ngIf="emailCtrl.hasError('required')">
+    Este dato es necesario
+    </mat-error>
+    <mat-error *ngIf="emailCtrl.hasError('email')">
+    Ingresa una dirección de correo válida
+    </mat-error>
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions
+style="display: flex; justify-content: space-around;">
+    <button mat-raised-button
+    (click)="dialog.close()"
+    >Cancelar</button>
+    <button mat-raised-button
+    color="primary"
+    [disabled]="emailCtrl.invalid"
+    (click)="onSubmit()"
+    >Enviar</button>
+</mat-dialog-actions>

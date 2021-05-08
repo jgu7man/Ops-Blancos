@@ -1,20 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import { RestorePwdComponent } from './../restore-pwd/restore-pwd.component';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { GdevAuth, GdevLoginFields } from '@jgu7man/gdev-tools';
+import { GdevAlert, GdevAuth, GdevLoginFields, RestorePasswordComponent } from '@jgu7man/gdev-tools';
+import { Subscription } from 'rxjs';
 import { iUser } from 'src/app/models/user.model';
 
 @Component({
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
+  errorSubscription: Subscription
   constructor(
     private _auth: GdevAuth,
-    private _router: Router
-  ) { }
+    private _router: Router,
+    private _dialog: MatDialog,
+    private _alert:GdevAlert
+  ) {
+
+    this._auth.notFoundMessage = 'Usuario no encontrado'
+		this._auth.invalidMessage = 'No es una dirección de correo válida'
+    this._auth.wrongPasswordMessage = 'Contraseña incorrecta'
+
+    this.errorSubscription =
+    this._auth.listenForErros.subscribe(error => {
+      console.error(error);
+      this._alert.sendMessageAlert(error)
+    })
+   }
 
   ngOnInit(): void {
+  }
+
+  onRestorePwd() {
+    this._dialog.open(RestorePwdComponent)
   }
 
 
@@ -33,6 +54,10 @@ export class LoginComponent implements OnInit {
           ])
         })
       })
+  }
+
+  ngOnDestroy() {
+    this.errorSubscription.unsubscribe()
   }
 
 }

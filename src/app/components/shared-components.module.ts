@@ -14,6 +14,7 @@ import { SeeImageComponent } from './see-image/see-image.component';
 import { TimerComponent } from './timer/timer.component';
 import { NgVarDirective } from './ng-var.directive';
 import { PackageItemComponent } from './package-item/package-item.component';
+import { RestorePwdComponent } from './restore-pwd/restore-pwd.component';
 
 
 
@@ -27,7 +28,8 @@ import { PackageItemComponent } from './package-item/package-item.component';
     TimerComponent,
     TimerComponent,
     NgVarDirective,
-    PackageItemComponent
+    PackageItemComponent,
+    RestorePwdComponent
   ],
   imports: [
     CommonModule,

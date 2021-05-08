@@ -47,12 +47,25 @@ body { margin: 0;
 mat-form-field {
   width: 100%;
 }
+button {
+  margin-bottom: 1em !important;
+}
 
 .note {
   font-size: small !important;
+  line-height: 1.2;
 }
 .s-note {
   font-size: smaller !important;
+  line-height: 1.2;
+}
+.small-text {
+  font-size: x-small;
+  line-height: 1.2;
+}
+.data-text {
+  color: $primary;
+  font-weight: bold !important;
 }
 
 mat-card {
@@ -71,14 +84,7 @@ mat-card {
 //   justify-content: space-evenly;
 // }
 
-.data-text {
-  color: $primary;
-  font-weight: bold !important;
-}
 
-.small-text {
-  font-size: x-small;
-}
 
 #bottom-bar {
   position: fixed;
@@ -133,6 +139,9 @@ mat-card {
   z-index: 0;
   overflow: auto;
   position: relative;
+  @media(max-width:320px){
+    padding: 5em 0em !important;
+  }
 }
 
 .container {

@@ -2,16 +2,20 @@
   <div class="container">
     <div class="row">
       <div class="col s12 full-screen">
-        <div class="logo-content">
+        <div class="logo-content"
+        [ngStyle]="{'width.px':loginCard.offsetWidth}">
           <img src="/assets/img/oficial-v.png" alt="logo guestify">
         </div>
-        <gdev-login-card
-        forgotPasswordLabel="Olvidé mi contraseña"
-        signInTitle="Iniciar sesión"
-        passwordLabel="Contraseña"
-        signInButton="ENTRAR"
-        (onSubmit)="onSubmit($event)"
-        ></gdev-login-card>
+        <div #loginCard>
+          <gdev-login-card
+          forgotPasswordLabel="Olvidé mi contraseña"
+          signInTitle="Iniciar sesión"
+          passwordLabel="Contraseña"
+          signInButton="ENTRAR"
+          (onSubmit)="onSubmit($event)"
+          (restorePwd)="onRestorePwd()"
+          ></gdev-login-card>
+        </div>
       </div>
     </div>
   </div>

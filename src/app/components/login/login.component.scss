@@ -19,7 +19,17 @@
 
 #login-page {
   background-color: map-get($guestify-accent, 500);
+  justify-content: center !important;
+  display:flex;
   @include fullScreen;
+  .container {
+    .row{
+      @media (max-width:350px){
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+    }
+  }
 }
 
 
