@@ -251,7 +251,7 @@ export class ReportesService {
         );
 
         let dateId = new Date().getTime();
-        var ciudad = event.paquete.prendasReport[0].codigo.substring(1, 3);
+        var ciudad = event.paquete.prendasReport[0].codigo.substring(0, 3);
         // Save propiedad Event
         let cleanEvent = pickBy(event, identity);
         console.log({ ...event });

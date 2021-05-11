@@ -100,7 +100,7 @@ export class ShowPropiedadComponent implements OnInit, OnDestroy{
       width: '100%',
       disableClose: true
     }).afterClosed().subscribe((result: PrendaModel) => {
-      let prefix = result.codigo.substring(3, 9)
+      let prefix = result.codigo.substring(0, 9)
       if (prefix === this.propiedad.prefix && this.propiedad.paquetes) {
         this.propiedad.paquetes[paqueteIndex ? paqueteIndex : 0]
           .prendas?.push(result)

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GdevLoading } from '@jgu7man/gdev-tools';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { iAlertReport } from 'src/app/models/reporte.model';
 import { EventsService } from 'src/app/services/events.service';
 
 @Component({
@@ -10,12 +11,14 @@ import { EventsService } from 'src/app/services/events.service';
 })
 export class AdminDashboardComponent implements OnInit {
 
-  todayEvents: number = 0
-  washingUps: number = 0
-  collected: number = 0
-  damaged: number = 0
-  alerts: number = 0
-  lost: number = 0
+  resume: any
+  eventsCant: number = 0
+  washingCant: number = 0
+  collectedCant: number = 0
+  damagedCant: number = 0
+  alertsCant: number = 0
+  // alerts: iAlertReport[] = []
+  lostCant: number = 0
   constructor(
     private _events: EventsService,
     private _loading: GdevLoading,
@@ -24,12 +27,15 @@ export class AdminDashboardComponent implements OnInit {
 
     this._events.getStatesResume()
       .subscribe(resume => {
-        this.todayEvents = resume.todayEvents.length
-        this.washingUps = resume.washingUps.length
-        this.collected = resume.collected.length
-        this.damaged = resume.damaged.length
-        this.lost = resume.lost.length
-        this.alerts = resume.alerts.filter(alert => !alert.checked ).length
+        console.log( resume )
+        this.resume = resume
+        this.eventsCant = resume.todayEvents.length
+        this.washingCant = resume.washingUps.length
+        this.collectedCant = resume.collected.length
+        this.damagedCant = resume.damaged.length
+        this.lostCant = resume.lost.length
+        this.alertsCant = resume.alerts.filter(alert => !alert.checked).length
+        // this.alerts = resume.alerts
         // this._loading.toggleWaitingSpinner('close')
     })
    }

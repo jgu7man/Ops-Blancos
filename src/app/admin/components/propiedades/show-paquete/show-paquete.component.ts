@@ -46,8 +46,8 @@ export class ShowPaqueteComponent implements OnInit, OnDestroy {
     console.log( this.paquete )
   }
 
-  async responsable(uid?: string): Promise<iUser | null> {
-    let user = uid ? await this._personal.getMemberData(uid) : null
+  responsable(uid?: string): iUser | null {
+    let user = uid ? this._personal.getMemberData(uid) : null
     return user
   }
 

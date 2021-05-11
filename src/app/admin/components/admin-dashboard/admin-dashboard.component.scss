@@ -1,13 +1,23 @@
+@import "/src/assets/styles/guestify-palette.scss";
+$primary: map-get($guestify-accent, 500);
 
 .min-card {
+  .card-description {
+    font-weight: 600;
+    font-size: 1.2em;
+    .cant {
+      color: $primary
+    }
+  }
+  .card-distinctive .fas{
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+  }
+  .row, mat-card-content {
+    margin: 0;
+  }
   @media (max-width: 414px){
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
     ::ng-deep{
       .mat-card-header-text {
-        display: flex;
-        align-items: baseline;
         mat-card-title {
           margin-right: .25em;
         }
