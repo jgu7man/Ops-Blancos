@@ -27,7 +27,6 @@ export class AdminDashboardComponent implements OnInit {
 
     this._events.getStatesResume()
       .subscribe(resume => {
-        console.log( resume )
         this.resume = resume
         this.eventsCant = resume.todayEvents.length
         this.washingCant = resume.washingUps.length

@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { iPropiedad, statesMap } from 'src/app/models/propiedad.model';
+import { PrendaState } from 'src/app/models/prenda.model';
+import { iPropiedad, PaqueteState, statesMap } from 'src/app/models/propiedad.model';
 import { PropEvent } from 'src/app/models/reporte.model';
 import { iUser } from 'src/app/models/user.model';
 import { PropiedadesService } from 'src/app/services/propiedades.service';
@@ -29,7 +30,7 @@ export class DialogEventComponent implements OnInit {
     this.propiedad = await this._propiedades.searchForPropiedad(prefix)
   }
 
-  states(state?: string) {
+  states(state?: PaqueteState | PrendaState) {
     if (state) { return statesMap.get(state) }
     else { return '' }
   }

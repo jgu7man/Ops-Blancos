@@ -224,11 +224,14 @@ export class ReportesService {
   async onSaveReporte(propId: string, event: PropEvent, alert?: true) {
     try {
       if (this.user) {
+        const otherPaquete = event.paquete.pid.endsWith('1')
+          ? propId + '2' : propId + '1'
         const propPath = `propiedades/${propId}`;
-        const propRef = this._afs.doc(propPath).ref;
         const paquetePath = `${propPath}/paquetes/${event.paquete.pid}`;
+        const otherPath = `${propPath}/paquetes/${otherPaquete}`;
         const eventRef = this._afs.collection(`${propPath}/events`).ref;
         const alertRef = this._afs.collection('alerts').ref;
+        const otherRef = this._afs.doc(otherPath).ref;
         const paqueteRef = this._afs.doc(paquetePath).ref;
         const batch = this._afs.firestore.batch();
 
@@ -270,6 +273,12 @@ export class ReportesService {
           responsable: this.user.uid,
           lastUpdate: new Date(),
         });
+
+        batch.update(otherRef, {
+          state: 'prop',
+          responsable: this.user.uid,
+          lastUpdate: new Date(),
+        })
 
         batch.commit();
         this._cache.deleteDataKey('currentProp');

@@ -11,6 +11,9 @@ import { GdevDate as MxDate } from 'src/app/services/gdev-date.service';
 import { Router } from '@angular/router';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { Subscription } from 'rxjs';
+import { PaquetesService } from 'src/app/services/paquetes.service';
+import { MatOptionSelectionChange } from '@angular/material/core';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'g-show-propiedad',
@@ -38,7 +41,8 @@ export class ShowPropiedadComponent implements OnInit, OnDestroy{
     public date_: MxDate,
     private _cache: GdevCache,
     private _router: Router,
-    private _dashboard: DashboardService
+    private _dashboard: DashboardService,
+    public paquetes: PaquetesService
   ) {
     this.propiedades_.propiedadChange.subscribe(change => {
       this.allowSave = change
@@ -90,6 +94,11 @@ export class ShowPropiedadComponent implements OnInit, OnDestroy{
         }
       }
     })
+  }
+
+  onSelectState(pid:string, selected: MatSelectChange) {
+    let value = selected.value
+    this.paquetes.changeState(pid, value)
   }
 
 

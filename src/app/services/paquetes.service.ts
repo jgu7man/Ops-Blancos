@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { GdevAlert } from '@jgu7man/gdev-tools';
 import { iLavanderiaEvent } from '../models/events.model';
+import { iPaqueteState, PaqueteState } from '../models/propiedad.model';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +10,8 @@ import { iLavanderiaEvent } from '../models/events.model';
 export class PaquetesService {
 
   constructor(
-    private _afs: AngularFirestore
+    private _afs: AngularFirestore,
+    private _alerts: GdevAlert
   ) { }
 
   getEvents(pid:string) {
@@ -18,5 +21,26 @@ export class PaquetesService {
     )
     return packRef.valueChanges({ idField: 'id'})
   }
+
+  changeState(pid: string, state: PaqueteState) {
+    let prefix = pid.substring(0, 9)
+    this._afs.doc<iPaqueteState>(
+      `propiedades/${prefix}/paquetes/${pid}`
+    ).update({ state })
+      .then(() => this._alerts.sendFloatNotification('Se cambió el estado'))
+      .catch((err) => {
+        this._alerts.sendFloatNotification('No se pudo guardar')
+        console.error(err);
+      })
+  }
+
+  PaqueteStates: iPaqueteState[] = [
+    {state:'prop', displayName: 'En propiedad' },
+    {state:'damage', displayName: 'Dañado' },
+    {state:'lost', displayName: 'Perdida' },
+    {state:'stock', displayName: 'En bodega' },
+    {state:'washing', displayName: 'Lavando' },
+    {state:'collected', displayName: 'Recogido' },
+  ];
 
 }

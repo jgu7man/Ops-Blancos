@@ -76,9 +76,8 @@
             <!-- PAQUETE CONTENT -->
             <div class="row">
               <div class="col s6">
-                <p class="small-text">
+                <p class="small-text"> Última actualización:
                   {{date_.toDate(pack.lastUpdate) | date:'dd / MMM / yy - HH:mm:ss'}}
-                  <mat-chip-list> <mat-chip> {{pack.state}} </mat-chip> </mat-chip-list>
                 </p>
               </div>
               <div class="col s6 right">
@@ -87,6 +86,19 @@
                   Ver historial <i class="fas fa-external-link-alt"></i>
                 </button>
 
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col s12">
+                <mat-form-field appearance="outline">
+                  <mat-select name="state" [(ngModel)]="pack.state"
+                  (selectionChange)="onSelectState(pack.pid, $event)">
+                    <mat-option *ngFor="let state of paquetes.PaqueteStates" [value]="state.state">
+                      {{state.displayName}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
               </div>
             </div>
 
