@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GdevAlert, GdevLoading } from '@jgu7man/gdev-tools';
 import { ZXingScannerComponent } from "@zxing/ngx-scanner";
 import { debounceTime } from 'rxjs/operators';
-import { iCode } from 'src/app/models/prenda.model';
+import { CodeModel, iCode } from 'src/app/models/prenda.model';
 import { ScannerService } from 'src/app/services/scanner.service';
 
 @Component({
@@ -17,12 +17,32 @@ export class ScannerComponent implements OnInit, AfterViewInit {
   @ViewChild('scanner') private scanner: ZXingScannerComponent = new ZXingScannerComponent();
   public scannerEnabled: boolean = false;
   @Input() title: boolean = true;
+
+
   codeCtrl: FormControl = new FormControl('')
+  codeForm: FormGroup = new FormGroup({
+    propiedad: new FormControl('', [Validators.required]),
+    producto: new FormControl('', [Validators.required]),
+    paquete: new FormControl('', [Validators.required]),
+    unidad: new FormControl('', [Validators.required]),
+    total: new FormControl('', [Validators.required]),
+    codigo: new FormControl('', [Validators.required]),
+  })
 
   constructor(
     private _loading: GdevLoading,
     private _scanner: ScannerService
   ) {
+    this.codeForm.valueChanges.subscribe(
+      ({ propiedad, producto, paquete, unidad, total, codigo }: iCode) => {
+        console.log({ propiedad, producto, paquete, unidad, total, codigo } )
+      if (codigo && codigo.length === 14) {
+        let code = new CodeModel(
+          propiedad, producto, paquete, unidad, total, codigo
+        )
+        this._scanner.scannedSuccess(code)
+      }
+    })
     this.codeCtrl.valueChanges.subscribe(event => {
       let splits = event.split('\t')
       if (splits.length == 6){
@@ -39,11 +59,23 @@ export class ScannerComponent implements OnInit, AfterViewInit {
 
   }
 
+
+
   ngOnInit(): void {
   }
 
   ngAfterViewInit(): void {
     // this.startScan()
+  }
+  setCodeForm() {
+    this.codeForm.setValue({
+      propiedad: '',
+      producto: '',
+      paquete: '',
+      unidad: '',
+      total: '',
+      codigo: '',
+    })
   }
 
   async startScan() {

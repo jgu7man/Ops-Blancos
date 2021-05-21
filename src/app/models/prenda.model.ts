@@ -46,6 +46,22 @@ export interface iReporte {
   evidenceImages: string[]
 }
 
+export class CodeModel implements iCode {
+  prefix: string
+  pid: string
+  constructor(
+    public propiedad: string,
+    public producto: Producto,
+    public paquete: string,
+    public unidad: string,
+    public total: string,
+    public codigo: string,
+  ) {
+    this.prefix = codigo.substring(0, 9)
+    this.pid = `${this.prefix}${paquete}`
+  }
+}
+
 export interface iCode {
   propiedad: string;
   producto: Producto;

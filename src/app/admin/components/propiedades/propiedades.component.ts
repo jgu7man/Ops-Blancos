@@ -9,7 +9,7 @@ import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { ScannerService } from 'src/app/services/scanner.service';
 import { DialogAddPropiedadComponent } from '../manage-database/dialog-add-propiedad/dialog-add-propiedad.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GdevLoading } from '@jgu7man/gdev-tools';
+import { GdevAlert, GdevLoading } from '@jgu7man/gdev-tools';
 
 @Component({
   templateUrl: './propiedades.component.html',
@@ -29,7 +29,7 @@ export class PropiedadesComponent implements OnInit {
     private _propiedades: PropiedadesService,
     private _router: Router,
     private _route: ActivatedRoute,
-    private _loading: GdevLoading,
+    private _alert: GdevAlert
   ) {
     this._route.queryParams.subscribe(params => {
       let { prefix, code } = params;
@@ -44,32 +44,37 @@ export class PropiedadesComponent implements OnInit {
     this.scannerSubs = this._scanner
       .codeScanned$
       .subscribe(code => {
+        this.codeScanned = code
         this._router.navigate(['/admin/propiedades'], {
-          queryParams: { prefix: code.prefix, code}})
+          queryParams: { prefix: code.prefix, code: code.codigo}})
     })
   }
 
 
-  async openPanel( prefix: string, code?: iCode) {
+  async openPanel(prefix: string, code?: string) {
     try {
       const propiedad = await this._propiedades.searchForFullPropiedad(prefix)
       this.propiedadFinded = propiedad
+      this.scannerSubs?.unsubscribe()
 
-      if (code) {
-        const prenda = await this._propiedades.searchForPrenda(code.codigo)
-        this.scannerSubs?.unsubscribe()
-        if (prenda) {
-          this.prendaFinded = prenda
-        }
-        else this.onAddPrenda(code)
+      if (this.codeScanned) {
+        let prenda = await this._propiedades
+          .searchForPrenda(this.codeScanned.codigo )
+        if (prenda) { this.prendaFinded = prenda }
+        else this.onAddPrenda(this.codeScanned)
+      } else if (code) {
+        let prenda =  await this._propiedades
+          .searchForPrenda(code)
+        if (prenda) { this.prendaFinded = prenda }
+        else this._alert.sendMessageAlert('No se encontró la prenda')
       }
 
       this.panel?.open()
       // this._loading.toggleWaitingSpinner('close')
 
     } catch (err) {
-      if (err.error == 'PROP_NOT_EXISTS' && code)
-        this.onAddPropiedad(code)
+      if (err.error == 'PROP_NOT_EXISTS' && this.codeScanned)
+        this.onAddPropiedad(this.codeScanned)
     }
 
   }

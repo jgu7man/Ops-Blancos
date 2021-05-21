@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { GdevLoading } from '@jgu7man/gdev-tools';
+import { Router } from '@angular/router';
+import { GdevAuth, GdevLoading } from '@jgu7man/gdev-tools';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { iAlertReport } from 'src/app/models/reporte.model';
@@ -22,7 +23,16 @@ export class AdminDashboardComponent implements OnInit {
   constructor(
     private _events: EventsService,
     private _loading: GdevLoading,
+    public auth_: GdevAuth,
+    private _router: Router
   ) {
+    this.auth_.user$.subscribe(user => {
+      // if (user.rol === 'admin' || user.rol === 'city-manager')
+      if (user.rol !== 'admin' && user.rol !== 'city-manager') {
+        console.log( 'redirect' )
+        this._router.navigate([`/${user.rol}`])
+      }
+    })
     // this._loading.toggleWaitingSpinner('open')
 
     this._events.getStatesResume()

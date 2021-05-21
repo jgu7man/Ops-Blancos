@@ -32,17 +32,23 @@
 
       </ng-container>
       <ng-template #pause>
-        <div id="scanner-paused" >
+        <form [formGroup]="codeForm" id="scanner-paused" cdkTrapFocus>
           <mat-form-field appearance="outline">
             <mat-label>Escaner bluetooth</mat-label>
             <input
             matInput
             type="text"
-            name="name"
-            [formControl]="codeCtrl"
+            name="propiedad"
+            formControlName="propiedad"
+            tabindex="1"
             >
+            <input class="cdk-visually-hidden" type="text" tabindex="2" name="producto" formControlName="producto">
+            <input class="cdk-visually-hidden" type="text" tabindex="3" name="paquete" formControlName="paquete">
+            <input class="cdk-visually-hidden" type="text" tabindex="4" name="unidad" formControlName="unidad">
+            <input class="cdk-visually-hidden" type="text" tabindex="5" name="total" formControlName="total">
+            <input class="cdk-visually-hidden" type="text" tabindex="6" name="codigo" formControlName="codigo">
           </mat-form-field>
-        </div>
+        </form>
       </ng-template>
   </mat-card-content>
   <p *ngIf="!scannerEnabled" class="center grey-text">O puedes usar la cámara de tu dispositivo</p>

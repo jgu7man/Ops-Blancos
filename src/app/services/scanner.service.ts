@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GdevAlert } from '@jgu7man/gdev-tools';
 import { Observable, Subject } from 'rxjs';
-import { iCode, Producto } from '../models/prenda.model';
+import { CodeModel, iCode, Producto } from '../models/prenda.model';
 import { ScannerSource } from '../models/scanned.model';
 
 
@@ -19,31 +19,36 @@ export class ScannerService {
   ) { }
 
 
-  scannedSuccess(result: string) {
-    let codeParts = result.split('\t')
-    if (codeParts.length > 1) {
-      try {
-        let code: iCode = {
-          propiedad: codeParts[0],
-          producto: codeParts[1] as Producto,
-          unidad: codeParts[3],
-          total: codeParts[4],
-          codigo: codeParts[5],
-          prefix: codeParts[5].substring(0,9),
-          paquete: codeParts[5].substring(0,9)+codeParts[2],
+  scannedSuccess(result: string | CodeModel) {
+    if (typeof result === 'string') {
+      let codeParts = result.split('\t')
+      if (codeParts.length > 1) {
+        try {
+          let code: iCode = {
+            propiedad: codeParts[0],
+            producto: codeParts[1] as Producto,
+            unidad: codeParts[3],
+            total: codeParts[4],
+            codigo: codeParts[5],
+            prefix: codeParts[5].substring(0,9),
+            paquete: codeParts[5].substring(0,9)+codeParts[2],
+          }
+
+
+          // This is listen by:
+          // LINK ./prendas.service.ts:27
+          this.codeScanned$.next(code)
+        } catch (error) {
+          console.error(error)
+          this._alert.sendMessageAlert('Error: Al intentar leer el formato del código')
         }
-
-
-        // This is listen by:
-        // LINK ./prendas.service.ts:27
-        this.codeScanned$.next(code)
-      } catch (error) {
-        console.error(error)
-        this._alert.sendMessageAlert('Error: Al intentar leer el formato del código')
+      } else {
+        console.error({error:"Formato inválido", object: codeParts})
+        this._alert.sendMessageAlert('Error: Codigo con formato inválido')
       }
     } else {
-      console.error({error:"Formato inválido", object: codeParts})
-      this._alert.sendMessageAlert('Error: Codigo con formato inválido')
+      console.log( result )
+      this.codeScanned$.next(result)
     }
   }
 
