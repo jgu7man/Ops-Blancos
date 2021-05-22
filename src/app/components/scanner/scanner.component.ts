@@ -34,18 +34,19 @@ export class ScannerComponent implements OnInit, AfterViewInit {
   ) {
     this.codeForm.valueChanges.subscribe(
       ({ propiedad, producto, paquete, unidad, total, codigo }: iCode) => {
-        console.log({ propiedad, producto, paquete, unidad, total, codigo })
         let splits = propiedad.split('\t')
         if (splits.length == 6){
           this._scanner.scannedSuccess(propiedad)
           this.setCodeForm()
         } else if (codigo && codigo.length === 14) {
-        let code = new CodeModel(
-          propiedad, producto, paquete, unidad, total, codigo
-        )
+          let code = new CodeModel(
+            propiedad, producto, paquete, unidad, total, codigo
+          )
           this._scanner.scannedSuccess(code)
           this.setCodeForm()
-      }
+        } else {
+          console.log({ propiedad, producto, paquete, unidad, total, codigo })
+        }
     })
 
     // Listen for scanAgain

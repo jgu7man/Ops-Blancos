@@ -114,6 +114,7 @@ export class LavanderiaPaqueteScanComponent implements OnInit {
   onScanned(code: iCode) {
     if (this.prop) {
       let prendaScanned = this.paqueteState.prendasReport.findIndex(p => p.codigo == code.codigo)
+      console.log( prendaScanned )
       if (prendaScanned >= 0) {
         // let currentPrenda: iPrendaEvent = {
         //   // Info de la prenda
