@@ -28,7 +28,7 @@ export class AppComponent {
       }
       else {
         if (user.rol === 'admin' || user.rol === 'city-manager')
-          this._router.navigate(['admin'])
+          // this._router.navigate(['admin'])
         // else this._router.navigate(['/'])
         this._cache.updateData('user', user)
       }

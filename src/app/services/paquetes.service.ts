@@ -22,16 +22,27 @@ export class PaquetesService {
     return packRef.valueChanges({ idField: 'id'})
   }
 
-  changeState(pid: string, state: PaqueteState) {
+  async changeState(pid: string, state: PaqueteState) {
     let prefix = pid.substring(0, 9)
-    this._afs.doc<iPaqueteState>(
+    const batch = this._afs.firestore.batch()
+    const paqueteRef = this._afs.doc<iPaqueteState>(
       `propiedades/${prefix}/paquetes/${pid}`
-    ).update({ state })
-      .then(() => this._alerts.sendFloatNotification('Se cambió el estado'))
-      .catch((err) => {
-        this._alerts.sendFloatNotification('No se pudo guardar')
-        console.error(err);
-      })
+    ).ref
+    const prendasCol = await paqueteRef.collection('prendas').get()
+
+    prendasCol.forEach(doc => {
+      let prendaState = state == 'collected' ? 'sucio' : state
+      batch.update(doc.ref, {state: prendaState})
+    })
+
+    batch.update(paqueteRef, {state})
+
+    batch.commit()
+    .then(() => this._alerts.sendFloatNotification('Se cambió el estado'))
+    .catch((err) => {
+      this._alerts.sendFloatNotification('No se pudo guardar')
+      console.error(err);
+    })
   }
 
   PaqueteStates: iPaqueteState[] = [

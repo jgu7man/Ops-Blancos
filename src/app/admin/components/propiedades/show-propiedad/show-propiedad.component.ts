@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GdevAlert, GdevCache } from '@jgu7man/gdev-tools';
 import { iCode, iPrenda, PrendaModel } from 'src/app/models/prenda.model';
@@ -20,7 +20,7 @@ import { MatSelectChange } from '@angular/material/select';
   templateUrl: './show-propiedad.component.html',
   styleUrls: ['./show-propiedad.component.scss']
 })
-export class ShowPropiedadComponent implements OnInit, OnDestroy{
+export class ShowPropiedadComponent implements OnInit, AfterViewInit, OnDestroy{
 
 
   // private _code : BehaviorSubject<iCode> = new BehaviorSubject({} as iCode);
@@ -33,6 +33,7 @@ export class ShowPropiedadComponent implements OnInit, OnDestroy{
   @Output() close: EventEmitter<any> = new EventEmitter()
   changesSubscription?: Subscription
   allowSave: boolean = false
+  paqueteFinded: string = ''
 
   constructor(
     private _dialog: MatDialog,
@@ -55,6 +56,10 @@ export class ShowPropiedadComponent implements OnInit, OnDestroy{
     this.addPropiedad()
   }
 
+  ngAfterViewInit() {
+    console.log( this.prenda?.codigo )
+    this.paqueteFinded = this.prenda?.codigo.substring(11, 12) as string
+  }
 
   addPropiedad() {
     if (this.code) {

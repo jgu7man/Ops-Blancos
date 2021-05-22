@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { GdevAuth } from '@jgu7man/gdev-tools';
+import { takeWhile } from 'rxjs/operators';
 import { iMenuRoutes } from 'src/app/components/topbar/topbar.component';
 
 @Component({
@@ -7,7 +9,19 @@ import { iMenuRoutes } from 'src/app/components/topbar/topbar.component';
 })
 export class LimpiezaDashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private _auth: GdevAuth,
+  ) {
+    this._auth.user$.pipe(
+      takeWhile(user => !user, true)
+    ).subscribe(user => {
+      if (user.rol === 'admin' || user.rol === 'city-manager')
+        this.routes.push({
+          displayName: 'Administracion',
+          route: '/admin'
+        })
+    })
+   }
 
   ngOnInit(): void {
   }

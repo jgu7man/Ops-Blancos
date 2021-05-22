@@ -19,7 +19,6 @@ export class ScannerComponent implements OnInit, AfterViewInit {
   @Input() title: boolean = true;
 
 
-  codeCtrl: FormControl = new FormControl('')
   codeForm: FormGroup = new FormGroup({
     propiedad: new FormControl('', [Validators.required]),
     producto: new FormControl('', [Validators.required]),
@@ -35,21 +34,20 @@ export class ScannerComponent implements OnInit, AfterViewInit {
   ) {
     this.codeForm.valueChanges.subscribe(
       ({ propiedad, producto, paquete, unidad, total, codigo }: iCode) => {
-        console.log({ propiedad, producto, paquete, unidad, total, codigo } )
-      if (codigo && codigo.length === 14) {
+        console.log({ propiedad, producto, paquete, unidad, total, codigo })
+        let splits = propiedad.split('\t')
+        if (splits.length == 6){
+          this._scanner.scannedSuccess(propiedad)
+          this.setCodeForm()
+        } else if (codigo && codigo.length === 14) {
         let code = new CodeModel(
           propiedad, producto, paquete, unidad, total, codigo
         )
-        this._scanner.scannedSuccess(code)
+          this._scanner.scannedSuccess(code)
+          this.setCodeForm()
       }
     })
-    this.codeCtrl.valueChanges.subscribe(event => {
-      let splits = event.split('\t')
-      if (splits.length == 6){
-        this.scanSuccessHandler(event)
-        this.codeCtrl.setValue('')
-      }
-    })
+
     // Listen for scanAgain
     this._scanner.startScan$
       .pipe(debounceTime(1000))
