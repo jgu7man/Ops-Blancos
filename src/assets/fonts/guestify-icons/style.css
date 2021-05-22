@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'guestify-icons';
-  src:  url('fonts/guestify-icons.eot?r4lize');
-  src:  url('fonts/guestify-icons.eot?r4lize#iefix') format('embedded-opentype'),
-    url('fonts/guestify-icons.ttf?r4lize') format('truetype'),
-    url('fonts/guestify-icons.woff?r4lize') format('woff'),
-    url('fonts/guestify-icons.svg?r4lize#guestify-icons') format('svg');
+  src:  url('fonts/guestify-icons.eot?cwz7w0');
+  src:  url('fonts/guestify-icons.eot?cwz7w0#iefix') format('embedded-opentype'),
+    url('fonts/guestify-icons.ttf?cwz7w0') format('truetype'),
+    url('fonts/guestify-icons.woff?cwz7w0') format('woff'),
+    url('fonts/guestify-icons.svg?cwz7w0#guestify-icons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.gfy-lavadora:before {
+  content: "\e90f";
+}
+.gfy-secadora:before {
+  content: "\e910";
+}
 .gfy-almohada:before {
   content: "\e90d";
 }

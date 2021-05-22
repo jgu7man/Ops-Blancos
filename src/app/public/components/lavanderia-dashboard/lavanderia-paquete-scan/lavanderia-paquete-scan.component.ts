@@ -55,7 +55,8 @@ export class LavanderiaPaqueteScanComponent implements OnInit {
 
   async ngOnInit() {
     this.scannerSubs = this._scanner.codeScanned$.
-        subscribe(codeScanned => {
+      subscribe(codeScanned => {
+          console.log( codeScanned )
           this.onScanned(codeScanned)
         })
 
