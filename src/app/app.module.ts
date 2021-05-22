@@ -13,6 +13,7 @@ import { CreateAccountComponent } from './components/create-account/create-accou
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { PipesModule } from './pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { environment } from '../environments/environment';
       // Register the ServiceWorker as soon as the app is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    PipesModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'es-MX'},

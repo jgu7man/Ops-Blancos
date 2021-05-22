@@ -12,7 +12,6 @@ import { HouseGlobeComponent } from './house-globe/house-globe.component';
 import { TakeImageComponent } from '../components/take-image/take-image.component';
 import { SeeImageComponent } from './see-image/see-image.component';
 import { TimerComponent } from './timer/timer.component';
-import { NgVarDirective } from './ng-var.directive';
 import { PackageItemComponent } from './package-item/package-item.component';
 import { RestorePwdComponent } from './restore-pwd/restore-pwd.component';
 
@@ -27,7 +26,6 @@ import { RestorePwdComponent } from './restore-pwd/restore-pwd.component';
     SeeImageComponent,
     TimerComponent,
     TimerComponent,
-    NgVarDirective,
     PackageItemComponent,
     RestorePwdComponent
   ],
@@ -47,7 +45,6 @@ import { RestorePwdComponent } from './restore-pwd/restore-pwd.component';
     HouseGlobeComponent,
     TakeImageComponent,
     TimerComponent,
-    NgVarDirective
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

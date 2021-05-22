@@ -12,14 +12,8 @@ export class LavanderiaService {
     private _afs: AngularFirestore
   ) { }
 
-  setStartStamp(stamp: number, propiedad: iCurrentProp, action: LavanderiaAction) {
-    let event: iLavanderiaEvent = {
-      ...propiedad,
-      action,
-      start: stamp,
-      count: 0
-    }
-    let {prefix, paquete} = propiedad
+  setStartStamp(event: iLavanderiaEvent) {
+    let {prefix, paquete} = event
     this._afs.collection(
       `propiedades/${prefix}/paquetes/${paquete}/events`
     ).doc(`${event.start}`).set(event)

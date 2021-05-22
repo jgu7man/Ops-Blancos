@@ -1,44 +1,66 @@
 <div id="work-area" class="container">
   <div class="row">
     <div class="col s12 center">
-      <h2 class="center white-text">A trabajar</h2>
+      <h2 class="center white-text" *ngIf="propiedad">
+        {{propiedad?.direccion}} - PAQUETE:{{propiedad?.paquete?.substr(-1)}}
+      </h2>
       <p class="center white-text">
         Informa con un tap cuando este paquete empezó a trabajar
       </p>
-      <p class="center white-text">
-        PAQUETE:{{propiedad?.paquete}}
-      </p>
-      <p class="center white-text">
-        {{propiedad?.direccion}}
-      </p>
+
+    </div>
+  </div>
+
+  <div class="row botonera">
+    <div class="col s12 center">
+      <ng-container>
+          <button mat-raised-button
+          (click)="startCount('lavar')"
+          >
+            <i class="gfy-lavadora gfy-lg"></i><br>
+            <b>LAVAR</b>
+          </button>
+          <button mat-raised-button
+          (click)="startCount('secar')"
+          >
+            <i class="gfy-secadora gfy-lg"></i><br>
+            <b>SECAR</b>
+          </button>
+      </ng-container>
+      <ng-template #stopped >
+
+      </ng-template>
     </div>
   </div>
 
   <div class="row chrono">
-    <div class="col s12">
-      <p class="center">
-        <span *ngIf="currentTime | async as time">
-          {{time | date: 'HH:mm:ss'}}
-        </span>
-      </p>
-    </div>
-  </div>
-
-  <div class="row controls">
-    <div class="col s12 center">
-      <ng-container *ngIf="!started; else stopped">
-          <button mat-raised-button
-          (click)="startCount('lavar')"
-          ><b>LAVAR</b></button>
-          <button mat-raised-button
-          (click)="startCount('secar')"
-          ><b>SECAR</b></button>
-      </ng-container>
-      <ng-template #stopped >
-        <button mat-raised-button color="accent"
-          (click)="stopCount()"
-          >Detener</button>
-      </ng-template>
+    <div class="col s12" *ngFor="let event of currentEvents; index as i">
+      <mat-card>
+        <mat-card-content class="row aling-cols">
+          <div class="col s6 action">
+            <span class="icon" [ngSwitch]="event.action">
+              <span *ngSwitchCase="'lavar'">
+                <i class="gfy-lavadora coral-text"></i>
+              </span>
+              <span *ngSwitchCase="'secar'">
+                <i class="gfy-secadora"></i>
+              </span>
+            </span>
+            <span class="label" [ngSwitch]="event.action">
+              <span *ngSwitchCase="'lavar'">Lavadora {{event.over}}</span>
+              <span *ngSwitchCase="'secar'">Secadora {{event.over}}</span>
+            </span>
+          </div>
+          <div class="col s4 center counting">
+              <b>{{event.start | countingTime | async}}</b>
+          </div>
+          <div class="col s2 controls" >
+            <button mat-icon-button (click)="stopCount(event, i)">
+              <i class="fas fa-stop red-text"></i>
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
   </div>
 
@@ -48,16 +70,31 @@
       <mat-card *ngFor="let event of events" class="record">
         <mat-card-content>
           <div class="row align-cols">
-            <div class="col s6">
+            <div class="col s1">
+              <span class="icon" [ngSwitch]="event.action">
+                <span *ngSwitchCase="'lavar'">
+                  <i class="gfy-lavadora coral-text"></i>
+                </span>
+                <span *ngSwitchCase="'secar'">
+                  <i class="gfy-secadora"></i>
+                </span>
+              </span>
+            </div>
+            <div class="col s4">
               <span [ngSwitch]="event.action">
-              <span *ngSwitchCase="'lavar'">LAVADO</span>
-              <span *ngSwitchCase="'secar'">SECADO</span>
+                <span *ngSwitchCase="'lavar'">LAVADO {{event.over}}</span>
+                <span *ngSwitchCase="'secar'">SECADO {{event.over}}</span>
               <span *ngSwitchDefault></span>
               </span>
             </div>
-            <div class="col s6 duration align-cols">
+
+            <div class="col s4 duration aling-cols">
               <span class="durationLabel" >Duración:</span>
               <b>{{duration(event.count) | date: 'HH:mm:ss'}}</b>
+            </div>
+            <div class="col s5 fecha aling-cols">
+              <span class="fechaLabel" >Fecha:</span>
+              <b>{{toDate(event.start) | date: 'shortDate'}}-{{toDate(event.start) | date: 'HH:mm'}}</b>
             </div>
           </div>
         </mat-card-content>

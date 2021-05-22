@@ -1,22 +1,67 @@
+@import 'src/assets/styles/guestify-palette.scss';
+$primary: map-get($guestify-primary, 500);
+
 .chrono p.center {
-  font-size: xxx-large;
+  .time {
+    font-size: x-large;
+  }
+  font-size: large;
   font-weight: 600;
   color: wheat;
   text-shadow: 1px 1px 2px rgb(0 0 0 / 40%);
 }
 
-.controls .col {
+.botonera .col {
   display: flex;
   justify-content: space-around;
+  button {
+    padding-top: .5em;
+  }
+  .gfy-lg {
+    font-size: 2.5em;
+  }
 }
 
+.aling-cols {
+  display: flex !important;
+  align-items: center;
+  .action {
+    .icon {
+      font-size: 2.5em;
+    }
+    .label {
+      font-size: medium;
+      align-self: center;
+    }
+    display: flex !important;
+    justify-content: space-around;
+  }
+  .counting {
+    font-size: x-large;
+    color: $primary;
+  }
+  .controls {
+    display: flex;
+    justify-content: flex-end;
+    button {
+      margin: 0  !important
+    }
+  }
+}
+
+
+.eventList {
+  .icon {
+    font-size: 2em;
+  }
+}
 .record {
   padding: 8px 16px !important;
 }
-.duration {
+.duration, .fecha {
   justify-content: flex-end;
-  .durationLabel {
+  flex-direction: column;
+  .durationLabel, .fechaLabel {
     font-size:xx-small;
-    margin-right: 1em;
   }
 }

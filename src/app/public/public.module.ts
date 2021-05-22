@@ -35,6 +35,7 @@ import { LavanderiaWorkingComponent } from './components/lavanderia-dashboard/la
 import { LavanderiaPackingScanComponent } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing-scan/lavanderia-packing-scan.component';
 import { PackingFaltantesDialog } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing-scan/dialog-packing-faltantes/dialog-packing-faltantes.component';
 import { LavanderiaTimingComponent } from './components/lavanderia-dashboard/lavanderia-working/lavanderia-timing/lavanderia-timing.component';
+import { PipesModule } from '../pipes/pipes.module';
 
 
 @NgModule({
@@ -76,6 +77,7 @@ import { LavanderiaTimingComponent } from './components/lavanderia-dashboard/lav
     MaterialModule,
     SharedComponentsModule,
     ZXingScannerModule,
+    PipesModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

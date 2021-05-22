@@ -15,6 +15,7 @@ export interface iDay {
 export interface iLavanderiaEvent extends iCurrentProp {
   start: number,
   action: LavanderiaAction
+  over: number
   count?: number,
 }
 

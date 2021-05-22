@@ -20,7 +20,8 @@ export class LavanderiaTimingComponent implements OnInit, OnDestroy {
   user: iUser
   propiedad?: iCurrentProp
   stamp: number = 0
-  currentTime?: Observable<any>
+  currentActions?: Observable<any>
+  currentEvents: iLavanderiaEvent[] = []
   started: boolean = false
   events: iLavanderiaEvent[] = []
   eventSubscription?: Subscription
@@ -35,7 +36,7 @@ export class LavanderiaTimingComponent implements OnInit, OnDestroy {
     this._dashboard.toggleBack = true
     this.user = this._cache.getDataKey<iUser>('user')
     this.getCurrentProp()
-    this.currentTime = this.setCount()
+    this.currentActions = this.setCount()
 
    }
 
@@ -44,29 +45,39 @@ export class LavanderiaTimingComponent implements OnInit, OnDestroy {
 
   startCount(action: LavanderiaAction) {
     if (this.propiedad) {
-      this.stamp = new Date().getTime()
-      this._lavanderia.setStartStamp(this.stamp, this.propiedad, action )
-      this.currentTime = this.setCount()
-      this.started = true
+      let start = new Date().getTime()
+      let sameActions = this.events.filter(a => a.action == action)
+      sameActions.concat(this.currentEvents.filter(a => a.action == action))
+      console.log( sameActions )
+      let event: iLavanderiaEvent = {
+        ...this.propiedad,
+        action, start,
+        count: 0,
+        over: sameActions.length + 1
+      }
+      this._lavanderia.setStartStamp(event)
+      this.currentEvents.push(event)
+      // this.started = true
     }
 
   }
 
-  stopCount() {
+  stopCount(event: iLavanderiaEvent, i: number) {
     if (this.propiedad) {
-      this.started = false
-      let {prefix, paquete} = this.propiedad
-      this._lavanderia.setCountStamp(this.stamp, prefix, paquete)
-      this.stamp = 0
+      let { prefix, paquete } = this.propiedad
+      let stamp = new Date().getTime()
+      this._lavanderia.setCountStamp(event.start, prefix, paquete)
+      this.currentEvents.splice(i, 1)
     }
   }
 
-  setCount() {
+  setCount(stamp?: number) {
     let now = new Date().getTime()
-    let diff = (now - this.stamp) / 1000
+    let diff = stamp ?  (now - stamp) / 1000 : 0
     return interval(1000).pipe(
       map((sec) => {
-        let zeroDate = new Date(0,0,0,0,0,this.started ? sec+diff:0)
+        let zeroDate = new Date(0, 0, 0, 0, 0, sec + diff)
+        console.log( zeroDate )
         return zeroDate
       })
     )
@@ -95,10 +106,8 @@ export class LavanderiaTimingComponent implements OnInit, OnDestroy {
         .subscribe(events => {
           console.log( events )
           if (events.length > 0) {
-            let currentEvent = events[0]
-            this.stamp = currentEvent.start
-            this.currentTime = this.setCount()
-            this.started = true
+            this.currentEvents = events
+            // this.started = true
           }
       })
     }
@@ -106,6 +115,10 @@ export class LavanderiaTimingComponent implements OnInit, OnDestroy {
 
   duration(count?: number) {
     return new Date(0,0,0,0,0,0, count)
+  }
+
+  toDate(date: number) {
+    return new Date(date)
   }
 
   ngOnDestroy() {
