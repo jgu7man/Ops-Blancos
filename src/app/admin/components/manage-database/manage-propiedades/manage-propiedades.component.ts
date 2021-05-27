@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { GdevStorage } from '@marxa/storage';
+import { MxStorage } from '@marxa/storage';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { iCode } from 'src/app/models/prenda.model';
@@ -23,7 +23,7 @@ export class ManagePropiedadesComponent implements OnInit {
     private _scanner: ScannerService,
     private _propiedades: PropiedadesService,
     public impExport: ImportExportService,
-    public storage: GdevStorage
+    public storage: MxStorage
   ) { }
 
   ngOnInit(): void {

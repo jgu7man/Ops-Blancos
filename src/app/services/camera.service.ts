@@ -1,3 +1,4 @@
+import { MxStorage } from '@marxa/storage';
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Subject } from 'rxjs';
@@ -12,6 +13,7 @@ export class CameraService {
   public uploadComplete$: Subject<any> = new Subject();
   constructor(
     private _afSt: AngularFireStorage,
+    private _storage: MxStorage
   ) { }
 
   removeCapture(index: number) {
@@ -19,6 +21,7 @@ export class CameraService {
   }
 
   onSaveCaptures() {
+    this._storage.toggleLoading()
     let evidencias: any[] = []
     this.captures.forEach(capture => {
       const
@@ -37,6 +40,7 @@ export class CameraService {
             evidencias.push(url)
             if (evidencias.length == this.captures.length) {
               this.uploadComplete$.next(evidencias)
+              this._storage.toggleLoading()
             }
           })
         })

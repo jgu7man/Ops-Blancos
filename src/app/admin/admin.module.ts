@@ -19,7 +19,6 @@ import { DialogAddPaqueteComponent } from './components/manage-database/dialog-a
 import { DialogAddPrendaComponent } from './components/manage-database/dialog-add-prenda/dialog-add-prenda.component';
 import { ShowPropiedadComponent } from './components/propiedades/show-propiedad/show-propiedad.component';
 import { HistorialComponent } from './components/admin-dashboard/historial/historial.component';
-import { GdevStorageModule } from '@marxa/storage';
 import { HttpClientModule } from '@angular/common/http';
 import { ColumnsSelectorComponent } from './components/manage-database/manage-propiedades/columns-selector/columns-selector.component';
 import { ColumnEditorComponent } from './components/manage-database/manage-propiedades/column-editor/column-editor.component';
@@ -32,6 +31,7 @@ import { DialogAlertComponent } from './components/admin-dashboard/historial/dia
 import { ShowPrendaComponent } from './components/propiedades/show-prenda/show-prenda.component';
 import { ShowPaqueteComponent } from './components/propiedades/show-paquete/show-paquete.component';
 import { ShowAdminComponent } from './components/manage-admins/show-admin/show-admin.component';
+import { MxStorageModule } from '@marxa/storage';
 
 @NgModule({
   declarations: [
@@ -67,11 +67,11 @@ import { ShowAdminComponent } from './components/manage-admins/show-admin/show-a
     ReactiveFormsModule,
     FormsModule,
     SharedComponentsModule,
-    GdevStorageModule,
+    MxStorageModule,
     HttpClientModule
   ],
   schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
+    // CUSTOM_ELEMENTS_SCHEMA
   ]
 })
 export class AdminModule { }

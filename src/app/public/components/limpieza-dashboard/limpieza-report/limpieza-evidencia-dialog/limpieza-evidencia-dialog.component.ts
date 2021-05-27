@@ -1,3 +1,4 @@
+import { MxStorage, MxUploadingSpinnerComponent } from '@marxa/storage';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { take } from 'rxjs/operators';
@@ -11,7 +12,7 @@ export class LimpiezaEvidenciaDialog implements OnInit {
 
   constructor(
     public dialog_: MatDialogRef<LimpiezaEvidenciaDialog>,
-    public camera: CameraService
+    public camera: CameraService,
   ) { }
 
   ngOnInit(): void {
@@ -20,7 +21,7 @@ export class LimpiezaEvidenciaDialog implements OnInit {
   onSave() {
     this.camera.onSaveCaptures().pipe(take(1))
       .subscribe((captures) => {
-      this.dialog_.close(captures)
+        this.dialog_.close(captures)
     })
   }
 

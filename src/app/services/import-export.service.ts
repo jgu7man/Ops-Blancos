@@ -4,7 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { MatDialog } from '@angular/material/dialog';
 import { GdevAlert, GdevLoading } from '@jgu7man/gdev-tools';
-import { GdevStorage, iFileInfo } from '@marxa/storage';
+import { MxStorage } from '@marxa/storage';
 import { BehaviorSubject } from 'rxjs';
 import { ColumnsSelectorComponent } from '../admin/components/manage-database/manage-propiedades/columns-selector/columns-selector.component';
 import { iImportRecord } from '../models/import-export.model';
@@ -31,7 +31,7 @@ export class ImportExportService {
 
   constructor(
     private _afs: AngularFirestore,
-    private _storage: GdevStorage,
+    private _storage: MxStorage,
     private _http: HttpClient,
     private _dialog: MatDialog,
     private _loading: GdevLoading,

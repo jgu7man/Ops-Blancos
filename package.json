@@ -25,7 +25,7 @@
     "@angular/router": "~11.0.5",
     "@angular/service-worker": "^11.0.9",
     "@jgu7man/gdev-tools": "^0.1.5",
-    "@marxa/storage": "0.0.1",
+    "@marxa/storage": "0.0.15",
     "@zxing/browser": "0.0.8",
     "@zxing/library": "^0.18.4",
     "@zxing/ngx-scanner": "^3.1.3",
