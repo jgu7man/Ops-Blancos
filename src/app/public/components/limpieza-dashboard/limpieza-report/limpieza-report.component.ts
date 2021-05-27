@@ -52,7 +52,7 @@ export class LimpiezaReportComponent implements OnInit, OnDestroy {
   onScanned(scanned: iCode) {
 
     this._dialog.open( LimpiezaScannedFormDialog, {
-      // height: '80vh',
+      maxHeight: '80vh',
       width: '100vw',
       data: scanned,
       disableClose: true

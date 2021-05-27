@@ -41,11 +41,15 @@ export class LimpiezaReporteFormComponent implements OnInit {
 
   onTakeEvidence() {
     this._dialog.open(LimpiezaEvidenciaDialog, {
-      maxWidth: '100vw',
-      width: '100vw',
+      maxWidth: '80vw',
+      minWidth: '50vw',
       height: '80vh',
-    }).afterClosed().subscribe(save => {
-      if (save) {this.validateForm(this.state)}
+    }).afterClosed().subscribe(captures => {
+      if (captures) {
+        console.log( captures )
+        this._camera.captures = captures
+        this.validateForm(this.state)
+      }
     })
 
   }

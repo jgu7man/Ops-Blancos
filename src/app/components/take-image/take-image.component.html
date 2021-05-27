@@ -1,17 +1,25 @@
 <div id="camera-container">
-  <video #video id="video" width="414" height="414" autoplay></video>
+  <video
+    controls
+    #video
+    id="video"
+    width="414"
+    height="414"
+    autoplay
+  ></video>
 
   <button id="shutter" mat-icon-button (click)="capture()">
     <i class="fas fa-camera fa-2x"></i>
   </button>
-  <canvas #canvas id="canvas" width="414" height="414" ></canvas>
+  <canvas #canvas id="canvas" width="414" height="414"></canvas>
 </div>
 <ul id="list">
   <li class="capture" *ngFor="let c of camera_.captures; index as i">
-      <img src="{{ c }}" height="50" />
-      <i
+    <img src="{{ c }}" height="50" />
+    <i
       class="fas fa-times-circle fa-xs remove red-text"
-      *ngIf="c" (click)="camera_.removeCapture(i)"
-      ></i>
+      *ngIf="c"
+      (click)="camera_.removeCapture(i)"
+    ></i>
   </li>
 </ul>
