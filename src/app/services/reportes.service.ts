@@ -224,11 +224,15 @@ export class ReportesService {
   async onSaveReporte(propId: string, event: PropEvent, alert?: true) {
     try {
       if (this.user) {
+        console.log(propId)
+        console.log( event.paquete )
         const otherPaquete = event.paquete.pid.endsWith('1')
           ? propId + '2' : propId + '1'
+
         const propPath = `propiedades/${propId}`;
         const paquetePath = `${propPath}/paquetes/${event.paquete.pid}`;
         const otherPath = `${propPath}/paquetes/${otherPaquete}`;
+        console.log( otherPaquete )
         const eventRef = this._afs.collection(`${propPath}/events`).ref;
         const alertRef = this._afs.collection('alerts').ref;
         const otherRef = this._afs.doc(otherPath).ref;

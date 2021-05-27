@@ -65,7 +65,7 @@ export class ShowPropiedadComponent implements OnInit, AfterViewInit, OnDestroy{
     if (this.code) {
       const {codigo, unidad, producto} = this.code
       const prenda = { codigo, unidad, producto }
-      const paqueteId = `${this.code.codigo.substring(0,9)}${this.code.paquete}`
+      const paqueteId = this.code.paquete
       const paquete = <iPaquete>{
         prendas: [prenda],
         pid:paqueteId,

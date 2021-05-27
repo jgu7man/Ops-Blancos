@@ -14,6 +14,7 @@ import { SeeImageComponent } from './see-image/see-image.component';
 import { TimerComponent } from './timer/timer.component';
 import { PackageItemComponent } from './package-item/package-item.component';
 import { RestorePwdComponent } from './restore-pwd/restore-pwd.component';
+import { LavanderiaEventListComponent } from './lavanderia-event-list/lavanderia-event-list.component';
 
 
 
@@ -27,7 +28,8 @@ import { RestorePwdComponent } from './restore-pwd/restore-pwd.component';
     TimerComponent,
     TimerComponent,
     PackageItemComponent,
-    RestorePwdComponent
+    RestorePwdComponent,
+    LavanderiaEventListComponent
   ],
   imports: [
     CommonModule,
@@ -45,6 +47,7 @@ import { RestorePwdComponent } from './restore-pwd/restore-pwd.component';
     HouseGlobeComponent,
     TakeImageComponent,
     TimerComponent,
+    LavanderiaEventListComponent,
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

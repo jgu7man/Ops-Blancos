@@ -113,13 +113,7 @@ export class LavanderiaTimingComponent implements OnInit, OnDestroy {
     }
   }
 
-  duration(count?: number) {
-    return new Date(0,0,0,0,0,0, count)
-  }
 
-  toDate(date: number) {
-    return new Date(date)
-  }
 
   ngOnDestroy() {
     if (this.eventSubscription) this.eventSubscription.unsubscribe()

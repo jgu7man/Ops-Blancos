@@ -105,7 +105,7 @@ export class PropiedadesComponent implements OnInit {
     }).afterClosed().subscribe(confirm => {
       if (confirm) {
         if (this.propiedadFinded) {
-          let paqueteId = `${code.prefix}${code.paquete}`
+          let paqueteId = `${code.prefix}`
           var paqueteIndex = this.propiedadFinded.paquetes.findIndex(
             p => p.pid === paqueteId
           )

@@ -49,8 +49,7 @@ export class LimpiezaHomeComponent implements OnInit, OnDestroy {
       disableClose: true
     }).afterClosed().subscribe(next => {
       if (next) {
-        let paquete = `${scanned.prefix}${scanned.paquete}`
-        this._reportes.searchForCurrentPropiedad(scanned.prefix, paquete, 'prop')
+        this._reportes.searchForCurrentPropiedad(scanned.prefix, scanned.paquete, 'prop')
           .then((propiedad) => {
             this._cache.updateData('currentProp', propiedad)
             this._router.navigate(['/limpieza/paquete', ])

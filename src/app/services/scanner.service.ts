@@ -47,7 +47,8 @@ export class ScannerService {
         this._alert.sendMessageAlert('Error: Codigo con formato inválido')
       }
     } else {
-      console.log( result )
+      console.log(result)
+
       this.codeScanned$.next(result)
     }
   }

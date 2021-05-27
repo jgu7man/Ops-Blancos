@@ -1,0 +1,15 @@
+.eventList {
+  .icon {
+    font-size: 2em;
+  }
+}
+.record {
+  padding: 8px 16px !important;
+}
+.duration, .fecha {
+  justify-content: flex-end;
+  flex-direction: column;
+  .durationLabel, .fechaLabel {
+    font-size:xx-small;
+  }
+}

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GdevAlert, GdevLoading } from '@jgu7man/gdev-tools';
 import { ZXingScannerComponent } from "@zxing/ngx-scanner";
@@ -15,6 +15,7 @@ export class ScannerComponent implements OnInit, AfterViewInit {
 
   @Output() scanned: EventEmitter<any> = new EventEmitter();
   @ViewChild('scanner') private scanner: ZXingScannerComponent = new ZXingScannerComponent();
+  @ViewChild('bluetooth') private bluetooth?: ElementRef
   public scannerEnabled: boolean = false;
   @Input() title: boolean = true;
 
@@ -38,12 +39,14 @@ export class ScannerComponent implements OnInit, AfterViewInit {
         if (splits.length == 6){
           this._scanner.scannedSuccess(propiedad)
           this.setCodeForm()
+          this.bluetooth?.nativeElement.focus()
         } else if (codigo && codigo.length === 14) {
           let code = new CodeModel(
             propiedad, producto, paquete, unidad, total, codigo
           )
           this._scanner.scannedSuccess(code)
           this.setCodeForm()
+          this.bluetooth?.nativeElement.focus()
         } else {
           console.log({ propiedad, producto, paquete, unidad, total, codigo })
         }

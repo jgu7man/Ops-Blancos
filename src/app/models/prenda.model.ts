@@ -35,7 +35,7 @@ export class PrendaModel {
   }
 }
 
-export type PrendaState = 'sucio' | 'damage' | 'lost' | 'wash' | 'stock' | undefined
+export type PrendaState = 'prop' | 'sucio' | 'damage' | 'lost' | 'wash' | 'stock' | undefined
 export interface displayPrendaState {
   display: string,
   value: PrendaState

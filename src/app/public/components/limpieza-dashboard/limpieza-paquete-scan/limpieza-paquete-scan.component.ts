@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { iPrendaEvent } from '../../../../models/reporte.model';
 import { MatDialog } from '@angular/material/dialog';
-import { GdevCache } from '@jgu7man/gdev-tools';
+import { GdevAlert, GdevCache } from '@jgu7man/gdev-tools';
 import { Subscription } from 'rxjs';
 import { iCode, iPrenda } from 'src/app/models/prenda.model';
 import {  iHistory, iPaqueteEvent, PropEvent } from 'src/app/models/reporte.model';
@@ -37,7 +37,8 @@ export class LimpiezaPaqueteScanComponent implements OnInit, OnDestroy{
     private _route: ActivatedRoute,
     private _responsables: ResponsablesService,
     private _location: Location,
-    private _dashboard: DashboardService
+    private _dashboard: DashboardService,
+    private _alert: GdevAlert
   ) {
     this._dashboard.toggleBack = true
     this.paqueteState = {
@@ -97,19 +98,33 @@ export class LimpiezaPaqueteScanComponent implements OnInit, OnDestroy{
 
   onScanned(code: iCode) {
     if (this.prop) {
-      let prendaScanned = this.prop.prendas.findIndex(p => p.codigo == code.codigo)
-      if (prendaScanned >= 0) {
-        let currentPrenda: iPrendaEvent = {
-          // Info de la prenda
-          ...this.prop.prendas[prendaScanned],
-          // Set scanned
-          scanned: true,
-          // Set actual state
-          state: 'sucio',
-          // Regist event, state and who
-          event: new iHistory(new Date(), 'sucio', this.user?.uid as string),
+      if (code.propiedad != this.prop.direccion) {
+        this._alert.sendMessageAlert('Este código no pertenece a la propiedad')
+      } else if (code.paquete != this.prop.paquete) {
+        this._alert.sendMessageAlert('Este código no pertenece al paquete')
+      } else {
+        let prevScanned = this.paqueteState.prendasReport
+          .find(p => p.codigo === code.codigo)
+        if (prevScanned) {
+          this._alert.sendFloatNotification('Este código ya se escaneo')
+        } else {
+          let prendaScanned = this.prop.prendas.findIndex(p => p.codigo == code.codigo)
+          if (prendaScanned >= 0) {
+            let currentPrenda: iPrendaEvent = {
+              // Info de la prenda
+              ...this.prop.prendas[prendaScanned],
+              // Set scanned
+              scanned: true,
+              // Set actual state
+              state: 'sucio',
+              // Regist event, state and who
+              event: new iHistory(new Date(), 'sucio', this.user?.uid as string),
+            }
+            this.paqueteState?.prendasReport.push(currentPrenda)
+          } else {
+            this._alert.sendMessageAlert('Esta prenda no coincide con ninguna del paquete')
+          }
         }
-        this.paqueteState?.prendasReport.push(currentPrenda)
       }
     }
   }
@@ -142,6 +157,7 @@ export class LimpiezaPaqueteScanComponent implements OnInit, OnDestroy{
 
   onFinish() {
     var faltantes: any[] = []
+    this.propEvent.paquete.pid = this.prop?.paquete as string
 
     // Search for "faltantes"
     this.prop?.prendas.forEach(pren => {

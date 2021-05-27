@@ -65,41 +65,6 @@
   </div>
 
 
-  <div class="row eventList">
-    <div class="col s12">
-      <mat-card *ngFor="let event of events" class="record">
-        <mat-card-content>
-          <div class="row align-cols">
-            <div class="col s1">
-              <span class="icon" [ngSwitch]="event.action">
-                <span *ngSwitchCase="'lavar'">
-                  <i class="gfy-lavadora coral-text"></i>
-                </span>
-                <span *ngSwitchCase="'secar'">
-                  <i class="gfy-secadora"></i>
-                </span>
-              </span>
-            </div>
-            <div class="col s4">
-              <span [ngSwitch]="event.action">
-                <span *ngSwitchCase="'lavar'">LAVADO {{event.over}}</span>
-                <span *ngSwitchCase="'secar'">SECADO {{event.over}}</span>
-              <span *ngSwitchDefault></span>
-              </span>
-            </div>
-
-            <div class="col s4 duration aling-cols">
-              <span class="durationLabel" >Duración:</span>
-              <b>{{duration(event.count) | date: 'HH:mm:ss'}}</b>
-            </div>
-            <div class="col s5 fecha aling-cols">
-              <span class="fechaLabel" >Fecha:</span>
-              <b>{{toDate(event.start) | date: 'shortDate'}}-{{toDate(event.start) | date: 'HH:mm'}}</b>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </div>
+  <g-lavanderia-event-list [events]="events"></g-lavanderia-event-list>
 
 </div>
