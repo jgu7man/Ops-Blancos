@@ -9,7 +9,8 @@ import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { ScannerService } from 'src/app/services/scanner.service';
 import { DialogAddPropiedadComponent } from '../manage-database/dialog-add-propiedad/dialog-add-propiedad.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MxAlert, MxLoading } from '@marxa/devkit';
+import { MxAlert, MxLoading, MxResponsive } from '@marxa/devkit';
+import { Location } from '@angular/common';
 
 @Component({
   templateUrl: './propiedades.component.html',
@@ -29,7 +30,9 @@ export class PropiedadesComponent implements OnInit {
     private _propiedades: PropiedadesService,
     private _router: Router,
     private _route: ActivatedRoute,
-    private _alert: MxAlert
+    private _alert: MxAlert,
+    public responsive: MxResponsive,
+    private _location: Location
   ) {
     this._route.queryParams.subscribe(params => {
       let { prefix, code } = params;
@@ -124,6 +127,11 @@ export class PropiedadesComponent implements OnInit {
     delete this.codeScanned
     delete this.propiedadFinded
     this.panel?.close()
+  }
+
+  onOutClick() {
+    this.onClosePanel()
+    this._location.back()
   }
 
   ngOnDestroy() {

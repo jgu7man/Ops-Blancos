@@ -1,75 +1,83 @@
-<mat-card *ngIf="prenda">
-  <mat-card-header>
-    <mat-card-title>Prenda</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <table>
-      <tbody>
-        <tr>
-          <th>Prenda</th>
-          <td class="data-text">{{ prenda.producto }} {{ prenda.unidad }}/{{ prenda.total }}</td>
-        </tr>
+<div class="container">
+  <div class="row">
+    <div class="col s12 l4">
+      <mat-card *ngIf="prenda">
+        <mat-card-header>
+          <mat-card-title>Prenda</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <table>
+            <tbody>
+              <tr>
+                <th>Prenda</th>
+                <td class="data-text">{{ prenda.producto }} {{ prenda.unidad }}/{{ prenda.total }}</td>
+              </tr>
 
-        <tr>
-          <th>Codigo</th>
-          <td class="data-text">{{ prenda.codigo }}</td>
-        </tr>
-        <tr>
-          <th>Estado</th>
-          <td>
-            <mat-chip-list>
-              <ng-container *ngIf="prenda.state !== 'damage'; else damage">
-                <mat-chip>{{prenda.state}}</mat-chip>
-              </ng-container>
-              <ng-template #damage >
-                <mat-chip color="warn" selected>Dañada</mat-chip>
-              </ng-template>
-            </mat-chip-list>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </mat-card-content>
-</mat-card>
+              <tr>
+                <th>Codigo</th>
+                <td class="data-text">{{ prenda.codigo }}</td>
+              </tr>
+              <tr>
+                <th>Estado</th>
+                <td>
+                  <mat-chip-list>
+                    <ng-container *ngIf="prenda.state !== 'damage'; else damage">
+                      <mat-chip>{{prenda.state}}</mat-chip>
+                    </ng-container>
+                    <ng-template #damage >
+                      <mat-chip color="warn" selected>Dañada</mat-chip>
+                    </ng-template>
+                  </mat-chip-list>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col s12 l8">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-subtitle>Historial</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-accordion>
+            <mat-expansion-panel *ngFor="let item of prenda.history">
+              <mat-expansion-panel-header>
+                <mat-panel-description>
+                  {{date_.toDate(item.date) | date: 'dd / MMM / yy - HH:mm'}}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div class="row historial-item">
+                <div class="col s12">
+                  <p class="small-text"
+                  *ngIf="getUser(item.responsable)  as user"
+                  >Responsable: <span class="data-text">
+                    {{user.full_name}}
+                  </span> </p>
+                  <p class="small-text">Estado: <span class="data-text">
+                    {{item.state}}
+                  </span> </p>
+                  <div *ngIf="item.reporte">
+                    <p class="small-text">Reporte: <span class="data-text">
+                      {{item.state}}
+                    </span> </p>
+
+                    <mat-grid-list [cols]="1" rowHeight="1:1">
+                      <mat-grid-tile *ngFor="let img of item.evidences">
+                        <img [src]="img">
+                      </mat-grid-tile>
+                    </mat-grid-list>
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
 
 
-<mat-card>
-  <mat-card-header>
-    <mat-card-subtitle>Historial</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <mat-accordion>
-      <mat-expansion-panel *ngFor="let item of prenda.history">
-        <mat-expansion-panel-header>
-          <mat-panel-description>
-            {{date_.toDate(item.date) | date: 'dd / MMM / yy - HH:mm'}}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-
-        <div class="row historial-item">
-          <div class="col s12">
-            <p class="small-text"
-            *ngIf="getUser(item.responsable)  as user"
-            >Responsable: <span class="data-text">
-              {{user.full_name}}
-            </span> </p>
-            <p class="small-text">Estado: <span class="data-text">
-              {{item.state}}
-            </span> </p>
-            <div *ngIf="item.reporte">
-              <p class="small-text">Reporte: <span class="data-text">
-                {{item.state}}
-              </span> </p>
-
-              <mat-grid-list [cols]="1" rowHeight="1:1">
-                <mat-grid-tile *ngFor="let img of item.evidences">
-                  <img [src]="img">
-                </mat-grid-tile>
-              </mat-grid-list>
-            </div>
-          </div>
-        </div>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </mat-card-content>
-</mat-card>

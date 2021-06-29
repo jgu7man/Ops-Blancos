@@ -46,7 +46,8 @@ export class HistorialService {
     this.days = []
     let paquetes = this._cache.getDataKey(state) as iPaqueteState[]
     paquetes.forEach(pack => {
-      if ('seconds' in pack.lastUpdate) {
+      console.log( pack )
+      if (pack.lastUpdate && 'seconds' in pack.lastUpdate) {
         this.addEvents(pack.lastUpdate, pack)
       }
     })

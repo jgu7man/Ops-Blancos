@@ -1,6 +1,8 @@
 @import "/src/assets/styles/guestify-palette.scss";
 $primary: map-get($guestify-accent, 500);
 
+
+
 .min-card {
   .card-description {
     font-weight: 600;

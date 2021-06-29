@@ -6,212 +6,204 @@
   </div> -->
 
   <ng-container *ngIf="resume; else emptys">
-     <!-- ALERTS -->
     <div class="row">
-      <div class="col s12">
-        <mat-card class="min-card">
-          <mat-card-content>
-            <div class="row">
-              <div class="col s10 card-description">
-                <span class="cant">{{alertsCant}}</span>
-                Alertas sin revisar
-              </div>
-              <div class="col s2 card-distinctive">
-                <i class="fas fa-bell fa-2x red-text text-darken-4"></i>
-              </div>
-            </div>
-          </mat-card-content>
-          <mat-card-actions style="display:flex; justify-content:space-between">
-            <button mat-button color="primary"[routerLink]="['/historial']"
-            [queryParams]="{'query':'alert'}">
-            Revisar las alertas
-          </button>
-          <g-timer style="font-size: smaller;"
-          *ngIf="resume.alerts.length > 0"
-          [timestamp]="resume.alerts[resume.alerts.length-1].date"></g-timer>
-          </mat-card-actions>
-        </mat-card>
-      </div>
-    </div>
+      <div class="col s12 m6 l4">
 
-    <div class="img-background row">
-      <img [src]="alertsCant > 0
-      ?  '/assets/img/maltratado.png'
-      : '/assets/img/limpio.png'" alt="alertas">
-    </div>
-
-
-    <div class="row">
-
-      <!-- DIARIO -->
-      <div class="col s12 m6">
-
-        <mat-card class="min-card">
-          <mat-card-content>
-            <div class="row">
-              <!-- Description -->
-              <div class="col s10 card-description">
-                <span class="cant">{{eventsCant}}</span>
-                Eventos del día de hoy
-              </div>
-              <!-- Icon -->
-              <div class="col s2 card-distinctive">
-                <i class="fas fa-calendar fa-2x amber-text"></i>
-              </div>
-            </div>
-          </mat-card-content>
-          <!-- Actions row -->
-          <mat-card-actions style="display:flex; justify-content:space-between">
-            <!-- Link button -->
-            <button mat-button color="primary"
-            [routerLink]="['/historial']" [queryParams]="{'query':'day'}">
-              Ver historial
-            </button>
-            <!-- Timer -->
-            <g-timer style="font-size: smaller;"
-            *ngIf="resume.todayEvents.length > 0"
-            [timestamp]="resume.todayEvents[resume.todayEvents.length-1].date"
-            ></g-timer>
-          </mat-card-actions>
-
-        </mat-card>
-
+         <!-- ALERTS -->
+        <div class="row">
+          <div class="col s12">
+            <mat-card class="min-card">
+              <mat-card-content>
+                <div class="row">
+                  <div class="col s10 card-description">
+                    <span class="cant">{{alertsCant}}</span>
+                    Alertas sin revisar
+                  </div>
+                  <div class="col s2 card-distinctive">
+                    <i class="fas fa-bell fa-2x red-text text-darken-4"></i>
+                  </div>
+                </div>
+              </mat-card-content>
+              <mat-card-actions style="display:flex; justify-content:space-between">
+                <button mat-button color="primary"[routerLink]="['/historial']"
+                [queryParams]="{'query':'alert'}">
+                Revisar las alertas
+              </button>
+              <g-timer style="font-size: smaller;"
+              *ngIf="resume.alerts.length > 0"
+              [timestamp]="resume.alerts[resume.alerts.length-1].date"></g-timer>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+        <div class="img-background row">
+          <img [src]="alertsCant > 0
+          ?  '/assets/img/maltratado.png'
+          : '/assets/img/limpio.png'" alt="alertas">
+        </div>
       </div>
 
-      <!-- LAVANDO -->
-      <div class="col s12 m6">
-        <mat-card class="min-card">
-          <mat-card-content>
-            <div class="row">
-              <!-- Description -->
-              <div class="col s10 card-description">
-                <span class="cant">{{washingCant}}</span>
-                Paquetes lavando
-              </div>
-              <!-- Icon -->
-              <div class="col s2 card-distinctive">
-                <i class="fas fa-soap fa-2x purple-text"></i>
-              </div>
-            </div>
-          </mat-card-content>
-          <!-- Actions row -->
-          <mat-card-actions style="display:flex; justify-content:space-between">
-            <!-- Link button -->
-            <button mat-button color="primary"
-            [routerLink]="['/historial']"
-            [queryParams]="{'query':'state', 'value': 'washingUps'}">
-              Ver paquetes lavando
-            </button>
-            <!-- Timer -->
-            <g-timer style="font-size: smaller;"
-            *ngIf="resume.washingUps.length > 0"
-            [timestamp]="resume.washingUps[resume.washingUps.length-1].lastUpdate"
-            ></g-timer>
-          </mat-card-actions>
-
-        </mat-card>
+      <div class="col s12 m6 l8">
+        <div class="row">
+          <!-- DIARIO -->
+          <div class="col s12 m6">
+            <mat-card class="min-card">
+              <mat-card-content>
+                <div class="row">
+                  <!-- Description -->
+                  <div class="col s10 card-description">
+                    <span class="cant">{{eventsCant}}</span>
+                    Eventos del día de hoy
+                  </div>
+                  <!-- Icon -->
+                  <div class="col s2 card-distinctive">
+                    <i class="fas fa-calendar fa-2x amber-text"></i>
+                  </div>
+                </div>
+              </mat-card-content>
+              <!-- Actions row -->
+              <mat-card-actions style="display:flex; justify-content:space-between">
+                <!-- Link button -->
+                <button mat-button color="primary"
+                [routerLink]="['/historial']" [queryParams]="{'query':'day'}">
+                  Ver historial
+                </button>
+                <!-- Timer -->
+                <g-timer style="font-size: smaller;"
+                *ngIf="resume.todayEvents.length > 0"
+                [timestamp]="resume.todayEvents[resume.todayEvents.length-1].date"
+                ></g-timer>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+          <!-- LAVANDO -->
+          <div class="col s12 m6">
+            <mat-card class="min-card">
+              <mat-card-content>
+                <div class="row">
+                  <!-- Description -->
+                  <div class="col s10 card-description">
+                    <span class="cant">{{washingCant}}</span>
+                    Paquetes lavando
+                  </div>
+                  <!-- Icon -->
+                  <div class="col s2 card-distinctive">
+                    <i class="fas fa-soap fa-2x purple-text"></i>
+                  </div>
+                </div>
+              </mat-card-content>
+              <!-- Actions row -->
+              <mat-card-actions style="display:flex; justify-content:space-between">
+                <!-- Link button -->
+                <button mat-button color="primary"
+                [routerLink]="['/historial']"
+                [queryParams]="{'query':'state', 'value': 'washingUps'}">
+                  Ver paquetes lavando
+                </button>
+                <!-- Timer -->
+                <g-timer style="font-size: smaller;"
+                *ngIf="resume.washingUps.length > 0"
+                [timestamp]="resume.washingUps[resume.washingUps.length-1].lastUpdate"
+                ></g-timer>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+          <!-- RECOGIDOS -->
+          <div class="col s12 m6">
+            <mat-card class="min-card">
+              <mat-card-content>
+                <div class="row">
+                  <!-- Description -->
+                  <div class="col s10 card-description">
+                    <span class="cant">{{collectedCant}}</span>
+                    Paquete sin lavar
+                  </div>
+                  <!-- Icon -->
+                  <div class="col s2 card-distinctive">
+                    <i class="fas fa-shopping-basket fa-2x blue-text"></i>
+                  </div>
+                </div>
+              </mat-card-content>
+              <!-- Actions row -->
+              <mat-card-actions style="display:flex; justify-content:space-between">
+                <!-- Link button -->
+                <button mat-button color="primary"
+                [routerLink]="['/historial']"
+                [queryParams]="{'query':'state', 'value': 'collected'}">
+                  Ver paquetes en espera
+                </button>
+                <!-- Timer -->
+                <g-timer style="font-size: smaller;"
+                *ngIf="resume.collected.length > 0"
+                [timestamp]="resume.collected[resume.collected.length-1].lastUpdate"
+                ></g-timer>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+          <!-- DAÑADAS -->
+          <div class="col s12 m6">
+            <mat-card class="min-card">
+              <mat-card-content>
+                <div class="row">
+                  <!-- Description -->
+                  <div class="col s10 card-description">
+                    <span class="cant">{{damagedCant}}</span>
+                    Prendas dañadas
+                  </div>
+                  <!-- Icon -->
+                  <div class="col s2 card-distinctive">
+                    <i class="fas fa-heart-broken fa-2x lime-text"></i>
+                  </div>
+                </div>
+              </mat-card-content>
+              <!-- Actions row -->
+              <mat-card-actions style="display:flex; justify-content:space-between">
+                <!-- Link button -->
+                <button mat-button color="primary"[routerLink]="['/historial']"
+                [queryParams]="{'query':'prenda', 'value':'damaged'}">
+                  Ver prendas
+                </button>
+                <!-- Timer -->
+                <g-timer style="font-size: smaller;"
+                *ngIf="resume.damaged.length > 0"
+                [timestamp]="resume.damaged[resume.damaged.length-1].lastUpdate"
+                ></g-timer>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+          <!-- PERDIDAS -->
+          <div class="col s12 m6">
+            <mat-card class="min-card">
+              <mat-card-content>
+                <div class="row">
+                  <!-- Description -->
+                  <div class="col s10 card-description">
+                    <span class="cant">{{lostCant}}</span>
+                    Prendas perdidas
+                  </div>
+                  <!-- Icon -->
+                  <div class="col s2 card-distinctive">
+                    <i class="fas fa-ghost fa-2x orange-text"></i>
+                  </div>
+                </div>
+              </mat-card-content>
+              <!-- Actions row -->
+              <mat-card-actions style="display:flex; justify-content:space-between">
+                <!-- Link button -->
+                <button mat-button color="primary"[routerLink]="['/historial']"
+                [queryParams]="{'query':'prenda','value':'lost'}">
+                  Ver prendas
+                </button>
+                <!-- Timer -->
+                <g-timer style="font-size: smaller;"
+                *ngIf="resume.lost.length > 0"
+                [timestamp]="resume.lost[resume.lost.length-1].lastUpdate"
+                ></g-timer>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
       </div>
-
-      <!-- RECOGIDOS -->
-      <div class="col s12 m6">
-        <mat-card class="min-card">
-          <mat-card-content>
-            <div class="row">
-              <!-- Description -->
-              <div class="col s10 card-description">
-                <span class="cant">{{collectedCant}}</span>
-                Paquete sin lavar
-              </div>
-              <!-- Icon -->
-              <div class="col s2 card-distinctive">
-                <i class="fas fa-shopping-basket fa-2x blue-text"></i>
-              </div>
-            </div>
-          </mat-card-content>
-          <!-- Actions row -->
-          <mat-card-actions style="display:flex; justify-content:space-between">
-            <!-- Link button -->
-            <button mat-button color="primary"
-            [routerLink]="['/historial']"
-            [queryParams]="{'query':'state', 'value': 'collected'}">
-              Ver paquetes en espera
-            </button>
-            <!-- Timer -->
-            <g-timer style="font-size: smaller;"
-            *ngIf="resume.collected.length > 0"
-            [timestamp]="resume.collected[resume.collected.length-1].lastUpdate"
-            ></g-timer>
-          </mat-card-actions>
-
-        </mat-card>
-      </div>
-
-      <!-- DAÑADAS -->
-      <div class="col s12 m6">
-        <mat-card class="min-card">
-          <mat-card-content>
-            <div class="row">
-              <!-- Description -->
-              <div class="col s10 card-description">
-                <span class="cant">{{damagedCant}}</span>
-                Prendas dañadas
-              </div>
-              <!-- Icon -->
-              <div class="col s2 card-distinctive">
-                <i class="fas fa-heart-broken fa-2x lime-text"></i>
-              </div>
-            </div>
-          </mat-card-content>
-          <!-- Actions row -->
-          <mat-card-actions style="display:flex; justify-content:space-between">
-            <!-- Link button -->
-            <button mat-button color="primary"[routerLink]="['/historial']"
-            [queryParams]="{'query':'prenda', 'value':'damaged'}">
-              Ver prendas
-            </button>
-            <!-- Timer -->
-            <g-timer style="font-size: smaller;"
-            *ngIf="resume.damaged.length > 0"
-            [timestamp]="resume.damaged[resume.damaged.length-1].lastUpdate"
-            ></g-timer>
-          </mat-card-actions>
-
-        </mat-card>
-      </div>
-
-      <!-- PERDIDAS -->
-      <div class="col s12 m6">
-        <mat-card class="min-card">
-          <mat-card-content>
-            <div class="row">
-              <!-- Description -->
-              <div class="col s10 card-description">
-                <span class="cant">{{lostCant}}</span>
-                Prendas perdidas
-              </div>
-              <!-- Icon -->
-              <div class="col s2 card-distinctive">
-                <i class="fas fa-ghost fa-2x orange-text"></i>
-              </div>
-            </div>
-          </mat-card-content>
-          <!-- Actions row -->
-          <mat-card-actions style="display:flex; justify-content:space-between">
-            <!-- Link button -->
-            <button mat-button color="primary"[routerLink]="['/historial']"
-            [queryParams]="{'query':'prenda','value':'lost'}">
-              Ver prendas
-            </button>
-            <!-- Timer -->
-            <g-timer style="font-size: smaller;"
-            *ngIf="resume.lost.length > 0"
-            [timestamp]="resume.lost[resume.lost.length-1].lastUpdate"
-            ></g-timer>
-          </mat-card-actions>
-
-        </mat-card>
-      </div>
-
     </div>
   </ng-container>
   <ng-template #emptys >
@@ -219,7 +211,5 @@
       <mat-card class="empty-card"></mat-card>
     </div>
   </ng-template>
-
-
 
 </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MxAuth } from '@marxa/auth';
+import { MxResponsive } from '@marxa/devkit';
 import { iMenuRoutes } from '../components/topbar/topbar.component';
 
 @Component({
@@ -17,7 +18,8 @@ export class AdminComponent implements OnInit {
 
   constructor(
     public auth_: MxAuth,
-    private _router: Router
+    public responsive: MxResponsive,
+    private _router: Router,
   ) {
 
   }

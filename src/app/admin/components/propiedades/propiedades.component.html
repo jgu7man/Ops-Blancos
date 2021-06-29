@@ -1,9 +1,10 @@
-<mat-drawer-container [hasBackdrop]="true">
+<mat-drawer-container [hasBackdrop]="true" (backdropClick)="onOutClick()">
 
   <!-- PANEL -->
   <mat-drawer
-  mode="side"
+  mode="over"
   #panel="matDrawer"
+  position="end"
   >
     <ng-container *ngIf="propiedadFinded; else nuevaPropiedad">
       <g-show-propiedad
@@ -31,7 +32,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col s12">
+        <div class="col s12 l8" [ngClass]="{'right': responsive.large}">
           <mat-card>
             <mat-card-header>
               <mat-card-title>Buscar</mat-card-title>
@@ -45,9 +46,9 @@
             </mat-card-content>
           </mat-card>
         </div>
-      </div>
-      <div class="img-background row">
-        <img src="/assets/img/limpieza1.png" alt="casita">
+        <div class="img-background col s12 l4">
+          <img src="/assets/img/limpieza1.png" alt="casita">
+        </div>
       </div>
     </div>
   </mat-drawer-content>
