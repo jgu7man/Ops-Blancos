@@ -52,6 +52,11 @@
 }
 
 ::ng-deep {
+  mx-login-card {
+    mat-card {
+      max-width: 320px;
+    }
+  }
   mat-card-title{
     width: 220px;
     text-transform: uppercase;
