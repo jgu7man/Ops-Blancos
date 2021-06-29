@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { GdevAlert } from '@jgu7man/gdev-tools';
+import { MxAlert } from '@marxa/devkit';
 
 @Component({
   templateUrl: './restore-pwd.component.html',
@@ -14,7 +14,7 @@ export class RestorePwdComponent implements OnInit {
 
   constructor(
     private _afAuth: AngularFireAuth,
-    private _alerts: GdevAlert,
+    private _alerts: MxAlert,
     public dialog: MatDialogRef<RestorePwdComponent>
   ) { }
 
@@ -24,7 +24,7 @@ export class RestorePwdComponent implements OnInit {
   onSubmit() {
     this._afAuth.sendPasswordResetEmail(this.emailCtrl.value)
       .then(() => {
-        this._alerts.sendFloatNotification('Se envió el correo de recuperación')
+        this._alerts.notify('Se envió el correo de recuperación')
         this.dialog.close()
     })
   }

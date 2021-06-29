@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
 import { MaterialModule } from 'src/shared/material.module';
-import { GdevToolsModule } from '@jgu7man/gdev-tools';
 import { ManageAdminsComponent } from './components/manage-admins/manage-admins.component';
 import { ListCrudModule } from 'src/shared/list-crud/list-crud.module';
 import { AddPersonalComponent } from './components/manage-admins/add-personal/add-personal.component';
@@ -32,6 +31,7 @@ import { ShowPrendaComponent } from './components/propiedades/show-prenda/show-p
 import { ShowPaqueteComponent } from './components/propiedades/show-paquete/show-paquete.component';
 import { ShowAdminComponent } from './components/manage-admins/show-admin/show-admin.component';
 import { MxStorageModule } from '@marxa/storage';
+import { MxDevkitModule } from '@marxa/devkit';
 
 @NgModule({
   declarations: [
@@ -62,7 +62,7 @@ import { MxStorageModule } from '@marxa/storage';
     CommonModule,
     AdminRoutingModule,
     MaterialModule,
-    GdevToolsModule,
+    MxDevkitModule,
     ListCrudModule,
     ReactiveFormsModule,
     FormsModule,

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { iPrendaEvent } from '../../../../models/reporte.model';
 import { MatDialog } from '@angular/material/dialog';
-import { GdevCache } from '@jgu7man/gdev-tools';
+import { MxCache } from '@marxa/devkit';
 import { Subscription } from 'rxjs';
 import { iCode, iPrenda } from 'src/app/models/prenda.model';
 import {  iHistory, iPaqueteEvent, PropEvent } from 'src/app/models/reporte.model';
@@ -33,7 +33,7 @@ export class LavanderiaPaqueteScanComponent implements OnInit {
   review: boolean = false
   constructor(
     private _scanner: ScannerService,
-    private _cache: GdevCache,
+    private _cache: MxCache,
     private _dialog: MatDialog,
     private _reportes: ReportesService,
     private _router: Router,
@@ -49,7 +49,7 @@ export class LavanderiaPaqueteScanComponent implements OnInit {
       state: 'washing',
     };
     this.propEvent = new PropEvent(new Date(), '', this.paqueteState)
-    this.user = this._cache.getDataKey<iUser>('user')
+    this.user = this._cache.getDataKey('user') as iUser
     this.getCurrentProp()
   }
 
@@ -85,7 +85,7 @@ export class LavanderiaPaqueteScanComponent implements OnInit {
         state
       }
     } else {
-      this.prop = this._cache.getDataKey<iCurrentProp>('currentProp')
+      this.prop = this._cache.getDataKey('currentProp') as iCurrentProp
 
       if (!this.prop) {
         this._router.navigate(['/lavanderia'])

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { GdevAuth } from '@jgu7man/gdev-tools';
+import { MxAuth } from '@marxa/auth';
 import { iMenuRoutes } from '../components/topbar/topbar.component';
 
 @Component({
@@ -11,7 +11,7 @@ import { iMenuRoutes } from '../components/topbar/topbar.component';
 export class PublicComponent implements OnInit {
 
   constructor(
-    public auth_: GdevAuth,
+    public auth_: MxAuth,
     private _router: Router
   ) {
     this.auth_.user$.subscribe(user => {

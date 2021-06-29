@@ -1,4 +1,3 @@
-import { ErrorAlertModel, GdevAlert, GdevAuth, GdevCache } from '@jgu7man/gdev-tools';
 import { Injectable } from '@angular/core';
 import { iRolSelect, iUser } from 'src/app/models/user.model';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
@@ -6,6 +5,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { map, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import { MxAlert, MxCache, MxErrorAlertModel } from '@marxa/devkit';
 
 @Injectable({
   providedIn: 'root'
@@ -23,11 +23,11 @@ export class PersonalService {
   personalMap: Map<string,iUser> = new Map()
 
   constructor(
-    private _alert: GdevAlert,
+    private _alert: MxAlert,
     private _afs: AngularFirestore,
     private _afAuth: AngularFireAuth,
     private _router: Router,
-    private _cache: GdevCache
+    private _cache: MxCache
   ) { }
 
   get personalRef() {
@@ -45,7 +45,7 @@ export class PersonalService {
       .find( a => a.email == member.email )
 
       if ( adminFinded ) {
-        this._alert.sendMessageAlert('Este correo ya está en uso, por favor elige otro')
+        this._alert.message('Este correo ya está en uso, por favor elige otro')
       } else {
 
         this.personalRef.doc(member.email).set(member)
@@ -61,7 +61,7 @@ export class PersonalService {
           }
         } )
 
-        this._alert.sendFloatNotification('Se ha envido un correo al usuario nuevo')
+        this._alert.notify('Se ha envido un correo al usuario nuevo')
 
       }
       return
@@ -74,7 +74,7 @@ export class PersonalService {
       .get() ).data() as iUser
 
     if ( !user ) {
-      this._alert.sendMessageAlert('Lo sentimos, no esperamos una confirmación con esta dirección de email. Revisa que esté bien o itenta con otra. Si aún así no logras ingresar, ponte en contacto con un administrador del sitio')
+      this._alert.message('Lo sentimos, no esperamos una confirmación con esta dirección de email. Revisa que esté bien o itenta con otra. Si aún así no logras ingresar, ponte en contacto con un administrador del sitio')
       return null
     } else {
 
@@ -126,25 +126,25 @@ export class PersonalService {
   }
 
   setErrorMsj( error: any ) {
-    let errorObj = new ErrorAlertModel('', error.code)
+    let errorObj = new MxErrorAlertModel('', error.code)
     switch (true) {
       case error.code.includes('not-found'):
-        errorObj.mensaje = 'No se encontró el email'
+        errorObj.message = 'No se encontró el email'
         break;
       case error.code.includes( 'invalid' ):
-        errorObj.mensaje = 'Escribe una direccion de correo válida'
+        errorObj.message = 'Escribe una direccion de correo válida'
         break;
       case error.code.includes( 'wrong-password' ):
-        errorObj.mensaje = 'Contraseña incorrecta'
+        errorObj.message = 'Contraseña incorrecta'
         break;
 
       default:
-        errorObj.mensaje = 'Error de inicio de sesión'
+        errorObj.message = 'Error de inicio de sesión'
         break;
     }
 
 
-    this._alert.errorAlert$.next( errorObj )
+    this._alert.error(errorObj.message, error)
 
   }
 

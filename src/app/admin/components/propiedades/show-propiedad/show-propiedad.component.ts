@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { GdevAlert, GdevCache } from '@jgu7man/gdev-tools';
+import { MxAlert, MxCache } from '@marxa/devkit';
 import { iCode, iPrenda, PrendaModel } from 'src/app/models/prenda.model';
 import { iPropiedad, iPaquete } from 'src/app/models/propiedad.model';
 import { PropiedadesService } from 'src/app/services/propiedades.service';
@@ -37,10 +37,10 @@ export class ShowPropiedadComponent implements OnInit, AfterViewInit, OnDestroy{
 
   constructor(
     private _dialog: MatDialog,
-    private _alert: GdevAlert,
+    private _alert: MxAlert,
     public propiedades_: PropiedadesService,
     public date_: MxDate,
-    private _cache: GdevCache,
+    private _cache: MxCache,
     private _router: Router,
     private _dashboard: DashboardService,
     public paquetes: PaquetesService
@@ -91,7 +91,7 @@ export class ShowPropiedadComponent implements OnInit, AfterViewInit, OnDestroy{
         var duplicated = this.propiedad.paquetes?.find(
           j => j.pid == pid
         )
-        if (duplicated) this._alert.sendMessageAlert(`El paquete ${pid} ya existe, crea otro paquete`)
+        if (duplicated) this._alert.message(`El paquete ${pid} ya existe, crea otro paquete`)
         else {
           let paquete: iPaquete = new iPaquete('stock', pid, [])
           this.propiedad.paquetes?.push(paquete)
@@ -120,7 +120,7 @@ export class ShowPropiedadComponent implements OnInit, AfterViewInit, OnDestroy{
           .prendas?.push(result)
         this.propiedades_.propiedadChange.next(true)
       } else {
-        this._alert.sendMessageAlert('Este código no pertenece a la propiedad, no lo puedes agregar')
+        this._alert.message('Este código no pertenece a la propiedad, no lo puedes agregar')
       }
     })
   }

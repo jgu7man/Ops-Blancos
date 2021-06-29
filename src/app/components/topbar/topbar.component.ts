@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { GdevAuth } from '@jgu7man/gdev-tools';
+import { MxAuth } from '@marxa/auth';
 import { iUser } from 'src/app/models/user.model';
 import { DashboardService } from 'src/app/services/dashboard.service';
 
@@ -15,7 +15,7 @@ export class TopbarComponent implements OnInit {
   user?: iUser
 
   constructor(
-    public auth_: GdevAuth,
+    public auth_: MxAuth,
     public dashboard_: DashboardService,
     public location_: Location
   ) {

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { MatDialog } from '@angular/material/dialog';
-import { GdevAlert, GdevLoading } from '@jgu7man/gdev-tools';
+import { MxAlert, MxLoading } from '@marxa/devkit';
 import { MxStorage } from '@marxa/storage';
 import { BehaviorSubject } from 'rxjs';
 import { ColumnsSelectorComponent } from '../admin/components/manage-database/manage-propiedades/columns-selector/columns-selector.component';
@@ -34,8 +34,8 @@ export class ImportExportService {
     private _storage: MxStorage,
     private _http: HttpClient,
     private _dialog: MatDialog,
-    private _loading: GdevLoading,
-    private _alerts: GdevAlert
+    private _loading: MxLoading,
+    private _alerts: MxAlert
   ) {
 
    }
@@ -135,7 +135,7 @@ export class ImportExportService {
         }
       } catch (error) {
         console.error(error)
-        this._alerts.sendError('Error', JSON.stringify(error))
+        this._alerts.error('Error', JSON.stringify(error))
       }
     })
 

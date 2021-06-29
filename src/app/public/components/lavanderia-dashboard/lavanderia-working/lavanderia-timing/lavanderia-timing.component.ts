@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GdevCache } from '@jgu7man/gdev-tools';
+import { MxCache } from '@marxa/devkit';
 import { Observable, interval, Subscription } from 'rxjs';
 import { map, scan, startWith, take } from 'rxjs/operators';
 import { iLavanderiaEvent, LavanderiaAction } from 'src/app/models/events.model';
@@ -27,14 +27,14 @@ export class LavanderiaTimingComponent implements OnInit, OnDestroy {
   eventSubscription?: Subscription
 
   constructor(
-    private _cache: GdevCache,
+    private _cache: MxCache,
     private _dashboard: DashboardService,
     private _route: ActivatedRoute,
     private _responsables: ResponsablesService,
     private _lavanderia: LavanderiaService
   ) {
     this._dashboard.toggleBack = true
-    this.user = this._cache.getDataKey<iUser>('user')
+    this.user = this._cache.getDataKey('user') as iUser
     this.getCurrentProp()
     this.currentActions = this.setCount()
 

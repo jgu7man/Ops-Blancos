@@ -15,6 +15,7 @@ import { TimerComponent } from './timer/timer.component';
 import { PackageItemComponent } from './package-item/package-item.component';
 import { RestorePwdComponent } from './restore-pwd/restore-pwd.component';
 import { LavanderiaEventListComponent } from './lavanderia-event-list/lavanderia-event-list.component';
+import { MxAuthModule } from '@marxa/auth';
 
 
 
@@ -40,6 +41,7 @@ import { LavanderiaEventListComponent } from './lavanderia-event-list/lavanderia
     ZXingScannerModule,
     FormsModule,
     ReactiveFormsModule,
+    MxAuthModule
   ],
   exports: [
     TopbarComponent,

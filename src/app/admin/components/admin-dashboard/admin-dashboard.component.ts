@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { GdevAuth, GdevLoading } from '@jgu7man/gdev-tools';
+import { MxAuth } from '@marxa/auth';
+import { MxLoading } from '@marxa/devkit';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { iAlertReport } from 'src/app/models/reporte.model';
@@ -22,8 +23,8 @@ export class AdminDashboardComponent implements OnInit {
   lostCant: number = 0
   constructor(
     private _events: EventsService,
-    private _loading: GdevLoading,
-    public auth_: GdevAuth,
+    private _loading: MxLoading,
+    public auth_: MxAuth,
     private _router: Router
   ) {
     this.auth_.user$.subscribe(user => {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { GdevAlert, GdevLoading } from '@jgu7man/gdev-tools';
+import { MxAlert, MxLoading } from '@marxa/devkit';
 import { iPaquete, iPropiedad } from '../models/propiedad.model';
 import firebase  from 'firebase/app'
 import { iPrenda, PrendaModel } from '../models/prenda.model';
@@ -16,8 +16,8 @@ export class PropiedadesService {
 
   constructor(
     private _afs: AngularFirestore,
-    private _loading: GdevLoading,
-    private _alert: GdevAlert
+    private _loading: MxLoading,
+    private _alert: MxAlert
   ) { }
 
 
@@ -164,7 +164,7 @@ export class PropiedadesService {
               lote.set(prendaRef, {...prenda})
             })
             await lote.commit()
-            this._alert.sendFloatNotification('Propiedad actulizada')
+            this._alert.notify('Propiedad actulizada')
           }
         })
       }

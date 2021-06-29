@@ -2,12 +2,12 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSelectionList, MatSelectionListChange } from '@angular/material/list';
 import { Router } from '@angular/router';
-import { GdevCache } from '@jgu7man/gdev-tools';
+import { MxCache } from '@marxa/devkit';
 import { Subscription } from 'rxjs';
-import { finalize, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { iDay } from 'src/app/models/events.model';
 import { PrendaModel } from 'src/app/models/prenda.model';
-import { iAlertReport, iPaqueteState, PropEvent } from 'src/app/models/reporte.model';
+import { iPaqueteState, PropEvent } from 'src/app/models/reporte.model';
 import { GdevDate } from 'src/app/services/gdev-date.service';
 import { HistorialService } from 'src/app/services/historial.service';
 import { DialogAlertComponent } from '../dialog-alert/dialog-alert.component';
@@ -28,7 +28,7 @@ export class HistorialItemComponent implements OnInit, OnDestroy {
     public historial: HistorialService,
     private _dialog: MatDialog,
     private _router: Router,
-    private _cache: GdevCache,
+    private _cache: MxCache,
     public date_: GdevDate
   ) { }
 

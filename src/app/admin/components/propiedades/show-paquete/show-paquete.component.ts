@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GdevLoading } from '@jgu7man/gdev-tools';
+import { MxLoading } from '@marxa/devkit';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { iLavanderiaEvent } from 'src/app/models/events.model';
@@ -27,7 +27,7 @@ export class ShowPaqueteComponent implements OnInit, OnDestroy {
     private _paquetes: PaquetesService,
     private _personal: PersonalService,
     private _dashboard: DashboardService,
-    private _loading: GdevLoading,
+    private _loading: MxLoading,
     public date_: GdevDate
   ) {
     // this._loading.toggleWaitingSpinner('open')

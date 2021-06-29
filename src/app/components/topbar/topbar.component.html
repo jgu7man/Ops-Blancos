@@ -16,6 +16,6 @@
   </button>
   <mat-menu #navmenu="matMenu">
     <a mat-menu-item *ngFor="let item of menuRoutes" [routerLink]="[item.route]">{{item.displayName}}</a>
-    <button mat-menu-item (click)="auth_.singOut()" >Cerrar sesión</button>
+    <button mat-menu-item (click)="auth_.signOut()" >Cerrar sesión</button>
   </mat-menu>
 </mat-toolbar>

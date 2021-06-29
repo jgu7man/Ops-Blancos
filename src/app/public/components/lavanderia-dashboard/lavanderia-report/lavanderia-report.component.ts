@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { GdevAlert, GdevCache } from '@jgu7man/gdev-tools';
+import { MxAlert, MxCache } from '@marxa/devkit';
 import { Subscription } from 'rxjs';
 import { iCode } from 'src/app/models/prenda.model';
 import { iCurrentProp } from 'src/app/models/propiedad.model';
@@ -19,8 +19,8 @@ export class LavanderiaReportComponent implements OnInit {
   constructor(
     private _scanner: ScannerService,
     private _dialog: MatDialog,
-    private _cache: GdevCache,
-    private _alert: GdevAlert,
+    private _cache: MxCache,
+    private _alert: MxAlert,
     private _reports: ReportesService,
     private _propiedad: PropiedadesService
   ) {
@@ -44,10 +44,10 @@ export class LavanderiaReportComponent implements OnInit {
     // if (code.prefix === currentProp.prefix) {
     //   if (code.paquete === currentProp.paquete) {
     //   } else {
-    //     this._alert.sendMessageAlert('Esta prenda no pertenece al paquete en turno')
+    //     this._alert.message('Esta prenda no pertenece al paquete en turno')
     //   }
     // } else {
-    //   this._alert.sendMessageAlert('Esta prenda no pertenece a esta propiedad')
+    //   this._alert.message('Esta prenda no pertenece a esta propiedad')
     // }
   }
 

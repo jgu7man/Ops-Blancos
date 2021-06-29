@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { PublicRoutingModule } from './public-routing.module';
 import { PublicComponent } from './public.component';
-import { GdevToolsModule } from '@jgu7man/gdev-tools';
+import { MxDevkitModule } from '@marxa/devkit';
 import { MaterialModule } from 'src/shared/material.module';
 import { SharedComponentsModule } from '../components/shared-components.module';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
@@ -73,7 +73,7 @@ import { PipesModule } from '../pipes/pipes.module';
     PublicRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    GdevToolsModule,
+    MxDevkitModule,
     MaterialModule,
     SharedComponentsModule,
     ZXingScannerModule,

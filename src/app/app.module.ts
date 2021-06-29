@@ -8,12 +8,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FirebaseModule } from 'src/shared/firebase.module';
 import { MaterialModule } from 'src/shared/material.module';
 import { LoginComponent } from './components/login/login.component';
-import { GdevToolsModule, GdevAuthModule } from '@jgu7man/gdev-tools';
 import { CreateAccountComponent } from './components/create-account/create-account.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { PipesModule } from './pipes/pipes.module';
+import { MxAuthModule } from '@marxa/auth';
+import { MxDevkitModule } from '@marxa/devkit';
 
 @NgModule({
   declarations: [
@@ -27,8 +28,8 @@ import { PipesModule } from './pipes/pipes.module';
     BrowserAnimationsModule,
     FirebaseModule,
     MaterialModule,
-    GdevToolsModule,
-    GdevAuthModule,
+    MxAuthModule,
+    MxDevkitModule,
     HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,

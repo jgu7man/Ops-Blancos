@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { GdevCache } from '@jgu7man/gdev-tools';
+import { MxCache } from '@marxa/devkit';
 import { map, take, tap } from 'rxjs/operators';
 import { iDay, iLavanderiaEvent } from '../models/events.model';
 import { iAlertReport, iPaqueteEvent, iPaqueteState, iPrendaState, PropEvent } from '../models/reporte.model';
@@ -28,7 +28,7 @@ export class HistorialService {
 
   constructor(
     private _afs: AngularFirestore,
-    private _cache: GdevCache,
+    private _cache: MxCache,
     private _date: GdevDate
   ) { }
 
@@ -37,14 +37,14 @@ export class HistorialService {
   setTodayEvents() {
     this.days = []
     this.days = [{
-      events: this._cache.getDataKey('todayEvents'),
+      events: this._cache.getDataKey('todayEvents') as PropEvent[],
       date: this.lastDayTaked
      }]
   }
 
   setPaquetesDates(state: 'washingUps' | 'collected') {
     this.days = []
-    let paquetes = this._cache.getDataKey<iPaqueteState[]>(state)
+    let paquetes = this._cache.getDataKey(state) as iPaqueteState[]
     paquetes.forEach(pack => {
       if ('seconds' in pack.lastUpdate) {
         this.addEvents(pack.lastUpdate, pack)
@@ -54,7 +54,7 @@ export class HistorialService {
 
   setAlerts() {
     this.days = []
-    let alerts = this._cache.getDataKey<iAlertReport[]>('alerts')
+    let alerts = this._cache.getDataKey('alerts') as iAlertReport[]
     alerts.forEach(alert => {
       if ('seconds' in alert.date) {
         this.addEvents(alert.date, alert)
@@ -65,7 +65,7 @@ export class HistorialService {
 
   setPrendas(state:'damaged' | 'lost') {
     this.days = []
-    const prendas = this._cache.getDataKey<PrendaModel[]>(state)
+    const prendas = this._cache.getDataKey(state) as PrendaModel[]
     prendas.forEach(prenda => {
       if (prenda.lastUpdate && 'seconds' in prenda.lastUpdate) {
         this.addEvents(prenda.lastUpdate, prenda)

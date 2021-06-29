@@ -4,7 +4,7 @@ import { ScannerService } from 'src/app/services/scanner.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { iCode } from 'src/app/models/prenda.model';
-import { GdevCache } from '@jgu7man/gdev-tools';
+import { MxCache } from '@marxa/devkit';
 import { ReportesService } from 'src/app/services/reportes.service';
 import { DialogUnpackageScannedComponent } from './dialog-unpackage-scanned/dialog-unpackage-scanned.component';
 
@@ -18,7 +18,7 @@ export class LavanderiaUnpackageComponent implements OnInit, OnDestroy {
     private _scanner: ScannerService,
     private _dialog: MatDialog,
     private _router: Router,
-    private _cache: GdevCache,
+    private _cache: MxCache,
     private _reportes: ReportesService
   ) {
     this.scannerSubs =

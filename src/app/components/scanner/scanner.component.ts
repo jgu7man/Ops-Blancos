@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { GdevAlert, GdevLoading } from '@jgu7man/gdev-tools';
+import { MxAlert, MxLoading } from '@marxa/devkit';
 import { ZXingScannerComponent } from "@zxing/ngx-scanner";
 import { debounceTime } from 'rxjs/operators';
 import { CodeModel, iCode } from 'src/app/models/prenda.model';
@@ -30,7 +30,7 @@ export class ScannerComponent implements OnInit, AfterViewInit {
   })
 
   constructor(
-    private _loading: GdevLoading,
+    private _loading: MxLoading,
     private _scanner: ScannerService
   ) {
     this.codeForm.valueChanges.subscribe(

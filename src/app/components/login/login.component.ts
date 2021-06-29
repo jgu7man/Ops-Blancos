@@ -2,9 +2,10 @@ import { RestorePwdComponent } from './../restore-pwd/restore-pwd.component';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { GdevAlert, GdevAuth, GdevLoginFields, RestorePasswordComponent } from '@jgu7man/gdev-tools';
+import { MxAlert } from '@marxa/devkit';
 import { Subscription } from 'rxjs';
 import { iUser } from 'src/app/models/user.model';
+import { MxAuth, MxLoginFields } from '@marxa/auth';
 
 @Component({
   templateUrl: './login.component.html',
@@ -14,10 +15,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   errorSubscription: Subscription
   constructor(
-    private _auth: GdevAuth,
+    private _auth: MxAuth,
     private _router: Router,
     private _dialog: MatDialog,
-    private _alert:GdevAlert
+    private _alert:MxAlert
   ) {
 
     this._auth.notFoundMessage = 'Usuario no encontrado'
@@ -27,7 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.errorSubscription =
     this._auth.listenForErros.subscribe(error => {
       console.error(error);
-      this._alert.sendMessageAlert(error)
+      this._alert.message(error)
     })
    }
 
@@ -41,9 +42,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   /**
    * Escucha el inicio de sesión y se subscribe a la autenticación en firebase permitiendo reconocer si el usuario va a la vista de administrador o trabajador
-   * @param {GdevLoginFields} event Campos del formulario de inicio, contienen el formato {email: string, password: string}
+   * @param {MxLoginFields} event Campos del formulario de inicio, contienen el formato {email: string, password: string}
    */
-  onSubmit(event: GdevLoginFields) {
+  onSubmit(event: MxLoginFields) {
     this._auth.emailSignIn(event.email, event.password)
       .then(() => {
         this._auth.user$.subscribe((user:iUser) => {

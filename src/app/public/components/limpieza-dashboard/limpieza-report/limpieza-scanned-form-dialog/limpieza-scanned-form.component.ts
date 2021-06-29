@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { GdevAlert } from '@jgu7man/gdev-tools';
+import { MxAlert } from '@marxa/devkit';
 import { iCode, PrendaModel } from 'src/app/models/prenda.model';
 import { ReportesService } from 'src/app/services/reportes.service';
 
@@ -16,7 +16,7 @@ export class LimpiezaScannedFormDialog implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: iCode,
     public dialog_: MatDialogRef<LimpiezaScannedFormDialog>,
     private _reportes: ReportesService,
-    private _alert: GdevAlert
+    private _alert: MxAlert
   ) {
    }
 
@@ -35,10 +35,10 @@ export class LimpiezaScannedFormDialog implements OnInit, OnDestroy {
   onReport() {
     this._reportes.saveCurrentPrenda()
       .then(() => {
-        this._alert.sendFloatNotification('Prenda reportada')
+        this._alert.notify('Prenda reportada')
         this.dialog_.close(true)
       }).catch((error) => {
-        this._alert.sendError(error.message
+        this._alert.error(error.message
           ? error.message
           : 'ERROR DESCONOCIDO: No se pudo guardar',
           JSON.stringify(error)

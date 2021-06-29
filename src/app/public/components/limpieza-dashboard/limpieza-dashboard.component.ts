@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GdevAuth } from '@jgu7man/gdev-tools';
+import { MxAuth } from '@marxa/auth';
 import { takeWhile } from 'rxjs/operators';
 import { iMenuRoutes } from 'src/app/components/topbar/topbar.component';
 
@@ -10,7 +10,7 @@ import { iMenuRoutes } from 'src/app/components/topbar/topbar.component';
 export class LimpiezaDashboardComponent implements OnInit {
 
   constructor(
-    private _auth: GdevAuth,
+    private _auth: MxAuth,
   ) {
     this._auth.user$.pipe(
       takeWhile(user => !user, true)

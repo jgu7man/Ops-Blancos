@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { GdevAlert, GdevCache, GdevMessageAlertModel } from '@jgu7man/gdev-tools';
+import { MxAlert, MxCache, MxAlertModel } from '@marxa/devkit';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -13,9 +13,9 @@ export class HouseGlobeComponent implements OnInit {
 
   propOpened: Observable<any>
   constructor(
-    private _cache: GdevCache,
+    private _cache: MxCache,
     private _router: Router,
-    private _alert: GdevAlert
+    private _alert: MxAlert
   ) {
     this.propOpened = this._cache
       .listenForChanges('currentProp')
@@ -32,10 +32,10 @@ export class HouseGlobeComponent implements OnInit {
   }
 
   closeProp() {
-    let bodyAlert: GdevMessageAlertModel = {
-      message: 'No has terminado de registrar, ¿Seguro que quieres cerrar la propiedad?', trueMsg: 'Sí', falseMsg: 'No'
+    let bodyAlert: MxAlertModel = {
+      message: 'No has terminado de registrar, ¿Seguro que quieres cerrar la propiedad?', trueLabel: 'Sí', falseLabel: 'No'
     }
-    this._alert.sendRequestAlert(bodyAlert).subscribe(confirm => {
+    this._alert.request(bodyAlert).subscribe(confirm => {
       if (confirm) {
         let perfil = window.location.href.split('/')[3]
         this._cache.deleteDataKey('currentProp')

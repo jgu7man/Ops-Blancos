@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GdevAlert } from '@jgu7man/gdev-tools';
+import { MxAlert } from '@marxa/devkit';
 import { Observable, Subject } from 'rxjs';
 import { CodeModel, iCode, Producto } from '../models/prenda.model';
 import { ScannerSource } from '../models/scanned.model';
@@ -15,7 +15,7 @@ export class ScannerService {
   startScan$: Subject<null> = new Subject();
   scannerSource: ScannerSource = 'limpieza'
   constructor(
-    private _alert: GdevAlert,
+    private _alert: MxAlert,
   ) { }
 
 
@@ -40,11 +40,11 @@ export class ScannerService {
           this.codeScanned$.next(code)
         } catch (error) {
           console.error(error)
-          this._alert.sendMessageAlert('Error: Al intentar leer el formato del código')
+          this._alert.message('Error: Al intentar leer el formato del código')
         }
       } else {
         console.error({error:"Formato inválido", object: codeParts})
-        this._alert.sendMessageAlert('Error: Codigo con formato inválido')
+        this._alert.message('Error: Codigo con formato inválido')
       }
     } else {
       console.log(result)

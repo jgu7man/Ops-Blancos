@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { GdevAlertModule, GdevAuthModule, GdevCacheModule, GdevColorsModule, GdevCommonsModule, GdevLoadingModule, GdevResponsiveModule, GdevSearchModule, GdevSidenavModule, GdevTextModule } from '@jgu7man/gdev-tools';
+import { MxAuthModule } from '@marxa/auth';
+import { MxAlertModule, MxColorsModule, MxCommonsModule, MxLoadingModule, MxResponsiveModule, MxTextModule } from '@marxa/devkit';
 
 
 
@@ -7,16 +8,13 @@ import { GdevAlertModule, GdevAuthModule, GdevCacheModule, GdevColorsModule, Gde
   imports: [
   ],
   exports: [
-    GdevAlertModule,
-    GdevAuthModule,
-    GdevCacheModule,
-    GdevColorsModule,
-    GdevCommonsModule,
-    GdevLoadingModule,
-    GdevResponsiveModule,
-    GdevSearchModule,
-    GdevSidenavModule,
-    GdevTextModule
+    MxAlertModule,
+    MxAuthModule,
+    MxColorsModule,
+    MxCommonsModule,
+    MxLoadingModule,
+    MxResponsiveModule,
+    MxTextModule
   ]
 })
 export class GdevModule { }

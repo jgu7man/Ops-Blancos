@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { GdevAlert, GdevCache, GdevLoading } from '@jgu7man/gdev-tools';
+import { MxAlert, MxCache, MxLoading } from '@marxa/devkit';
 import { combineLatest, forkJoin, zip } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { iAlertReport, iPaqueteEvent, iPaqueteState, iPrendaState, PropEvent } from '../models/reporte.model';
@@ -15,9 +15,9 @@ export class EventsService {
   now: Date
   constructor(
     private _afs: AngularFirestore,
-    private _cache: GdevCache,
-    private _loading: GdevLoading,
-    private _alerts: GdevAlert
+    private _cache: MxCache,
+    private _loading: MxLoading,
+    private _alerts: MxAlert
   ) {
     this.now = new Date()
     this.today = new Date(
@@ -92,7 +92,7 @@ export class EventsService {
 
   async deleteAlert(id: string) {
     await this._afs.collection('alerts').doc(id).delete()
-    this._alerts.sendFloatNotification('Alerta eliminada')
+    this._alerts.notify('Alerta eliminada')
   }
 
 

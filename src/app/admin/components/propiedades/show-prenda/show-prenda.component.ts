@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GdevCache } from '@jgu7man/gdev-tools';
+import { MxCache } from '@marxa/devkit';
 import { PrendaModel } from 'src/app/models/prenda.model';
 import { iUser } from 'src/app/models/user.model';
 import { DashboardService } from 'src/app/services/dashboard.service';
@@ -16,14 +16,14 @@ export class ShowPrendaComponent implements OnInit, OnDestroy {
   prenda: PrendaModel
   codigo: string
   constructor(
-    private _cache: GdevCache,
+    private _cache: MxCache,
     private _route: ActivatedRoute,
     public date_: GdevDate,
     private _dashboard: DashboardService,
     public personal: PersonalService
   ) {
     this._dashboard.toggleBack = true
-    this.prenda = this._cache.getDataKey('currentPrenda')
+    this.prenda = this._cache.getDataKey('currentPrenda') as PrendaModel
     this.codigo = this._route.snapshot.params['codigo']
     console.log( this.prenda )
    }

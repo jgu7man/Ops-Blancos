@@ -9,7 +9,7 @@ import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { ScannerService } from 'src/app/services/scanner.service';
 import { DialogAddPropiedadComponent } from '../manage-database/dialog-add-propiedad/dialog-add-propiedad.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GdevAlert, GdevLoading } from '@jgu7man/gdev-tools';
+import { MxAlert, MxLoading } from '@marxa/devkit';
 
 @Component({
   templateUrl: './propiedades.component.html',
@@ -29,7 +29,7 @@ export class PropiedadesComponent implements OnInit {
     private _propiedades: PropiedadesService,
     private _router: Router,
     private _route: ActivatedRoute,
-    private _alert: GdevAlert
+    private _alert: MxAlert
   ) {
     this._route.queryParams.subscribe(params => {
       let { prefix, code } = params;
@@ -66,7 +66,7 @@ export class PropiedadesComponent implements OnInit {
         let prenda =  await this._propiedades
           .searchForPrenda(code)
         if (prenda) { this.prendaFinded = prenda }
-        else this._alert.sendMessageAlert('No se encontró la prenda')
+        else this._alert.message('No se encontró la prenda')
       }
 
       this.panel?.open()

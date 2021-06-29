@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { iPrendaEvent } from 'src/app/models/reporte.model';
 import { MatDialog } from '@angular/material/dialog';
-import { GdevAlert, GdevCache } from '@jgu7man/gdev-tools';
+import { MxAlert, MxCache } from '@marxa/devkit';
 import { Subscription } from 'rxjs';
 import { iCode, iPrenda, PrendaState } from 'src/app/models/prenda.model';
 import {  iHistory, iPaqueteEvent, PropEvent } from 'src/app/models/reporte.model';
@@ -32,7 +32,7 @@ export class LavanderiaPackingScanComponent implements OnInit {
   review: boolean = false
   constructor(
     private _scanner: ScannerService,
-    private _cache: GdevCache,
+    private _cache: MxCache,
     private _dialog: MatDialog,
     private _reportes: ReportesService,
     private _router: Router,
@@ -40,7 +40,7 @@ export class LavanderiaPackingScanComponent implements OnInit {
     private _responsables: ResponsablesService,
     private _location: Location,
     private _dashboard: DashboardService,
-    private _alert: GdevAlert
+    private _alert: MxAlert
   ) {
     this._dashboard.toggleBack = true
     this.paqueteState = {
@@ -49,7 +49,7 @@ export class LavanderiaPackingScanComponent implements OnInit {
       state: 'stock',
     };
     this.propEvent = new PropEvent(new Date(), '', this.paqueteState)
-    this.user = this._cache.getDataKey<iUser>('user')
+    this.user = this._cache.getDataKey('user') as iUser
     this.getCurrentProp()
   }
 
@@ -76,7 +76,7 @@ export class LavanderiaPackingScanComponent implements OnInit {
         state
       }
     } else {
-      this.prop = this._cache.getDataKey<iCurrentProp>('currentProp')
+      this.prop = this._cache.getDataKey('currentProp') as iCurrentProp
       this.paqueteState = {
         pid: this.prop.paquete,
         state: 'collected',
@@ -93,14 +93,14 @@ export class LavanderiaPackingScanComponent implements OnInit {
   onScanned(code: iCode) {
     if (this.prop) {
       if (code.propiedad != this.prop.direccion) {
-        this._alert.sendMessageAlert('Este código no pertenece a la propiedad')
+        this._alert.message('Este código no pertenece a la propiedad')
       } else if (code.paquete != this.prop.paquete) {
-        this._alert.sendMessageAlert('Este código no pertenece al paquete')
+        this._alert.message('Este código no pertenece al paquete')
       } else {
         let prevScanned = this.paqueteState.prendasReport
           .find(p => p.codigo === code.codigo)
         if (prevScanned) {
-          this._alert.sendFloatNotification('Este código ya se escaneo')
+          this._alert.notify('Este código ya se escaneo')
         } else {
           let prendaScanned = this.prop.prendas.findIndex(p => p.codigo == code.codigo)
           if (prendaScanned >= 0) {
@@ -119,7 +119,7 @@ export class LavanderiaPackingScanComponent implements OnInit {
             this.paqueteState?.prendasReport.push(currentPrenda)
 
           } else {
-            this._alert.sendMessageAlert('Esta prenda no coincide con ninguna del paquete')
+            this._alert.message('Esta prenda no coincide con ninguna del paquete')
           }
         }
       }

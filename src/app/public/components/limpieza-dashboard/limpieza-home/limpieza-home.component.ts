@@ -7,7 +7,7 @@ import { DialogHomeScannedComponent } from './dialog-home-scanned/dialog-home-sc
 import { Router } from '@angular/router';
 import { iCode } from 'src/app/models/prenda.model';
 import { PropiedadesService } from 'src/app/services/propiedades.service';
-import { GdevCache } from '@jgu7man/gdev-tools';
+import { MxCache } from '@marxa/devkit';
 import { iCurrentProp } from 'src/app/models/propiedad.model';
 import { ReportesService } from 'src/app/services/reportes.service';
 
@@ -23,7 +23,7 @@ export class LimpiezaHomeComponent implements OnInit, OnDestroy {
     private _dialog: MatDialog,
     private _router: Router,
     private _propiedades: PropiedadesService,
-    private _cache: GdevCache,
+    private _cache: MxCache,
     private _reportes: ReportesService
   ) {
     this.scannerSubs =

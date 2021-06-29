@@ -19,7 +19,7 @@ import {
   PropEvent,
 } from '../models/reporte.model';
 import { CameraService } from './camera.service';
-import { GdevAlert, GdevCache, GdevLoading } from '@jgu7man/gdev-tools';
+import { MxAlert, MxCache, MxLoading } from '@marxa/devkit';
 import firebase from 'firebase/app';
 import { pickBy, identity } from 'lodash';
 import { iCurrentProp, PaqueteState } from '../models/propiedad.model';
@@ -43,11 +43,11 @@ export class ReportesService {
   constructor(
     private _afs: AngularFirestore,
     private _camera: CameraService,
-    private _cache: GdevCache,
-    private _alert: GdevAlert,
-    private _loading: GdevLoading
+    private _cache: MxCache,
+    private _alert: MxAlert,
+    private _loading: MxLoading
   ) {
-    this.user = this._cache.getDataKey<iUser>('user');
+    this.user = this._cache.getDataKey('user') as iUser
   }
 
 
@@ -292,7 +292,7 @@ export class ReportesService {
       }
     } catch (error) {
       console.error(error);
-      this._alert.sendError('Error', error);
+      this._alert.error('Error', error);
     }
   }
 

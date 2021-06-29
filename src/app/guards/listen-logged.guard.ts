@@ -1,4 +1,4 @@
-import { GdevAuth } from '@jgu7man/gdev-tools';
+import { MxAuth } from '@marxa/auth';
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -10,7 +10,7 @@ import { iUser } from '../models/user.model';
 })
 export class ListenLoggedGuard implements CanActivate {
   constructor(
-    private _auth: GdevAuth,
+    private _auth: MxAuth,
     private _router: Router
   ){}
   canActivate(

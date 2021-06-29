@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { GdevAlert } from '@jgu7man/gdev-tools';
+import { MxAlert } from '@marxa/devkit';
 import { iLavanderiaEvent } from '../models/events.model';
 import { iPaqueteState, PaqueteState } from '../models/propiedad.model';
 
@@ -11,7 +11,7 @@ export class PaquetesService {
 
   constructor(
     private _afs: AngularFirestore,
-    private _alerts: GdevAlert
+    private _alerts: MxAlert
   ) { }
 
   getEvents(pid:string) {
@@ -38,9 +38,9 @@ export class PaquetesService {
     batch.update(paqueteRef, {state})
 
     batch.commit()
-    .then(() => this._alerts.sendFloatNotification('Se cambió el estado'))
+    .then(() => this._alerts.notify('Se cambió el estado'))
     .catch((err) => {
-      this._alerts.sendFloatNotification('No se pudo guardar')
+      this._alerts.notify('No se pudo guardar')
       console.error(err);
     })
   }

@@ -1,6 +1,7 @@
-import { GdevCache, GdevAuth } from '@jgu7man/gdev-tools';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { MxAuth } from '@marxa/auth';
+import { MxCache } from '@marxa/devkit';
 
 @Component({
   selector: 'g-root',
@@ -10,8 +11,8 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'ops-blancos';
   constructor(
-    private _cache: GdevCache,
-    private _auth: GdevAuth,
+    private _cache: MxCache,
+    private _auth: MxAuth,
     private _router: Router
   ) {
     // Tag to save cache in local storage

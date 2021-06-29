@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { GdevAlert, GdevCache } from '@jgu7man/gdev-tools';
+import { MxAlert, MxCache } from '@marxa/devkit';
 import { Subscription } from 'rxjs';
 import { iCode } from 'src/app/models/prenda.model';
 import { iCurrentProp } from 'src/app/models/propiedad.model';
@@ -18,8 +18,8 @@ export class LimpiezaReportComponent implements OnInit, OnDestroy {
   constructor(
     private _scanner: ScannerService,
     private _dialog: MatDialog,
-    private _cache: GdevCache,
-    private _alert: GdevAlert,
+    private _cache: MxCache,
+    private _alert: MxAlert,
     private _reports: ReportesService
   ) {
     this._scanner.scannerSource = 'limpieza'
@@ -36,14 +36,14 @@ export class LimpiezaReportComponent implements OnInit, OnDestroy {
 
   validateCodeScanned(code:iCode) {
     const currentProp = this._cache.getDataKey<iCurrentProp>('currentProp')
-    if (code.prefix === currentProp.prefix) {
+    if (code.prefix === currentProp?.prefix) {
       if (code.paquete === currentProp.paquete) {
         this.onScanned(code)
       } else {
-        this._alert.sendMessageAlert('Esta prenda no pertenece al paquete en turno')
+        this._alert.message('Esta prenda no pertenece al paquete en turno')
       }
     } else {
-      this._alert.sendMessageAlert('Esta prenda no pertenece a esta propiedad')
+      this._alert.message('Esta prenda no pertenece a esta propiedad')
     }
   }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { GdevAlert } from '@jgu7man/gdev-tools';
+import { MxAlert } from '@marxa/devkit';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { iPropAcargo } from 'src/app/models/propiedad.model';
@@ -18,7 +18,7 @@ export class LavanderiaPackingComponent implements OnInit {
     private _responsables: ResponsablesService,
     private _lavanderia: LavanderiaService,
     private _router: Router,
-    private _alert: GdevAlert
+    private _alert: MxAlert
   ) {
     this.acargoList$ = this._responsables.getPaquetesAcargo()
       .pipe(map(paquetes => {
@@ -32,7 +32,7 @@ export class LavanderiaPackingComponent implements OnInit {
   async toPack(item: iPropAcargo) {
     let {pid, paquete} = item
     if (await this._lavanderia.checkIsWashingUp(pid, paquete)) {
-      this._alert.sendMessageAlert('Este paquete todavía se está lavando')
+      this._alert.message('Este paquete todavía se está lavando')
     } else {
       this._router.navigate(['/lavanderia/empacar', item.pid], {
         queryParams: {

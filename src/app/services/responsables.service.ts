@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, QueryDocumentSnapshot } from '@angular/fire/firestore';
-import { GdevCache } from '@jgu7man/gdev-tools';
+import { MxCache } from '@marxa/devkit';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, mergeScan } from 'rxjs/operators';
 import { iCurrentProp, iPropAcargo, iPropiedad } from '../models/propiedad.model';
@@ -19,9 +19,9 @@ export class ResponsablesService {
 
   constructor(
     private _afs: AngularFirestore,
-    private _cache: GdevCache
+    private _cache: MxCache
   ) {
-    this.currentUser = this._cache.getDataKey<iUser>('user')
+    this.currentUser = this._cache.getDataKey('user') as iUser
    }
 
 
