@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { iLavanderiaEvent, LavanderiaAction } from '../models/events.model';
-import { iCurrentProp } from '../models/propiedad.model';
+import { iPropiedadState } from '../models/propiedad.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class LavanderiaService {
   ) { }
 
   setStartStamp(event: iLavanderiaEvent) {
-    let {prefix, paquete} = event
+    let {prefix, pid: paquete} = event
     this._afs.collection(
       `propiedades/${prefix}/paquetes/${paquete}/events`
     ).doc(`${event.start}`).set(event)

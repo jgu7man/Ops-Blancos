@@ -1,16 +1,16 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { iPrendaEvent } from '../../../../models/reporte.model';
 import { MatDialog } from '@angular/material/dialog';
-import { MxAlert, MxCache } from '@marxa/devkit';
+import { MxAlert, MxCache, MxResponsive } from '@marxa/devkit';
 import { Subscription } from 'rxjs';
-import { iCode, iPrenda } from 'src/app/models/prenda.model';
+import { CodeModel, iCode, iPrenda } from 'src/app/models/prenda.model';
 import {  iHistory, iPaqueteEvent, PropEvent } from 'src/app/models/reporte.model';
 import { iUser } from 'src/app/models/user.model';
 import { ReportesService } from 'src/app/services/reportes.service';
 import { ScannerService } from 'src/app/services/scanner.service';
 import { DialogLimpiezaFaltantesComponent } from './dialog-limpieza-faltantes/dialog-limpieza-faltantes.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { iCurrentProp } from 'src/app/models/propiedad.model';
+import { iPropiedadState } from 'src/app/models/propiedad.model';
 import { ResponsablesService } from 'src/app/services/responsables.service';
 import { Location } from '@angular/common';
 import { DashboardService } from 'src/app/services/dashboard.service';
@@ -23,7 +23,7 @@ import { take } from 'rxjs/operators';
 export class LimpiezaPaqueteScanComponent implements OnInit, OnDestroy{
 
   scannerSubs?: Subscription
-  prop?: iCurrentProp
+  prop?: iPropiedadState
   paqueteState: iPaqueteEvent
   propEvent: PropEvent
   user: iUser
@@ -38,7 +38,8 @@ export class LimpiezaPaqueteScanComponent implements OnInit, OnDestroy{
     private _responsables: ResponsablesService,
     private _location: Location,
     private _dashboard: DashboardService,
-    private _alert: MxAlert
+    private _alert: MxAlert,
+    public responsive: MxResponsive
   ) {
     this._dashboard.toggleBack = true
     this.paqueteState = {
@@ -65,10 +66,10 @@ export class LimpiezaPaqueteScanComponent implements OnInit, OnDestroy{
     const {paquete, state} = this._route.snapshot.queryParams
 
     if (prefix) {
+      this.review = true
       this.prop = await this._responsables.getPaqueteAcargoContent(prefix, paquete)
       console.log( this.prop )
-      this.prop.paquete = paquete
-      this.review = true
+      this.prop.pid = paquete
       this.paqueteState = {
         pid: paquete,
         prendasReport: this.prop.prendas.map(prenda => {
@@ -82,9 +83,9 @@ export class LimpiezaPaqueteScanComponent implements OnInit, OnDestroy{
         state
       }
     } else {
-      this.prop = this._cache.getDataKey('currentProp') as iCurrentProp
+      this.prop = this._cache.getDataKey('currentProp') as iPropiedadState
       this.paqueteState = {
-        pid: this.prop.paquete,
+        pid: this.prop.pid,
         state: 'collected',
         prendasReport:[],
       };
@@ -96,17 +97,17 @@ export class LimpiezaPaqueteScanComponent implements OnInit, OnDestroy{
     this.propEvent = new PropEvent(new Date(), this.user.uid, this.paqueteState)
   }
 
-  onScanned(code: iCode) {
+  onScanned(code: CodeModel) {
     if (this.prop) {
       if (code.propiedad != this.prop.direccion) {
-        this._alert.message('Este código no pertenece a la propiedad')
-      } else if (code.paquete != this.prop.paquete) {
-        this._alert.message('Este código no pertenece al paquete')
+        this._alert.message(`Este código no pertenece a la propiedad: ${code.codigo}`)
+      } else if (code.pid != this.prop.pid) {
+        this._alert.message(`Este código no pertenece al paquete: ${code.codigo}`)
       } else {
         let prevScanned = this.paqueteState.prendasReport
           .find(p => p.codigo === code.codigo)
         if (prevScanned) {
-          this._alert.notify('Este código ya se escaneo')
+          this._alert.notify(`Este código ya se escaneó: ${code.codigo}`)
         } else {
           let prendaScanned = this.prop.prendas.findIndex(p => p.codigo == code.codigo)
           if (prendaScanned >= 0) {
@@ -122,7 +123,7 @@ export class LimpiezaPaqueteScanComponent implements OnInit, OnDestroy{
             }
             this.paqueteState?.prendasReport.push(currentPrenda)
           } else {
-            this._alert.message('Esta prenda no coincide con ninguna del paquete')
+            this._alert.message(`Esta prenda no coincide con ninguna del paquete: ${code.codigo}`)
           }
         }
       }
@@ -157,7 +158,7 @@ export class LimpiezaPaqueteScanComponent implements OnInit, OnDestroy{
 
   onFinish() {
     var faltantes: any[] = []
-    this.propEvent.paquete.pid = this.prop?.paquete as string
+    this.propEvent.paquete.pid = this.prop?.pid as string
 
     // Search for "faltantes"
     this.prop?.prendas.forEach(pren => {

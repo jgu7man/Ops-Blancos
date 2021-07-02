@@ -1,5 +1,6 @@
 import { iHistory } from "./reporte.model"
 import firebase from "firebase/app"
+import { PaqueteState } from "./propiedad.model"
 
 export interface iPrenda {
   codigo: string,
@@ -41,6 +42,15 @@ export interface displayPrendaState {
   value: PrendaState
 }
 
+export const PrendaProductStateMap: Map<PaqueteState, PrendaState> = new Map([
+  [ 'prop', 'prop'],
+  [ 'lost', 'lost'],
+  [ 'damage', 'damage'],
+  [ 'stock', 'stock'],
+  [ 'washing', 'wash'],
+  [ 'collected', 'sucio'],
+])
+
 export interface iReporte {
   message: string,
   evidenceImages: string[]
@@ -61,6 +71,17 @@ export class CodeModel implements iCode {
     this.pid = `${this.prefix}${paquete}`
   }
 }
+
+export const IndexPartMap: Map<number, any> = new Map([
+  [0, 'propiedad'],
+  [1, 'producto'],
+  [2, 'paquete'],
+  [3, 'unidad'],
+  [4, 'total'],
+  [5, 'codigo']
+])
+
+
 
 export interface iCode {
   propiedad: string;
@@ -90,3 +111,12 @@ export type Producto =
   | 'Cajonera King Size'
   | 'Edredon Size'
 
+export const emptyCode: iCode = {
+  propiedad: '',
+  producto: 'Toalla de Mano',
+  paquete: '',
+  unidad: '',
+  total: '',
+  codigo: '',
+  prefix: '',
+}

@@ -12,14 +12,17 @@
   class="mat-elevation-z4"
   id="bottom-bar"
 >
-  <span class="navbtn">
-    <i class="fas fa-home fa-lg  white-text" [routerLink]="['home']" [routerLinkActive]="'active'" [ngClass]="{'active': paqueteActive.isActive}"></i>
+  <span class="navbtn  white-text"  [routerLink]="['home']" [routerLinkActive]="'active'" [ngClass]="{'active': paqueteActive.isActive}">
+    <i class="fas fa-home fa-lg"></i>
+    <span class="link-label">Propiedad</span>
   </span>
-  <span class="navbtn">
-    <i class="fas fa-clipboard-list fa-lg  white-text" [routerLink]="['reporte']" [routerLinkActive]="'active'"></i>
+  <span class="navbtn white-text" [routerLink]="['reporte']" [routerLinkActive]="'active'">
+    <i class="fas fa-clipboard-list fa-lg"></i>
+    <span class="link-label">Reportes</span>
   </span>
-  <span class="navbtn">
-    <i class="fas fa-truck fa-lg  white-text" [routerLink]="['acargo']" [routerLinkActive]="'active'" ></i>
+  <span class="navbtn white-text" [routerLink]="['acargo']" [routerLinkActive]="'active'">
+    <i class="fas fa-truck fa-lg" ></i>
+    <span class="link-label">Cargo</span>
   </span>
   <a routerLink="paquete" routerLinkActive #paqueteActive="routerLinkActive" hidden="true"></a>
 </mat-toolbar>

@@ -8,7 +8,13 @@
   left: 0;
   transform: translateY(-53%);
   pointer-events: none;
-  button {
+  #house-btn {
     pointer-events: all;
+    position: absolute;
+    right: 3em;
+    top: 3em;
+  }
+  @media screen and (min-width: 768px) {
+    max-width: unset !important;
   }
 }

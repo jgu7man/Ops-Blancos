@@ -4,7 +4,7 @@ import { MxCache } from '@marxa/devkit';
 import { Observable, interval, Subscription } from 'rxjs';
 import { map, scan, startWith, take } from 'rxjs/operators';
 import { iLavanderiaEvent, LavanderiaAction } from 'src/app/models/events.model';
-import { iCurrentProp } from 'src/app/models/propiedad.model';
+import { iPropiedadState } from 'src/app/models/propiedad.model';
 import { iUser } from 'src/app/models/user.model';
 import { DashboardService } from 'src/app/services/dashboard.service';
 import { LavanderiaService } from 'src/app/services/lavanderia.service';
@@ -18,7 +18,7 @@ import { ResponsablesService } from 'src/app/services/responsables.service';
 export class LavanderiaTimingComponent implements OnInit, OnDestroy {
 
   user: iUser
-  propiedad?: iCurrentProp
+  propiedad?: iPropiedadState
   stamp: number = 0
   currentActions?: Observable<any>
   currentEvents: iLavanderiaEvent[] = []
@@ -64,7 +64,7 @@ export class LavanderiaTimingComponent implements OnInit, OnDestroy {
 
   stopCount(event: iLavanderiaEvent, i: number) {
     if (this.propiedad) {
-      let { prefix, paquete } = this.propiedad
+      let { prefix, pid: paquete } = this.propiedad
       let stamp = new Date().getTime()
       this._lavanderia.setCountStamp(event.start, prefix, paquete)
       this.currentEvents.splice(i, 1)
@@ -93,7 +93,7 @@ export class LavanderiaTimingComponent implements OnInit, OnDestroy {
       this.propiedad = await this._responsables
         .getPaqueteAcargoContent(prefix, paquete)
 
-      this.propiedad.paquete = paquete
+      this.propiedad.pid = paquete
       this.eventSubscription =
       this._lavanderia.getLastEvents(prefix, paquete)
         .subscribe(events => {

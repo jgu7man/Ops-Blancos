@@ -10,7 +10,7 @@ import { ReportesService } from 'src/app/services/reportes.service';
 import { ScannerService } from 'src/app/services/scanner.service';
 // import { DialogLimpiezaFaltantesComponent } from './dialog-limpieza-faltantes/dialog-limpieza-faltantes.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { iCurrentProp } from 'src/app/models/propiedad.model';
+import { iPropiedadState } from 'src/app/models/propiedad.model';
 import { ResponsablesService } from 'src/app/services/responsables.service';
 import { Location } from '@angular/common';
 import { DashboardService } from 'src/app/services/dashboard.service';
@@ -26,7 +26,7 @@ import { SeeImageComponent } from 'src/app/components/see-image/see-image.compon
 export class LavanderiaPaqueteScanComponent implements OnInit {
 
   scannerSubs?: Subscription
-  prop?: iCurrentProp
+  prop?: iPropiedadState
   paqueteState: iPaqueteEvent
   propEvent: PropEvent
   user: iUser
@@ -70,7 +70,7 @@ export class LavanderiaPaqueteScanComponent implements OnInit {
     if (prefix) {
       this.prop = await this._responsables.getPaqueteAcargoContent(prefix, paquete)
       console.log( this.prop )
-      this.prop.paquete = paquete
+      this.prop.pid = paquete
       this.review = true
       this.paqueteState = {
         pid: paquete,
@@ -85,13 +85,13 @@ export class LavanderiaPaqueteScanComponent implements OnInit {
         state
       }
     } else {
-      this.prop = this._cache.getDataKey('currentProp') as iCurrentProp
+      this.prop = this._cache.getDataKey('currentProp') as iPropiedadState
 
       if (!this.prop) {
         this._router.navigate(['/lavanderia'])
       } else {
         this.paqueteState = {
-          pid: this.prop.paquete,
+          pid: this.prop.pid,
           state: 'collected',
           prendasReport: this.prop.prendas.map(prenda => {
             let {state, producto, total, unidad, codigo} = prenda

@@ -5,14 +5,17 @@ import firebase from 'firebase/app';
 
 
 export class PropEvent {
+  public checked: boolean
+  public id: string
 
   constructor(
     public date: Date | firebase.firestore.Timestamp,
     public responsable: string,
     public paquete: iPaqueteEvent,
-    public checked?: boolean,
-    public id?: string
-    ){}
+    ){
+      this.checked = false
+      this.id = `${new Date().getTime()}`
+    }
   }
 
 // Paquete Reports
@@ -55,5 +58,5 @@ export class iHistory {
 export interface iAlertReport extends PropEvent {
   prefix: string
   ciudad: string
-  id?: string
+  id: string
 }

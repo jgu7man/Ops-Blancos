@@ -14,6 +14,7 @@ import {
 import {
   iAlertReport,
   iHistory,
+  iPaqueteEvent,
   iPrendaEvent,
   iPrendaState,
   PropEvent,
@@ -22,7 +23,7 @@ import { CameraService } from './camera.service';
 import { MxAlert, MxCache, MxLoading } from '@marxa/devkit';
 import firebase from 'firebase/app';
 import { pickBy, identity } from 'lodash';
-import { iCurrentProp, PaqueteState } from '../models/propiedad.model';
+import { iPropiedadState, PaqueteState } from '../models/propiedad.model';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +36,7 @@ export class ReportesService {
     state: this.stateCtrl,
     reporte: this.reporteCtrl,
   });
-  currentProp?: iCurrentProp;
+  currentProp?: iPropiedadState;
   currentPrenda?: PrendaModel;
   prendasChecklist: iPrendaEvent[] = [];
   user: iUser;
@@ -54,9 +55,9 @@ export class ReportesService {
 
   async searchForCurrentPropiedad(
     prefix: string,
-    paquete: string,
+    pid: string,
     prevState: PaqueteState
-  ): Promise<iCurrentProp> {
+  ): Promise<iPropiedadState> {
     const propRef = this._afs.collection('propiedades').doc(prefix).ref;
 
     try {
@@ -64,24 +65,23 @@ export class ReportesService {
       if (!propDoc.exists) {
         throw { error: 'PROP_NOT_EXISTS' };
       } else {
-        const prop = propDoc.data() as iCurrentProp;
+        const prop = propDoc.data() as iPropiedadState;
         // 2. Search for paquete
         const paqueteQDoc = await propDoc.ref
           .collection(`paquetes`)
-          .doc(`${paquete}`)
+          .doc(`${pid}`)
           .get();
         var prendasCol = await paqueteQDoc.ref.collection(`prendas`).get();
 
-        console.log(prendasCol.size);
+        // console.log(prendasCol.size);
         this.prendasChecklist = [];
         prendasCol.forEach((prenda) =>
           this.prendasChecklist.push(prenda.data() as iPrendaEvent)
         );
-        console.log(this.prendasChecklist);
+        // console.log(this.prendasChecklist);
 
         this.currentProp = {
-          ...prop,
-          paquete,
+          ...prop, pid,
           prendas: this.prendasChecklist,
         };
 
@@ -189,16 +189,12 @@ export class ReportesService {
 
         // Prepare event to save
         prenda.event = { ...prenda.event };
-        let event: PropEvent = {
-          date: new Date(),
-          responsable: this.user.uid,
-          paquete: {
-            pid: this.currentPrenda.paquete,
-            state: 'damage',
-            prendasReport: [prenda],
-          },
-        };
-
+        let paquete: iPaqueteEvent = {
+          pid: this.currentPrenda.paquete,
+          state: 'damage',
+          prendasReport: [prenda],
+        }
+        let event: PropEvent = new PropEvent( new Date(), this.user.uid, paquete )
 
         // Save event
         batch.set(eventRef, { ...event });
@@ -221,18 +217,20 @@ export class ReportesService {
     }
   }
 
-  async onSaveReporte(propId: string, event: PropEvent, alert?: true) {
+  async onSaveReporte(prefix: string, event: PropEvent, alert?: true) {
     try {
-      if (this.user) {
-        console.log(propId)
-        console.log( event.paquete )
+      if (!this.user) {
+        throw { message: 'No está autenticado' };
+      } else if (!prefix) {
+        throw { message: 'No se identificó la propiedad'}
+      } else {
         const otherPaquete = event.paquete.pid.endsWith('1')
-          ? propId + '2' : propId + '1'
+          ? prefix + '2' : prefix + '1'
 
-        const propPath = `propiedades/${propId}`;
+        const propPath = `propiedades/${prefix}`;
         const paquetePath = `${propPath}/paquetes/${event.paquete.pid}`;
         const otherPath = `${propPath}/paquetes/${otherPaquete}`;
-        console.log( otherPaquete )
+        console.log( {otherPaquete, propPath, paquetePath, otherPath} )
         const eventRef = this._afs.collection(`${propPath}/events`).ref;
         const alertRef = this._afs.collection('alerts').ref;
         const otherRef = this._afs.doc(otherPath).ref;
@@ -244,8 +242,8 @@ export class ReportesService {
           event.paquete.prendasReport,
           async (prenda: iPrendaEvent, index: number) => {
             const prendaPath = `${paquetePath}/prendas/${prenda.codigo}`;
+            console.log( prendaPath )
             const prendaRef = this._afs.doc(prendaPath).ref;
-
             let prendaEvent = pickBy(prenda.event, identity);
             batch.update(prendaRef, {
               state: prenda.state,
@@ -259,17 +257,12 @@ export class ReportesService {
 
         let dateId = new Date().getTime();
         var ciudad = event.paquete.prendasReport[0].codigo.substring(0, 3);
+        var losts = event.paquete.prendasReport.filter(p => p.state == 'lost')
         // Save propiedad Event
         let cleanEvent = pickBy(event, identity);
         console.log({ ...event });
         batch.set(eventRef.doc(`${dateId}`), { ...cleanEvent });
-        // Save propiedad alert
-        if (alert)
-          batch.set(alertRef.doc(`${dateId}`), <iAlertReport>{
-            ...cleanEvent,
-            prefix: propId,
-            ciudad: ciudad ? ciudad : '',
-          });
+
 
         // Update paquete state
         batch.update(paqueteRef, {
@@ -284,11 +277,20 @@ export class ReportesService {
           lastUpdate: new Date(),
         })
 
-        batch.commit();
+        // Save propiedad alert
+        let { paquete , ...restEvent} = cleanEvent
+        if (paquete) paquete.prendasReport = losts
+        if (alert) batch.set(alertRef.doc(`${dateId}`), <iAlertReport>{
+          ...restEvent, paquete, prefix, ciudad: ciudad || '',
+        });
+
+        await batch.commit().catch(error => {
+          console.log( error )
+          throw { message: 'Error al contactar con la base de datos'}
+        })
         this._cache.deleteDataKey('currentProp');
         return;
-      } else {
-        throw { message: 'No está autenticado' };
+
       }
     } catch (error) {
       console.error(error);

@@ -1,1 +1,9 @@
-
+.navbtn {
+  cursor: pointer;
+  .link-label {
+    margin: .5em;
+    @media screen and (max-width: 768px){
+      display: none;
+    }
+  }
+}

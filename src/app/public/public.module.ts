@@ -36,6 +36,8 @@ import { LavanderiaPackingScanComponent } from './components/lavanderia-dashboar
 import { PackingFaltantesDialog } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing-scan/dialog-packing-faltantes/dialog-packing-faltantes.component';
 import { LavanderiaTimingComponent } from './components/lavanderia-dashboard/lavanderia-working/lavanderia-timing/lavanderia-timing.component';
 import { PipesModule } from '../pipes/pipes.module';
+import { ScanPaqueteComponent } from './components/scan-paquete/scan-paquete.component';
+import { NotifyFaltantesDialog } from './components/scan-paquete/notify-faltantes/notify-faltantes.dialog';
 
 
 @NgModule({
@@ -66,7 +68,9 @@ import { PipesModule } from '../pipes/pipes.module';
     LavanderiaWorkingComponent,
     LavanderiaPackingScanComponent,
     PackingFaltantesDialog,
-    LavanderiaTimingComponent
+    LavanderiaTimingComponent,
+    ScanPaqueteComponent,
+    NotifyFaltantesDialog
   ],
   imports: [
     CommonModule,

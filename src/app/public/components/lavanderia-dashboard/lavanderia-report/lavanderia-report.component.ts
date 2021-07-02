@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MxAlert, MxCache } from '@marxa/devkit';
 import { Subscription } from 'rxjs';
 import { iCode } from 'src/app/models/prenda.model';
-import { iCurrentProp } from 'src/app/models/propiedad.model';
+import { iPropiedadState } from 'src/app/models/propiedad.model';
 import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { ReportesService } from 'src/app/services/reportes.service';
 import { ScannerService } from 'src/app/services/scanner.service';

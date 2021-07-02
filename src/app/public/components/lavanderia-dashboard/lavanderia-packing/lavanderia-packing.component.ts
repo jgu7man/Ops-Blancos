@@ -20,7 +20,7 @@ export class LavanderiaPackingComponent implements OnInit {
     private _router: Router,
     private _alert: MxAlert
   ) {
-    this.acargoList$ = this._responsables.getPaquetesAcargo()
+    this.acargoList$ = this._responsables.getPaquetesAcargo('washing')
       .pipe(map(paquetes => {
       return paquetes.filter(j => j.state == 'washing')
     }))

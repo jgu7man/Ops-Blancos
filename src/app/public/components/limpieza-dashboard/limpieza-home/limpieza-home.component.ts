@@ -5,10 +5,10 @@ import { iScannedSource } from 'src/app/models/scanned.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogHomeScannedComponent } from './dialog-home-scanned/dialog-home-scanned.component';
 import { Router } from '@angular/router';
-import { iCode } from 'src/app/models/prenda.model';
+import { CodeModel, iCode } from 'src/app/models/prenda.model';
 import { PropiedadesService } from 'src/app/services/propiedades.service';
-import { MxCache } from '@marxa/devkit';
-import { iCurrentProp } from 'src/app/models/propiedad.model';
+import { MxCache, MxResponsive } from '@marxa/devkit';
+import { iPropiedadState } from 'src/app/models/propiedad.model';
 import { ReportesService } from 'src/app/services/reportes.service';
 
 @Component({
@@ -24,7 +24,8 @@ export class LimpiezaHomeComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _propiedades: PropiedadesService,
     private _cache: MxCache,
-    private _reportes: ReportesService
+    private _reportes: ReportesService,
+    private _responsive: MxResponsive
   ) {
     this.scannerSubs =
       this._scanner.codeScanned$.
@@ -32,7 +33,9 @@ export class LimpiezaHomeComponent implements OnInit, OnDestroy {
           this.onScanned(codeScanned)
         })
     let currentProp = this._cache.getDataKey('currentProp')
-    if (currentProp) {this._router.navigate(['/limpieza/paquete'])}
+    if (currentProp) {
+      this._router.navigate(['/limpieza/paquete'], { queryParams:{state: 'collected'}})
+    }
    }
 
   ngOnInit(): void {
@@ -40,19 +43,20 @@ export class LimpiezaHomeComponent implements OnInit, OnDestroy {
 
   // # On SCANNED
   /** Abre un cuadro de diálogo con el formulario correspondiente a `limpieza` o `lavandería` para registrar la prenda escaneada */
-  onScanned(scanned: iCode) {
+  onScanned(scanned: CodeModel) {
 
+    let boxWidth = this._responsive.large ? '30vw' : '100vw'
     // console.log( scanned.value )
     this._dialog.open( DialogHomeScannedComponent, {
-      width: '100vw',
+      width: boxWidth,
       data: scanned,
       disableClose: true
     }).afterClosed().subscribe(next => {
       if (next) {
-        this._reportes.searchForCurrentPropiedad(scanned.prefix, scanned.paquete, 'prop')
+        this._reportes.searchForCurrentPropiedad(scanned.prefix, scanned.pid, 'prop')
           .then((propiedad) => {
             this._cache.updateData('currentProp', propiedad)
-            this._router.navigate(['/limpieza/paquete', ])
+            this._router.navigate(['/limpieza/paquete'], { queryParams:{state: 'collected'}})
         })
       }
     })

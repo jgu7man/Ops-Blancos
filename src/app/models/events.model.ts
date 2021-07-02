@@ -1,6 +1,6 @@
 import { iAlertReport, iPaqueteEvent, iPaqueteState, PropEvent } from "./reporte.model";
 import firebase from "firebase/app"
-import { iCurrentProp } from "./propiedad.model";
+import { iPropiedadState } from "./propiedad.model";
 
 export interface iEventsResume {
   todayEvents: PropEvent[],
@@ -12,7 +12,7 @@ export interface iDay {
 }
 
 
-export interface iLavanderiaEvent extends iCurrentProp {
+export interface iLavanderiaEvent extends iPropiedadState {
   start: number,
   action: LavanderiaAction
   over: number

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MxAlert, MxCache } from '@marxa/devkit';
 import { Subscription } from 'rxjs';
 import { iCode } from 'src/app/models/prenda.model';
-import { iCurrentProp } from 'src/app/models/propiedad.model';
+import { iPropiedadState } from 'src/app/models/propiedad.model';
 import { ReportesService } from 'src/app/services/reportes.service';
 import { ScannerService } from 'src/app/services/scanner.service';
 import { LimpiezaScannedFormDialog } from './limpieza-scanned-form-dialog/limpieza-scanned-form.component';
@@ -35,9 +35,9 @@ export class LimpiezaReportComponent implements OnInit, OnDestroy {
   }
 
   validateCodeScanned(code:iCode) {
-    const currentProp = this._cache.getDataKey<iCurrentProp>('currentProp')
+    const currentProp = this._cache.getDataKey<iPropiedadState>('currentProp')
     if (code.prefix === currentProp?.prefix) {
-      if (code.paquete === currentProp.paquete) {
+      if (code.paquete === currentProp.pid) {
         this.onScanned(code)
       } else {
         this._alert.message('Esta prenda no pertenece al paquete en turno')

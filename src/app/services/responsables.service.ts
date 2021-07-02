@@ -3,7 +3,7 @@ import { AngularFirestore, QueryDocumentSnapshot } from '@angular/fire/firestore
 import { MxCache } from '@marxa/devkit';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, mergeScan } from 'rxjs/operators';
-import { iCurrentProp, iPropAcargo, iPropiedad } from '../models/propiedad.model';
+import { iPropiedadState, iPropAcargo, iPropiedad, PaqueteState } from '../models/propiedad.model';
 import { iPaqueteState, iPrendaEvent, iPrendaState } from '../models/reporte.model';
 import { iUser } from '../models/user.model';
 import firebase from 'firebase/app'
@@ -25,11 +25,14 @@ export class ResponsablesService {
    }
 
 
-  getPaquetesAcargo(uid?: string): Observable<iPropAcargo[]> {
+  getPaquetesAcargo(state: PaqueteState, uid?: string): Observable<iPropAcargo[]> {
     if (!uid) uid = this.currentUser.uid
     const paquetes: iPropAcargo[] = []
     const paquetesListRef = this._afs.collectionGroup<iPaqueteState>('paquetes',
-      ref => ref.where('responsable', '==', uid)).get()
+      ref => ref
+        .where('responsable', '==', uid)
+        .where('state', '==', state)
+      ).get()
 
     return paquetesListRef.pipe(map(paquetesList => {
 
@@ -48,9 +51,9 @@ export class ResponsablesService {
     const propRef = this._afs.doc<iPropiedad>(`propiedades/${prefix}`)
     const paqueteRef = propRef.collection<iPaqueteState>('paquetes').doc(paquete)
     const prendasRef = paqueteRef.collection<iPrendaState>('prendas')
-    var currentProp: iCurrentProp = {} as iCurrentProp
+    var currentProp: iPropiedadState = {} as iPropiedadState
 
-    return new Promise<iCurrentProp>(resolve => {
+    return new Promise<iPropiedadState>(resolve => {
       propRef.get().pipe(
        mergeMap(prop => {
          const { ciudad, prefix, direccion } = prop.data() as iPropiedad

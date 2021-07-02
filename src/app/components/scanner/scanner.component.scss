@@ -1,6 +1,9 @@
 :host zxing-scanner::ng-deep video {
   height: 72vw;
   object-fit: contain;
+  @media screen and (min-width: 768px){
+    height:50vh;
+  }
 }
 
 
@@ -20,6 +23,9 @@ zxing-scanner {
 .scanner-box {
   position: relative;
   height: 62vw;
+  @media screen and (min-width: 768px){
+    height:50vh;
+  }
 }
 #scanner-container {
   position: absolute;
@@ -29,7 +35,11 @@ zxing-scanner {
   border-radius: 50%;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%)
+  transform: translate(-50%, -50%);
+  @media screen and (min-width: 768px){
+    height:50vh;
+    width:50vh;
+  }
 }
 
 #scanner-paused {

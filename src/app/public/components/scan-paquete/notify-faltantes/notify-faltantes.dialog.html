@@ -1,0 +1,21 @@
+<p mat-dialog-title>Hacen falta prendas</p>
+<mat-dialog-content>
+  <p>Estas prendas aún no se han escaneado</p>
+  <ul>
+    <li *ngFor="let item of faltantes">
+      {{item.producto}} {{item.unidad}}/{{item.total}}
+    </li>
+  </ul>
+  <p class="center">¿Quieres terminar de escanear así?</p>
+</mat-dialog-content>
+<mat-dialog-actions
+style="display: flex; justify-content: space-around;">
+  <button mat-raised-button
+  (click)="dialog.close()"
+  color="accent"
+  >Volver a escanear</button>
+  <button mat-raised-button
+  (click)="dialog.close(true)"
+  color="primary"
+  >Sí</button>
+</mat-dialog-actions>

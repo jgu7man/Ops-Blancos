@@ -15,6 +15,7 @@ import { LavanderiaPackingComponent } from './components/lavanderia-dashboard/la
 import { LavanderiaPaqueteScanComponent } from './components/lavanderia-dashboard/lavanderia-paquete-scan/lavanderia-paquete-scan.component';
 import { LavanderiaPackingScanComponent } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing-scan/lavanderia-packing-scan.component';
 import { LavanderiaTimingComponent } from './components/lavanderia-dashboard/lavanderia-working/lavanderia-timing/lavanderia-timing.component';
+import { ScanPaqueteComponent } from './components/scan-paquete/scan-paquete.component';
 
 const routes: Routes = [
   { path: '', component: PublicComponent, children: [
@@ -22,16 +23,20 @@ const routes: Routes = [
     { path: 'limpieza', component: LimpiezaDashboardComponent, children:[
       { path: '', pathMatch: 'full', redirectTo: 'home' },
       { path: 'home', component: LimpiezaHomeComponent },
-      { path: 'paquete', component: LimpiezaPaqueteScanComponent },
-      { path: 'paquete/:prefix', component: LimpiezaPaqueteScanComponent },
+      // { path: 'paquete', component: LimpiezaPaqueteScanComponent },
+      { path: 'paquete', component: ScanPaqueteComponent },
+      // { path: 'paquete/:prefix', component: LimpiezaPaqueteScanComponent },
+      { path: 'paquete/:prefix', component: ScanPaqueteComponent },
       { path: 'reporte', component: LimpiezaReportComponent },
       { path: 'acargo', component: LimpiezaResponsableComponent },
     ] },
     { path: 'lavanderia', component: LavanderiaDashboardComponent, children:[
       { path: '', pathMatch: 'full', redirectTo: 'desempaque' },
       { path: 'desempaque', component: LavanderiaUnpackageComponent },
-      { path: 'paquete', component: LavanderiaPaqueteScanComponent },
-      { path: 'review/:prefix', component: LavanderiaPaqueteScanComponent },
+      // { path: 'paquete', component: LavanderiaPaqueteScanComponent },
+      { path: 'paquete', component: ScanPaqueteComponent },
+      // { path: 'review/:prefix', component: LavanderiaPaqueteScanComponent },
+      { path: 'review/:prefix', component: ScanPaqueteComponent },
       { path: 'timing/:prefix', component: LavanderiaTimingComponent },
       { path: 'lavando', component: LavanderiaWorkingComponent },
       { path: 'reporte', component: LavanderiaReportComponent },

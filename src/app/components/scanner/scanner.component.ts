@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MxAlert, MxLoading } from '@marxa/devkit';
 import { ZXingScannerComponent } from "@zxing/ngx-scanner";
 import { debounceTime } from 'rxjs/operators';
-import { CodeModel, iCode } from 'src/app/models/prenda.model';
+import { CodeModel, emptyCode, iCode, Producto } from 'src/app/models/prenda.model';
 import { ScannerService } from 'src/app/services/scanner.service';
 
 @Component({
@@ -18,6 +18,7 @@ export class ScannerComponent implements OnInit, AfterViewInit {
   @ViewChild('bluetooth') private bluetooth?: ElementRef
   public scannerEnabled: boolean = false;
   @Input() title: boolean = true;
+  codes: CodeModel[] = []
 
 
   codeForm: FormGroup = new FormGroup({
@@ -36,8 +37,16 @@ export class ScannerComponent implements OnInit, AfterViewInit {
     this.codeForm.valueChanges.subscribe(
       ({ propiedad, producto, paquete, unidad, total, codigo }: iCode) => {
         let splits = propiedad.split('\t')
+
         if (splits.length == 6){
           this._scanner.scannedSuccess(propiedad)
+          this.setCodeForm()
+          this.bluetooth?.nativeElement.focus()
+        } else if( splits.length > 6 ) {
+          this.codes = this._scanner.multipleScan(propiedad)
+          this.codes.forEach(code => {
+            this._scanner.scannedSuccess(code)
+          })
           this.setCodeForm()
           this.bluetooth?.nativeElement.focus()
         } else if (codigo && codigo.length === 14) {
@@ -48,7 +57,6 @@ export class ScannerComponent implements OnInit, AfterViewInit {
           this.setCodeForm()
           this.bluetooth?.nativeElement.focus()
         } else {
-          console.log({ propiedad, producto, paquete, unidad, total, codigo })
         }
     })
 

@@ -27,7 +27,9 @@ export class LavanderiaUnpackageComponent implements OnInit, OnDestroy {
           this.onScanned(codeScanned)
         })
     let currentProp = this._cache.getDataKey('currentProp')
-    if (currentProp) {this._router.navigate(['/lavanderia/paquete'])}
+    if (currentProp) {
+      this._router.navigate(['/lavanderia/paquete'], { queryParams:{state: 'wasing'}})
+    }
    }
 
   ngOnInit(): void {
@@ -43,17 +45,7 @@ export class LavanderiaUnpackageComponent implements OnInit, OnDestroy {
 
     const reportes = await this._reportes
       .searchForReports(propiedad.prefix)
-
-    // if (reportes.length > 0) {
-    //   this._dialog.open(DialogUnpackageScannedComponent, {
-    //     data: reportes
-    //   })
-    // } else {
-      this._router.navigate(['/lavanderia/paquete'])
-    // }
-
-
-
+      this._router.navigate(['/lavanderia/paquete'], { queryParams:{state: 'wasing'}})
 
   }
 

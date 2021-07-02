@@ -1,12 +1,13 @@
 <h1 mat-dialog-title class="center">¿Listo para empezar?</h1>
 <mat-dialog-content>
   <p class="center">Por favor, confirma que te encuentras en:</p>
-  <p> <b>{{data.propiedad}}</b> </p>
+  <p class="result"> <b>{{data.propiedad}}</b> </p>
 </mat-dialog-content>
 <mat-dialog-actions
 style="display: flex; justify-content: space-around;">
     <button mat-raised-button
     (click)="dialog_.close()"
+    color="accent"
     >No es así</button>
     <button mat-raised-button
     color="primary"

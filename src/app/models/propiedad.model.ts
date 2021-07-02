@@ -11,11 +11,11 @@ export class iPropiedad {
   ) {}
 }
 
-export interface iCurrentProp {
+export interface iPropiedadState {
   ciudad: string;
   prefix: string;
   direccion: string;
-  paquete: string;
+  pid: string;
   prendas: iPrendaState[];
 }
 

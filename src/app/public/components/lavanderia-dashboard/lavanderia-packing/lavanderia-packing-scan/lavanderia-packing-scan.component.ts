@@ -9,7 +9,7 @@ import { iUser } from 'src/app/models/user.model';
 import { ReportesService } from 'src/app/services/reportes.service';
 import { ScannerService } from 'src/app/services/scanner.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { iCurrentProp } from 'src/app/models/propiedad.model';
+import { iPropiedadState } from 'src/app/models/propiedad.model';
 import { ResponsablesService } from 'src/app/services/responsables.service';
 import { Location } from '@angular/common';
 import { DashboardService } from 'src/app/services/dashboard.service';
@@ -25,7 +25,7 @@ import { SeeImageComponent } from 'src/app/components/see-image/see-image.compon
 export class LavanderiaPackingScanComponent implements OnInit {
 
   scannerSubs?: Subscription
-  prop?: iCurrentProp
+  prop?: iPropiedadState
   paqueteState: iPaqueteEvent
   propEvent: PropEvent
   user: iUser
@@ -68,7 +68,7 @@ export class LavanderiaPackingScanComponent implements OnInit {
     if (prefix) {
       this.prop = await this._responsables.getPaqueteAcargoContent(prefix, paquete)
       console.log( this.prop )
-      this.prop.paquete = paquete
+      this.prop.pid = paquete
       this.review = true
       this.paqueteState = {
         pid: paquete,
@@ -76,9 +76,9 @@ export class LavanderiaPackingScanComponent implements OnInit {
         state
       }
     } else {
-      this.prop = this._cache.getDataKey('currentProp') as iCurrentProp
+      this.prop = this._cache.getDataKey('currentProp') as iPropiedadState
       this.paqueteState = {
-        pid: this.prop.paquete,
+        pid: this.prop.pid,
         state: 'collected',
         prendasReport:[],
       };
@@ -94,7 +94,7 @@ export class LavanderiaPackingScanComponent implements OnInit {
     if (this.prop) {
       if (code.propiedad != this.prop.direccion) {
         this._alert.message('Este código no pertenece a la propiedad')
-      } else if (code.paquete != this.prop.paquete) {
+      } else if (code.paquete != this.prop.pid) {
         this._alert.message('Este código no pertenece al paquete')
       } else {
         let prevScanned = this.paqueteState.prendasReport
@@ -153,7 +153,7 @@ export class LavanderiaPackingScanComponent implements OnInit {
   }
 
   onFinish() {
-    this.propEvent.paquete.pid = this.prop?.paquete as string
+    this.propEvent.paquete.pid = this.prop?.pid as string
     var faltantes: any[] = []
     this.paqueteState.state = 'stock'
 
