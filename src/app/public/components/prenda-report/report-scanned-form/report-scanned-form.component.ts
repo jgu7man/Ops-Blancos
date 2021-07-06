@@ -6,16 +6,16 @@ import { ReportesService } from 'src/app/services/reportes.service';
 import { ScannerService } from 'src/app/services/scanner.service';
 
 @Component({
-  templateUrl: './limpieza-scanned-form.component.html',
-  styleUrls: ['./limpieza-scanned-form.component.scss']
+  templateUrl: './report-scanned-form.component.html',
+  styleUrls: ['./report-scanned-form.component.scss']
 })
-export class LimpiezaScannedFormDialog implements OnInit, OnDestroy {
+export class ReportScannedFormDialog implements OnInit, OnDestroy {
 
   isReady = false;
   workspace: 'limpieza' | 'lavanderia'
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: iCode,
-    public dialog_: MatDialogRef<LimpiezaScannedFormDialog>,
+    public dialog_: MatDialogRef<ReportScannedFormDialog>,
     private _reportes: ReportesService,
     private _alert: MxAlert,
     private _scanner: ScannerService

@@ -5,14 +5,14 @@ import { MatSelectionListChange } from '@angular/material/list';
 import { ActivatedRoute } from '@angular/router';
 import { CameraService } from 'src/app/services/camera.service';
 import { ReportesService } from 'src/app/services/reportes.service'
-import { LimpiezaEvidenciaDialog } from '../limpieza-evidencia-dialog/limpieza-evidencia-dialog.component';
+import { ReportEvidenciaDialog } from '../report-evidencia/report-evidencia.component';
 
 @Component({
-  selector: 'g-limpieza-reporte-form',
-  templateUrl: './limpieza-reporte-form.component.html',
-  styleUrls: ['./limpieza-reporte-form.component.scss']
+  selector: 'g-report-form',
+  templateUrl: './report-form.component.html',
+  styleUrls: ['./report-form.component.scss']
 })
-export class LimpiezaReporteFormComponent implements OnInit {
+export class ReportFormComponent implements OnInit {
 
   @Input() workspace: 'limpieza' | 'lavanderia' = 'limpieza'
   @Output() validForm = new EventEmitter<boolean>();
@@ -43,7 +43,7 @@ export class LimpiezaReporteFormComponent implements OnInit {
   }
 
   onTakeEvidence() {
-    this._dialog.open(LimpiezaEvidenciaDialog, {
+    this._dialog.open(ReportEvidenciaDialog, {
       maxWidth: '80vw',
       minWidth: '50vw',
       height: '80vh',

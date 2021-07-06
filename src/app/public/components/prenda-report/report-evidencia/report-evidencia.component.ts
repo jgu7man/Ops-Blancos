@@ -5,13 +5,13 @@ import { take } from 'rxjs/operators';
 import { CameraService } from 'src/app/services/camera.service';
 
 @Component({
-  templateUrl: './limpieza-evidencia-dialog.component.html',
-  styleUrls: ['./limpieza-evidencia-dialog.component.scss']
+  templateUrl: './report-evidencia.component.html',
+  styleUrls: ['./report-evidencia.component.scss']
 })
-export class LimpiezaEvidenciaDialog implements OnInit {
+export class ReportEvidenciaDialog implements OnInit {
 
   constructor(
-    public dialog_: MatDialogRef<LimpiezaEvidenciaDialog>,
+    public dialog_: MatDialogRef<ReportEvidenciaDialog>,
     public camera: CameraService,
   ) { }
 

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LimpiezaEvidenciaDialog } from './limpieza-evidencia-dialog.component';
+import { ReportEvidenciaDialog } from './report-evidencia.component';
 
 describe('LimpiezaEvidenciaDialogComponent', () => {
-  let component: LimpiezaEvidenciaDialog;
-  let fixture: ComponentFixture<LimpiezaEvidenciaDialog>;
+  let component: ReportEvidenciaDialog;
+  let fixture: ComponentFixture<ReportEvidenciaDialog>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LimpiezaEvidenciaDialog ]
+      declarations: [ ReportEvidenciaDialog ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LimpiezaEvidenciaDialog);
+    fixture = TestBed.createComponent(ReportEvidenciaDialog);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

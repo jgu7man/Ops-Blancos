@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LimpiezaScannedFormDialog } from './limpieza-scanned-form.component';
+import { PrendaReportComponent } from './prenda-report.component';
 
-describe('LimpiezaScannedFormComponent', () => {
-  let component: LimpiezaScannedFormDialog;
-  let fixture: ComponentFixture<LimpiezaScannedFormDialog>;
+describe('LimpiezaReportComponent', () => {
+  let component: PrendaReportComponent;
+  let fixture: ComponentFixture<PrendaReportComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LimpiezaScannedFormDialog ]
+      declarations: [ PrendaReportComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LimpiezaScannedFormDialog);
+    fixture = TestBed.createComponent(PrendaReportComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

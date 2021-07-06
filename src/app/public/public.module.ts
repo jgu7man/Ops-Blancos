@@ -11,12 +11,12 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
 // Limpieza
 import { LimpiezaDashboardComponent } from './components/limpieza-dashboard/limpieza-dashboard.component';
 import { LimpiezaHomeComponent } from './components/limpieza-dashboard/limpieza-home/limpieza-home.component';
-import { LimpiezaReportComponent } from './components/limpieza-dashboard/limpieza-report/limpieza-report.component';
+import { PrendaReportComponent } from './components/prenda-report/prenda-report.component';
 // import { ScannerComponent } from '../components/scanner/scanner.component';
-import { LimpiezaScannedFormDialog } from './components/limpieza-dashboard/limpieza-report/limpieza-scanned-form-dialog/limpieza-scanned-form.component';
+import { ReportScannedFormDialog } from './components/prenda-report/report-scanned-form/report-scanned-form.component';
 import { FormsModule } from '@angular/forms';
-import { LimpiezaReporteFormComponent } from './components/limpieza-dashboard/limpieza-report/limpieza-reporte-form/limpieza-reporte-form.component';
-import { LimpiezaEvidenciaDialog } from './components/limpieza-dashboard/limpieza-report/limpieza-evidencia-dialog/limpieza-evidencia-dialog.component';
+import { ReportFormComponent } from './components/prenda-report/report-form/report-form.component';
+import { ReportEvidenciaDialog } from './components/prenda-report/report-evidencia/report-evidencia.component';
 import { DialogHomeScannedComponent } from './components/limpieza-dashboard/limpieza-home/dialog-home-scanned/dialog-home-scanned.component';
 import { LimpiezaPaqueteScanComponent } from './components/limpieza-dashboard/limpieza-paquete-scan/limpieza-paquete-scan.component';
 import { DialogLimpiezaFaltantesComponent } from './components/limpieza-dashboard/limpieza-paquete-scan/dialog-limpieza-faltantes/dialog-limpieza-faltantes.component';
@@ -46,11 +46,11 @@ import { NotifyFaltantesDialog } from './components/scan-paquete/notify-faltante
     // Limpieza
     LimpiezaDashboardComponent,
     LimpiezaHomeComponent,
-    LimpiezaReportComponent,
+    PrendaReportComponent,
     // ScannerComponent,
-    LimpiezaScannedFormDialog,
-    LimpiezaReporteFormComponent,
-    LimpiezaEvidenciaDialog,
+    ReportScannedFormDialog,
+    ReportFormComponent,
+    ReportEvidenciaDialog,
     DialogHomeScannedComponent,
     LimpiezaPaqueteScanComponent,
     DialogLimpiezaFaltantesComponent,

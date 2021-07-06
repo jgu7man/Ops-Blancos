@@ -4,7 +4,7 @@ import { LimpiezaDashboardComponent } from './components/limpieza-dashboard/limp
 import { LimpiezaHomeComponent } from './components/limpieza-dashboard/limpieza-home/limpieza-home.component';
 import { LimpiezaPaqueteScanComponent } from './components/limpieza-dashboard/limpieza-paquete-scan/limpieza-paquete-scan.component';
 import { LimpiezaResponsableComponent } from './components/limpieza-dashboard/limpieza-responsable/limpieza-responsable.component';
-import { LimpiezaReportComponent } from './components/limpieza-dashboard/limpieza-report/limpieza-report.component';
+import { PrendaReportComponent } from './components/prenda-report/prenda-report.component';
 
 import { PublicComponent } from './public.component';
 import { LavanderiaDashboardComponent } from './components/lavanderia-dashboard/lavanderia-dashboard.component';
@@ -27,7 +27,7 @@ const routes: Routes = [
       { path: 'paquete', component: ScanPaqueteComponent },
       // { path: 'paquete/:prefix', component: LimpiezaPaqueteScanComponent },
       { path: 'paquete/:prefix', component: ScanPaqueteComponent },
-      { path: 'reporte', component: LimpiezaReportComponent },
+      { path: 'reporte', component: PrendaReportComponent },
       { path: 'acargo', component: LimpiezaResponsableComponent },
     ] },
     { path: 'lavanderia', component: LavanderiaDashboardComponent, children:[
@@ -39,7 +39,7 @@ const routes: Routes = [
       { path: 'review/:prefix', component: ScanPaqueteComponent },
       { path: 'timing/:prefix', component: LavanderiaTimingComponent },
       { path: 'lavando', component: LavanderiaWorkingComponent },
-      { path: 'reporte', component: LavanderiaReportComponent },
+      { path: 'reporte', component: PrendaReportComponent },
       { path: 'empaque', component: LavanderiaPackingComponent },
       { path: 'empacar/:prefix', component: LavanderiaPackingScanComponent },
     ] },
