@@ -1,6 +1,8 @@
+import { Input } from '@angular/core';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectionListChange } from '@angular/material/list';
+import { ActivatedRoute } from '@angular/router';
 import { CameraService } from 'src/app/services/camera.service';
 import { ReportesService } from 'src/app/services/reportes.service'
 import { LimpiezaEvidenciaDialog } from '../limpieza-evidencia-dialog/limpieza-evidencia-dialog.component';
@@ -12,12 +14,13 @@ import { LimpiezaEvidenciaDialog } from '../limpieza-evidencia-dialog/limpieza-e
 })
 export class LimpiezaReporteFormComponent implements OnInit {
 
+  @Input() workspace: 'limpieza' | 'lavanderia' = 'limpieza'
   @Output() validForm = new EventEmitter<boolean>();
   state: string = ''
   constructor(
     public reportes_: ReportesService,
     private _dialog: MatDialog,
-    private _camera: CameraService
+    private _camera: CameraService,
   ) { }
 
   ngOnInit(): void {

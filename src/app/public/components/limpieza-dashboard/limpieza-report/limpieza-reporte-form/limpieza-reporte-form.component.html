@@ -10,7 +10,8 @@
     (selectionChange)="onSelecteIssue($event)"
     [multiple]="false">
       <mat-list-option
-      *ngFor="let item of reportes_.limpiezaIssues"
+      *ngFor="let item of workspace == 'limpieza'
+      ? reportes_.limpiezaIssues : reportes_.lavanderiaIssues"
       [value]="item"
       >
         {{item}}

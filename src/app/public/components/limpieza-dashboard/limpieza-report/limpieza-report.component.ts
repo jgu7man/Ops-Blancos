@@ -1,6 +1,8 @@
+import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MxAlert, MxCache } from '@marxa/devkit';
+import { ActivatedRoute } from '@angular/router';
+import { MxAlert, MxCache, MxResponsive } from '@marxa/devkit';
 import { Subscription } from 'rxjs';
 import { iCode } from 'src/app/models/prenda.model';
 import { iPropiedadState } from 'src/app/models/propiedad.model';
@@ -20,9 +22,12 @@ export class LimpiezaReportComponent implements OnInit, OnDestroy {
     private _dialog: MatDialog,
     private _cache: MxCache,
     private _alert: MxAlert,
-    private _reports: ReportesService
+    private _reports: ReportesService,
+    private _responsive: MxResponsive,
+    private _location: Location
   ) {
-    this._scanner.scannerSource = 'limpieza'
+    this._scanner.scannerSource = this._location.path()
+      .includes('limpieza') ? 'limpieza' : 'lavanderia'
     this.scannerSubs =
       this._scanner.codeScanned$.
       subscribe(codeScanned => {
@@ -50,10 +55,10 @@ export class LimpiezaReportComponent implements OnInit, OnDestroy {
   // # On SCANNED
   /** Abre un cuadro de diálogo con el formulario correspondiente a `limpieza` o `lavandería` para registrar la prenda escaneada */
   onScanned(scanned: iCode) {
-
+    let boxWidth = this._responsive.large ? '33vw' : '100vw';
     this._dialog.open( LimpiezaScannedFormDialog, {
       maxHeight: '80vh',
-      width: '100vw',
+      width: boxWidth,
       data: scanned,
       disableClose: true
     }).afterClosed().subscribe(confirm => {

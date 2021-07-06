@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MxAlert } from '@marxa/devkit';
 import { iCode, PrendaModel } from 'src/app/models/prenda.model';
 import { ReportesService } from 'src/app/services/reportes.service';
+import { ScannerService } from 'src/app/services/scanner.service';
 
 @Component({
   templateUrl: './limpieza-scanned-form.component.html',
@@ -11,13 +12,15 @@ import { ReportesService } from 'src/app/services/reportes.service';
 export class LimpiezaScannedFormDialog implements OnInit, OnDestroy {
 
   isReady = false;
-
+  workspace: 'limpieza' | 'lavanderia'
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: iCode,
     public dialog_: MatDialogRef<LimpiezaScannedFormDialog>,
     private _reportes: ReportesService,
-    private _alert: MxAlert
+    private _alert: MxAlert,
+    private _scanner: ScannerService
   ) {
+    this.workspace = this._scanner.scannerSource
    }
 
   ngOnInit(): void {
