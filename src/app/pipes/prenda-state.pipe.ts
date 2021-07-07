@@ -13,9 +13,10 @@ export class PrendaStatePipe implements PipeTransform {
 }
 
 export const PrendaDisplayMap: Map<PrendaState, string> = new Map([
-  ['sucio',  "Sucia"  ],
-  ['damage', "Dañada" ],
-  ['lost',   "Perdida"],
-  ['wash',   "Lavando"],
-  ['stock',  "Bodega" ],
+  ['sucio',    "Sucia"    ],
+  ['damage',   "Dañada"   ],
+  ['lost',     "Perdida"  ],
+  ['wash',     "Lavando"  ],
+  ['stock',    "Bodega"   ],
+  ['replaced', "Remplzado"]
 ])

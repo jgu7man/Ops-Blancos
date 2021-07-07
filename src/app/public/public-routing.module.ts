@@ -16,6 +16,7 @@ import { LavanderiaPaqueteScanComponent } from './components/lavanderia-dashboar
 import { LavanderiaPackingScanComponent } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing-scan/lavanderia-packing-scan.component';
 import { LavanderiaTimingComponent } from './components/lavanderia-dashboard/lavanderia-working/lavanderia-timing/lavanderia-timing.component';
 import { ScanPaqueteComponent } from './components/scan-paquete/scan-paquete.component';
+import { PaqueteAcargoComponent } from './components/paquete-acargo/paquete-acargo.component';
 
 const routes: Routes = [
   { path: '', component: PublicComponent, children: [
@@ -28,7 +29,7 @@ const routes: Routes = [
       // { path: 'paquete/:prefix', component: LimpiezaPaqueteScanComponent },
       { path: 'paquete/:prefix', component: ScanPaqueteComponent },
       { path: 'reporte', component: PrendaReportComponent },
-      { path: 'acargo', component: LimpiezaResponsableComponent },
+      { path: 'acargo', component: PaqueteAcargoComponent },
     ] },
     { path: 'lavanderia', component: LavanderiaDashboardComponent, children:[
       { path: '', pathMatch: 'full', redirectTo: 'desempaque' },
@@ -40,8 +41,8 @@ const routes: Routes = [
       { path: 'timing/:prefix', component: LavanderiaTimingComponent },
       { path: 'lavando', component: LavanderiaWorkingComponent },
       { path: 'reporte', component: PrendaReportComponent },
-      { path: 'empaque', component: LavanderiaPackingComponent },
-      { path: 'empacar/:prefix', component: LavanderiaPackingScanComponent },
+      { path: 'empaque', component: PaqueteAcargoComponent },
+      { path: 'empacar/:prefix', component: ScanPaqueteComponent },
     ] },
   ] },
 

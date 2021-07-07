@@ -1,12 +1,29 @@
 <p mat-dialog-title>Hacen falta prendas</p>
 <mat-dialog-content>
   <p>Estas prendas aún no se han escaneado</p>
-  <ul>
+  <ul id="faltantes-list">
     <li *ngFor="let item of faltantes">
       {{item.producto}} {{item.unidad}}/{{item.total}}
     </li>
   </ul>
   <p class="center">¿Quieres terminar de escanear así?</p>
+  <div class="alert-message">
+    <span [ngSwitch]="scanState">
+    <p *ngSwitchCase="'collected'">
+      Si aceptas terminar así, se evniará un reporte con los faltantes mencionados.
+    </p>
+    <p *ngSwitchCase="'washing'">
+      Recuerda que debes notificar la ausencia de estas prendas para que se repongan antes de se vuevlan a empacar
+    </p>
+    <p *ngSwitchCase="'stock'">
+      Si acptas terminar así, estás dando por hecho que los faltantes han sido remplazados o sustitudos y que el paquete está completo para la propiedad.
+    </p>
+    <p *ngSwitchDefault>
+
+    </p>
+    </span>
+    <p></p>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions
 style="display: flex; justify-content: space-around;">

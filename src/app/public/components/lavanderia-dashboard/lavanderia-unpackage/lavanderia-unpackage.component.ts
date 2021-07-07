@@ -35,17 +35,14 @@ export class LavanderiaUnpackageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   }
 
-  // # On SCANNED
-  /** Abre un cuadro de diálogo con el formulario correspondiente a `limpieza` o `lavandería` para registrar la prenda escaneada */
   async onScanned(scanned: iCode) {
 
     const propiedad = await this._reportes
       .searchForCurrentPropiedad(scanned.prefix, scanned.paquete, 'collected')
       this._cache.updateData('currentProp', propiedad)
 
-    const reportes = await this._reportes
-      .searchForReports(propiedad.prefix)
-      this._router.navigate(['/lavanderia/paquete'], { queryParams:{state: 'wasing'}})
+    await this._reportes.searchForReports(propiedad.prefix)
+    this._router.navigate(['/lavanderia/paquete'], { queryParams:{state: 'wasing'}})
 
   }
 

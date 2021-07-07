@@ -9,7 +9,7 @@
         <div class="col s12 m6 info-col" >
           <span class="white-text">Paquete:</span>
           <h2 class="white-text" >
-            {{propState?.direccion}} - {{propState?.pid}}
+            {{propCurrentState?.direccion}} - {{propCurrentState?.pid}}
           </h2>
           <button mat-raised-button color='accent' class="white-text"
           (click)="onFinish()">
@@ -30,8 +30,8 @@
       <div class="row">
 
         <!-- ITEM AREA -->
-        <ng-container *ngIf="defaultPaqueteState !== 'washing'; else washing">
-          <div class="col s12 m6 l4" *ngFor="let prenda of propState?.prendas">
+        <ng-container *ngIf="requestPaqueteState !== 'washing'; else washing">
+          <div class="col s12 m6 l4" *ngFor="let prenda of propCurrentState?.prendas">
             <mat-card>
               <mat-card-content>
                 <div class="row">
@@ -39,8 +39,8 @@
                   <!-- Scanned notification -->
                   <div class="col s3">
                     <span *ngIf="scanned(prenda) !== undefined"
-                    matBadge="{{prenda | checkScanned:paqueteState.prendasReport:'check'}}"
-                    [matBadgeColor]="prenda | checkScanned:paqueteState.prendasReport:'color'"
+                    matBadge="{{prenda | checkScanned:paqueteNextState.prendasReport:'check'}}"
+                    [matBadgeColor]="prenda | checkScanned:paqueteNextState.prendasReport:'color'"
                     ></span>
                     <p *ngIf="prenda.producto">
                       <i class="{{prenda.producto | productIcon}} gfy-lg"></i>
@@ -65,15 +65,15 @@
 
         <ng-template #washing >
           <mat-accordion>
-            <div class="col s12" *ngFor="let prenda of paqueteState.prendasReport">
+            <div class="col s12" *ngFor="let prenda of paqueteNextState.prendasReport">
               <mat-expansion-panel [disabled]="prenda.state != 'damage'">
 
                 <mat-expansion-panel-header>
                   <!-- Scanned notification -->
                   <span class="scanned-notification"
                   *ngIf="scanned(prenda) !== undefined"
-                  matBadge="{{prenda | checkScanned:paqueteState.prendasReport:'check'}}"
-                  [matBadgeColor]="prenda | checkScanned:paqueteState.prendasReport:'color'"
+                  matBadge="{{prenda | checkScanned:paqueteNextState.prendasReport:'check'}}"
+                  [matBadgeColor]="prenda | checkScanned:paqueteNextState.prendasReport:'color'"
                   ></span>
 
                   <!-- Prenda Info -->

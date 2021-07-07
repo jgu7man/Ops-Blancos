@@ -60,3 +60,10 @@ export const statesMap: Map<PaqueteState | PrendaState, string> = new Map([
   ['washing', 'Lavando'],
   ['collected', 'Recogido'],
 ]);
+
+export const paqueteCycle: Map<PaqueteState, PaqueteState> = new Map([
+  ['prop', 'collected'],
+  ['collected', 'washing'],
+  ['washing', 'stock'],
+  ['stock', 'prop'],
+])

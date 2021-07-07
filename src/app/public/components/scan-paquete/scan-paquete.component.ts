@@ -22,12 +22,12 @@ import { SeeImageComponent } from 'src/app/components/see-image/see-image.compon
 })
 export class ScanPaqueteComponent implements OnInit {
 
-  public propState?: iPropiedadState
+  public propCurrentState?: iPropiedadState
   public review: boolean = false
-  public paqueteState!: iPaqueteEvent
-  public defaultPaqueteState: PaqueteState
+  public paqueteNextState!: iPaqueteEvent
+  public requestPaqueteState: PaqueteState
 
-  private defaultPrendaState: PrendaState
+  private requestPrendaState: PrendaState
   private faltantes: iPrendaEvent[] = []
   private user!: iUser
   private scannerSubs!: Subscription
@@ -46,11 +46,12 @@ export class ScanPaqueteComponent implements OnInit {
     public responsive: MxResponsive
   ) {
     this._dashboard.toggleBack = true
-    const {state} = this._route.snapshot.queryParams
-    this.defaultPaqueteState = state
-    if (this.defaultPaqueteState) {
+    const { state: nextState } = this._route.snapshot.queryParams
+    console.log( {nextState} )
+    this.requestPaqueteState = nextState
+    if (this.requestPaqueteState) {
       this.user = this._cache.getDataKey('user') as iUser
-      this.getCurrentProp(this.defaultPaqueteState)
+      this.getCurrentProp(this.requestPaqueteState)
     } else {
       this._alert.message('No se identificó el estado del paquete. Verifica la ruta del enlace')
     }
@@ -65,20 +66,20 @@ export class ScanPaqueteComponent implements OnInit {
 
   }
 
-  async getCurrentProp(state: PaqueteState) {
+  async getCurrentProp(requestState: PaqueteState) {
 
     const prefix = this._route.snapshot.params['prefix']
     const {paquete} = this._route.snapshot.queryParams
-    this.defaultPrendaState = PrendaProductStateMap.get(state)
+    this.requestPrendaState = PrendaProductStateMap.get(requestState)
 
     if (prefix) {
       this.review = true
-      this.propState = await this._responsables.getPaqueteAcargoContent(prefix, paquete)
-      console.log( this.propState )
-      this.propState.pid = paquete
-      this.paqueteState = {
+      this.propCurrentState = await this._responsables.getPaqueteAcargoContent(prefix, paquete)
+      console.log( this.propCurrentState )
+      this.propCurrentState.pid = paquete
+      this.paqueteNextState = {
         pid: paquete,
-        prendasReport: this.propState.prendas.map(prenda => {
+        prendasReport: this.propCurrentState.prendas.map(prenda => {
             return <iPrendaEvent> {
               ...prenda,
               scanned: true,
@@ -86,44 +87,44 @@ export class ScanPaqueteComponent implements OnInit {
                 ? prenda.history[prenda.history.length - 1] : {} as iHistory
             }
           }),
-        state,
+        state: requestState,
       }
     } else {
-      this.propState = this._cache.getDataKey('currentProp') as iPropiedadState
-      console.log( this.propState )
-      this.paqueteState = { pid: this.propState.pid, prendasReport: [], state };
+      this.propCurrentState = this._cache.getDataKey('currentProp') as iPropiedadState
+      console.log( this.propCurrentState )
+      this.paqueteNextState = { pid: this.propCurrentState.pid, prendasReport: [], state: requestState };
     }
   }
 
   onScanned(code: CodeModel) {
 
-    if (this.propState) {
+    if (this.propCurrentState) {
 
-      if (code.propiedad != this.propState.direccion) {
+      if (code.propiedad != this.propCurrentState.direccion) {
         this._alert.message(`Este código no pertenece a la propiedad: ${code.codigo}`)
-      } else if (code.pid != this.propState.pid) {
+      } else if (code.pid != this.propCurrentState.pid) {
         this._alert.message(`Este código no pertenece al paquete: ${code.codigo}`)
       } else {
 
-        let prevScanned = this.paqueteState.prendasReport
+        let prevScanned = this.paqueteNextState.prendasReport
           .find(p => p.codigo === code.codigo)
         if (prevScanned) {
           this._alert.notify(`Este código ya se escaneó: ${code.codigo}`)
         } else {
 
-          let prendaScanned = this.propState.prendas.findIndex(p => p.codigo == code.codigo)
+          let prendaScanned = this.propCurrentState.prendas.findIndex(p => p.codigo == code.codigo)
           if (prendaScanned >= 0) {
             let currentPrenda: iPrendaEvent = {
               // Info de la prenda
-              ...this.propState.prendas[prendaScanned],
+              ...this.propCurrentState.prendas[prendaScanned],
               // Set scanned
               scanned: true,
               // Set actual state
-              state: this.defaultPrendaState,
+              state: this.requestPrendaState,
               // Regist event, state and who
-              event: new iHistory(new Date(), this.defaultPrendaState, this.user.uid),
+              event: new iHistory(new Date(), this.requestPrendaState, this.user.uid),
             }
-            this.paqueteState?.prendasReport.push(currentPrenda)
+            this.paqueteNextState?.prendasReport.push(currentPrenda)
           } else {
             this._alert.message(`Esta prenda no coincide con ninguna del paquete: ${code.codigo}`)
           }
@@ -134,7 +135,7 @@ export class ScanPaqueteComponent implements OnInit {
 
   /**  Validate if prenda is scanned */
   scanned(prenda: iPrenda) {
-    return this.paqueteState?.prendasReport
+    return this.paqueteNextState?.prendasReport
       .find(p => p.codigo === prenda.codigo)?.scanned
   }
 
@@ -147,10 +148,10 @@ export class ScanPaqueteComponent implements OnInit {
 
 
   async compareStates(){
-    if (this.propState) {
+    if (this.propCurrentState) {
       await this._loading.asyncForEach(
-      this.propState?.prendas,  async (pren: iPrendaState) => {
-        let prenda = this.paqueteState?.prendasReport.find(
+      this.propCurrentState?.prendas,  async (pren: iPrendaState) => {
+        let prenda = this.paqueteNextState?.prendasReport.find(
           p => p.codigo == pren.codigo
         )
         if (!prenda || prenda.scanned !== true)
@@ -180,13 +181,13 @@ export class ScanPaqueteComponent implements OnInit {
         this.faltantes = this.faltantes.map(faltante => {
           return <iPrendaEvent> {
             ...faltante,
-            state: 'lost',
+            state: this.requestPaqueteState == 'stock' ? 'replaced' : 'lost',
             event: historyEvent,
             scanned: false
           }
         })
-        this.paqueteState.prendasReport = [
-          ...this.paqueteState.prendasReport,
+        this.paqueteNextState.prendasReport = [
+          ...this.paqueteNextState.prendasReport,
           ...this.faltantes
         ]
         this.saveReporte(true)
@@ -196,13 +197,19 @@ export class ScanPaqueteComponent implements OnInit {
 
 
   saveReporte(faltantes?: true){
-    let propEvent: PropEvent = new PropEvent(new Date(), this.user.uid, this.paqueteState)
-    if (this.propState) {
-      this._reportes.onSaveReporte(this.propState?.prefix, propEvent, faltantes)
-      .then(() => {
-        this.review
-          ? this._location.back()
-          : this._router.navigate(['/limpieza/acargo'])
+    let propEvent: PropEvent = new PropEvent(new Date(), this.user.uid, this.paqueteNextState)
+    if (this.propCurrentState) {
+      this._reportes.onSaveReporte(this.propCurrentState?.prefix, propEvent, faltantes)
+        .then(() => {
+          if (this.review) this._location.back()
+          else {
+            if (this.requestPaqueteState == 'collected')
+              this._router.navigate(['/limpieza/acargo'])
+            else if (this.requestPaqueteState == 'washing')
+              this._router.navigate(['/lavanderia/lavando'])
+            else if (this.requestPaqueteState == 'stock')
+              this._router.navigate(['/lavanderia/empaque'])
+          }
       })
     }
   }
