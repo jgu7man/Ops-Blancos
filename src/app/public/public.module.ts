@@ -39,6 +39,7 @@ import { PipesModule } from '../pipes/pipes.module';
 import { ScanPaqueteComponent } from './components/scan-paquete/scan-paquete.component';
 import { NotifyFaltantesDialog } from './components/scan-paquete/notify-faltantes/notify-faltantes.dialog';
 import { PaqueteAcargoComponent } from './components/paquete-acargo/paquete-acargo.component';
+import { WorkspaceDashboardComponent } from './components/workspace-dashboard/workspace-dashboard.component';
 
 
 @NgModule({
@@ -72,7 +73,8 @@ import { PaqueteAcargoComponent } from './components/paquete-acargo/paquete-acar
     LavanderiaTimingComponent,
     ScanPaqueteComponent,
     NotifyFaltantesDialog,
-    PaqueteAcargoComponent
+    PaqueteAcargoComponent,
+    WorkspaceDashboardComponent
   ],
   imports: [
     CommonModule,

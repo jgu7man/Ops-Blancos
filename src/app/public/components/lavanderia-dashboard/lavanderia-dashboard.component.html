@@ -1,4 +1,4 @@
-<g-topbar [menuRoutes]="routes" ></g-topbar>
+<g-topbar [menuRoutes]="routes"></g-topbar>
 <div class="page-container">
   <div class="row">
     <div class="col s12">
@@ -7,34 +7,63 @@
   </div>
 </div>
 
-
-<mat-toolbar
-  color="accent"
-  class="mat-elevation-z4"
-  id="bottom-bar"
->
+<mat-toolbar color="accent" class="mat-elevation-z4" id="bottom-bar">
   <!-- Desempaque -->
   <span class="navbtn">
-    <i class="fas fa-box-open fa-lg  white-text" [routerLink]="['desempaque']" [routerLinkActive]="'active'" [ngClass]="{'active': paqueteActive.isActive}"></i>
+    <i
+      class="fas fa-box-open fa-lg white-text"
+      [routerLink]="['desempaque']"
+      [routerLinkActive]="'active'"
+      [ngClass]="{ active: paqueteActive.isActive }"
+    ></i>
   </span>
-  <a routerLink="paquete" routerLinkActive #paqueteActive="routerLinkActive" hidden="true"></a>
+  <a
+    routerLink="paquete"
+    routerLinkActive
+    #paqueteActive="routerLinkActive"
+    hidden="true"
+  ></a>
 
   <!-- Lavando -->
   <span class="navbtn">
-    <i class="fas fa-soap fa-lg  white-text" [routerLink]="['lavando']" [routerLinkActive]="'active'" [ngClass]="{'active': reviewActive.isActive}" ></i>
+    <i
+      class="fas fa-soap fa-lg white-text"
+      [routerLink]="['lavando']"
+      [queryParams]="{ action: 'work' }"
+      [routerLinkActive]="'active'"
+      [ngClass]="{ active: reviewActive.isActive }"
+    ></i>
   </span>
-  <a routerLink="timing" routerLinkActive #reviewActive="routerLinkActive" hidden="true"></a>
+  <a
+    routerLink="timing"
+    routerLinkActive
+    #reviewActive="routerLinkActive"
+    hidden="true"
+  ></a>
 
   <!-- Reporte -->
   <span class="navbtn">
-    <i class="fas fa-clipboard-list fa-lg  white-text" [routerLink]="['reporte']" [routerLinkActive]="'active'"></i>
+    <i
+      class="fas fa-clipboard-list fa-lg white-text"
+      [routerLink]="['reporte']"
+      [routerLinkActive]="'active'"
+    ></i>
   </span>
 
   <!-- Empaque -->
   <span class="navbtn">
-    <i class="fas fa-box fa-lg  white-text" [routerLink]="['empaque']" [routerLinkActive]="'active'" [ngClass]="{'active': empacarActive.isActive}"></i>
+    <i
+      class="fas fa-box fa-lg white-text"
+      [routerLink]="['empaque']"
+      [queryParams]="{ action: 'pack' }"
+      [routerLinkActive]="'active'"
+      [ngClass]="{ active: empacarActive.isActive }"
+    ></i>
   </span>
-  <a routerLink="empacar" routerLinkActive #empacarActive="routerLinkActive" hidden="true"></a
-    >
+  <a
+    routerLink="empacar"
+    routerLinkActive
+    #empacarActive="routerLinkActive"
+    hidden="true"
+  ></a>
 </mat-toolbar>
-

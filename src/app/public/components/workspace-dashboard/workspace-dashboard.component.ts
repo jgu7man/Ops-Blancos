@@ -1,23 +1,29 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MxAuth } from '@marxa/auth';
-import { from, of } from 'rxjs';
-import { concatMap, take, takeUntil, takeWhile } from 'rxjs/operators';
+import { MxResponsive } from '@marxa/devkit';
+import { takeWhile } from 'rxjs/operators';
 import { iMenuRoutes } from 'src/app/components/topbar/topbar.component';
+import { iDashboard } from 'src/app/models/workspace.model';
+import { DashboardService } from 'src/app/services/dashboard.service';
 
 @Component({
-  templateUrl: './lavanderia-dashboard.component.html',
-  styleUrls: ['./lavanderia-dashboard.component.scss']
+  templateUrl: './workspace-dashboard.component.html',
+  styleUrls: ['./workspace-dashboard.component.scss']
 })
-export class LavanderiaDashboardComponent implements OnInit {
+export class WorkspaceDashboardComponent implements OnInit {
 
   workspace: 'limpieza' | 'lavanderia'
+  dashboard: iDashboard
   constructor(
     private _auth: MxAuth,
-    private _location: Location
+    private _location: Location,
+    public responsive: MxResponsive,
+    private _dashboard: DashboardService
   ) {
     this.workspace = this._location.path().includes('limpieza')
       ? 'limpieza' : 'lavanderia'
+    this.dashboard = this._dashboard.get(this.workspace)
     this._auth.user$.pipe(
       takeWhile(user => !user, true)
     ).subscribe(user => {
@@ -35,5 +41,6 @@ export class LavanderiaDashboardComponent implements OnInit {
   routes: iMenuRoutes[] = [
     {displayName: 'Limpieza', route: '/limpieza'}
   ]
+
 
 }

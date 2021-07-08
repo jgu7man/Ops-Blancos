@@ -1,0 +1,41 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+span.logo-content {
+  position: relative;
+  height: 35px;
+  display: flex;
+  align-items: flex-end;
+  // font-size: small;
+  img {
+    height: 100%;
+    margin-right: 5px;
+
+  }
+}
+
+#admin-sidebar {
+  min-width: 15vw;
+  top: 10vh;
+  background: #ea5355;
+  .side.navbtn {
+    margin-top: 1em;
+    padding-bottom: 1em;
+    font-weight: 600;
+    color: white;
+    i {
+      margin: 0 .5em;
+    }
+  }
+  ::ng-deep {
+    .mat-drawer-inner-container {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+::ng-deep .container {
+  max-width: 1280px;
+}
