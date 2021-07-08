@@ -18,23 +18,10 @@ import { FormsModule } from '@angular/forms';
 import { ReportFormComponent } from './components/prenda-report/report-form/report-form.component';
 import { ReportEvidenciaDialog } from './components/prenda-report/report-evidencia/report-evidencia.component';
 import { DialogHomeScannedComponent } from './components/limpieza-dashboard/limpieza-home/dialog-home-scanned/dialog-home-scanned.component';
-import { LimpiezaPaqueteScanComponent } from './components/limpieza-dashboard/limpieza-paquete-scan/limpieza-paquete-scan.component';
-import { DialogLimpiezaFaltantesComponent } from './components/limpieza-dashboard/limpieza-paquete-scan/dialog-limpieza-faltantes/dialog-limpieza-faltantes.component';
-import { LimpiezaResponsableComponent } from './components/limpieza-dashboard/limpieza-responsable/limpieza-responsable.component';
 import { LavanderiaDashboardComponent } from './components/lavanderia-dashboard/lavanderia-dashboard.component';
 import { LavanderiaUnpackageComponent } from './components/lavanderia-dashboard/lavanderia-unpackage/lavanderia-unpackage.component';
 import { DialogUnpackageScannedComponent } from './components/lavanderia-dashboard/lavanderia-unpackage/dialog-unpackage-scanned/dialog-unpackage-scanned.component';
-import { LavanderiaPaqueteScanComponent } from './components/lavanderia-dashboard/lavanderia-paquete-scan/lavanderia-paquete-scan.component';
-import { DialogLavanderiaFaltantesComponent } from './components/lavanderia-dashboard/lavanderia-paquete-scan/dialog-lavanderia-faltantes/dialog-lavanderia-faltantes.component';
-import { LavanderiaReportComponent } from './components/lavanderia-dashboard/lavanderia-report/lavanderia-report.component';
-import { DialogLavanderiaEvidenciaComponent } from './components/lavanderia-dashboard/lavanderia-report/dialog-lavanderia-evidencia/dialog-lavanderia-evidencia.component';
-import { LavanderiaFormReporteComponent } from './components/lavanderia-dashboard/lavanderia-report/lavanderia-form-reporte/lavanderia-form-reporte.component';
-import { DialogLavanderiaScannedFormComponent } from './components/lavanderia-dashboard/lavanderia-report/dialog-lavanderia-scanned-form/dialog-lavanderia-scanned-form.component';
-import { LavanderiaPackingComponent } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing.component';
-import { LavanderiaWorkingComponent } from './components/lavanderia-dashboard/lavanderia-working/lavanderia-working.component';
-import { LavanderiaPackingScanComponent } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing-scan/lavanderia-packing-scan.component';
-import { PackingFaltantesDialog } from './components/lavanderia-dashboard/lavanderia-packing/lavanderia-packing-scan/dialog-packing-faltantes/dialog-packing-faltantes.component';
-import { LavanderiaTimingComponent } from './components/lavanderia-dashboard/lavanderia-working/lavanderia-timing/lavanderia-timing.component';
+import { LavanderiaTimingComponent } from './components/lavanderia-dashboard/lavanderia-timing/lavanderia-timing.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { ScanPaqueteComponent } from './components/scan-paquete/scan-paquete.component';
 import { NotifyFaltantesDialog } from './components/scan-paquete/notify-faltantes/notify-faltantes.dialog';
@@ -54,22 +41,9 @@ import { WorkspaceDashboardComponent } from './components/workspace-dashboard/wo
     ReportFormComponent,
     ReportEvidenciaDialog,
     DialogHomeScannedComponent,
-    LimpiezaPaqueteScanComponent,
-    DialogLimpiezaFaltantesComponent,
-    LimpiezaResponsableComponent,
     LavanderiaDashboardComponent,
     LavanderiaUnpackageComponent,
     DialogUnpackageScannedComponent,
-    LavanderiaPaqueteScanComponent,
-    DialogLavanderiaFaltantesComponent,
-    LavanderiaReportComponent,
-    DialogLavanderiaEvidenciaComponent,
-    LavanderiaFormReporteComponent,
-    DialogLavanderiaScannedFormComponent,
-    LavanderiaPackingComponent,
-    LavanderiaWorkingComponent,
-    LavanderiaPackingScanComponent,
-    PackingFaltantesDialog,
     LavanderiaTimingComponent,
     ScanPaqueteComponent,
     NotifyFaltantesDialog,
