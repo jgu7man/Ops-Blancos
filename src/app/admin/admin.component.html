@@ -9,22 +9,31 @@
     mxStretchHeight
   >
     <ng-container *ngFor="let view of dashboard.views">
-      <a
-        class="side navbtn"
-        [routerLink]="[view.route]"
-        [routerLinkActive]="'active'"
-        [ngClass]="{ active: alikeActive.isActive }"
-        [queryParams]="view.queryParams"
-      >
-        <i class="fas {{ view.icon }} fa-lg  white-text"></i> {{view.display}}
-      </a>
-      <mat-divider [inset]="true"></mat-divider>
-      <a
+      <ng-container *ngIf="view.alike; else aLonely">
+        <a class="side navbtn"
+          [routerLink]="[view.route]"
+          [routerLinkActive]="'active'"
+          [ngClass]="{ active: alikeActive.isActive }"
+          [queryParams]="view.queryParams"
+        >
+          <i class="fas {{ view.icon }} fa-lg  white-text"></i> {{view.display}}
+        </a>
+        <a hidden="true"
         routerLink="{{ view.alike }}"
         routerLinkActive
         #alikeActive="routerLinkActive"
-        hidden="true"
-      ></a>
+        ></a>
+      </ng-container>
+      <ng-template #aLonely >
+        <a class="side navbtn"
+          [routerLink]="[view.route]"
+          [routerLinkActive]="'active'"
+          [queryParams]="view.queryParams"
+        >
+          <i class="fas {{ view.icon }} fa-lg  white-text"></i> {{view.display}}
+        </a>
+      </ng-template>
+    <mat-divider [inset]="true"></mat-divider>
     </ng-container>
   </mat-drawer>
 
@@ -44,21 +53,31 @@
 <ng-container *ngIf="!responsive.large">
   <mat-toolbar color="accent" class="mat-elevation-z4" id="bottom-bar">
     <ng-container *ngFor="let view of dashboard.views">
-      <span class="navbtn">
-        <i
-          class="fas {{ view.icon }} fa-lg white-text"
-          [routerLink]="[view.route]"
-          [queryParams]="view.queryParams"
-          [routerLinkActive]="'active'"
-          [ngClass]="{ active: alikeActive.isActive }"
-        ></i>
-      </span>
-      <a
-        routerLink="{{ view.alike }}"
-        routerLinkActive
-        #alikeActive="routerLinkActive"
-        hidden="true"
-      ></a>
+      <ng-container *ngIf="view.alike; else lonely">
+        <span class="navbtn">
+          <i class="fas {{ view.icon }} fa-lg white-text"
+            [routerLink]="[view.route]"
+            [queryParams]="view.queryParams"
+            [routerLinkActive]="'active'"
+            [ngClass]="{ active: alikeActive.isActive }"
+          ></i>
+        </span>
+        <a hidden="true"
+          routerLink="{{ view.alike }}"
+          routerLinkActive
+          #alikeActive="routerLinkActive"
+        ></a>
+      </ng-container>
+      <ng-template #lonely >
+        <span class="navbtn">
+          <i class="fas {{ view.icon }} fa-lg white-text"
+            [routerLink]="[view.route]"
+            [queryParams]="view.queryParams"
+            [routerLinkActive]="'active'"
+          ></i>
+        </span>
+      </ng-template>
+
     </ng-container>
   </mat-toolbar>
 </ng-container>

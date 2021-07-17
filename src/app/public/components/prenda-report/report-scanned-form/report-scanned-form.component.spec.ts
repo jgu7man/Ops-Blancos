@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReportScannedFormDialog } from './report-scanned-form.component';
+import { ReportScannedFormComponent } from './report-scanned-form.component';
 
 describe('LimpiezaScannedFormComponent', () => {
-  let component: ReportScannedFormDialog;
-  let fixture: ComponentFixture<ReportScannedFormDialog>;
+  let component: ReportScannedFormComponent;
+  let fixture: ComponentFixture<ReportScannedFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ReportScannedFormDialog ]
+      declarations: [ ReportScannedFormComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReportScannedFormDialog);
+    fixture = TestBed.createComponent(ReportScannedFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

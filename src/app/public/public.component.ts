@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MxAuth } from '@marxa/auth';
+import { takeWhile } from 'rxjs/operators';
 import { iMenuRoutes } from '../components/topbar/topbar.component';
 
 @Component({
@@ -14,9 +15,10 @@ export class PublicComponent implements OnInit {
     public auth_: MxAuth,
     private _router: Router
   ) {
-    this.auth_.user$.subscribe(user => {
+    this.auth_.user$.pipe(
+      takeWhile(user => !user, true)
+    ).subscribe(user => {
       if (user.rol === 'admin' || user.rol === 'city-manager'){
-        // this._router.navigate([`/${user.rol}`])
       }
     })
   }

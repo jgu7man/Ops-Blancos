@@ -10,6 +10,7 @@ import { PropiedadesService } from 'src/app/services/propiedades.service';
 import { MxCache, MxResponsive } from '@marxa/devkit';
 import { iPropiedadState } from 'src/app/models/propiedad.model';
 import { ReportesService } from 'src/app/services/reportes.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   templateUrl: './limpieza-home.component.html',
@@ -51,10 +52,10 @@ export class LimpiezaHomeComponent implements OnInit, OnDestroy {
       width: boxWidth,
       data: scanned,
       disableClose: true
-    }).afterClosed().subscribe(next => {
+    }).afterClosed().pipe(take(1)).subscribe(next => {
       if (next) {
         this._reportes.searchForCurrentPropiedad(scanned.prefix, scanned.pid, 'prop')
-          .then((propiedad) => {
+          .then( ( propiedad ) => {
             this._cache.updateData('currentProp', propiedad)
             this._router.navigate(['/limpieza/paquete'], { queryParams:{state: 'collected'}})
         })

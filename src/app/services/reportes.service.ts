@@ -1,3 +1,4 @@
+import { PrendaProductStateMap } from 'src/app/models/prenda.model';
 import { iUser } from './../models/user.model';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -23,7 +24,7 @@ import { CameraService } from './camera.service';
 import { MxAlert, MxCache, MxLoading } from '@marxa/devkit';
 import firebase from 'firebase/app';
 import { pickBy, identity } from 'lodash';
-import { iPropiedadState, PaqueteState } from '../models/propiedad.model';
+import { iPaquete, iPaqueteState, iPropiedadState, PaqueteState } from '../models/propiedad.model';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +39,7 @@ export class ReportesService {
   });
   currentProp?: iPropiedadState;
   currentPrenda?: PrendaModel;
-  prendasChecklist: iPrendaEvent[] = [];
+  prendasChecklist: iPrendaState[] = [];
   user: iUser;
 
   constructor(
@@ -61,56 +62,85 @@ export class ReportesService {
     const propRef = this._afs.collection('propiedades').doc(prefix).ref;
 
     try {
+      this._loading.toggleWaiting('open')
       const propDoc = await propRef.get();
       if (!propDoc.exists) {
-        throw { error: 'PROP_NOT_EXISTS' };
+        throw { error: 'PROP_NOT_EXISTS', message: 'La propiedad no existe' };
       } else {
         const prop = propDoc.data() as iPropiedadState;
         // 2. Search for paquete
-        const paqueteQDoc = await propDoc.ref
-          .collection(`paquetes`)
-          .doc(`${pid}`)
-          .get();
-        var prendasCol = await paqueteQDoc.ref.collection(`prendas`).get();
+        const paqueteRef = propDoc.ref.collection( `paquetes` ).doc( `${ pid }` )
+        const paqueteDoc = await paqueteRef.get()
+        if ( !paqueteDoc.exists ) {
+          throw { error: 'PAQ_NOT_EXIST', message: 'El paquete no existe'}
+        } else {
+          let paquete: iPaqueteState = paqueteDoc.data() as iPaqueteState
+          if ( prevState == 'prop' && prevState != paquete.state ) {
+            throw { error: 'UNMATCH_STATE', message: 'El paquete no está en propiedad'}
+          } else if ( prevState == 'collected' && paquete.state != 'collected' ) {
+            throw { error: 'UNMATCH_STATE', message: 'El paquete no se ha recogido'}
+          } else if ( prevState == 'collected' && paquete.state != 'edited'  ) {
+            throw { error: 'UNMATCH_STATE', message: 'El paquete no se ha recogido'}
+          } else {
+            var prendasCol = await paqueteRef.collection( `prendas` ).get();
 
-        // console.log(prendasCol.size);
-        this.prendasChecklist = [];
-        prendasCol.forEach((prenda) =>
-          this.prendasChecklist.push(prenda.data() as iPrendaEvent)
-        );
-        // console.log(this.prendasChecklist);
+            // console.log(prendasCol.size);
+            this.prendasChecklist = [];
+            prendasCol.forEach( ( prenda ) =>{
+                this.prendasChecklist.push( prenda.data() as iPrendaState )
+              }
+            );
 
-        this.currentProp = {
-          ...prop, pid,
-          prendas: this.prendasChecklist,
-        };
+            this.currentProp = {
+              ...prop, pid,
+              prendas: this.prendasChecklist,
+            };
 
-        return this.currentProp;
+            this._loading.toggleWaiting('close')
+            return this.currentProp;
+          }
+        }
       }
     } catch (error) {
-      console.error(error);
+      console.error( error );
+      if ( 'message' in error ) {
+        this._alert.error( error.message, error );
+      } else {
+        this._alert.error('Error al buscar la propiedad o parte de ella', error)
+      }
+      this._loading.toggleWaiting('close')
       throw error;
     }
   }
 
-  async searchForReports(prefix: string) {
-    const eventsRef = this._afs.collection<PropEvent>(
-      `propiedades/${prefix}/events`
-    );
-    const eventsDocs = await eventsRef.ref.where('checked', '!=', true).get();
+  async getLastReport(pid: string) {
+  }
 
-    const events: PropEvent[] = [];
-    await this._loading.asyncForEach(
-      eventsDocs.docs,
-      (doc: firebase.firestore.QueryDocumentSnapshot<PropEvent>) => {
-        let date = doc.data().date as firebase.firestore.Timestamp;
-        let event = doc.data();
-        event.date = date.toDate();
-        return events.push(doc.data());
-      }
-    );
+  async searchForReports( prefix: string ) {
+    try {
+      this._loading.toggleWaiting('open')
+      const eventsRef = this._afs.collection<PropEvent>(
+        `propiedades/${prefix}/events`
+      );
+      const eventsDocs = await eventsRef.ref.where('checked', '!=', true).get();
 
-    return events;
+      const events: PropEvent[] = [];
+      await this._loading.asyncForEach(
+        eventsDocs.docs,
+        (doc: firebase.firestore.QueryDocumentSnapshot<PropEvent>) => {
+          let date = doc.data().date as firebase.firestore.Timestamp;
+          let event = doc.data();
+          event.date = date.toDate();
+          return events.push(doc.data());
+        }
+      );
+      this._loading.toggleWaiting('close')
+      return events;
+    } catch (error) {
+      this._alert.error( 'Error buscando los reportes', error )
+      console.error(error)
+      return
+    }
   }
 
   // # PRENDA STATE CHANGE
@@ -131,6 +161,7 @@ export class ReportesService {
 
   async saveCurrentPrenda(): Promise<void> {
     try {
+      this._loading.toggleWaiting('open')
       let prenda: iPrendaEvent;
       if (this.currentPrenda) {
         let event = new iHistory(
@@ -153,16 +184,17 @@ export class ReportesService {
         throw { message: 'No hay prenda escaneada' };
       }
     } catch (error) {
-      console.error(error);
+      console.error( error );
+      this._loading.toggleWaiting( 'close' )
+      this._alert.error('Error al guardar la prenda', error)
       throw error
     }
   }
 
   async savePrendaState(prenda: iPrendaEvent): Promise<void> {
     try {
-
       if (this.user && this.currentPrenda?.prefix) {
-        const propPath = `propiedades/${this.currentPrenda.prefix}`;
+        const propPath = `propiedades/${ this.currentPrenda.prefix }`;
         const eventRef = this._afs
           .collection(`${propPath}/events`)
           .ref.doc(`${new Date().getTime()}`);
@@ -171,7 +203,7 @@ export class ReportesService {
           .ref.doc(`${new Date().getTime()}`);
         const batch = this._afs.firestore.batch();
 
-        const prendaPath = `propiedades/${this.currentPrenda.prefix}/paquetes/${this.currentPrenda.paquete}/prendas/${prenda.codigo}`;
+        const prendaPath = `propiedades/${ this.currentPrenda.prefix }/paquetes/${ this.currentPrenda.paquete }/prendas/${ prenda.codigo }`;
         const prendaRef = this._afs.doc(prendaPath).ref;
 
 
@@ -188,7 +220,7 @@ export class ReportesService {
 
 
         // Prepare event to save
-        prenda.event = { ...prenda.event };
+        // prenda.event = { ...prenda.event };
         let paquete: iPaqueteEvent = {
           pid: this.currentPrenda.paquete,
           state: 'damage',
@@ -207,11 +239,14 @@ export class ReportesService {
           checked: false
         });
 
+        this._loading.toggleWaiting('close')
         return batch.commit();
       } else {
         throw {message: 'No se pudo guardar el reporte'}
       }
-    } catch (error) {
+    } catch ( error ) {
+      this._loading.toggleWaiting( 'close' )
+      this._alert.error('Error guardando el estado de la prenda', error)
       console.error(error);
       throw error
     }
@@ -219,6 +254,7 @@ export class ReportesService {
 
   async onSaveReporte(prefix: string, event: PropEvent, alert?: true) {
     try {
+      this._loading.toggleWaiting('open')
       if (!this.user) {
         throw { message: 'No está autenticado' };
       } else if (!prefix) {
@@ -226,27 +262,25 @@ export class ReportesService {
       } else {
         const otherPaquete = event.paquete.pid.endsWith('1')
           ? prefix + '2' : prefix + '1'
-
         const propPath = `propiedades/${prefix}`;
         const paquetePath = `${propPath}/paquetes/${event.paquete.pid}`;
         const otherPath = `${propPath}/paquetes/${otherPaquete}`;
-        console.log( {otherPaquete, propPath, paquetePath, otherPath} )
         const eventRef = this._afs.collection(`${propPath}/events`).ref;
         const alertRef = this._afs.collection('alerts').ref;
         const otherRef = this._afs.doc(otherPath).ref;
         const paqueteRef = this._afs.doc(paquetePath).ref;
         const batch = this._afs.firestore.batch();
 
+
         // Save prendas states
         await this._loading.asyncForEach(
           event.paquete.prendasReport,
           async (prenda: iPrendaEvent, index: number) => {
             const prendaPath = `${paquetePath}/prendas/${prenda.codigo}`;
-            console.log( prendaPath )
             const prendaRef = this._afs.doc(prendaPath).ref;
-            let prendaEvent = pickBy(prenda.event, identity);
+            let prendaEvent = pickBy( prenda.event, identity );
             batch.update(prendaRef, {
-              state: prenda.state,
+              state:  PrendaProductStateMap.get(event.paquete.state),
               history: firebase.firestore.FieldValue.arrayUnion(prendaEvent),
               lastUpdate: new Date()
             });
@@ -287,14 +321,20 @@ export class ReportesService {
         await batch.commit().catch(error => {
           console.log( error )
           throw { message: 'Error al contactar con la base de datos'}
-        })
+        } )
+        this._loading.toggleWaiting('close')
         this._cache.deleteDataKey('currentProp');
         return;
 
       }
     } catch (error) {
-      console.error(error);
-      this._alert.error('Error', error);
+      console.error( error );
+      this._loading.toggleWaiting( 'close' )
+      if ( 'message' in error ) {
+        this._alert.error( error.message, error)
+      } else {
+        this._alert.error('Error guardando el reporte', error);
+      }
     }
   }
 

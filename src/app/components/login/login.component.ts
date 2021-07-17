@@ -6,6 +6,7 @@ import { MxAlert } from '@marxa/devkit';
 import { Subscription } from 'rxjs';
 import { iUser } from 'src/app/models/user.model';
 import { MxAuth, MxLoginFields } from '@marxa/auth';
+import { take } from 'rxjs/operators';
 
 @Component({
   templateUrl: './login.component.html',
@@ -47,7 +48,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   onSubmit(event: MxLoginFields) {
     this._auth.emailSignIn(event.email, event.password)
       .then(() => {
-        this._auth.user$.subscribe((user:iUser) => {
+        this._auth.user$.pipe(take(1)).subscribe((user:iUser) => {
           this._router.navigate([
             user.rol == 'admin' || user.rol == 'city-manager'
               ? '/admin'

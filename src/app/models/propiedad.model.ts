@@ -20,7 +20,7 @@ export interface iPropiedadState {
 }
 
 export interface iPropAcargo {
-  paquete: string;
+  prefix: string;
   pid: string;
   state: PaqueteState;
   lastUpdate: firebase.firestore.Timestamp | Date;
@@ -32,7 +32,8 @@ export type PaqueteState =
   | 'damage'
   | 'stock'
   | 'washing'
-  | 'collected';
+  | 'collected'
+  | 'edited';
 
 export class iPaquete {
   responsable?: string;
@@ -58,12 +59,14 @@ export const statesMap: Map<PaqueteState | PrendaState, string> = new Map([
   ['lost', 'Perdida'],
   ['stock', 'En bodega'],
   ['washing', 'Lavando'],
-  ['collected', 'Recogido'],
+  [ 'collected', 'Recogido' ],
+  [ 'edited', 'Editado']
 ]);
 
 export const paqueteCycle: Map<PaqueteState, PaqueteState> = new Map([
   ['prop', 'collected'],
   ['collected', 'washing'],
   ['washing', 'stock'],
-  ['stock', 'prop'],
+  [ 'stock', 'prop' ],
+  [ 'edited', 'washing']
 ])

@@ -1,34 +1,44 @@
-<mat-dialog-content>
+<div class="container">
   <div class="row">
-    <div class="col s12">
-      <p>
-        <b class="cyan-text"> {{data.producto}} </b> <br>
-        Paquete: {{data.paquete}}, <br>
-        pieza: {{data.unidad}}/{{data.total}}
-      </p>
+    <div class="col s12 m1">
+      <button mat-icon-button (click)="close.emit()">
+          <i class="fas fa-times fa-lg"></i>
+      </button>
+    </div>
+    <div class="col s12 m11" *ngIf="code">
+      <div class="row">
+        <div class="col s12">
+          <p>
+            <b class="cyan-text"> {{code.producto}} </b> <br>
+            Paquete: {{code.paquete}}, <br>
+            pieza: {{code.unidad}}/{{code.total}}
+          </p>
 
+        </div>
+      </div>
+      <g-report-form
+      [workspace]="workspace"
+      (validForm)="validateReady($event)"
+      ></g-report-form>
+      <div class="row">
+        <div class="col s12" style="display: flex; justify-content: space-around;">
+
+          <button
+          mat-raised-button
+          (click)="close.emit()">
+            Cancelar
+          </button>
+
+          <button
+          mat-raised-button
+          color="primary"
+          [disabled]="!isReady"
+          (click)="onReport()"
+          >
+            <b>REPORTAR</b>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-  <g-report-form
-  [workspace]="workspace"
-  (validForm)="validateReady($event)"
-  ></g-report-form>
-</mat-dialog-content>
-
-<mat-dialog-actions
-style="display: flex; justify-content: space-around;">
-    <button
-    mat-raised-button
-    (click)="dialog_.close()">
-      Cancelar
-    </button>
-
-    <button
-    mat-raised-button
-    color="primary"
-    [disabled]="!isReady"
-    (click)="onReport()"
-    >
-      <b>REPORTAR</b>
-    </button>
-</mat-dialog-actions>
+</div>

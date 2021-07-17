@@ -13,7 +13,7 @@ import { LimpiezaDashboardComponent } from './components/limpieza-dashboard/limp
 import { LimpiezaHomeComponent } from './components/limpieza-dashboard/limpieza-home/limpieza-home.component';
 import { PrendaReportComponent } from './components/prenda-report/prenda-report.component';
 // import { ScannerComponent } from '../components/scanner/scanner.component';
-import { ReportScannedFormDialog } from './components/prenda-report/report-scanned-form/report-scanned-form.component';
+import { ReportScannedFormComponent } from './components/prenda-report/report-scanned-form/report-scanned-form.component';
 import { FormsModule } from '@angular/forms';
 import { ReportFormComponent } from './components/prenda-report/report-form/report-form.component';
 import { ReportEvidenciaDialog } from './components/prenda-report/report-evidencia/report-evidencia.component';
@@ -37,7 +37,7 @@ import { WorkspaceDashboardComponent } from './components/workspace-dashboard/wo
     LimpiezaHomeComponent,
     PrendaReportComponent,
     // ScannerComponent,
-    ReportScannedFormDialog,
+    ReportScannedFormComponent,
     ReportFormComponent,
     ReportEvidenciaDialog,
     DialogHomeScannedComponent,

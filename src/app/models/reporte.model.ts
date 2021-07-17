@@ -33,7 +33,7 @@ export interface iPaqueteEvent {
 
 export interface iPrendaEvent extends iPrenda {
   state: PrendaState;
-  event: iHistory
+  event?: iHistory
   scanned?: boolean
 }
 

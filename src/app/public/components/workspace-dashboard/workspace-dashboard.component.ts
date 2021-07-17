@@ -15,6 +15,7 @@ export class WorkspaceDashboardComponent implements OnInit {
 
   workspace: 'limpieza' | 'lavanderia'
   dashboard: iDashboard
+  routes: iMenuRoutes[]
   constructor(
     private _auth: MxAuth,
     private _location: Location,
@@ -23,6 +24,10 @@ export class WorkspaceDashboardComponent implements OnInit {
   ) {
     this.workspace = this._location.path().includes('limpieza')
       ? 'limpieza' : 'lavanderia'
+    this.routes = this.workspace == 'lavanderia'
+      ? [ { displayName: 'Limpieza', route: '/limpieza' } ]
+      : [ { displayName: 'Lavanderia', route: '/lavanderia' } ]
+
     this.dashboard = this._dashboard.get(this.workspace)
     this._auth.user$.pipe(
       takeWhile(user => !user, true)
@@ -38,9 +43,6 @@ export class WorkspaceDashboardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  routes: iMenuRoutes[] = [
-    {displayName: 'Limpieza', route: '/limpieza'}
-  ]
 
 
 }

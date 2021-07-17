@@ -1,5 +1,5 @@
 import { DialogAddPrendaComponent } from './../manage-database/dialog-add-prenda/dialog-add-prenda.component';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDrawer } from '@angular/material/sidenav';
 import { Subscription } from 'rxjs';
@@ -11,18 +11,20 @@ import { DialogAddPropiedadComponent } from '../manage-database/dialog-add-propi
 import { ActivatedRoute, Router } from '@angular/router';
 import { MxAlert, MxLoading, MxResponsive } from '@marxa/devkit';
 import { Location } from '@angular/common';
+import { take } from 'rxjs/operators';
 
 @Component({
   templateUrl: './propiedades.component.html',
   styleUrls: ['./propiedades.component.scss']
 })
-export class PropiedadesComponent implements OnInit {
+export class PropiedadesComponent implements OnInit, OnDestroy {
 
   scannerSubs?: Subscription
   @ViewChild('panel') private panel?: MatDrawer
   codeScanned?: iCode
   propiedadFinded?: iPropiedad
   prendaFinded?: iPrenda
+  paramsSubs: Subscription
 
   constructor(
     private _dialog: MatDialog,
@@ -34,6 +36,7 @@ export class PropiedadesComponent implements OnInit {
     public responsive: MxResponsive,
     private _location: Location
   ) {
+    this.paramsSubs =
     this._route.queryParams.subscribe(params => {
       let { prefix, code } = params;
       if (prefix || code) {
@@ -92,7 +95,7 @@ export class PropiedadesComponent implements OnInit {
     this._dialog.open(DialogAddPropiedadComponent, {
       width: '100%',
       data: code
-    }).afterClosed().subscribe(confirm => {
+    }).afterClosed().pipe(take(1)).subscribe(confirm => {
       if (confirm) {
         this.codeScanned = code
         this.panel?.open()
@@ -105,7 +108,7 @@ export class PropiedadesComponent implements OnInit {
     this._dialog.open(DialogAddPrendaComponent, {
       width: '100%',
       data: code
-    }).afterClosed().subscribe(confirm => {
+    }).afterClosed().pipe(take(1)).subscribe(confirm => {
       if (confirm) {
         if (this.propiedadFinded) {
           let paqueteId = `${code.prefix}`
@@ -135,7 +138,8 @@ export class PropiedadesComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if (this.scannerSubs) this.scannerSubs.unsubscribe()
+    if ( this.scannerSubs ) this.scannerSubs.unsubscribe()
+    this.paramsSubs.unsubscribe()
   }
 
 

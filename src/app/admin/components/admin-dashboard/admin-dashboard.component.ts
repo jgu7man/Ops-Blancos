@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MxAuth } from '@marxa/auth';
 import { MxLoading } from '@marxa/devkit';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { map, takeUntil, takeWhile } from 'rxjs/operators';
 import { iAlertReport } from 'src/app/models/reporte.model';
 import { EventsService } from 'src/app/services/events.service';
 
@@ -11,7 +11,7 @@ import { EventsService } from 'src/app/services/events.service';
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.scss']
 })
-export class AdminDashboardComponent implements OnInit {
+export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   resume: any
   eventsCant: number = 0
@@ -21,21 +21,25 @@ export class AdminDashboardComponent implements OnInit {
   alertsCant: number = 0
   // alerts: iAlertReport[] = []
   lostCant: number = 0
+
+  resumeSubscription: Subscription
   constructor(
     private _events: EventsService,
     private _loading: MxLoading,
     public auth_: MxAuth,
     private _router: Router
   ) {
-    this.auth_.user$.subscribe(user => {
+    this.auth_.user$
+      .pipe(takeWhile(user => !user, true))
+      .subscribe( user => {
       // if (user.rol === 'admin' || user.rol === 'city-manager')
       if (user.rol !== 'admin' && user.rol !== 'city-manager') {
-        console.log( 'redirect' )
         this._router.navigate([`/${user.rol}`])
       }
     })
     // this._loading.toggleWaitingSpinner('open')
 
+    this.resumeSubscription =
     this._events.getStatesResume()
       .subscribe(resume => {
         this.resume = resume
@@ -44,13 +48,17 @@ export class AdminDashboardComponent implements OnInit {
         this.collectedCant = resume.collected.length
         this.damagedCant = resume.damaged.length
         this.lostCant = resume.lost.length
-        this.alertsCant = resume.alerts.filter(alert => !alert.checked).length
+        this.alertsCant = resume.alerts.filter((alert: iAlertReport) => !alert.checked).length
         // this.alerts = resume.alerts
         // this._loading.toggleWaitingSpinner('close')
     })
    }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.resumeSubscription.unsubscribe()
   }
 
 }

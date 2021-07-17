@@ -24,7 +24,7 @@ export class PrendaModel {
     code: iCode
   ) {
     this.prefix = code.prefix
-    this.paquete = code.paquete
+    this.paquete = `${code.prefix}${code.paquete}`
     this.codigo = code.codigo
     this.unidad = code.unidad
     this.producto = code.producto
@@ -49,6 +49,7 @@ export const PrendaProductStateMap: Map<PaqueteState, PrendaState> = new Map([
   [ 'stock', 'stock'],
   [ 'washing', 'wash'],
   [ 'collected', 'sucio'],
+  [ 'edited', 'sucio'],
 ])
 
 export interface iReporte {

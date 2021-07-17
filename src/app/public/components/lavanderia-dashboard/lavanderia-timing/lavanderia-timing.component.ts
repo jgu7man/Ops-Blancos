@@ -97,14 +97,12 @@ export class LavanderiaTimingComponent implements OnInit, OnDestroy {
       this.eventSubscription =
       this._lavanderia.getLastEvents(prefix, paquete)
         .subscribe(events => {
-        console.log( events )
         this.events = events
       })
 
       this._lavanderia.getCurrentEvent(prefix, paquete)
         .pipe(take(1))
         .subscribe(events => {
-          console.log( events )
           if (events.length > 0) {
             this.currentEvents = events
             // this.started = true

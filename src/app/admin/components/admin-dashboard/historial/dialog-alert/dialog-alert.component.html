@@ -31,11 +31,11 @@
             </span>
           </p>
           <p> {{states(prenda.state)}} </p>
-          <p> {{prenda.event.reporte}} </p>
+          <p> {{prenda.event?.reporte}} </p>
 
-          <mat-grid-list *ngIf="prenda.event.evidences"
+          <mat-grid-list *ngIf="prenda.event?.evidences"
           cols="1" rowHeight="1:1">
-            <mat-grid-tile *ngFor="let item of prenda.event.evidences">
+            <mat-grid-tile *ngFor="let item of prenda.event?.evidences">
               <img [src]="item">
             </mat-grid-tile>
           </mat-grid-list>

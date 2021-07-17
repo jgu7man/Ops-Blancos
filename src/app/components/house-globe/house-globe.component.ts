@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MxAlert, MxCache, MxAlertModel } from '@marxa/devkit';
 import { Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'g-house-globe',
@@ -35,7 +35,8 @@ export class HouseGlobeComponent implements OnInit {
     let bodyAlert: MxAlertModel = {
       message: 'No has terminado de registrar, ¿Seguro que quieres cerrar la propiedad?', trueLabel: 'Sí', falseLabel: 'No'
     }
-    this._alert.request(bodyAlert).subscribe(confirm => {
+
+    this._alert.request(bodyAlert).pipe(take(1)).subscribe(confirm => {
       if (confirm) {
         let perfil = window.location.href.split('/')[3]
         this._cache.deleteDataKey('currentProp')

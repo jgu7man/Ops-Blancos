@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { iUser } from 'src/app/models/user.model';
+import { ListCrudComponent } from 'src/shared/list-crud/list-crud/list-crud.component';
 import { AddPersonalComponent } from './add-personal/add-personal.component';
 import { PersonalService } from './personal.service';
 
@@ -14,6 +15,7 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
   personalSubscription: Subscription
   @ViewChild(AddPersonalComponent)
   private addComponent: AddPersonalComponent = {} as AddPersonalComponent
+  @ViewChild('listCrud') public listCrud!: ListCrudComponent
 
   constructor(
     private _personal: PersonalService
@@ -35,6 +37,10 @@ export class ManageAdminsComponent implements OnInit, OnDestroy {
 
   updateUser() {
 
+  }
+
+  onClose() {
+    this.listCrud.onCloseColeccion()
   }
 
   ngOnDestroy(): void {

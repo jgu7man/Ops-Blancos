@@ -10,6 +10,8 @@ import firebase  from 'firebase/app'
 import { chain, find, groupBy } from 'lodash';
 import { PrendaModel } from '../models/prenda.model';
 import { GdevDate } from './gdev-date.service';
+import { pipe } from 'rxjs';
+import { EventsService } from './events.service';
 
 
 @Injectable({
@@ -29,34 +31,40 @@ export class HistorialService {
   constructor(
     private _afs: AngularFirestore,
     private _cache: MxCache,
-    private _date: GdevDate
+    private _date: GdevDate,
+    private _events: EventsService
   ) { }
 
 
 
-  setTodayEvents() {
+  async setTodayEvents() {
     this.days = []
-    this.days = [{
-      events: this._cache.getDataKey('todayEvents') as PropEvent[],
-      date: this.lastDayTaked
-     }]
+    let events = await this._events
+      .getRealtimeEvents( 'events', 'date', '>=', this._events.today, 'todayEvents' )
+      .pipe(take(1))
+      .toPromise()
+    this.days = [ { events, date: this.lastDayTaked } ]
   }
 
-  setPaquetesDates(state: 'washingUps' | 'collected') {
+  async setPaquetesDates(state: 'washingUps' | 'collected') {
     this.days = []
-    let paquetes = this._cache.getDataKey(state) as iPaqueteState[]
-    paquetes.forEach(pack => {
-      console.log( pack )
+    let theState = state == 'washingUps' ? 'washing' : 'collected'
+    let paquetes = await this._events
+      .getRealtimeEvents( 'paquetes', 'state', '==', theState, 'state' )
+      .pipe( take( 1 ) )
+      .toPromise()
+    paquetes.forEach( ( p:any ) => {
+      let pack:iPaqueteState = p
       if (pack.lastUpdate && 'seconds' in pack.lastUpdate) {
         this.addEvents(pack.lastUpdate, pack)
       }
     })
   }
 
-  setAlerts() {
+  async setAlerts() {
     this.days = []
-    let alerts = this._cache.getDataKey('alerts') as iAlertReport[]
-    alerts.forEach(alert => {
+    let alerts = await this._events.getAlerts().pipe(take(1)).toPromise()
+    alerts.forEach((alert:iAlertReport) => {
       if ('seconds' in alert.date) {
         this.addEvents(alert.date, alert)
       }
@@ -64,10 +72,16 @@ export class HistorialService {
   }
 
 
-  setPrendas(state:'damaged' | 'lost') {
+  async setPrendas(state:'damaged' | 'lost') {
     this.days = []
-    const prendas = this._cache.getDataKey(state) as PrendaModel[]
-    prendas.forEach(prenda => {
+    let theState = state == 'damaged' ? 'damage' : 'lost'
+    const prendas = await this._events
+      .getRealtimeEvents( 'prendas', 'state', '==', theState, 'prenda' )
+      .pipe( take( 1 ) )
+      .toPromise()
+
+    prendas.forEach( ( p: any ) => {
+      let prenda: PrendaModel = p
       if (prenda.lastUpdate && 'seconds' in prenda.lastUpdate) {
         this.addEvents(prenda.lastUpdate, prenda)
       }
@@ -92,37 +106,35 @@ export class HistorialService {
   getEventsByUser(uid: string) {
     return this._afs.collectionGroup<PropEvent | iLavanderiaEvent>('events',
       ref => ref.where('responsable', '==', uid)
-    ).valueChanges({ idField: 'id' })
+    ).valueChanges( { idField: 'id' } )
+      .pipe(take(1))
       .subscribe((events => {
-        console.log( events )
         events.forEach(event => {
             if ('start' in event) {
               let stamp = new firebase.firestore.Timestamp(
                 event.start / 1000,
                 event.start
               )
-              console.log( stamp )
               this.addEvents(stamp, event)
             } else {
               if ('seconds' in event.date)
               this.addEvents(event.date, event)
           }
-          console.log( this.days )
         })
       })
       )
   }
 
-  methodIndex(key: HistorialQuery, value?: any) {
+  async methodIndex(key: HistorialQuery, value?: any) {
     this.days = []
     switch (key) {
-      case 'day': this.setTodayEvents()
+      case 'day': await this.setTodayEvents()
         break;
-      case 'state': this.setPaquetesDates(value)
+      case 'state': await this.setPaquetesDates(value)
         break;
-      case 'prenda': this.setPrendas(value)
+      case 'prenda': await this.setPrendas(value)
         break;
-      case 'alert': this.setAlerts()
+      case 'alert': await this.setAlerts()
         break;
       case 'user': this.getEventsByUser(value)
         break;

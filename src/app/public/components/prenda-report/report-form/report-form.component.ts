@@ -1,8 +1,10 @@
-import { Input } from '@angular/core';
+import { Input, OnDestroy } from '@angular/core';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelectionListChange } from '@angular/material/list';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { CameraService } from 'src/app/services/camera.service';
 import { ReportesService } from 'src/app/services/reportes.service'
 import { ReportEvidenciaDialog } from '../report-evidencia/report-evidencia.component';
@@ -12,11 +14,12 @@ import { ReportEvidenciaDialog } from '../report-evidencia/report-evidencia.comp
   templateUrl: './report-form.component.html',
   styleUrls: ['./report-form.component.scss']
 })
-export class ReportFormComponent implements OnInit {
+export class ReportFormComponent implements OnInit, OnDestroy{
 
   @Input() workspace: 'limpieza' | 'lavanderia' = 'limpieza'
   @Output() validForm = new EventEmitter<boolean>();
   state: string = ''
+  stateSubscription!: Subscription
   constructor(
     public reportes_: ReportesService,
     private _dialog: MatDialog,
@@ -24,6 +27,7 @@ export class ReportFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.stateSubscription =
     this.reportes_.stateCtrl.valueChanges.subscribe(value => {
       this.state = value
       this.validateForm(this.state)
@@ -47,11 +51,12 @@ export class ReportFormComponent implements OnInit {
       maxWidth: '80vw',
       minWidth: '50vw',
       height: '80vh',
-    }).afterClosed().subscribe(captures => {
+    }).afterClosed().pipe(take(1)).subscribe(captures => {
       if (captures) {
         console.log( captures )
         this._camera.captures = captures
-        this.validateForm(this.state)
+        this.validateForm( this.state )
+        this._dialog.closeAll()
       }
     })
 
@@ -61,6 +66,10 @@ export class ReportFormComponent implements OnInit {
   onSelecteIssue(event: MatSelectionListChange) {
     this.reportes_.stateCtrl.setValue('damage')
     this.reportes_.reporteCtrl.setValue(event.options[0].value)
+  }
+
+  ngOnDestroy() {
+    this.stateSubscription.unsubscribe()
   }
 
 }

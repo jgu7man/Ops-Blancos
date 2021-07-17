@@ -11,4 +11,15 @@
   width: 100%;
 }
 
+mat-drawer-container {
+  height:84vh;
+}
+
+mat-drawer {
+  height:100%;
+  width: 100%;
+  @media (min-width: 768px){
+    width: 66%;
+  }
+}
 

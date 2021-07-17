@@ -47,7 +47,6 @@ export class ScanPaqueteComponent implements OnInit {
   ) {
     this._dashboard.toggleBack = true
     const { state: nextState } = this._route.snapshot.queryParams
-    console.log( {nextState} )
     this.requestPaqueteState = nextState
     if (this.requestPaqueteState) {
       this.user = this._cache.getDataKey('user') as iUser
@@ -67,33 +66,20 @@ export class ScanPaqueteComponent implements OnInit {
   }
 
   async getCurrentProp(requestState: PaqueteState) {
-
     const prefix = this._route.snapshot.params['prefix']
     const {paquete} = this._route.snapshot.queryParams
-    this.requestPrendaState = PrendaProductStateMap.get(requestState)
+    this.requestPrendaState = PrendaProductStateMap.get( requestState )
 
     if (prefix) {
       this.review = true
       this.propCurrentState = await this._responsables.getPaqueteAcargoContent(prefix, paquete)
       console.log( this.propCurrentState )
       this.propCurrentState.pid = paquete
-      this.paqueteNextState = {
-        pid: paquete,
-        prendasReport: this.propCurrentState.prendas.map(prenda => {
-            return <iPrendaEvent> {
-              ...prenda,
-              scanned: true,
-              event: prenda.history
-                ? prenda.history[prenda.history.length - 1] : {} as iHistory
-            }
-          }),
-        state: requestState,
-      }
     } else {
       this.propCurrentState = this._cache.getDataKey('currentProp') as iPropiedadState
       console.log( this.propCurrentState )
-      this.paqueteNextState = { pid: this.propCurrentState.pid, prendasReport: [], state: requestState };
     }
+    this.paqueteNextState = { pid: this.propCurrentState.pid, prendasReport: [], state: requestState };
   }
 
   onScanned(code: CodeModel) {
@@ -163,6 +149,7 @@ export class ScanPaqueteComponent implements OnInit {
   }
 
   async onFinish() {
+    this._loading.toggleWaiting('open')
     await this.compareStates()
     if (this.faltantes.length > 0) {
       this.onFaltantes()
@@ -174,7 +161,7 @@ export class ScanPaqueteComponent implements OnInit {
 
   onFaltantes() {
     this._dialog.open(NotifyFaltantesDialog, {
-      data: this.faltantes
+      data: {faltantes: this.faltantes, scanState: this.requestPaqueteState}
     }).afterClosed().pipe(take(1)).subscribe(confirm => {
       if (confirm) {
         let historyEvent = new iHistory(new Date(), 'lost', this.user.uid)
@@ -197,7 +184,8 @@ export class ScanPaqueteComponent implements OnInit {
 
 
   saveReporte(faltantes?: true){
-    let propEvent: PropEvent = new PropEvent(new Date(), this.user.uid, this.paqueteNextState)
+    let propEvent: PropEvent = new PropEvent( new Date(), this.user.uid, this.paqueteNextState )
+    this._loading.toggleWaiting('close')
     if (this.propCurrentState) {
       this._reportes.onSaveReporte(this.propCurrentState?.prefix, propEvent, faltantes)
         .then(() => {

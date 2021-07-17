@@ -20,12 +20,35 @@
   margin: 0;
 }
 
+#notify-container {
+  mat-expansion-panel {
+    margin: 5px 0;
+    mat-expansion-panel-header ::ng-deep {
+      height: 60px;
+      padding:0 12px;
+      .mat-content {
+        justify-content: space-between;
+        .prenda-header {
+          width: 100%;
+        }
+      }
+      .row {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
 ::ng-deep {
   .mat-card-header-text{
     width: 100%;
   }
   .scanner-box {
     height: 62vw !important
+  }
+  .mat-badge {
+    z-index: 1;
+    position: absolute;
   }
 }
 
@@ -39,4 +62,8 @@
     padding-right: 5em !important;
     text-align: left;
   }
+}
+
+.align-cols {
+  justify-content:space-between;
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { iUser } from 'src/app/models/user.model';
 
 @Component({
@@ -9,6 +9,7 @@ import { iUser } from 'src/app/models/user.model';
 export class ShowAdminComponent implements OnInit {
 
   @Input() user?: iUser
+  @Output() close = new EventEmitter<any>();
   constructor() { }
 
   ngOnInit(): void {

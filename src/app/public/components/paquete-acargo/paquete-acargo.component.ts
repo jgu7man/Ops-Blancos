@@ -5,7 +5,8 @@ import { iPropAcargo, paqueteCycle } from 'src/app/models/propiedad.model';
 import { ResponsablesService } from 'src/app/services/responsables.service';
 import { LavanderiaService } from 'src/app/services/lavanderia.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MxAlert } from '@marxa/devkit';
+import { MxAlert, MxCache } from '@marxa/devkit';
+import { ReportesService } from 'src/app/services/reportes.service';
 
 @Component({
   templateUrl: './paquete-acargo.component.html',
@@ -23,6 +24,8 @@ export class PaqueteAcargoComponent implements OnInit {
     private _router: Router,
     private _route: ActivatedRoute,
     private _alert: MxAlert,
+    private _reportes: ReportesService,
+    private _cache: MxCache
   ) {
     this.paqueteStatus  = this._location.path()
       .includes('limpieza') ? 'collected' : 'washing'
@@ -35,20 +38,26 @@ export class PaqueteAcargoComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  async selectPaquete({ pid, paquete, state }: iPropAcargo) {
-    if (state === 'washing') state = 'stock'
-    let queryParams = {paquete, state}
+  async selectPaquete({ pid, prefix, state }: iPropAcargo) {
+    if ( state === 'washing' ) state = 'stock'
+    let queryParams = {paquete:pid, state}
     if (this.paqueteStatus === 'washing') {
-      if (await this._lavanderia.checkIsWashingUp(pid, paquete)) {
+      if (await this._lavanderia.checkIsWashingUp(prefix, pid)) {
         this._alert.message('Este paquete todavía se está lavando')
       } else {
         this._router.navigate([
           `/lavanderia/${this.laundryAction == 'pack' ? 'empacar' : 'timing'}`,
-          pid
+          prefix
         ], { queryParams })
       }
     } else {
-      this._router.navigate(['/limpieza/paquete', pid], { queryParams })
+      // this._router.navigate(['/limpieza/paquete', pid], { queryParams })
+      console.log( prefix, pid )
+      this._reportes.searchForCurrentPropiedad(prefix, pid, 'collected')
+          .then((propiedad) => {
+            this._cache.updateData('currentProp', propiedad)
+            this._router.navigate(['/limpieza/paquete'], { queryParams:{state: 'edited'}})
+        })
     }
   }
 

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, QueryDocumentSnapshot } from '@angular/fire/firestore';
-import { MxCache } from '@marxa/devkit';
+import { MxAlert, MxCache, MxLoading } from '@marxa/devkit';
 import { Observable, of } from 'rxjs';
-import { map, mergeMap, mergeScan } from 'rxjs/operators';
+import { catchError, map, mergeMap, mergeScan, take } from 'rxjs/operators';
 import { iPropiedadState, iPropAcargo, iPropiedad, PaqueteState } from '../models/propiedad.model';
 import { iPaqueteState, iPrendaEvent, iPrendaState } from '../models/reporte.model';
 import { iUser } from '../models/user.model';
@@ -19,13 +19,16 @@ export class ResponsablesService {
 
   constructor(
     private _afs: AngularFirestore,
-    private _cache: MxCache
+    private _cache: MxCache,
+    private _loading: MxLoading,
+    private _alert: MxAlert,
   ) {
     this.currentUser = this._cache.getDataKey('user') as iUser
    }
 
 
-  getPaquetesAcargo(state: PaqueteState, uid?: string): Observable<iPropAcargo[]> {
+  getPaquetesAcargo( state: PaqueteState, uid?: string ): Observable<iPropAcargo[]> {
+    this._loading.toggleWaiting('open')
     if (!uid) uid = this.currentUser.uid
     const paquetes: iPropAcargo[] = []
     const paquetesListRef = this._afs.collectionGroup<iPaqueteState>('paquetes',
@@ -34,22 +37,29 @@ export class ResponsablesService {
         .where('state', '==', state)
       ).get()
 
-    return paquetesListRef.pipe(map(paquetesList => {
+    return paquetesListRef.pipe(
+        map( paquetesList => {
+          return paquetesList.docs.map( doc => {
+            let pid = doc.id
+            let { state, lastUpdate,  } = doc.data()
+            let prefix = doc.ref.path.split( '/' )[ 1 ]
+            this._loading.toggleWaiting('close')
+            return {pid, prefix, state, lastUpdate}
+          })
 
-      return paquetesList.docs.map( doc => {
-        let paquete = doc.id
-        let { state, lastUpdate} = doc.data()
-        let pid = doc.ref.path.split('/')[1]
-        return {paquete, pid, state, lastUpdate}
-      })
-
-    }))
+        } ),
+        catchError( error => {
+            this._alert.error('Error obteniendo eventos en tiempo real', error)
+          return of(error)
+        })
+      )
 
   }
 
-   async getPaqueteAcargoContent(prefix: string, paquete:string) {
+  async getPaqueteAcargoContent( prefix: string, pid: string ) {
+    this._loading.toggleWaiting('open')
     const propRef = this._afs.doc<iPropiedad>(`propiedades/${prefix}`)
-    const paqueteRef = propRef.collection<iPaqueteState>('paquetes').doc(paquete)
+    const paqueteRef = propRef.collection<iPaqueteState>('paquetes').doc(pid)
     const prendasRef = paqueteRef.collection<iPrendaState>('prendas')
     var currentProp: iPropiedadState = {} as iPropiedadState
 
@@ -59,8 +69,10 @@ export class ResponsablesService {
          const { ciudad, prefix, direccion } = prop.data() as iPropiedad
          currentProp = {...currentProp, ciudad, prefix, direccion}
          return prendasRef.valueChanges()
-       })
-      ).subscribe(prendasCol => {
+       }),
+       take(1)
+      ).subscribe( prendasCol => {
+        this._loading.toggleWaiting('close')
         resolve({
           ...currentProp,
           prendas: prendasCol.map(p => {
@@ -69,6 +81,8 @@ export class ResponsablesService {
             } as iPrendaEvent
           })
         })
+      }, error => {
+        this._alert.error('Error obteniendo el contenido de la propiedad a cargo', error)
       })
      })
    }

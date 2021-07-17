@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 import { PaquetesService } from 'src/app/services/paquetes.service';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { MatSelectChange } from '@angular/material/select';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'g-show-propiedad',
@@ -34,6 +35,7 @@ export class ShowPropiedadComponent implements OnInit, AfterViewInit, OnDestroy{
   changesSubscription?: Subscription
   allowSave: boolean = false
   paqueteFinded: string = ''
+  propsSubscription: Subscription
 
   constructor(
     private _dialog: MatDialog,
@@ -45,6 +47,7 @@ export class ShowPropiedadComponent implements OnInit, AfterViewInit, OnDestroy{
     private _dashboard: DashboardService,
     public paquetes: PaquetesService
   ) {
+    this.propsSubscription =
     this.propiedades_.propiedadChange.subscribe(change => {
       this.allowSave = change
     })
@@ -85,7 +88,7 @@ export class ShowPropiedadComponent implements OnInit, AfterViewInit, OnDestroy{
     this._dialog.open(DialogAddPaqueteComponent, {
       width: '100%',
       disableClose: true
-    }).afterClosed().subscribe((result:number) => {
+    }).afterClosed().pipe(take(1)).subscribe((result:number) => {
       if (result) {
         let pid = `${this.propiedad.prefix}${result}`
         var duplicated = this.propiedad.paquetes?.find(
@@ -113,7 +116,7 @@ export class ShowPropiedadComponent implements OnInit, AfterViewInit, OnDestroy{
     this._dialog.open(DialogAddPrendaComponent, {
       width: '100%',
       disableClose: true
-    }).afterClosed().subscribe((result: PrendaModel) => {
+    }).afterClosed().pipe(take(1)).subscribe((result: PrendaModel) => {
       let prefix = result.codigo.substring(0, 9)
       if (prefix === this.propiedad.prefix && this.propiedad.paquetes) {
         this.propiedad.paquetes[paqueteIndex ? paqueteIndex : 0]
@@ -148,6 +151,7 @@ export class ShowPropiedadComponent implements OnInit, AfterViewInit, OnDestroy{
 
 
   ngOnDestroy() {
+    this.propsSubscription.unsubscribe()
     this._dashboard.toggleBack = false
     this.changesSubscription?.unsubscribe()
   }

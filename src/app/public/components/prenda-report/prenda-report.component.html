@@ -1,25 +1,42 @@
-<div class="container">
-  <div class="row align-cols">
-    <div class="col s12 l4">
-      <div class="row">
-        <div class="img-background">
-          <img src="/assets/img/damage-white.png" alt="reporte">
-        </div>
-        <div class="col s12">
-          <h2 class="center">Reportes</h2>
-          <p class="center">
-            Si existe alguna incidencia con alguna prenda, escenéala para generar el reporte.
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col s12 l8">
-      <div class="row" id="card-container" >
-        <div class="col s12" >
-          <g-scanner></g-scanner>
-        </div>
-      </div>
-    </div>
-  </div>
+<mat-drawer-container [hasBackdrop]="true">
+  <mat-drawer #reportPanel=matDrawer
+  [disableClose]="true"
+  [position]="'end'"
+  [mode]="'over'"
+  [opened]="codeScanned ? true : false">
+    <g-report-scanned-form
+    *ngIf="codeScanned"
+    [code]="codeScanned"
+    (close)="closeReportPanel()"
+    ></g-report-scanned-form>
+  </mat-drawer>
+  <mat-drawer-content>
 
-</div>
+    <div class="container">
+      <div class="row" [ngClass]="{'align-cols': responsive.large}">
+        <div class="col s12 l4">
+          <div class="row">
+            <div class="img-background">
+              <img src="/assets/img/damage-white.png" alt="reporte">
+            </div>
+            <div class="col s12">
+              <h2 class="center">Reportes</h2>
+              <p class="center">
+                Si existe alguna incidencia con alguna prenda, escenéala para generar el reporte.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col s12 l8">
+          <div class="row" id="card-container" >
+            <div class="col s12" >
+              <g-scanner></g-scanner>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </mat-drawer-content>
+</mat-drawer-container>

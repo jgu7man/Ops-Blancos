@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MxAlert, MxLoading } from '@marxa/devkit';
 import { MxStorage } from '@marxa/storage';
 import { BehaviorSubject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { ColumnsSelectorComponent } from '../admin/components/manage-database/manage-propiedades/columns-selector/columns-selector.component';
 import { iImportRecord } from '../models/import-export.model';
 import { iCode, Producto } from '../models/prenda.model';
@@ -68,7 +69,7 @@ export class ImportExportService {
     this._dialog.open(ColumnsSelectorComponent, {
         minWidth: '50%',
         data: headersRow
-      }).afterClosed().subscribe(data => {
+      }).afterClosed().pipe(take(1)).subscribe(data => {
         console.log( data )
         // records = this.getDataRecordsArrayFromCSVFile(csvRecordsArray, headersRow.length, data);
       })

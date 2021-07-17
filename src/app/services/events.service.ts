@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { MxAlert, MxCache, MxLoading } from '@marxa/devkit';
-import { combineLatest, forkJoin, zip } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { combineLatest, forkJoin, of, zip } from 'rxjs';
+import { catchError, map, take, tap } from 'rxjs/operators';
 import { iAlertReport, iPaqueteEvent, iPaqueteState, iPrendaState, PropEvent } from '../models/reporte.model';
 import firebase  from 'firebase/app'
 
@@ -61,38 +61,36 @@ export class EventsService {
     return this._afs.collectionGroup<PropEvent>(collection,
     ref => ref.where(field, comparator, value))
       .valueChanges({ idField: 'id'}).pipe(
-        tap(data => this._cache.updateData(label, data)
-        )
+        catchError( error => {
+          this._alerts.error('Error obteniendo eventos en tiempo real', error)
+          return of(error)
+        })
       )
+
   }
 
   getAlerts() {
-    return this._afs.collection<iAlertReport>('alerts',)
-      .valueChanges({ idField: 'id' })
-      .pipe( tap(data => this._cache.updateData('alerts', data)),
+    return this._afs.collection<iAlertReport>( 'alerts', ref =>
+      ref.where('checked', '==', false)
+    ).valueChanges({ idField: 'id' })
+      .pipe(
+        catchError( error => {
+          this._alerts.error('Error obteniendo alertas', error)
+        return of(error)
+      })
     )
   }
 
 
-  async changeIndexField() {
-    const eREF = this._afs.collection(`propiedades/GDLREFORM/events`).ref
-    const batch = this._afs.firestore.batch()
-    let events = await eREF.get()
-
-    await this._loading.asyncForEach(events.docs,
-      (doc: any) => {
-      batch.update(doc.ref, {
-        "paquete.pid": doc.get('paquete.index')
-      })
-    })
-
-    batch.commit()
-  }
-
 
   async deleteAlert(id: string) {
-    await this._afs.collection('alerts').doc(id).delete()
-    this._alerts.notify('Alerta eliminada')
+    try {
+      await this._afs.collection('alerts').doc(id).delete()
+      this._alerts.notify('Alerta eliminada')
+    } catch (error) {
+      console.error(error)
+      this._alerts.error('Error borrando alerta', error)
+    }
   }
 
 

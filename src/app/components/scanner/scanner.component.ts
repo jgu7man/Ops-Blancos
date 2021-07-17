@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MxAlert, MxLoading } from '@marxa/devkit';
 import { ZXingScannerComponent } from "@zxing/ngx-scanner";
+import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { CodeModel, emptyCode, iCode, Producto } from 'src/app/models/prenda.model';
 import { ScannerService } from 'src/app/services/scanner.service';
@@ -11,7 +12,7 @@ import { ScannerService } from 'src/app/services/scanner.service';
   templateUrl: './scanner.component.html',
   styleUrls: ['./scanner.component.scss']
 })
-export class ScannerComponent implements OnInit, AfterViewInit {
+export class ScannerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Output() scanned: EventEmitter<any> = new EventEmitter();
   @ViewChild('scanner') private scanner: ZXingScannerComponent = new ZXingScannerComponent();
@@ -28,13 +29,16 @@ export class ScannerComponent implements OnInit, AfterViewInit {
     unidad: new FormControl('', [Validators.required]),
     total: new FormControl('', [Validators.required]),
     codigo: new FormControl('', [Validators.required]),
-  })
+  } )
+
+  formSubscription: Subscription
+  scannerSubs?: Subscription
 
   constructor(
     private _loading: MxLoading,
     private _scanner: ScannerService
   ) {
-    this.codeForm.valueChanges.subscribe(
+    this.formSubscription = this.codeForm.valueChanges.subscribe(
       ({ propiedad, producto, paquete, unidad, total, codigo }: iCode) => {
         let splits = propiedad.split('\t')
 
@@ -61,6 +65,7 @@ export class ScannerComponent implements OnInit, AfterViewInit {
     })
 
     // Listen for scanAgain
+    this.scannerSubs =
     this._scanner.startScan$
       .pipe(debounceTime(1000))
       .subscribe(() => {
@@ -121,6 +126,11 @@ export class ScannerComponent implements OnInit, AfterViewInit {
   turnTobluetooth() {
     this.scannerEnabled = false
     if (this.scanner) this.scanner.scanStop()
+  }
+
+  ngOnDestroy() {
+    this.formSubscription.unsubscribe()
+    if (this.scannerSubs) this.scannerSubs.unsubscribe()
   }
 
 }

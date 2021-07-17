@@ -1,7 +1,7 @@
-import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { iPropiedad } from 'src/app/models/propiedad.model';
 import { PropiedadesService } from 'src/app/services/propiedades.service';
@@ -11,17 +11,19 @@ import { PropiedadesService } from 'src/app/services/propiedades.service';
   templateUrl: './propiedad-search.component.html',
   styleUrls: ['./propiedad-search.component.scss']
 })
-export class PropiedadSearchComponent implements OnInit {
+export class PropiedadSearchComponent implements OnInit, OnDestroy {
 
   propiedadNameCtrl = new FormControl();
   propiedades: iPropiedad[] = []
   filteredPropiedades: Observable<iPropiedad[]>;
   @ViewChild('auto') auto?: MatAutocomplete
   @Output() selected: EventEmitter<iPropiedad> = new EventEmitter()
+  propsSubscription: Subscription
 
   constructor(
     private _propiedades: PropiedadesService
   ) {
+    this.propsSubscription =
     this._propiedades.AllPropiedades.subscribe(list =>{
       this.propiedades = list
     })
@@ -50,5 +52,9 @@ export class PropiedadSearchComponent implements OnInit {
     const filterValue = name.toLowerCase();
 
     return this.propiedades.filter(prop => prop.direccion.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  ngOnDestroy() {
+    this.propsSubscription.unsubscribe()
   }
 }

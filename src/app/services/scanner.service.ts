@@ -35,11 +35,12 @@ export class ScannerService {
           this.codeScanned$.next(code)
         } catch (error) {
           console.error(error)
-          this._alert.message('Error: Al intentar leer el formato del código')
+          this._alert.error('Error: Al intentar leer el formato del código', error)
         }
       } else {
-        console.error({error:"Formato inválido", object: codeParts})
-        this._alert.message('Error: Codigo con formato inválido')
+        let error = {error:"Formato inválido", object: codeParts}
+        console.error(error)
+        this._alert.error('Error: Codigo con formato inválido', error)
       }
     } else {
       this.codeScanned$.next(result)

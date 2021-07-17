@@ -1,9 +1,9 @@
 <div class="container" id="work-area">
-  <div class="row" id="card-container">
+  <div class="row" >
 
     <!-- ACTIONS COL -->
     <div class="col s12 l8">
-      <div class="row">
+      <div class="row" id="card-container">
 
         <!-- INFO COL -->
         <div class="col s12 m6 info-col" >
@@ -27,7 +27,7 @@
 
     <!-- NOTIFY COL -->
     <div class="col s12">
-      <div class="row">
+      <div class="row" id="notify-container">
 
         <!-- ITEM AREA -->
         <ng-container *ngIf="requestPaqueteState !== 'washing'; else washing">
@@ -42,7 +42,7 @@
                     matBadge="{{prenda | checkScanned:paqueteNextState.prendasReport:'check'}}"
                     [matBadgeColor]="prenda | checkScanned:paqueteNextState.prendasReport:'color'"
                     ></span>
-                    <p *ngIf="prenda.producto">
+                    <p class="align-cols" *ngIf="prenda.producto">
                       <i class="{{prenda.producto | productIcon}} gfy-lg"></i>
                     </p>
                   </div>
@@ -65,7 +65,7 @@
 
         <ng-template #washing >
           <mat-accordion>
-            <div class="col s12" *ngFor="let prenda of paqueteNextState.prendasReport">
+            <div class="col s12" *ngFor="let prenda of propCurrentState?.prendas">
               <mat-expansion-panel [disabled]="prenda.state != 'damage'">
 
                 <mat-expansion-panel-header>
@@ -79,7 +79,8 @@
                   <!-- Prenda Info -->
                   <div class="row align-cols prenda-header">
                     <div class="col s9">
-                      <p *ngIf="prenda.producto">
+                      <p class="align-cols" *ngIf="prenda.producto">
+                        {{prenda.producto}} {{prenda.unidad}}/{{prenda.total}}
                         <i class="{{prenda.producto | productIcon}} gfy-lg"></i>
                       </p>
                     </div>
@@ -95,18 +96,20 @@
                 </mat-expansion-panel-header>
 
                 <!-- Report -->
-                <ng-container class="col s12" *ngIf="prenda.state == 'damage'">
-                  <ng-container *ngIf="prenda.event as event">
-                    <p> <b>Reporte:</b>{{event.reporte}} </p>
-                    <div class="row">
-                      <div class="col s4 evidencia-img"
-                      (click)="openImage(evidencia)"
-                        *ngFor="let evidencia of event.evidences">
-                          <img [src]="evidencia">
+                <ng-container class="col s12" *ngIf="prenda.state == 'damage' || prenda.state == 'lost'">
+                  <div *ngIf="prenda.history">
+                    <ng-container *ngIf="prenda.history[0] as event">
+                      <p> <b>Reporte:</b>{{event.reporte}} </p>
+                      <div class="row">
+                        <div class="col s4 evidencia-img"
+                        (click)="openImage(evidencia)"
+                          *ngFor="let evidencia of event.evidences">
+                            <img [src]="evidencia">
+                        </div>
                       </div>
-                    </div>
 
-                  </ng-container>
+                    </ng-container>
+                  </div>
                 </ng-container>
               </mat-expansion-panel>
 

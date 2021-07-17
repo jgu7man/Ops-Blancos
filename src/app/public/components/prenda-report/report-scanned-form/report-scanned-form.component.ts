@@ -1,3 +1,4 @@
+import { EventEmitter, Input, Output } from '@angular/core';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MxAlert } from '@marxa/devkit';
@@ -5,17 +6,20 @@ import { iCode, PrendaModel } from 'src/app/models/prenda.model';
 import { ReportesService } from 'src/app/services/reportes.service';
 import { ScannerService } from 'src/app/services/scanner.service';
 
-@Component({
+@Component( {
+  selector: 'g-report-scanned-form',
   templateUrl: './report-scanned-form.component.html',
   styleUrls: ['./report-scanned-form.component.scss']
 })
-export class ReportScannedFormDialog implements OnInit, OnDestroy {
+export class ReportScannedFormComponent implements OnInit, OnDestroy {
 
   isReady = false;
   workspace: 'limpieza' | 'lavanderia'
+  @Input() code?: iCode
+  @Output() close: EventEmitter<any> = new EventEmitter()
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: iCode,
-    public dialog_: MatDialogRef<ReportScannedFormDialog>,
+    // @Inject(MAT_DIALOG_DATA) public data: iCode,
+    // public dialog_: MatDialogRef<ReportScannedFormDialog>,
     private _reportes: ReportesService,
     private _alert: MxAlert,
     private _scanner: ScannerService
@@ -24,7 +28,9 @@ export class ReportScannedFormDialog implements OnInit, OnDestroy {
    }
 
   ngOnInit(): void {
-    this._reportes.currentPrenda = new PrendaModel(this.data)
+    if ( this.code ) {
+      this._reportes.currentPrenda = new PrendaModel(this.code)
+    }
   }
 
   validatePropOwner() {
@@ -39,7 +45,7 @@ export class ReportScannedFormDialog implements OnInit, OnDestroy {
     this._reportes.saveCurrentPrenda()
       .then(() => {
         this._alert.notify('Prenda reportada')
-        this.dialog_.close(true)
+        this.close.emit(true)
       }).catch((error) => {
         this._alert.error(error.message
           ? error.message

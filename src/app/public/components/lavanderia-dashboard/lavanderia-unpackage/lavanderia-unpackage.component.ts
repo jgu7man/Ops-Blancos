@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ScannerService } from 'src/app/services/scanner.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { iCode } from 'src/app/models/prenda.model';
+import { CodeModel, iCode } from 'src/app/models/prenda.model';
 import { MxCache } from '@marxa/devkit';
 import { ReportesService } from 'src/app/services/reportes.service';
 import { DialogUnpackageScannedComponent } from './dialog-unpackage-scanned/dialog-unpackage-scanned.component';
@@ -35,14 +35,13 @@ export class LavanderiaUnpackageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   }
 
-  async onScanned(scanned: iCode) {
-
+  async onScanned( scanned: CodeModel ) {
     const propiedad = await this._reportes
-      .searchForCurrentPropiedad(scanned.prefix, scanned.paquete, 'collected')
-      this._cache.updateData('currentProp', propiedad)
+      .searchForCurrentPropiedad( scanned.prefix, scanned.pid, 'collected' )
+    this._cache.updateData('currentProp', propiedad)
 
     await this._reportes.searchForReports(propiedad.prefix)
-    this._router.navigate(['/lavanderia/paquete'], { queryParams:{state: 'wasing'}})
+    this._router.navigate(['/lavanderia/paquete'], { queryParams:{state: 'washing'}})
 
   }
 

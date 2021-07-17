@@ -6,7 +6,8 @@ import { Producto } from '../models/prenda.model';
 })
 export class ProductIconPipe implements PipeTransform {
 
-  transform(value: Producto, ...args: unknown[]): string {
+  transform( value: Producto, ...args: unknown[] ): string {
+    value = value.trim() as Producto;
     return ProductoIconMap.get(value) as string
   }
 
