@@ -2,7 +2,7 @@ import { RestorePwdComponent } from './../restore-pwd/restore-pwd.component';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { MxAlert } from '@marxa/devkit';
+import { MxAlert, MxCache } from '@marxa/devkit';
 import { Subscription } from 'rxjs';
 import { iUser } from 'src/app/models/user.model';
 import { MxAuth, MxLoginFields } from '@marxa/auth';
@@ -19,7 +19,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private _auth: MxAuth,
     private _router: Router,
     private _dialog: MatDialog,
-    private _alert:MxAlert
+    private _alert: MxAlert,
+    private _cache: MxCache
   ) {
 
     this._auth.notFoundMessage = 'Usuario no encontrado'
@@ -47,8 +48,9 @@ export class LoginComponent implements OnInit, OnDestroy {
    */
   onSubmit(event: MxLoginFields) {
     this._auth.emailSignIn(event.email, event.password)
-      .then(() => {
+      .then( () => {
         this._auth.user$.pipe(take(1)).subscribe((user:iUser) => {
+          this._cache.updateData('user', user)
           this._router.navigate([
             user.rol == 'admin' || user.rol == 'city-manager'
               ? '/admin'

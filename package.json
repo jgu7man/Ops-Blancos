@@ -25,7 +25,7 @@
     "@angular/router": "~11.0.5",
     "@angular/service-worker": "^11.0.9",
     "@marxa/auth": "0.0.6",
-    "@marxa/devkit": "0.0.14",
+    "@marxa/devkit": "^1.1.4",
     "@marxa/storage": "0.0.15",
     "@zxing/browser": "0.0.8",
     "@zxing/library": "^0.18.4",
