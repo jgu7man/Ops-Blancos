@@ -12,7 +12,7 @@ import { iPropiedadState, PaqueteState } from 'src/app/models/propiedad.model';
 import { ResponsablesService } from 'src/app/services/responsables.service';
 import { Location } from '@angular/common';
 import { DashboardService } from 'src/app/services/dashboard.service';
-import { take } from 'rxjs/operators';
+import { debounceTime, take } from 'rxjs/operators';
 import { NotifyFaltantesDialog } from './notify-faltantes/notify-faltantes.dialog';
 import { SeeImageComponent } from 'src/app/components/see-image/see-image.component';
 
@@ -48,7 +48,8 @@ export class ScanPaqueteComponent implements OnInit {
     this._dashboard.toggleBack = true
     const { state: nextState } = this._route.snapshot.queryParams
     this.requestPaqueteState = nextState
-    if (this.requestPaqueteState) {
+    if ( this.requestPaqueteState ) {
+      // this._cache.updateData('')
       this.user = this._cache.getDataKey('user') as iUser
       this.getCurrentProp(this.requestPaqueteState)
     } else {
@@ -58,10 +59,11 @@ export class ScanPaqueteComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.scannerSubs = this._scanner.codeScanned$.
-        subscribe(codeScanned => {
-          this.onScanned(codeScanned)
-        })
+    this.scannerSubs = this._scanner.codeScanned$
+      // .pipe(debounceTime(100))
+      .subscribe(codeScanned => {
+        this.onScanned(codeScanned)
+      })
 
   }
 
@@ -84,11 +86,10 @@ export class ScanPaqueteComponent implements OnInit {
 
   onScanned(code: CodeModel) {
 
-    if (this.propCurrentState) {
-
-      if (code.propiedad != this.propCurrentState.direccion) {
+    if ( this.propCurrentState ) {
+      if (code.propiedad.trim() != this.propCurrentState.direccion.trim()) {
         this._alert.message(`Este código no pertenece a la propiedad: ${code.codigo}`)
-      } else if (code.pid != this.propCurrentState.pid) {
+      } else if (code.pid.trim() != this.propCurrentState.pid.trim()) {
         this._alert.message(`Este código no pertenece al paquete: ${code.codigo}`)
       } else {
 

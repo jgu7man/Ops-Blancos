@@ -47,7 +47,7 @@ export class ScannerComponent implements OnInit, AfterViewInit, OnDestroy {
           this.setCodeForm()
           this.bluetooth?.nativeElement.focus()
         } else if( splits.length > 6 ) {
-          this.codes = this._scanner.multipleScan(propiedad)
+          this.codes = this._scanner.multipleScan( propiedad )
           this.codes.forEach(code => {
             this._scanner.scannedSuccess(code)
           })

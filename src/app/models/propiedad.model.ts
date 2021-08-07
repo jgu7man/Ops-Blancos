@@ -17,6 +17,7 @@ export interface iPropiedadState {
   direccion: string;
   pid: string;
   prendas: iPrendaState[];
+  currentState: PaqueteState
 }
 
 export interface iPropAcargo {

@@ -25,12 +25,12 @@ export class ScannerService {
       if (codeParts.length > 1) {
         try {
           let code: CodeModel = new CodeModel(
-            codeParts[0],
-            codeParts[1] as Producto,
-            codeParts[2] ,
-            codeParts[3],
-            codeParts[4],
-            codeParts[5]
+            codeParts[0].trim(),
+            codeParts[1].trim() as Producto,
+            codeParts[2].trim() ,
+            codeParts[3].trim(),
+            codeParts[4].trim(),
+            codeParts[5].trim()
           )
           this.codeScanned$.next(code)
         } catch (error) {
@@ -62,12 +62,12 @@ export class ScannerService {
         nuCode.codigo = part.split(' ')[0]
         codes.push(
           new CodeModel(
-            nuCode.propiedad,
-            nuCode.producto,
-            nuCode.paquete,
-            nuCode.unidad,
-            nuCode.total,
-            nuCode.codigo
+            nuCode.propiedad.trim(),
+            nuCode.producto.trim() as Producto,
+            nuCode.paquete.trim(),
+            nuCode.unidad.trim(),
+            nuCode.total.trim(),
+            nuCode.codigo.trim()
             )
         )
         nuCode = emptyCode

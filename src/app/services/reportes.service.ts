@@ -21,10 +21,13 @@ import {
   PropEvent,
 } from '../models/reporte.model';
 import { CameraService } from './camera.service';
-import { MxAlert, MxCache, MxLoading } from '@marxa/devkit';
+import { MxAlert, MxCache, MxErrorAlertModel, MxLoading } from '@marxa/devkit';
 import firebase from 'firebase/app';
 import { pickBy, identity } from 'lodash';
 import { iPaquete, iPaqueteState, iPropiedadState, PaqueteState } from '../models/propiedad.model';
+import { MxAuth } from '@marxa/auth';
+import { take } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -40,16 +43,18 @@ export class ReportesService {
   currentProp?: iPropiedadState;
   currentPrenda?: PrendaModel;
   prendasChecklist: iPrendaState[] = [];
-  user: iUser;
+  user!: iUser | null;
 
   constructor(
     private _afs: AngularFirestore,
     private _camera: CameraService,
     private _cache: MxCache,
     private _alert: MxAlert,
-    private _loading: MxLoading
+    private _loading: MxLoading,
+    private _auth: MxAuth,
+    private _router: Router,
   ) {
-    this.user = this._cache.getDataKey('user') as iUser
+    this.user = this._cache.getDataKey('user')
   }
 
 
@@ -75,11 +80,12 @@ export class ReportesService {
           throw { error: 'PAQ_NOT_EXIST', message: 'El paquete no existe'}
         } else {
           let paquete: iPaqueteState = paqueteDoc.data() as iPaqueteState
+          let currentState = paquete.state === 'edited' ? 'collected' : paquete.state
+
+
           if ( prevState == 'prop' && prevState != paquete.state ) {
             throw { error: 'UNMATCH_STATE', message: 'El paquete no está en propiedad'}
           } else if ( prevState == 'collected' && paquete.state != 'collected' ) {
-            throw { error: 'UNMATCH_STATE', message: 'El paquete no se ha recogido'}
-          } else if ( prevState == 'collected' && paquete.state != 'edited'  ) {
             throw { error: 'UNMATCH_STATE', message: 'El paquete no se ha recogido'}
           } else {
             var prendasCol = await paqueteRef.collection( `prendas` ).get();
@@ -94,6 +100,7 @@ export class ReportesService {
             this.currentProp = {
               ...prop, pid,
               prendas: this.prendasChecklist,
+              currentState:prevState
             };
 
             this._loading.toggleWaiting('close')
@@ -102,13 +109,13 @@ export class ReportesService {
         }
       }
     } catch (error) {
+      this._loading.toggleWaiting('close')
       console.error( error );
       if ( 'message' in error ) {
         this._alert.error( error.message, error );
       } else {
         this._alert.error('Error al buscar la propiedad o parte de ella', error)
       }
-      this._loading.toggleWaiting('close')
       throw error;
     }
   }
@@ -162,32 +169,49 @@ export class ReportesService {
   async saveCurrentPrenda(): Promise<void> {
     try {
       this._loading.toggleWaiting('open')
-      let prenda: iPrendaEvent;
-      if (this.currentPrenda) {
-        let event = new iHistory(
-          new Date(),
-          this.stateCtrl.value as PrendaState,
-          this.user.uid,
-          this.reporteCtrl.value,
-          this._camera.captures
-        );
 
-        prenda = {
-          ...this.currentPrenda,
-          state: this.stateCtrl.value as PrendaState,
-          event,
-        };
-
-        return await this.savePrendaState(prenda)
-
+      this.user = this._cache.getDataKey<iUser>( 'user' )
+      if ( !this.user ) {
+        this.user = await this._auth.user$.pipe( take( 1 ) ).toPromise()
+        if ( !this.user ) {
+          this._router.navigate(['/login'])
+          throw new MxErrorAlertModel('Se debe iniciar sesión nuevamente', 'reportes.service#onSaveReporte')
+        } else {
+          this._cache.updateData( 'user', this.user )
+          await this.onSavePrenda(this.user)
+        }
       } else {
-        throw { message: 'No hay prenda escaneada' };
+        await this.onSavePrenda(this.user)
       }
+
     } catch (error) {
       console.error( error );
       this._loading.toggleWaiting( 'close' )
       this._alert.error('Error al guardar la prenda', error)
       throw error
+    }
+  }
+
+  async onSavePrenda( user: iUser ) {
+    if (!this.currentPrenda) {
+      throw new MxErrorAlertModel('No hay prenda escaneada', 'reportes.service#onSaveReporte' )
+    } else {
+      let prenda: iPrendaEvent;
+      let event = new iHistory(
+        new Date(),
+        this.stateCtrl.value as PrendaState,
+        user.uid,
+        this.reporteCtrl.value,
+        this._camera.captures
+      );
+
+      prenda = {
+        ...this.currentPrenda,
+        state: this.stateCtrl.value as PrendaState,
+        event,
+      };
+
+      return await this.savePrendaState(prenda)
     }
   }
 
@@ -254,88 +278,104 @@ export class ReportesService {
 
   async onSaveReporte(prefix: string, event: PropEvent, alert?: true) {
     try {
-      this._loading.toggleWaiting('open')
-      if (!this.user) {
-        throw { message: 'No está autenticado' };
+      this._loading.toggleWaiting( 'open' )
+      // console.log( this.user )
+      this.user = this._cache.getDataKey<iUser>( 'user' )
+      if ( !this.user ) {
+        this.user = await this._auth.user$.pipe( take( 1 ) ).toPromise()
+        if ( !this.user ) {
+          this._router.navigate(['/login'])
+          throw new MxErrorAlertModel('Se debe iniciar sesión nuevamente', 'reportes.service#onSaveReporte')
+        } else {
+          await this.saveReporte( this.user, prefix, event, alert )
+          this._cache.updateData('user', this.user)
+        }
       } else if (!prefix) {
-        throw { message: 'No se identificó la propiedad'}
+        throw new MxErrorAlertModel('No se identificó la propiedad', 'reportes.service#onSaveReporte')
       } else {
-        const otherPaquete = event.paquete.pid.endsWith('1')
-          ? prefix + '2' : prefix + '1'
-        const propPath = `propiedades/${prefix}`;
-        const paquetePath = `${propPath}/paquetes/${event.paquete.pid}`;
-        const otherPath = `${propPath}/paquetes/${otherPaquete}`;
-        const eventRef = this._afs.collection(`${propPath}/events`).ref;
-        const alertRef = this._afs.collection('alerts').ref;
-        const otherRef = this._afs.doc(otherPath).ref;
-        const paqueteRef = this._afs.doc(paquetePath).ref;
-        const batch = this._afs.firestore.batch();
-
-
-        // Save prendas states
-        await this._loading.asyncForEach(
-          event.paquete.prendasReport,
-          async (prenda: iPrendaEvent, index: number) => {
-            const prendaPath = `${paquetePath}/prendas/${prenda.codigo}`;
-            const prendaRef = this._afs.doc(prendaPath).ref;
-            let prendaEvent = pickBy( prenda.event, identity );
-            batch.update(prendaRef, {
-              state:  PrendaProductStateMap.get(event.paquete.state),
-              history: firebase.firestore.FieldValue.arrayUnion(prendaEvent),
-              lastUpdate: new Date()
-            });
-            event.paquete.prendasReport[index].event = prendaEvent as iHistory;
-            return;
-          }
-        );
-
-        let dateId = new Date().getTime();
-        var ciudad = event.paquete.prendasReport[0].codigo.substring(0, 3);
-        var losts = event.paquete.prendasReport.filter(p => p.state == 'lost')
-        // Save propiedad Event
-        let cleanEvent = pickBy(event, identity);
-        console.log({ ...event });
-        batch.set(eventRef.doc(`${dateId}`), { ...cleanEvent });
-
-
-        // Update paquete state
-        batch.update(paqueteRef, {
-          state: event.paquete.state,
-          responsable: this.user.uid,
-          lastUpdate: new Date(),
-        });
-
-        batch.update(otherRef, {
-          state: 'prop',
-          responsable: this.user.uid,
-          lastUpdate: new Date(),
-        })
-
-        // Save propiedad alert
-        let { paquete , ...restEvent} = cleanEvent
-        if (paquete) paquete.prendasReport = losts
-        if (alert) batch.set(alertRef.doc(`${dateId}`), <iAlertReport>{
-          ...restEvent, paquete, prefix, ciudad: ciudad || '',
-        });
-
-        await batch.commit().catch(error => {
-          console.log( error )
-          throw { message: 'Error al contactar con la base de datos'}
-        } )
-        this._loading.toggleWaiting('close')
-        this._cache.deleteDataKey('currentProp');
-        return;
-
+        await this.saveReporte(this.user, prefix,event, alert)
       }
     } catch (error) {
-      console.error( error );
       this._loading.toggleWaiting( 'close' )
+      await this._loading.waitFor(1000)
+      console.error( error );
       if ( 'message' in error ) {
         this._alert.error( error.message, error)
       } else {
         this._alert.error('Error guardando el reporte', error);
       }
     }
+  }
+
+  private async saveReporte(user: iUser, prefix: string, event: PropEvent, alert?: true ) {
+    const otherPaquete = event.paquete.pid.endsWith('1')
+      ? prefix + '2' : prefix + '1'
+    const propPath = `propiedades/${prefix}`;
+    const paquetePath = `${propPath}/paquetes/${event.paquete.pid}`;
+    const otherPath = `${propPath}/paquetes/${otherPaquete}`;
+    const eventRef = this._afs.collection(`${propPath}/events`).ref;
+    const alertRef = this._afs.collection('alerts').ref;
+    const otherRef = this._afs.doc(otherPath).ref;
+    const paqueteRef = this._afs.doc(paquetePath).ref;
+    const batch = this._afs.firestore.batch();
+
+
+    // Save prendas states
+    await this._loading.asyncForEach(
+      event.paquete.prendasReport,
+      async (prenda: iPrendaEvent, index: number) => {
+        const prendaPath = `${paquetePath}/prendas/${prenda.codigo}`;
+        const prendaRef = this._afs.doc( prendaPath ).ref;
+        let prendaEvent = pickBy( prenda.event, identity );
+        batch.update(prendaRef, {
+          state:  PrendaProductStateMap.get(event.paquete.state),
+          history: firebase.firestore.FieldValue.arrayUnion(prendaEvent),
+          lastUpdate: new Date()
+        } );
+        console.log( prendaEvent )
+        event.paquete.prendasReport[index].event = prendaEvent as iHistory;
+        return;
+      }
+    );
+
+    let dateId = new Date().getTime();
+    var ciudad = event.paquete.prendasReport[0].codigo.substring(0, 3);
+    var losts = event.paquete.prendasReport.filter(p => p.state == 'lost')
+    // Save propiedad Event
+    let cleanEvent = pickBy( event, identity );
+    console.log( cleanEvent );
+    console.log({ ...event });
+    batch.set(eventRef.doc(`${dateId}`), { ...cleanEvent });
+
+
+    // Update paquete state
+    batch.update(paqueteRef, {
+      state: event.paquete.state,
+      responsable: user.uid,
+      lastUpdate: new Date(),
+    });
+
+    batch.update(otherRef, {
+      state: 'prop',
+      responsable: user.uid,
+      lastUpdate: new Date(),
+    })
+
+    // Save propiedad alert
+    let { paquete , ...restEvent} = cleanEvent
+    if (paquete) paquete.prendasReport = losts
+    if (alert) batch.set(alertRef.doc(`${dateId}`), <iAlertReport>{
+      ...restEvent, paquete, prefix, ciudad: ciudad || '',
+    });
+
+    await batch.commit().catch(error => {
+      console.log( error )
+      throw { message: 'Error al contactar con la base de datos'}
+    } )
+    this._loading.toggleWaiting('close')
+    this._cache.deleteDataKey('currentProp');
+    return;
+
   }
 
   // # LISTA DE ESTADOS DE PRENDA

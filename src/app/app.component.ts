@@ -30,13 +30,15 @@ export class AppComponent {
         if (!ref.includes('create')) {
           this._router.navigate(['/login'])
         }
-      }
-      else {
-        if (user.rol === 'admin' || user.rol === 'city-manager')
+      } else {
+        this._cache.updateData('user', user)
+        if ( user.rol === 'admin' || user.rol === 'city-manager' ) {
           // this._router.navigate(['admin'])
         // else this._router.navigate(['/'])
-        this._cache.updateData('user', user)
         // this.databaseModifications()
+        } else {
+          // this._router.navigate(['/'])
+        }
       }
     } )
   }

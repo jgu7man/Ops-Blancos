@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MxAlert, MxCache, MxAlertModel } from '@marxa/devkit';
+import { MxAlert, MxCache, MxAlertModel, MxErrorAlertModel } from '@marxa/devkit';
 import { Observable, of } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
+import { iPropiedadState } from 'src/app/models/propiedad.model';
 
 @Component({
   selector: 'g-house-globe',
@@ -11,24 +12,25 @@ import { map, take, tap } from 'rxjs/operators';
 })
 export class HouseGlobeComponent implements OnInit {
 
-  propOpened: Observable<any>
+  propOpened!: iPropiedadState | null
   constructor(
     private _cache: MxCache,
     private _router: Router,
     private _alert: MxAlert
   ) {
-    this.propOpened = this._cache
-      .listenForChanges('currentProp')
-      .pipe(
-        map((prop) => prop ? true : false),
-      )
+    // this.propOpened = this._cache
+    //   .listenForChanges('currentProp')
+    //   .pipe(
+    //     map((prop) => prop ? true : false),
+    //   )
    }
 
   ngOnInit(): void {
   }
 
   get opened(): boolean {
-    return this._cache.getDataKey('currentProp') ? true : false
+    this.propOpened = this._cache.getDataKey( 'currentProp' )
+    return this.propOpened ? true : false
   }
 
   closeProp() {
@@ -47,8 +49,18 @@ export class HouseGlobeComponent implements OnInit {
   }
 
   seeProp() {
-    let perfil = window.location.href.split('/')[3]
-    this._router.navigate([`/${perfil}/paquete`])
+    let perfil = window.location.href.split( '/' )[ 3 ]
+    if (this.propOpened) {
+      this._router
+        .navigate(
+          [ `/${ perfil }/paquete` ], {
+            queryParams: { state: this.propOpened.currentState }
+          }
+        )
+    } else {
+      let error = new MxErrorAlertModel(`No se pudo obtener la propidad del localstorage`, 'house-globe#seeProp')
+      this._alert.error(error.message, error)
+    }
   }
 
 }
