@@ -10,5 +10,6 @@ style="display: flex; justify-content: space-around;">
     <button mat-raised-button
     color="primary"
     (click)="onSave()"
+    [disabled]="camera.captures.length < 1"
     >Guardar fotos</button>
 </mat-dialog-actions>

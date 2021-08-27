@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MxStorage } from '@marxa/storage';
 import { CameraService } from 'src/app/services/camera.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class TakeImageComponent implements OnInit, AfterViewInit, OnDestroy{
 
 
   constructor(
-    public camera_: CameraService
+    public camera_: CameraService,
+    public storage: MxStorage,
   ) { }
 
   ngOnInit(): void {

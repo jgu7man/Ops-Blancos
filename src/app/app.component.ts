@@ -21,7 +21,7 @@ export class AppComponent {
     private _loading: MxLoading,
     private _version: VersionService
   ) {
-    this._version.app_version = '0.1'
+    this._version.app_version = '0.2'
     // Tag to save cache in local storage
     this._cache.storage = 'session'
     this._cache.cacheTagName = 'ops'

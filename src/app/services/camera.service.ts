@@ -40,17 +40,24 @@ export class CameraService {
       task.percentageChanges()
         .pipe(
           mergeMap( ( uploadedState ) => {
-          return uploadedState === 100 ?
-            of(true) : of(false)
+            console.log( uploadedState )
+            return uploadedState === 100 ?
+              of(true) : of(false)
           } ),
           filter( event => event ),
           take(1),
           catchError( err => {
-            this._alert.error('Error al guardar las imágenes', err)
-            return of(err)
+            loading.close()
+            throw this._alert.error( 'Error al guardar las imágenes', err )
           } ),
         ).subscribe( () => {
-          ref.getDownloadURL().pipe(take(1)).subscribe((url: string) => {
+          ref.getDownloadURL().pipe(
+            take( 1 ),
+            catchError( error => {
+              loading.close()
+              throw this._alert.error( 'Error al guardar las imágenes', error )
+            })
+            ).subscribe( ( url: string ) => {
             console.log( url )
             evidencias.push(url)
             if (evidencias.length == this.captures.length) {

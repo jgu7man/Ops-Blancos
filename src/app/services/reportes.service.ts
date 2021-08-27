@@ -208,7 +208,7 @@ export class ReportesService {
       prenda = {
         ...this.currentPrenda,
         state: this.stateCtrl.value as PrendaState,
-        event,
+        event: {...event},
       };
 
       return await this.savePrendaState(prenda)
@@ -248,9 +248,10 @@ export class ReportesService {
         let paquete: iPaqueteEvent = {
           pid: this.currentPrenda.paquete,
           state: 'damage',
-          prendasReport: [prenda],
+          prendasReport: [{...prenda}],
         }
         let event: PropEvent = new PropEvent( new Date(), this.user.uid, paquete )
+        console.log( {...event} )
 
         // Save event
         batch.set(eventRef, { ...event });
@@ -329,7 +330,7 @@ export class ReportesService {
         let prendaEvent = pickBy( prenda.event, identity );
         batch.update(prendaRef, {
           state:  prenda.state,
-          history: firebase.firestore.FieldValue.arrayUnion(prendaEvent),
+          history: firebase.firestore.FieldValue.arrayUnion({...prendaEvent}),
           lastUpdate: new Date()
         } );
         console.log( prendaEvent )

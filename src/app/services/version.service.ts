@@ -36,7 +36,8 @@ export class VersionService {
 
               })
             } else if ( cloud_ver < local_ver ) {
-              throw console.error('La versión de producción en mayor que la de desarrollo. El desarrollador no ha actualizado la versión de desarrollo');
+              this.update()
+              return `${local_ver}`
             } else return cloud_version
 
           } else return cloud_version
