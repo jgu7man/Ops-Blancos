@@ -328,7 +328,7 @@ export class ReportesService {
         const prendaRef = this._afs.doc( prendaPath ).ref;
         let prendaEvent = pickBy( prenda.event, identity );
         batch.update(prendaRef, {
-          state:  PrendaProductStateMap.get(event.paquete.state),
+          state:  prenda.state,
           history: firebase.firestore.FieldValue.arrayUnion(prendaEvent),
           lastUpdate: new Date()
         } );

@@ -16,10 +16,11 @@ import { PackageItemComponent } from './package-item/package-item.component';
 import { RestorePwdComponent } from './restore-pwd/restore-pwd.component';
 import { LavanderiaEventListComponent } from './lavanderia-event-list/lavanderia-event-list.component';
 import { MxAuthModule } from '@marxa/auth';
+import { VersionNotifierComponent } from './version-notifier/version-notifier.component';
 
 
 
-@NgModule({
+@NgModule( {
   declarations: [
     TopbarComponent,
     ScannerComponent,
@@ -30,7 +31,8 @@ import { MxAuthModule } from '@marxa/auth';
     TimerComponent,
     PackageItemComponent,
     RestorePwdComponent,
-    LavanderiaEventListComponent
+    LavanderiaEventListComponent,
+    VersionNotifierComponent
   ],
   imports: [
     CommonModule,
@@ -50,6 +52,7 @@ import { MxAuthModule } from '@marxa/auth';
     TakeImageComponent,
     TimerComponent,
     LavanderiaEventListComponent,
+    VersionNotifierComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

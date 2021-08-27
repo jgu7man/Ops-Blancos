@@ -60,7 +60,8 @@ export class EventsService {
   ) {
     return this._afs.collectionGroup<PropEvent>(collection,
     ref => ref.where(field, comparator, value))
-      .valueChanges({ idField: 'id'}).pipe(
+      .valueChanges( { idField: 'id' } ).pipe(
+        // tap(event => console.log(field, event)),
         catchError( error => {
           this._alerts.error('Error obteniendo eventos en tiempo real', error)
           return of(error)

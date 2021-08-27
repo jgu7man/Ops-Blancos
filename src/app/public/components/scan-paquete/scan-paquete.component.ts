@@ -185,7 +185,11 @@ export class ScanPaqueteComponent implements OnInit {
 
 
   saveReporte(faltantes?: true){
-    let propEvent: PropEvent = new PropEvent( new Date(), this.user.uid, this.paqueteNextState )
+    let propEvent: PropEvent = new PropEvent(
+      new Date(),
+      this.user.uid,
+      this.paqueteNextState
+    )
     this._loading.toggleWaiting('close')
     if (this.propCurrentState) {
       this._reportes.onSaveReporte(this.propCurrentState?.prefix, propEvent, faltantes)
@@ -195,7 +199,8 @@ export class ScanPaqueteComponent implements OnInit {
             if (this.requestPaqueteState == 'collected')
               this._router.navigate(['/limpieza/acargo'])
             else if (this.requestPaqueteState == 'washing')
-              this._router.navigate(['/lavanderia/lavando'])
+              this._router.navigate( [ '/lavanderia/lavando' ], {
+                queryParams: { action: 'work' }})
             else if (this.requestPaqueteState == 'stock')
               this._router.navigate(['/lavanderia/empaque'])
           }

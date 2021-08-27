@@ -39,8 +39,8 @@ export class TakeImageComponent implements OnInit, AfterViewInit, OnDestroy{
 
   public capture() {
     if (this.canvas && this.video) {
-      this.shutterSound()
-      var context = this.canvas.nativeElement.getContext("2d").drawImage(this.video.nativeElement, 0, 0, 414, 414);
+      // this.shutterSound()
+      var context = this.canvas.nativeElement.getContext("2d").drawImage(this.video.nativeElement, 0, 0, 414, 311);
       this.camera_.captures.push(this.canvas.nativeElement.toDataURL("image/png"));
     }
   }

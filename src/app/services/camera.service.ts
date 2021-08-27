@@ -1,9 +1,10 @@
-import { MxStorage } from '@marxa/storage';
+import { MxStorage, MxUploadingSpinnerComponent } from '@marxa/storage';
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { of, Subject } from 'rxjs';
-import { catchError, finalize, take } from 'rxjs/operators';
+import { catchError, filter, finalize, map, mergeMap, take, tap } from 'rxjs/operators';
 import { MxAlert } from '@marxa/devkit';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class CameraService {
     private _afSt: AngularFireStorage,
     private _storage: MxStorage,
     private _alert: MxAlert,
+    private _dialog: MatDialog
   ) { }
 
   removeCapture(index: number) {
@@ -23,35 +25,40 @@ export class CameraService {
   }
 
   onSaveCaptures() {
-    this._storage.toggleLoading()
+    // this._storage.toggleLoading()
+    const loading = this._dialog.open(MxUploadingSpinnerComponent)
+
     let evidencias: any[] = []
-    this.captures.forEach(capture => {
+    this.captures.forEach( capture => {
       const
-        fileName = `capture-${new Date().getTime()}`,
-        filePath = `fotos-evidencias/${fileName}`,
-        ref = this._afSt.ref(filePath),
-        task = this._afSt.upload(filePath, capture);
+        fileName = `capture-${ new Date().getTime() }.png`,
+        filePath = `evidencias/${ fileName }`,
+        ref = this._afSt.ref( filePath ),
+        task = ref.putString( capture, 'data_url' );
 
-      // task.percentageChanges().subscribe(uploadedState => {
-      //   this.fileUploadedStatus$.next({ uploadedState })
-      // })
-
-      task.snapshotChanges().pipe(
-        finalize(() => {
-          ref.getDownloadURL().pipe(take(1)).subscribe((url) => {
+      console.log( filePath )
+      task.percentageChanges()
+        .pipe(
+          mergeMap( ( uploadedState ) => {
+          return uploadedState === 100 ?
+            of(true) : of(false)
+          } ),
+          filter( event => event ),
+          take(1),
+          catchError( err => {
+            this._alert.error('Error al guardar las imágenes', err)
+            return of(err)
+          } ),
+        ).subscribe( () => {
+          ref.getDownloadURL().pipe(take(1)).subscribe((url: string) => {
+            console.log( url )
             evidencias.push(url)
             if (evidencias.length == this.captures.length) {
               this.uploadComplete$.next(evidencias)
-              this._storage.toggleLoading()
+              loading.close()
             }
           })
-        } ),
-        catchError( err => {
-          this._alert.error('Error al guardar las imágenes', err)
-          return of(err)
-        } ),
-        take(1)
-      ).subscribe()
+        })
     })
     return this.uploadComplete$
   }

@@ -7,7 +7,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build:hash": "ng build --prod --aot --outputHashing=all",
+    "deploy": "npm run build:hash && firebase deploy --only hosting"
   },
   "private": true,
   "dependencies": {

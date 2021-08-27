@@ -46,7 +46,7 @@ export class DashboardService {
       {
         route: 'reporte',
         icon: 'fa-clipboard-list',
-        display: 'Resportes',
+        display: 'Reportes',
       },
       {
         route: 'acargo',

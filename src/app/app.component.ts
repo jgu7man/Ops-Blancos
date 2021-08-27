@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MxAuth } from '@marxa/auth';
 import { MxCache, MxLoading } from '@marxa/devkit';
 import firebase from 'firebase/app'
+import { VersionService } from './services/version.service';
 
 @Component({
   selector: 'g-root',
@@ -17,8 +18,10 @@ export class AppComponent {
     private _auth: MxAuth,
     private _router: Router,
     private _afs: AngularFirestore,
-    private _loading: MxLoading
+    private _loading: MxLoading,
+    private _version: VersionService
   ) {
+    this._version.app_version = '0.1'
     // Tag to save cache in local storage
     this._cache.storage = 'session'
     this._cache.cacheTagName = 'ops'

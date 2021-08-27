@@ -3,10 +3,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MxAlert, MxCache } from '@marxa/devkit';
-import { Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { iUser } from 'src/app/models/user.model';
 import { MxAuth, MxLoginFields } from '@marxa/auth';
-import { take } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   templateUrl: './login.component.html',
@@ -15,12 +17,14 @@ import { take } from 'rxjs/operators';
 export class LoginComponent implements OnInit, OnDestroy {
 
   errorSubscription: Subscription
+  userSubscription: Subscription
   constructor(
     private _auth: MxAuth,
     private _router: Router,
     private _dialog: MatDialog,
     private _alert: MxAlert,
-    private _cache: MxCache
+    private _afAuth: AngularFireAuth,
+    private _afs: AngularFirestore
   ) {
 
     this._auth.notFoundMessage = 'Usuario no encontrado'
@@ -31,6 +35,22 @@ export class LoginComponent implements OnInit, OnDestroy {
     this._auth.listenForErros.subscribe(error => {
       console.error(error);
       this._alert.message(error)
+    })
+
+    this.userSubscription = this._afAuth.authState.pipe(
+      filter(user => user ? true : false),
+      switchMap( user => user
+        ? this._afs.doc<iUser>( `users/${ user.uid }` ).valueChanges()
+        : of(undefined)
+      )
+    ).subscribe( ( user ) => {
+      if ( user ) {
+        this._router.navigate([
+          user.rol == 'admin' || user.rol == 'city-manager'
+            ? '/admin'
+            : ''
+        ])
+      }
     })
    }
 
@@ -48,20 +68,11 @@ export class LoginComponent implements OnInit, OnDestroy {
    */
   onSubmit(event: MxLoginFields) {
     this._auth.emailSignIn(event.email, event.password)
-      .then( () => {
-        this._auth.user$.pipe(take(1)).subscribe((user:iUser) => {
-          this._cache.updateData('user', user)
-          this._router.navigate([
-            user.rol == 'admin' || user.rol == 'city-manager'
-              ? '/admin'
-              : ''
-          ])
-        })
-      })
   }
 
   ngOnDestroy() {
     this.errorSubscription.unsubscribe()
+    this.userSubscription.unsubscribe()
   }
 
 }
